@@ -14,7 +14,7 @@ import java.util.Set;
 public class Lesson extends Event{
     private int capacity;
 
-    @OneToMany(mappedBy = "lessonsToTeach")
+    @ManyToMany(mappedBy = "lessonsToTeach")
     private Set<User> teachers;
 
     @ManyToMany(mappedBy = "lessonsToAttend")
