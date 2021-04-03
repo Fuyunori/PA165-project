@@ -3,7 +3,11 @@ package tennisclub.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Court {
@@ -12,6 +16,9 @@ public class Court {
     private Long id;
 
     private String address;
+
+    @OneToMany(mappedBy = "court")
+    private Set<Event> events = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -27,6 +34,15 @@ public class Court {
 
     public void setAddress(String location) {
         this.address = location;
+    }
+
+    public Set<Event> getEvents() {
+        return Collections.unmodifiableSet(events);
+    }
+
+    public void addEvent(Event event) {
+        events.add(event);
+        event.setCourt(this);
     }
 
     @Override
