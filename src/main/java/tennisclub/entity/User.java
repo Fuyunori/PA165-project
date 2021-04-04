@@ -1,9 +1,8 @@
 package tennisclub.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -11,4 +10,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @ManyToMany
+    private Set<Lesson>  lessonsToTeach = new HashSet<>();
+
+    @ManyToMany
+    private Set<Lesson> lessonsToAttend = new HashSet<>();
 }
