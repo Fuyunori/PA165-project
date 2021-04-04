@@ -1,4 +1,7 @@
-package tennisclub.entity;
+package tennisclub.entity.ranking;
+
+import tennisclub.entity.Tournament;
+import tennisclub.entity.User;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

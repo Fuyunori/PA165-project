@@ -1,13 +1,10 @@
 package tennisclub.dao;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-import tennisclub.entity.Ranking;
+import tennisclub.entity.ranking.Ranking;
 import tennisclub.entity.Tournament;
 import tennisclub.entity.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
