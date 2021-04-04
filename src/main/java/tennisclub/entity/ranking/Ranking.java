@@ -25,23 +25,28 @@ public class Ranking {
 
     private int playerPlacement;
 
-    public int getPlayerPlacement() {
-        return playerPlacement;
-    }
-
-    public  Ranking() {
-
-    }
+    public  Ranking() { }
 
     public Ranking(Tournament tournament, User user) {
         this.tournament = tournament;
         this.user = user;
     }
 
+    public Tournament getTournament() {
+        return tournament;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
     public void setPlayerPlacement(int playerPlacement) {
         this.playerPlacement = playerPlacement;
     }
 
+    public int getPlayerPlacement() {
+        return playerPlacement;
+    }
 }
 
 
