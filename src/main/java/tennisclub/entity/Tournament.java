@@ -1,10 +1,9 @@
 package tennisclub.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -15,8 +14,8 @@ public class Tournament extends Event  {
     private int capacity;
     private int prize;
 
-    @ManyToOne
-    private Ranking ranking;
+    @OneToMany
+    private Set<Ranking> rankings = new HashSet<>();
 
     public Tournament(){}
 
@@ -43,11 +42,13 @@ public class Tournament extends Event  {
         this.prize = prize;
     }
 
-    public Ranking getRanking() {
-        return ranking;
+    public Set<Ranking> getRankings(){
+        return Collections.unmodifiableSet(rankings);
     }
 
-    public void setRanking(Ranking ranking) {
-        this.ranking = ranking;
+    public void addRanking(Ranking ranking){
+        rankings.add(ranking);
+        // TODO: uncomment this code where User entity is finished
+        // user.setTournament(this);
     }
 }
