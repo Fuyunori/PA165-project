@@ -1,6 +1,9 @@
 package tennisclub.entity;
 
+import tennisclub.entity.enums.Level;
+
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
@@ -13,6 +16,9 @@ import java.util.Set;
 @Entity
 public class Lesson extends Event{
     private int capacity;
+
+    @Enumerated
+    private Level level;
 
     @ManyToMany(mappedBy = "lessonsToTeach")
     private Set<User> teachers;
