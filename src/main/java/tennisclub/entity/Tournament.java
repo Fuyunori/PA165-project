@@ -1,6 +1,7 @@
 package tennisclub.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
@@ -11,7 +12,10 @@ import java.util.Set;
  */
 @Entity
 public class Tournament extends Event  {
+    @NotNull
     private int capacity;
+
+    @NotNull
     private int prize;
 
     @OneToMany
