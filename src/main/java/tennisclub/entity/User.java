@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Objects;
+
 import java.util.Set;
 
 @Entity
@@ -14,6 +15,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
 
     private String name;
 
@@ -98,5 +100,4 @@ public class User {
     public int hashCode() {
         return getUsername().hashCode();
     }
-
 }
