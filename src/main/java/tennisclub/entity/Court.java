@@ -56,8 +56,11 @@ public class Court {
 
     @Override
     public boolean equals(Object obj) {
-        // TODO implement properly
-        return obj instanceof Court && Objects.equals(id, ((Court) obj).id);
+        if (!(obj instanceof Court)) {
+            return false;
+        }
+        Court court = (Court) obj;
+        return this == court || id != null && id.equals(court.id);
     }
 
     @Override
