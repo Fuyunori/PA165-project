@@ -1,5 +1,6 @@
 package tennisclub.entity;
 
+import tennisclub.entity.enums.Role;
 import tennisclub.entity.ranking.Ranking;
 
 import javax.persistence.*;
@@ -62,10 +63,7 @@ public class User {
         this.role = role;
     }
 
-    enum Role {
-        USER,
-        MANAGER
-    }
+
 
     @ManyToMany
     private Set<Booking> bookings = new HashSet<>();
