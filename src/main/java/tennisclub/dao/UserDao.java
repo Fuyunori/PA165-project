@@ -20,7 +20,7 @@ public interface UserDao {
 
     List<User> findAll();
 
-    void update(User user);
+    User update(User user);
 
     void delete(User user);
 }

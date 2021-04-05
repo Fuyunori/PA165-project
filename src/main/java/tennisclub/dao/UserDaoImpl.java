@@ -50,8 +50,8 @@ public class UserDaoImpl {
                 .getResultList();
     }
 
-    public void update(User user) {
-        em.merge(user);
+    public User update(User user) {
+        return em.merge(user);
     }
 
     public void delete(User user) {
