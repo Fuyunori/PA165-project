@@ -37,6 +37,20 @@ class UserDaoImplTest {
         assertUsersMatch(foundUsers.get(0), createdUser);
     }
 
+    @Test
+    @Transactional
+    void findByNameSubstring() {
+        User createdUser1 = createUser("honza42", "hon@za.cz", "Honza Koleno", Role.USER);
+        User createdUser2 = createUser("lolek34", "lol@ek.cz", "Lolek", Role.USER);
+        User createdUser3 = createUser("kratos", "kra@tos.cz", "Kratos", Role.USER);
+
+        List<User> foundUsers = userDao.findByName("ole");
+        assertThat(foundUsers.size()).isEqualTo(2);
+        assertThat(foundUsers).contains(createdUser1);
+        assertThat(foundUsers).contains(createdUser2);
+        assertThat(foundUsers).doesNotContain(createdUser3);
+    }
+
     private User createUser(String username, String email, String name, Role role) {
         User user = new User();
         user.setUsername(username);
