@@ -1,19 +1,21 @@
 package tennisclub.dao;
 
 import tennisclub.entity.Lesson;
+import tennisclub.entity.enums.Level;
 
 import java.util.List;
 
 /**
  * DAO interface for CRUDing Lessons, therefore:
- * - creating new Lessons
- * - updating Lessons
- * - removing Lessons
+ * - creating a new Lesson,
+ * - updating a Lesson,
+ * - removing a Lesson,
  * - retrieving all Lessons.
  *
  * Additionally, the interface allows the client to:
  * - find Lessons by ID,
- * - find Lessons by capacity.
+ * - find Lessons by capacity,
+ * - find Lessons by level.
  *
  * @author Xuan Linh Phamová
  */
@@ -58,4 +60,11 @@ public interface LessonDao {
      * @return all Lessons which have the given capacity
      */
     List<Lesson> findByCapacity(Integer capacity);
+
+    /**
+     * Finds all lessons with a particular level.
+     * @param level of the lessons
+     * @return all lesson which have the given level
+     */
+    List<Lesson> findByLevel(Level level);
 }
