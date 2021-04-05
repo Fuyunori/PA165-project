@@ -45,7 +45,7 @@ class UserDaoImplTest {
     void findByUsername() {
         User createdUser1 = createUser("honza42", "hon@za.cz", "Honza", Role.USER);
         User createdUser2 = createUser("pepa42", "pe@pa.cz", "Pepa", Role.USER);
-        User createdUser3 = createUser("dalsi_honza42", "hon@za.cz", "Honza", Role.USER);
+        User createdUser3 = createUser("dalsi_honza42", "dalsi.hon@za.cz", "Honza", Role.USER);
 
         List<User> foundUsers = userDao.findByUsername("honza42");
         assertThat(foundUsers.size()).isEqualTo(1);
@@ -65,6 +65,20 @@ class UserDaoImplTest {
         assertThat(foundUsers.size()).isEqualTo(2);
         assertThat(foundUsers).contains(createdUser1);
         assertThat(foundUsers).contains(createdUser2);
+        assertThat(foundUsers).doesNotContain(createdUser3);
+    }
+
+    @Test
+    @Transactional
+    void findByEmail() {
+        User createdUser1 = createUser("honza42", "hon@za.cz", "Honza", Role.USER);
+        User createdUser2 = createUser("druhy_honza42", "druhy.hon@za.cz", "Honza", Role.USER);
+        User createdUser3 = createUser("pepa42", "pe@pa.cz", "Pepa", Role.USER);
+
+        List<User> foundUsers = userDao.findByEmail("hon@za.cz");
+        assertThat(foundUsers.size()).isEqualTo(1);
+        assertThat(foundUsers).contains(createdUser1);
+        assertThat(foundUsers).doesNotContain(createdUser2);
         assertThat(foundUsers).doesNotContain(createdUser3);
     }
 
