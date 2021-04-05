@@ -1,9 +1,6 @@
 package tennisclub.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -17,7 +14,8 @@ public class Court {
 
     private String address;
 
-    @OneToMany(mappedBy = "court")
+    // TODO remove eager fetching after figuring out how to do without it
+    @OneToMany(mappedBy = "court", fetch = FetchType.EAGER)
     private Set<Event> events = new HashSet<>();
 
     public Long getId() {
@@ -38,11 +36,6 @@ public class Court {
 
     public Set<Event> getEvents() {
         return Collections.unmodifiableSet(events);
-    }
-
-    public void addEvent(Event event) {
-        events.add(event);
-        event.setCourt(this);
     }
 
     @Override
