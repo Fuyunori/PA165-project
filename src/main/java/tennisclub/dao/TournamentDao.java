@@ -56,12 +56,12 @@ public interface TournamentDao {
      * @param capacity of the tournaments
      * @return all Tournaments which have the given capacity
      */
-    List<Tournament> findByCapacity(int capacity);
+    List<Tournament> findByCapacity(Integer capacity);
 
     /**
      * Finds all Tournaments with particular prize.
      * @param prize of the tournaments
      * @return all Tournaments which have the given prize
      */
-    List<Tournament> findByPrize(int prize);
+    List<Tournament> findByPrize(Integer prize);
 }

@@ -48,14 +48,14 @@ public class TournamentDaoImpl implements TournamentDao {
     }
 
     @Override
-    public List<Tournament> findByCapacity(int capacity) {
+    public List<Tournament> findByCapacity(Integer capacity) {
         return em.createQuery("select t from Tournament t where t.capacity = :capacity", Tournament.class)
                 .setParameter("capacity", capacity)
                 .getResultList();
     }
 
     @Override
-    public List<Tournament> findByPrize(int prize) {
+    public List<Tournament> findByPrize(Integer prize) {
         return em.createQuery("select t from Tournament t where t.prize = :prize", Tournament.class)
                 .setParameter("prize", prize)
                 .getResultList();
