@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -54,5 +55,23 @@ public class Tournament extends Event  {
         rankings.add(ranking);
         // TODO: uncomment this code where User entity is finished
         // user.setTournament(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Tournament)) return false;
+        if (!super.equals(o)) return false;
+
+        Tournament tournament = (Tournament) o;
+
+        return getCapacity().equals(tournament.getCapacity())
+                && getPrize().equals(tournament.getPrize())
+                && Objects.equals(getRankings(), tournament.getRankings());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getCapacity(), getPrize(), getRankings());
     }
 }
