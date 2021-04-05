@@ -21,6 +21,7 @@ public class User {
 
     private String email;
 
+    @Enumerated
     private Role role;
 
     public String getName() {
