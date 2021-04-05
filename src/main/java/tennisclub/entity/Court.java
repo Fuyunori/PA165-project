@@ -1,9 +1,9 @@
 package tennisclub.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.sun.istack.NotNull;
+import tennisclub.entity.enums.CourtType;
+
+import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -15,17 +15,33 @@ public class Court {
     @GeneratedValue
     private Long id;
 
-    private String address;
+    @Column(unique = true, nullable = false)
+    private String name;
 
-    @OneToMany(mappedBy = "court")
+    private String address;
+    private CourtType type;
+    private String previewImage;
+
+    // TODO remove eager fetching after figuring out how to do without it
+    @OneToMany(mappedBy = "court", fetch = FetchType.EAGER)
     private Set<Event> events = new HashSet<>();
+
+    public Court() {}
+
+    public Court(String name) {
+        this.setName(name);
+    }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {
@@ -36,24 +52,37 @@ public class Court {
         this.address = location;
     }
 
+    public CourtType getType() {
+        return type;
+    }
+
+    public void setType(CourtType type) {
+        this.type = type;
+    }
+
+    public String getPreviewImage() {
+        return previewImage;
+    }
+
+    public void setPreviewImage(String previewImage) {
+        this.previewImage = previewImage;
+    }
+
     public Set<Event> getEvents() {
         return Collections.unmodifiableSet(events);
     }
 
-    public void addEvent(Event event) {
-        events.add(event);
-        event.setCourt(this);
-    }
-
     @Override
     public boolean equals(Object obj) {
-        // TODO implement properly
-        return obj instanceof Court && Objects.equals(id, ((Court) obj).id);
+        if (!(obj instanceof Court)) {
+            return false;
+        }
+        Court court = (Court) obj;
+        return this == court || name != null && name.equals(court.name);
     }
 
     @Override
     public int hashCode() {
-        // TODO implement properly
-        return Objects.hash(id);
+        return Objects.hash(name);
     }
 }
