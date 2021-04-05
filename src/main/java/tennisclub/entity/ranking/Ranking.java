@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @IdClass(RankingId.class)
@@ -30,6 +31,19 @@ public class Ranking {
     public Ranking(Tournament tournament, User user) {
         this.tournament = tournament;
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ranking ranking = (Ranking) o;
+        return tournament.equals(ranking.tournament) && user.equals(ranking.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tournament, user);
     }
 
     public Tournament getTournament() {
