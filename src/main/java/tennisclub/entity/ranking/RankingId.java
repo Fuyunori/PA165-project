@@ -5,6 +5,9 @@ import tennisclub.entity.User;
 
 import java.io.Serializable;
 
+/**
+ * @author Ondrej Holub
+ */
 public class RankingId implements Serializable {
 
     private Tournament tournament;
