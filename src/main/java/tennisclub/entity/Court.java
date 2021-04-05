@@ -78,11 +78,11 @@ public class Court {
             return false;
         }
         Court court = (Court) obj;
-        return this == court || id != null && id.equals(court.id);
+        return this == court || name != null && name.equals(court.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(name);
     }
 }
