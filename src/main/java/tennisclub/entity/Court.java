@@ -48,6 +48,10 @@ public class Court {
         return address;
     }
 
+    public void setAddress(String location) {
+        this.address = location;
+    }
+
     public CourtType getType() {
         return type;
     }
@@ -56,20 +60,16 @@ public class Court {
         this.type = type;
     }
 
-    public void setAddress(String location) {
-        this.address = location;
-    }
-
-    public Set<Event> getEvents() {
-        return Collections.unmodifiableSet(events);
-    }
-
     public String getPreviewImage() {
         return previewImage;
     }
 
     public void setPreviewImage(String previewImage) {
         this.previewImage = previewImage;
+    }
+
+    public Set<Event> getEvents() {
+        return Collections.unmodifiableSet(events);
     }
 
     @Override
