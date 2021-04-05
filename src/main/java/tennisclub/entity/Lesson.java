@@ -28,9 +28,18 @@ public class Lesson extends Event{
 
     public Lesson(){}
 
-    public Lesson(LocalDateTime startTime, LocalDateTime endTime, int capacity) {
+    public Lesson(LocalDateTime startTime, LocalDateTime endTime, Level level, int capacity) {
         super(startTime, endTime);
+        this.level = level;
         this.capacity = capacity;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
     }
 
     public int getCapacity() {
