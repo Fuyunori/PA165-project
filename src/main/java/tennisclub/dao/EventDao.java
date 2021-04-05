@@ -51,6 +51,19 @@ public interface EventDao {
     List<Event> findByEndTime(LocalDateTime endTime);
 
     /**
+     * Retrieve all events that at least partially take place
+     * during the specified time interval. The interval is inclusive.
+     *
+     * More formally, retrieve all Events e such that:
+     *     e.startTime <= to && e.endTime >= from
+     *
+     * @param from the beginning of the interval
+     * @param to the end of the interval
+     * @return List of events in the interval
+     */
+    List<Event> findByTimeInterval(LocalDateTime from, LocalDateTime to);
+
+    /**
      * Retrieve all events.
      *
      * @return List of all events.
