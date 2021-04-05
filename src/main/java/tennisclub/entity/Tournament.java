@@ -13,10 +13,10 @@ import java.util.Set;
 @Entity
 public class Tournament extends Event  {
     @NotNull
-    private int capacity;
+    private Integer capacity;
 
     @NotNull
-    private int prize;
+    private Integer prize;
 
     @OneToMany
     private Set<Ranking> rankings = new HashSet<>();
@@ -30,7 +30,7 @@ public class Tournament extends Event  {
     }
 
 
-    public int getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
@@ -38,7 +38,7 @@ public class Tournament extends Event  {
         this.capacity = capacity;
     }
 
-    public int getPrize() {
+    public Integer getPrize() {
         return prize;
     }
 
