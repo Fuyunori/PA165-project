@@ -65,7 +65,6 @@ public class Court {
 
     @Override
     public int hashCode() {
-        // TODO implement properly
         return Objects.hash(id);
     }
 }
