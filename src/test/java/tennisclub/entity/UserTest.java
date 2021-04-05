@@ -47,4 +47,15 @@ public class UserTest {
 
         assertThat(user).isNotEqualTo(otherUser);
     }
+
+    @Test
+    void hashing() {
+        User user = new User();
+        User otherUser = new User();
+
+        user.setUsername("user42");
+        otherUser.setUsername("user42");
+
+        assertThat(user.hashCode()).isEqualTo(user.hashCode());
+    }
 }
