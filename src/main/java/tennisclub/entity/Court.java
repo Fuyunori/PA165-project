@@ -10,14 +10,19 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Table(
+    uniqueConstraints = @UniqueConstraint(columnNames = {"name", "address"})
+)
 public class Court {
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, name = "name")
+    @NotNull
     private String name;
 
+    @Column(name = "address")
     private String address;
     private CourtType type;
     private String previewImage;
