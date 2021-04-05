@@ -1,5 +1,7 @@
 package tennisclub.entity;
 
+import tennisclub.entity.ranking.Ranking;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collections;
