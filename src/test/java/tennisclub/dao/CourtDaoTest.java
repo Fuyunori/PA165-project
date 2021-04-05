@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import tennisclub.entity.Court;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,6 +18,7 @@ class CourtDaoTest {
 	private CourtDao courtDao;
 
 	@Test
+	@Transactional
 	void testTests() {
 		Court court = new Court();
 		court.setAddress("Hell");

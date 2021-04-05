@@ -6,7 +6,6 @@ import tennisclub.entity.enums.CourtType;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -15,13 +14,11 @@ public class CourtDaoImpl implements CourtDao {
     private EntityManager manager;
 
     @Override
-    @Transactional
     public void create(Court court) {
         manager.persist(court);
     }
 
     @Override
-    @Transactional
     public void delete(Court court) {
         manager.remove(court);
     }
