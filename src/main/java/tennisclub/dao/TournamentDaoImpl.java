@@ -8,6 +8,9 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * @author Xuan Linh Phamová
+ */
 @Repository
 public class TournamentDaoImpl implements TournamentDao {
     @PersistenceContext
