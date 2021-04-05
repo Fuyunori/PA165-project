@@ -21,6 +21,12 @@ public class UserDaoImpl {
         em.persist(user);
     }
 
+    public User findById(Long id) {
+        return em.createQuery("select u from User u where u.id=:id", User.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
     public List<User> findByName(String name) {
         return em.createQuery("select u from User u where u.name=:name", User.class)
                 .setParameter("name", name)

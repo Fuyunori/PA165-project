@@ -10,6 +10,8 @@ import java.util.List;
 public interface UserDao {
     void create(User user);
 
+    User findById(Long id);
+
     List<User> findByName(String name);
 
     List<User> findByUsername(String username);
