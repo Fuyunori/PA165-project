@@ -74,16 +74,16 @@ public class User {
 
 
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "users")
     private Set<Booking> bookings = new HashSet<>();
 
-//    @ManyToMany
-//    private Set<Lesson>  lessonsToTeach = new HashSet<>();
+    @ManyToMany
+    private Set<Lesson>  lessonsToTeach = new HashSet<>();
 
-//    @ManyToMany
-//    private Set<Lesson> lessonsToAttend = new HashSet<>();
+    @ManyToMany
+    private Set<Lesson> lessonsToAttend = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private Set<Ranking> rankings = new HashSet<>();
 
     @Override
