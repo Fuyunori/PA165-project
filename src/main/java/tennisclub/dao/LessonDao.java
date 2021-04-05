@@ -12,5 +12,5 @@ public interface LessonDao {
     List<Lesson> findAll();
     Lesson findById(Long id);
     //List<Lesson> findByLecturerName(String lecturerName);
-    List<Lesson> findByCapacity(int capacity);
+    List<Lesson> findByCapacity(Integer capacity);
 }

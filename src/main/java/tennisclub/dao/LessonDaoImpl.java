@@ -51,7 +51,7 @@ public class LessonDaoImpl implements LessonDao{
     }*/
 
     @Override
-    public List<Lesson> findByCapacity(int capacity) {
+    public List<Lesson> findByCapacity(Integer capacity) {
         return em.createQuery("select l from Lesson l where l.capacity = :capacity", Lesson.class)
                 .setParameter("capacity", capacity)
                 .getResultList();
