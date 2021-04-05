@@ -1,5 +1,7 @@
 package tennisclub.entity;
 
+import tennisclub.entity.enums.CourtType;
+
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;

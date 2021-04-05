@@ -1,7 +1,7 @@
 package tennisclub.dao;
 
 import tennisclub.entity.Court;
-import tennisclub.entity.CourtType;
+import tennisclub.entity.enums.CourtType;
 
 import java.util.List;
 
