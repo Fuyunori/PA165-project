@@ -29,19 +29,34 @@ class UserDaoImplTest {
 
     @Test
     @Transactional
-    void findByUsername() {
+    void checkAllFieldsPersisted() {
         User createdUser = createUser("honza42", "hon@za.cz", "Honza", Role.USER);
+        User foundUser = userDao.findAll().get(0);
+
+        assertThat(foundUser).isNotNull();
+        assertThat(createdUser.getName()).isEqualTo(foundUser.getName());
+        assertThat(createdUser.getUsername()).isEqualTo(foundUser.getUsername());
+        assertThat(createdUser.getEmail()).isEqualTo(foundUser.getEmail());
+        assertThat(createdUser.getRole()).isEqualTo(foundUser.getRole());
+    }
+
+    @Test
+    @Transactional
+    void findByUsername() {
+        User createdUser1 = createUser("honza42", "hon@za.cz", "Honza", Role.USER);
+        User createdUser2 = createUser("pepa42", "pe@pa.cz", "Pepa", Role.USER);
 
         List<User> foundUsers = userDao.findByUsername("honza42");
         assertThat(foundUsers.size()).isEqualTo(1);
-        assertUsersMatch(foundUsers.get(0), createdUser);
+        assertThat(foundUsers).contains(createdUser1);
+        assertThat(foundUsers).doesNotContain(createdUser2);
     }
 
     @Test
     @Transactional
     void findByNameSubstring() {
         User createdUser1 = createUser("honza42", "hon@za.cz", "Honza Koleno", Role.USER);
-        User createdUser2 = createUser("lolek34", "lol@ek.cz", "Lolek", Role.USER);
+        User createdUser2 = createUser("lolek34", "lol@ek.cz", "Lolek", Role.MANAGER);
         User createdUser3 = createUser("kratos", "kra@tos.cz", "Kratos", Role.USER);
 
         List<User> foundUsers = userDao.findByName("ole");
@@ -60,14 +75,5 @@ class UserDaoImplTest {
         user.setPasswordHash("abcdef123456");
         userDao.create(user);
         return user;
-    }
-
-    private void assertUsersMatch(User user1, User user2) {
-        assertThat(user1).isNotNull();
-        assertThat(user2).isNotNull();
-        assertThat(user1.getName()).isEqualTo(user2.getName());
-        assertThat(user1.getUsername()).isEqualTo(user2.getUsername());
-        assertThat(user1.getEmail()).isEqualTo(user2.getEmail());
-        assertThat(user1.getRole()).isEqualTo(user2.getRole());
     }
 }
