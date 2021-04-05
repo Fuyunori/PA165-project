@@ -33,19 +33,6 @@ public class Ranking {
         this.user = user;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ranking ranking = (Ranking) o;
-        return tournament.equals(ranking.tournament) && user.equals(ranking.user);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(tournament, user);
-    }
-
     public Tournament getTournament() {
         return tournament;
     }
@@ -60,6 +47,24 @@ public class Ranking {
 
     public int getPlayerPlacement() {
         return playerPlacement;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ranking)) return false;
+
+        Ranking ranking = (Ranking) o;
+
+        if (!getTournament().equals(ranking.getTournament())) return false;
+        return getUser().equals(ranking.getUser());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getTournament().hashCode();
+        result = 31 * result + getUser().hashCode();
+        return result;
     }
 }
 
