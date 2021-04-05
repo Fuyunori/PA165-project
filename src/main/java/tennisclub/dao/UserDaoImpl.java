@@ -12,7 +12,7 @@ import java.util.List;
  * @author Ondrej Holub
  */
 @Repository
-public class UserDaoImpl {
+public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
     EntityManager em;
