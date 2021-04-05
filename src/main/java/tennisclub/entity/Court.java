@@ -1,5 +1,6 @@
 package tennisclub.entity;
 
+import com.sun.istack.NotNull;
 import tennisclub.entity.enums.CourtType;
 
 import javax.persistence.*;
@@ -14,18 +15,33 @@ public class Court {
     @GeneratedValue
     private Long id;
 
+    @Column(unique = true, nullable = false)
+    private String name;
+
     private String address;
-
     private CourtType type;
-
     private String previewImage;
 
     // TODO remove eager fetching after figuring out how to do without it
     @OneToMany(mappedBy = "court", fetch = FetchType.EAGER)
     private Set<Event> events = new HashSet<>();
 
+    public Court() {}
+
+    public Court(String name) {
+        this.setName(name);
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {

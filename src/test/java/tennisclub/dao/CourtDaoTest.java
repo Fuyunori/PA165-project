@@ -20,7 +20,7 @@ class CourtDaoTest {
 	@Test
 	@Transactional
 	void testTests() {
-		Court court = new Court();
+		Court court = new Court("My Court");
 		court.setAddress("Hell");
 		courtDao.create(court);
 
