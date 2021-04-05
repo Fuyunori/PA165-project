@@ -20,6 +20,12 @@ public class CourtDaoImpl implements CourtDao {
     }
 
     @Override
+    @Transactional
+    public void delete(Court court) {
+        manager.remove(court);
+    }
+
+    @Override
     public List<Court> findByAddress(String location) {
         return manager
                 .createQuery("select c from Court c where c.address like :l", Court.class)
