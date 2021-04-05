@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 public class Lesson extends Event {
     @NotNull
-    private int capacity;
+    private Integer capacity;
 
     @Enumerated
     @NotNull
@@ -31,7 +31,7 @@ public class Lesson extends Event {
 
     public Lesson(){}
 
-    public Lesson(LocalDateTime startTime, LocalDateTime endTime, Level level, int capacity) {
+    public Lesson(LocalDateTime startTime, LocalDateTime endTime, Level level, Integer capacity) {
         super(startTime, endTime);
         this.level = level;
         this.capacity = capacity;
@@ -45,11 +45,11 @@ public class Lesson extends Event {
         this.level = level;
     }
 
-    public int getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
