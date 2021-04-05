@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
 public class LessonDaoImpl implements LessonDao{
     @PersistenceContext
     private EntityManager em;
