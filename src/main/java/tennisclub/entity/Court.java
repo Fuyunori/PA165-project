@@ -14,6 +14,8 @@ public class Court {
 
     private String address;
 
+    private CourtType type;
+
     // TODO remove eager fetching after figuring out how to do without it
     @OneToMany(mappedBy = "court", fetch = FetchType.EAGER)
     private Set<Event> events = new HashSet<>();
@@ -24,6 +26,14 @@ public class Court {
 
     public String getAddress() {
         return address;
+    }
+
+    public CourtType getType() {
+        return type;
+    }
+
+    public void setType(CourtType type) {
+        this.type = type;
     }
 
     public void setAddress(String location) {
