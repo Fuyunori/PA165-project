@@ -35,7 +35,7 @@ public class Tournament extends Event  {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
@@ -43,7 +43,7 @@ public class Tournament extends Event  {
         return prize;
     }
 
-    public void setPrize(int prize) {
+    public void setPrize(Integer prize) {
         this.prize = prize;
     }
 
