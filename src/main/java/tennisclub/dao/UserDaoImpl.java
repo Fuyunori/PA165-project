@@ -28,7 +28,7 @@ public class UserDaoImpl {
     }
 
     public List<User> findByName(String name) {
-        return em.createQuery("select u from User u where u.name=:name", User.class)
+        return em.createQuery("select u from User u where u.name like concat('%', :name, '%') ", User.class)
                 .setParameter("name", name)
                 .getResultList();
     }
