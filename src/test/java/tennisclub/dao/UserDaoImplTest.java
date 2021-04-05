@@ -45,11 +45,13 @@ class UserDaoImplTest {
     void findByUsername() {
         User createdUser1 = createUser("honza42", "hon@za.cz", "Honza", Role.USER);
         User createdUser2 = createUser("pepa42", "pe@pa.cz", "Pepa", Role.USER);
+        User createdUser3 = createUser("dalsi_honza42", "hon@za.cz", "Honza", Role.USER);
 
         List<User> foundUsers = userDao.findByUsername("honza42");
         assertThat(foundUsers.size()).isEqualTo(1);
         assertThat(foundUsers).contains(createdUser1);
         assertThat(foundUsers).doesNotContain(createdUser2);
+        assertThat(foundUsers).doesNotContain(createdUser3);
     }
 
     @Test
