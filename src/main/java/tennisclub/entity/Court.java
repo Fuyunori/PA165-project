@@ -16,6 +16,8 @@ public class Court {
 
     private CourtType type;
 
+    private String previewImage;
+
     // TODO remove eager fetching after figuring out how to do without it
     @OneToMany(mappedBy = "court", fetch = FetchType.EAGER)
     private Set<Event> events = new HashSet<>();
@@ -42,6 +44,14 @@ public class Court {
 
     public Set<Event> getEvents() {
         return Collections.unmodifiableSet(events);
+    }
+
+    public String getPreviewImage() {
+        return previewImage;
+    }
+
+    public void setPreviewImage(String previewImage) {
+        this.previewImage = previewImage;
     }
 
     @Override
