@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -24,10 +25,10 @@ public class Lesson extends Event {
     private Level level;
 
     @ManyToMany(mappedBy = "lessonsToTeach")
-    private Set<User> teachers;
+    private Set<User> teachers = new HashSet<>();
 
     @ManyToMany(mappedBy = "lessonsToAttend")
-    private Set<User> students;
+    private Set<User> students = new HashSet<>();
 
     public Lesson(){}
 
