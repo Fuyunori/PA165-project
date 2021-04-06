@@ -70,13 +70,13 @@ public class Event {
         if (this == o) return true;
         if (!(o instanceof Event)) return false;
         Event event = (Event) o;
-        return Objects.equals(court, event.getCourt()) &&
-                Objects.equals(startTime, event.getStartTime()) &&
-                Objects.equals(endTime, event.getEndTime());
+        return Objects.equals(getCourt(), event.getCourt()) &&
+                Objects.equals(getStartTime(), event.getStartTime()) &&
+                Objects.equals(getEndTime(), event.getEndTime());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(court, startTime, endTime);
+        return Objects.hash(getCourt(), getStartTime(), getEndTime());
     }
 }
