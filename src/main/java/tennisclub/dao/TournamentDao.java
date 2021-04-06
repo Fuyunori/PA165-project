@@ -5,22 +5,13 @@ import tennisclub.entity.Tournament;
 import java.util.List;
 
 /**
- * DAO interface for CRUDing Tournaments, therefore:
- * - creating a Tournament,
- * - updating a Tournament,
- * - removing a Tournament,
- * - retrieving all tournaments.
- *
- * Additionally, the interface allows the client to:
- * - find a Tournament by ID,
- * - find Tournaments by capacity,
- * - find Tournaments by prize.
+ * DAO interface for CRUD operations on Tournament.
  *
  * @author Xuan Linh Phamová
  */
 public interface TournamentDao {
     /**
-     * Creates a new Tournament.
+     * Persists a new Tournament.
      * @param tournament to be created
      */
     void create(Tournament tournament);
