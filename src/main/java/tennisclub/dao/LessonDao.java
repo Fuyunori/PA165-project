@@ -1,8 +1,11 @@
 package tennisclub.dao;
 
+import tennisclub.entity.Court;
+import tennisclub.entity.Event;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.enums.Level;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -45,6 +48,43 @@ public interface LessonDao {
     Lesson findById(Long id);
 
     //List<Lesson> findByLecturerName(String lecturerName);
+
+    /**
+     * Finds all Lessons taking place on the specified court.
+     * @param court on which the Lessons take place
+     * @return all Lessons taking place on the given court
+     */
+    List<Lesson> findByCourt(Court court);
+
+    /**
+     * Finds all Lessons starting at the specified time.
+     * @param startTime at which the Lessons start
+     * @return all Lessons starting at the given time
+     */
+    List<Lesson> findByStartTime(LocalDateTime startTime);
+
+    /**
+     * Finds all Lessons ending at the specified time.
+     * @param endTime at which the Lessons end
+     * @return all Lessons ending at the given time
+     */
+    List<Lesson> findByEndTime(LocalDateTime endTime);
+
+    /**
+     * Finds all Lessons that at least partially take place
+     * during the specified time interval. The interval is exclusive.
+     *
+     * More formally, retrieve all Lessons l such that:
+     *     l.startTime < to && l.endTime > from
+     *
+     * The behaviour of this method is undefined if:
+     *     from > to
+     *
+     * @param from the beginning of the interval
+     * @param to the end of the interval
+     * @return all Lessons whose time falls into the interval
+     */
+    List<Lesson> findByTimeInterval(LocalDateTime from, LocalDateTime to);
 
     /**
      * Finds all Lessons with particular capacity.
