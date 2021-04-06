@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
+ * DAO interface for basic CRUD operations on Event.
+ *
  * @author Miroslav Demek
  */
 public interface EventDao {
