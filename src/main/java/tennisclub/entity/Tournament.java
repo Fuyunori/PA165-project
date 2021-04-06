@@ -13,7 +13,6 @@ import java.util.Set;
  */
 @Entity
 public class Tournament extends Event  {
-    @NotNull
     private Integer capacity;
 
     @NotNull
