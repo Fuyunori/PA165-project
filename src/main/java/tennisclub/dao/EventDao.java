@@ -75,7 +75,7 @@ public interface EventDao {
      *
      * @param event an event with updated data to persist
      */
-    void update(Event event);
+    Event update(Event event);
 
     /**
      * Delete the specified event from the database.

@@ -65,8 +65,8 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
-    public void update(Event event) {
-        em.merge(event);
+    public Event update(Event event) {
+        return em.merge(event);
     }
 
     @Override
