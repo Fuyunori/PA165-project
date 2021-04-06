@@ -52,7 +52,7 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public List<Event> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
-        return em.createQuery("select e from Event e where e.endTime >= :from and e.startTime <= :to", Event.class)
+        return em.createQuery("select e from Event e where e.endTime > :from and e.startTime < :to", Event.class)
                 .setParameter("from", from)
                 .setParameter("to", to)
                 .getResultList();
