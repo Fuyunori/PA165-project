@@ -61,6 +61,20 @@ class UserDaoImplTest {
 
     @Test
     @Transactional
+    void findById() {
+        User createdUser1 = createUser("honza42", "hon@za.cz", "Honza", Role.USER);
+        User createdUser2 = createUser("pepa42", "pe@pa.cz", "Pepa", Role.MANAGER);
+        assertThat(createdUser1).isNotEqualTo(createdUser2);
+
+        User foundUser1 = userDao.findById(createdUser1.getId());
+        User foundUser2 = userDao.findById(createdUser2.getId());
+        assertThat(foundUser1).isNotEqualTo(foundUser2);
+        assertThat(foundUser1).isEqualTo(createdUser1);
+        assertThat(foundUser2).isEqualTo(createdUser2);
+    }
+
+    @Test
+    @Transactional
     void findByUsername() {
         User createdUser1 = createUser("honza42", "hon@za.cz", "Honza", Role.USER);
         User createdUser2 = createUser("pepa42", "pe@pa.cz", "Pepa", Role.USER);
