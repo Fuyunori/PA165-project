@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -28,8 +29,13 @@ class UserDaoImplTest {
 
     @Test
     @Transactional
-    void notNullName() {
-        assertThrows(DataIntegrityViolationException.class, () -> userDao.create(new User()));
+    void notNullValidation() {
+        User blankUser = new User();
+        assertThrows(DataIntegrityViolationException.class, () -> userDao.create(blankUser));
+
+        User userWithUsername = new User();
+        userWithUsername.setUsername("username666");
+        assertDoesNotThrow(() -> userDao.create(userWithUsername));
     }
 
     @Test
