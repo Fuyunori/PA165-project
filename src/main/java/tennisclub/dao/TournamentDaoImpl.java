@@ -42,9 +42,7 @@ public class TournamentDaoImpl implements TournamentDao {
 
     @Override
     public Tournament findById(Long id) {
-        return em.createQuery("select t from Tournament t where t.id = :id", Tournament.class)
-                .setParameter("id", id)
-                .getSingleResult();
+        return em.find(Tournament.class, id);
     }
 
     @Override
