@@ -47,6 +47,20 @@ class UserDaoImplTest {
 
     @Test
     @Transactional
+    void findAll() {
+        User createdUser1 = createUser("honza42", "hon@za.cz", "Honza", Role.USER);
+        User createdUser2 = createUser("pepa42", "pe@pa.cz", "Pepa", Role.MANAGER);
+        User createdUser3 = createUser("dalsi_honza42", "dalsi.hon@za.cz", "Honza", Role.USER);
+
+        List<User> foundUsers = userDao.findAll();
+        assertThat(foundUsers.size()).isEqualTo(3);
+        assertThat(foundUsers).contains(createdUser1);
+        assertThat(foundUsers).contains(createdUser2);
+        assertThat(foundUsers).contains(createdUser3);
+    }
+
+    @Test
+    @Transactional
     void findByUsername() {
         User createdUser1 = createUser("honza42", "hon@za.cz", "Honza", Role.USER);
         User createdUser2 = createUser("pepa42", "pe@pa.cz", "Pepa", Role.USER);
