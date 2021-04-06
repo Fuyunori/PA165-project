@@ -20,6 +20,7 @@ public interface LessonDao {
     /**
      * Updates a lesson.
      * @param lesson to be updated
+     * @return updated lesson
      */
     Lesson update(Lesson lesson);
 
