@@ -1,5 +1,7 @@
 package tennisclub.entity;
 
+import org.hibernate.annotations.Check;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -10,6 +12,7 @@ import java.util.Objects;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@Check(constraints =  "start_time <= end_time")
 public class Event {
 
     @Id
