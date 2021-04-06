@@ -46,4 +46,9 @@ public class CourtDaoImpl implements CourtDao {
                 .setParameter("t", type)
                 .getResultList();
     }
+
+    @Override
+    public Court update(Court court) {
+        return manager.merge(court);
+    }
 }

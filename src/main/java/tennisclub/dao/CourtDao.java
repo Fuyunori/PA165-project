@@ -11,4 +11,5 @@ public interface CourtDao {
     Court findById(Long id);
     List<Court> findByAddress(String address);
     List<Court> findByType(CourtType type);
+    Court update(Court court);
 }
