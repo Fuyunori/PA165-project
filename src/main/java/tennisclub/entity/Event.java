@@ -1,5 +1,7 @@
 package tennisclub.entity;
 
+import org.hibernate.annotations.Check;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -10,6 +12,7 @@ import java.util.Objects;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@Check(constraints =  "start_time <= end_time")
 public class Event {
 
     @Id
@@ -70,13 +73,13 @@ public class Event {
         if (this == o) return true;
         if (!(o instanceof Event)) return false;
         Event event = (Event) o;
-        return Objects.equals(court, event.getCourt()) &&
-                Objects.equals(startTime, event.getStartTime()) &&
-                Objects.equals(endTime, event.getEndTime());
+        return Objects.equals(getCourt(), event.getCourt()) &&
+                Objects.equals(getStartTime(), event.getStartTime()) &&
+                Objects.equals(getEndTime(), event.getEndTime());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(court, startTime, endTime);
+        return Objects.hash(getCourt(), getStartTime(), getEndTime());
     }
 }
