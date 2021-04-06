@@ -74,7 +74,7 @@ public class LessonDaoImpl implements LessonDao{
 
     @Override
     public List<Lesson> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
-        return em.createQuery("select l from Lesson l where l.endTime >= :from and l.startTime <= :to", Lesson.class)
+        return em.createQuery("select l from Lesson l where l.endTime > :from and l.startTime < :to", Lesson.class)
                 .setParameter("from", from)
                 .setParameter("to", to)
                 .getResultList();

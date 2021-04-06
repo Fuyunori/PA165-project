@@ -72,10 +72,10 @@ public interface LessonDao {
 
     /**
      * Finds all Lessons that at least partially take place
-     * during the specified time interval. The interval is inclusive.
+     * during the specified time interval. The interval is exclusive.
      *
      * More formally, retrieve all Lessons l such that:
-     *     l.startTime <= to && l.endTime >= from
+     *     l.startTime < to && l.endTime > from
      *
      * The behaviour of this method is undefined if:
      *     from > to
