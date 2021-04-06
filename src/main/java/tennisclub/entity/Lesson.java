@@ -86,23 +86,4 @@ public class Lesson extends Event {
         // TODO: uncomment this code where USer entity is finished
         // user.removeLesson(this);
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Lesson)) return false;
-        if (!super.equals(o)) return false;
-
-        Lesson lesson = (Lesson) o;
-
-        return getCapacity().equals(lesson.getCapacity())
-                && getLevel() == lesson.getLevel()
-                && Objects.equals(getTeachers(), lesson.getTeachers())
-                && Objects.equals(getStudents(), lesson.getStudents());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), getCapacity(), getLevel(), getTeachers(), getStudents());
-    }
 }
