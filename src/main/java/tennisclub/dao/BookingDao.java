@@ -55,10 +55,10 @@ public interface BookingDao {
 
     /**
      * Retrieve all bookings that at least partially take place
-     * during the specified time interval. The interval is inclusive.
+     * during the specified time interval. The interval is exclusive.
      *
      * More formally, retrieve all Events e such that:
-     *     e.startTime <= to && e.endTime >= from
+     *     e.startTime < to && e.endTime > from
      *
      * The behaviour of this method is undefined if:
      *     from > to

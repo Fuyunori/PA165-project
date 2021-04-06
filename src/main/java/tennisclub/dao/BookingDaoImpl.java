@@ -51,7 +51,7 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override
     public List<Booking> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
-        return em.createQuery("select b from Booking b where b.endTime >= :from and b.startTime <= :to", Booking.class)
+        return em.createQuery("select b from Booking b where b.endTime > :from and b.startTime < :to", Booking.class)
                 .setParameter("from", from)
                 .setParameter("to", to)
                 .getResultList();
