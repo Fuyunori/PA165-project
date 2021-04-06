@@ -6,7 +6,6 @@ import tennisclub.entity.ranking.Ranking;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
-import java.util.Objects;
 
 import java.util.Set;
 
@@ -91,9 +90,9 @@ public class User {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
 
-        User user = (User) o;
-
-        return getUsername().equals(user.getUsername());
+        User otherUser = (User) o;
+        String username = getUsername();
+        return username != null && username.equals(otherUser.getUsername());
     }
 
     @Override

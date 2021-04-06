@@ -12,48 +12,56 @@ import java.util.List;
  * @author Ondrej Holub
  */
 @Repository
-public class UserDaoImpl {
+public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
     EntityManager em;
 
+    @Override
     public void create(User user) {
         em.persist(user);
     }
 
+    @Override
     public User findById(Long id) {
         return em.createQuery("select u from User u where u.id=:id", User.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }
 
+    @Override
     public List<User> findByName(String name) {
-        return em.createQuery("select u from User u where u.name=:name", User.class)
+        return em.createQuery("select u from User u where u.name like concat('%', :name, '%') ", User.class)
                 .setParameter("name", name)
                 .getResultList();
     }
 
+    @Override
     public List<User> findByUsername(String username) {
         return em.createQuery("select u from User u where u.username=:username", User.class)
                 .setParameter("username", username)
                 .getResultList();
     }
 
+    @Override
     public List<User> findByEmail(String email) {
         return em.createQuery("select u from User u where u.email=:email", User.class)
                 .setParameter("email", email)
                 .getResultList();
     }
 
+    @Override
     public List<User> findAll() {
         return em.createQuery("select u from User u", User.class)
                 .getResultList();
     }
 
-    public void update(User user) {
-        em.merge(user);
+    @Override
+    public User update(User user) {
+        return em.merge(user);
     }
 
+    @Override
     public void delete(User user) {
         em.remove(user);
     }
