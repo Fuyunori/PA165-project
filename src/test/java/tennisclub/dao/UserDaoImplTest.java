@@ -8,6 +8,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import tennisclub.entity.User;
 import tennisclub.entity.enums.Role;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import java.util.List;
@@ -18,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class UserDaoImplTest {
+    @PersistenceContext
+    EntityManager manager;
+
     @Autowired
     private UserDao userDao;
 
@@ -80,6 +85,27 @@ class UserDaoImplTest {
         assertThat(foundUsers).contains(createdUser1);
         assertThat(foundUsers).doesNotContain(createdUser2);
         assertThat(foundUsers).doesNotContain(createdUser3);
+    }
+
+    @Test
+    @Transactional
+    void updateAfterDetached() {
+        createUser("theSameUser", "user42@domain.cz", "Alice", Role.USER);
+        User alice = userDao.findByUsername("theSameUser").get(0);
+        assertThat(alice.getName()).isEqualTo("Alice");
+
+        alice.setName("Bob");
+        User bob =  userDao.findByUsername("theSameUser").get(0);
+        assertThat(bob.getName()).isEqualTo("Bob");
+
+        manager.detach(bob);
+        bob.setName("Charlie");
+        User stillBob = userDao.findByUsername("theSameUser").get(0);
+        assertThat(stillBob.getName()).isEqualTo("Bob");
+
+        userDao.update(bob);
+        User charlie = userDao.findByUsername("theSameUser").get(0);
+        assertThat(charlie.getName()).isEqualTo("Charlie");
     }
 
     private User createUser(String username, String email, String name, Role role) {
