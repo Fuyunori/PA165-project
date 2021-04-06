@@ -18,12 +18,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@Transactional
 class CourtDaoTest {
 	@Autowired
 	private CourtDao courtDao;
 
 	@Test
-	@Transactional
 	void createFindDeleteTest() {
 		Court court = new Court("Court 1");
 		courtDao.create(court);
@@ -38,7 +38,6 @@ class CourtDaoTest {
 	}
 
 	@Test
-	@Transactional
 	void createViolateConstraintTest(){
 		Court court1 = new Court("Court 1");
 		court1.setAddress("Torquay Squash Club, TQ2 7NS");
@@ -55,7 +54,6 @@ class CourtDaoTest {
 	}
 
 	@Test
-	@Transactional
 	void updateViolateConstraintTest(){
 		Court court1 = new Court("Court 1");
 		court1.setAddress("Torquay Squash Club, TQ2 7NS");
@@ -77,7 +75,6 @@ class CourtDaoTest {
 	}
 
 	@Test
-	@Transactional
 	void findByAddress() {
 		Court court1 = new Court("Court 1");
 		court1.setAddress("Torquay Squash Club, TQ2 7NS");
@@ -99,7 +96,6 @@ class CourtDaoTest {
 	}
 
 	@Test
-	@Transactional
 	void findByType() {
 		Court court1 = new Court("Court 1");
 		court1.setAddress("Torquay Squash Club, TQ2 7NS");
@@ -124,7 +120,6 @@ class CourtDaoTest {
 	}
 
 	@Test
-	@Transactional
 	void updateTest() {
 		Court court = new Court("Court 1");
 		court.setAddress("Torquay Squash Club, TQ2 7NS");
