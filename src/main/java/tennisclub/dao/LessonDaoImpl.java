@@ -20,8 +20,8 @@ public class LessonDaoImpl implements LessonDao{
     }
 
     @Override
-    public void update(Lesson lesson) {
-        em.merge(lesson);
+    public Lesson update(Lesson lesson) {
+        return em.merge(lesson);
     }
 
     @Override

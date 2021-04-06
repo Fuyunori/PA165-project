@@ -30,7 +30,7 @@ public interface LessonDao {
      * Updates a lesson.
      * @param lesson to be updated
      */
-    void update(Lesson lesson);
+    Lesson update(Lesson lesson);
 
     /**
      * Removes a lesson. In case the lesson is in detached state,
