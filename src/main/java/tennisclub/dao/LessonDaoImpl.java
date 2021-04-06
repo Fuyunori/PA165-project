@@ -2,6 +2,7 @@ package tennisclub.dao;
 
 import org.springframework.stereotype.Repository;
 import tennisclub.entity.Lesson;
+import tennisclub.entity.enums.Level;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,7 +10,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
 public class LessonDaoImpl implements LessonDao{
     @PersistenceContext
     private EntityManager em;
@@ -20,8 +20,8 @@ public class LessonDaoImpl implements LessonDao{
     }
 
     @Override
-    public void update(Lesson lesson) {
-        em.merge(lesson);
+    public Lesson update(Lesson lesson) {
+        return em.merge(lesson);
     }
 
     @Override
@@ -51,9 +51,16 @@ public class LessonDaoImpl implements LessonDao{
     }*/
 
     @Override
-    public List<Lesson> findByCapacity(int capacity) {
+    public List<Lesson> findByCapacity(Integer capacity) {
         return em.createQuery("select l from Lesson l where l.capacity = :capacity", Lesson.class)
                 .setParameter("capacity", capacity)
+                .getResultList();
+    }
+
+    @Override
+    public List<Lesson> findByLevel(Level level) {
+        return em.createQuery("select l from Lesson l where l.level = :level", Lesson.class)
+                .setParameter("level", level)
                 .getResultList();
     }
 }
