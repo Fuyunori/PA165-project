@@ -71,7 +71,7 @@ public class TournamentDaoImpl implements TournamentDao {
 
     @Override
     public List<Tournament> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
-        return em.createQuery("select t from Tournament t where t.endTime >= :from and t.startTime <= :to", Tournament.class)
+        return em.createQuery("select t from Tournament t where t.endTime > :from and t.startTime < :to", Tournament.class)
                 .setParameter("from", from)
                 .setParameter("to", to)
                 .getResultList();

@@ -69,10 +69,10 @@ public interface TournamentDao {
 
     /**
      * Finds all Tournaments that at least partially take place
-     * during the specified time interval. The interval is inclusive.
+     * during the specified time interval. The interval is exclusive.
      *
      * More formally, retrieve all Tournaments t such that:
-     *     t.startTime <= to && t.endTime >= from
+     *     t.startTime < to && t.endTime > from
      *
      * The behaviour of this method is undefined if:
      *     from > to
