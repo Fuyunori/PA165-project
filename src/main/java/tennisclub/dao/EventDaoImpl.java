@@ -14,7 +14,6 @@ import java.util.List;
  * @author Miroslav Demek
  */
 @Repository
-@Transactional
 public class EventDaoImpl implements EventDao {
 
     @PersistenceContext
