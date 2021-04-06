@@ -3,9 +3,11 @@ package tennisclub.entity;
 import tennisclub.entity.ranking.Ranking;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -13,10 +15,12 @@ import java.util.Set;
  */
 @Entity
 public class Tournament extends Event  {
-    private int capacity;
-    private int prize;
+    private Integer capacity;
 
-    @OneToMany
+    @NotNull
+    private Integer prize;
+
+    @OneToMany(mappedBy = "tournament")
     private Set<Ranking> rankings = new HashSet<>();
 
     public Tournament(){}
@@ -28,19 +32,19 @@ public class Tournament extends Event  {
     }
 
 
-    public int getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
-    public int getPrize() {
+    public Integer getPrize() {
         return prize;
     }
 
-    public void setPrize(int prize) {
+    public void setPrize(Integer prize) {
         this.prize = prize;
     }
 
