@@ -1,11 +1,14 @@
 package tennisclub.dao;
 
 import org.springframework.stereotype.Repository;
+import tennisclub.entity.Court;
+import tennisclub.entity.Event;
 import tennisclub.entity.Tournament;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -43,6 +46,35 @@ public class TournamentDaoImpl implements TournamentDao {
     @Override
     public Tournament findById(Long id) {
         return em.find(Tournament.class, id);
+    }
+
+    @Override
+    public List<Tournament> findByCourt(Court court) {
+        return em.createQuery("select t from Tournament t where t.court = :court", Tournament.class)
+                .setParameter("court", court)
+                .getResultList();
+    }
+
+    @Override
+    public List<Tournament> findByStartTime(LocalDateTime startTime) {
+        return em.createQuery("select t from Tournament t where t.startTime = :startTime", Tournament.class)
+                .setParameter("startTime", startTime)
+                .getResultList();
+    }
+
+    @Override
+    public List<Tournament> findByEndTime(LocalDateTime endTime) {
+        return em.createQuery("select t from Tournament t where t.endTime = :endTime", Tournament.class)
+                .setParameter("endTime", endTime)
+                .getResultList();
+    }
+
+    @Override
+    public List<Tournament> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
+        return em.createQuery("select t from Tournament t where t.endTime >= :from and t.startTime <= :to", Tournament.class)
+                .setParameter("from", from)
+                .setParameter("to", to)
+                .getResultList();
     }
 
     @Override
