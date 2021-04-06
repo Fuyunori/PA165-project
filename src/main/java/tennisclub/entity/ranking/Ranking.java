@@ -10,6 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+/**
+ * @author Ondrej Holub
+ */
 @Entity
 @IdClass(RankingId.class)
 public class Ranking {
