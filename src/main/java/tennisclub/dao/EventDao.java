@@ -59,6 +59,9 @@ public interface EventDao {
      * More formally, retrieve all Events e such that:
      *     e.startTime <= to && e.endTime >= from
      *
+     * The behaviour of this method is undefined if:
+     *     from > to
+     *
      * @param from the beginning of the interval
      * @param to the end of the interval
      * @return List of events in the interval
