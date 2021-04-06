@@ -21,7 +21,7 @@ public interface EventDao {
     /**
      * Retrieve the Event with the provided id.
      *
-     * @param id the id of the entity
+     * @param id the id of the event
      * @return the event with the id
      */
     Event findById(Long id);
@@ -74,6 +74,7 @@ public interface EventDao {
      * Persist the updated event into the database.
      *
      * @param event an event with updated data to persist
+     * @return the updated event
      */
     Event update(Event event);
 
