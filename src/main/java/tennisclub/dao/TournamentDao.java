@@ -19,8 +19,9 @@ public interface TournamentDao {
     /**
      * Updates a Tournament.
      * @param tournament to be updated
+     * @return the updated tournament
      */
-    void update(Tournament tournament);
+    Tournament update(Tournament tournament);
 
     /**
      * Removes a Tournament. In case the tournament is in detached state,

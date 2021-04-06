@@ -22,8 +22,8 @@ public class TournamentDaoImpl implements TournamentDao {
     }
 
     @Override
-    public void update(Tournament tournament) {
-        em.merge(tournament);
+    public Tournament update(Tournament tournament) {
+        return em.merge(tournament);
     }
 
     @Override
