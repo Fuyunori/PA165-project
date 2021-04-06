@@ -40,9 +40,7 @@ public class LessonDaoImpl implements LessonDao{
 
     @Override
     public Lesson findById(Long id) {
-        return em.createQuery("select l from Lesson l where l.id = :id", Lesson.class)
-                .setParameter("id", id)
-                .getSingleResult();
+        return em.find(Lesson.class, id);
     }
 
 /*    @Override
