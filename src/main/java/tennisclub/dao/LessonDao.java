@@ -6,22 +6,13 @@ import tennisclub.entity.enums.Level;
 import java.util.List;
 
 /**
- * DAO interface for CRUDing Lessons, therefore:
- * - creating a new Lesson,
- * - updating a Lesson,
- * - removing a Lesson,
- * - retrieving all Lessons.
- *
- * Additionally, the interface allows the client to:
- * - find Lessons by ID,
- * - find Lessons by capacity,
- * - find Lessons by level.
+ * DAO interface for CRUD operations on Lesson.
  *
  * @author Xuan Linh Phamová
  */
 public interface LessonDao {
     /**
-     * Creates a new lesson.
+     * Persists a new lesson.
      * @param lesson to be created
      */
     void create(Lesson lesson);
