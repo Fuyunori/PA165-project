@@ -583,4 +583,100 @@ public class EventDaoTest {
         assertThat(foundEvents).contains(tournament);
         assertThat(foundEvents).doesNotContain(otherTournament);
     }
+
+    @Test
+    public void findEventsByEndTimeOfWhichThereAreTwoSharingTheSameEndTime(){
+        Event otherEvent = new Event(eventStart, eventEnd);
+        otherEvent.setCourt(otherCourt);
+        em.persist(otherEvent);
+
+        List<Event> foundEvents = eventDao.findByEndTime(eventEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(otherEvent);
+    }
+
+    @Test
+    public void findEventsByEndTimeOfWhichThereAreTwoNotSharingTheSameEndTime(){
+        Event otherEvent = new Event(otherStart, otherEnd);
+        otherEvent.setCourt(court);
+        em.persist(otherEvent);
+
+        List<Event> foundEvents = eventDao.findByEndTime(eventEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherEvent);
+    }
+
+    @Test
+    public void findBookingsByEndTimeOfWhichThereAreTwoSharingTheSameEndTime(){
+        Event otherBooking = new Booking(bookingStart, bookingEnd);
+        otherBooking.setCourt(otherCourt);
+        em.persist(otherBooking);
+
+        List<Event> foundEvents = eventDao.findByEndTime(bookingEnd);
+
+        assertThat(foundEvents).contains(booking);
+        assertThat(foundEvents).contains(otherBooking);
+    }
+
+    @Test
+    public void findBookingsByEndTimeOfWhichThereAreTwoNotSharingTheSameEndTime(){
+        Event otherBooking = new Event(otherStart, otherEnd);
+        otherBooking.setCourt(court);
+        em.persist(otherBooking);
+
+        List<Event> foundEvents = eventDao.findByEndTime(bookingEnd);
+
+        assertThat(foundEvents).contains(booking);
+        assertThat(foundEvents).doesNotContain(otherBooking);
+    }
+
+    @Test
+    public void findLessonsByEndTimeOfWhichThereAreTwoSharingTheSameEndTime(){
+        Event otherLesson = new Lesson(lessonStart, lessonEnd, Level.BEGINNER);
+        otherLesson.setCourt(otherCourt);
+        em.persist(otherLesson);
+
+        List<Event> foundEvents = eventDao.findByEndTime(lessonEnd);
+
+        assertThat(foundEvents).contains(lesson);
+        assertThat(foundEvents).contains(otherLesson);
+    }
+
+    @Test
+    public void findLessonsByEndTimeOfWhichThereAreTwoNotSharingTheSameEndTime(){
+        Event otherLesson = new Lesson(otherStart, otherEnd, Level.BEGINNER);
+        otherLesson.setCourt(court);
+        em.persist(otherLesson);
+
+        List<Event> foundEvents = eventDao.findByEndTime(lessonEnd);
+
+        assertThat(foundEvents).contains(lesson);
+        assertThat(foundEvents).doesNotContain(otherLesson);
+    }
+
+    @Test
+    public void findTournamentsByEndTimeOfWhichThereAreTwoSharingTheSameEndTime(){
+        Event otherTournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
+        otherTournament.setCourt(otherCourt);
+        em.persist(otherTournament);
+
+        List<Event> foundEvents = eventDao.findByEndTime(tournamentEnd);
+
+        assertThat(foundEvents).contains(tournament);
+        assertThat(foundEvents).contains(otherTournament);
+    }
+
+    @Test
+    public void findTournamentsByEndTimeOfWhichThereAreTwoNotSharingTheSameEndTime(){
+        Event otherTournament = new Tournament(otherStart, otherEnd, 10, 10000);
+        otherTournament.setCourt(court);
+        em.persist(otherTournament);
+
+        List<Event> foundEvents = eventDao.findByEndTime(tournamentEnd);
+
+        assertThat(foundEvents).contains(tournament);
+        assertThat(foundEvents).doesNotContain(otherTournament);
+    }
 }
