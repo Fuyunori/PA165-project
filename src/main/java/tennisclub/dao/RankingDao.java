@@ -46,8 +46,9 @@ public interface RankingDao {
     /**
      * Updates a Ranking
      * @param ranking to be updated
+     * @return updated ranking
      */
-    void update(Ranking ranking);
+    Ranking update(Ranking ranking);
 
     /**
      * Delete a Ranking

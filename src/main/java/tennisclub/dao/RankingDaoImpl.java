@@ -46,8 +46,8 @@ public class RankingDaoImpl implements RankingDao {
     }
 
     @Override
-    public void update(Ranking ranking) {
-        em.merge(ranking);
+    public Ranking update(Ranking ranking) {
+        return em.merge(ranking);
     }
 
     @Override
