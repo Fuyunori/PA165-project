@@ -17,7 +17,6 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -164,5 +163,29 @@ class RankingDaoImplTest {
         assertThat(byOtherUser).doesNotContain(ranking1);
         assertThat(byOtherUser).doesNotContain(ranking2);
         assertThat(byOtherUser).contains(ranking3);
+    }
+
+    @Test
+    @Transactional
+    void update() {
+        Ranking ranking = new Ranking(tournament, user);
+        ranking.setPlayerPlacement(1);
+        manager.persist(ranking);
+
+        Ranking first = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
+        assertThat(first.getPlayerPlacement()).isEqualTo(1);
+
+        first.setPlayerPlacement(2);
+        Ranking second = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
+        assertThat(second.getPlayerPlacement()).isEqualTo(2);
+
+        manager.detach(second);
+        second.setPlayerPlacement(3);
+        Ranking stillSecond = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
+        assertThat(stillSecond.getPlayerPlacement()).isEqualTo(2);
+
+        rankingDao.update(second);
+        Ranking charlie = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
+        assertThat(charlie.getPlayerPlacement()).isEqualTo(3);
     }
 }
