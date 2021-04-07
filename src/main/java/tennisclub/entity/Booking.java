@@ -28,7 +28,9 @@ public class Booking extends Event {
 
     public void addUser(User user) {
         users.add(user);
-        // TODO uncomment this code when User entity is finished
-        // user.bookings.add(user);
+    }
+
+    public void removeUser(User user) {
+        users.remove(user);
     }
 }
