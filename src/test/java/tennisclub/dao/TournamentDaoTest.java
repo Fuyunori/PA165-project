@@ -21,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @author Miroslav Demek
  */
 @SpringBootTest
+@Transactional
 public class TournamentDaoTest {
 
     @PersistenceContext
@@ -33,7 +34,6 @@ public class TournamentDaoTest {
     private Tournament tournament;
 
     @BeforeEach
-    @Transactional
     public void before() {
         court = new Court();
         court.setName("Pretty nice court");
@@ -48,7 +48,6 @@ public class TournamentDaoTest {
 
 
     @Test
-    @Transactional
     public void testCreate() {
         Tournament created = new Tournament(LocalDateTime.of(2021, 4, 6, 13, 0 ),
                 LocalDateTime.of(2021, 4, 6, 14, 0 ), 10, 20_000);
@@ -61,7 +60,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testCreateWithNullCourt() {
         Tournament created = new Tournament(LocalDateTime.of(2021, 4, 6, 13, 0 ),
                 LocalDateTime.of(2021, 4, 6, 14, 0 ), 10, 20_000);
@@ -72,7 +70,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testCreateWithNullStartTime() {
         Tournament created = new Tournament(null,
                 LocalDateTime.of(2021, 4, 6, 14, 0 ), 10, 20_000);
@@ -83,7 +80,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testCreateWithNullEndTime() {
         Tournament created = new Tournament(LocalDateTime.of(2021, 4, 6, 13, 0 ),
                 null, 10, 20_000);
@@ -94,7 +90,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testCreateWithStartTimeAfterEndTime() {
         Tournament created = new Tournament(LocalDateTime.of(2021, 4, 7, 15, 0 ),
                 LocalDateTime.of(2021, 4, 6, 14, 0 ), 10, 20_000);
@@ -105,7 +100,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testUpdate() {
         Court newCourt = new Court();
         newCourt.setAddress("Praha");
@@ -125,7 +119,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testRemove() {
         tournamentDao.remove(tournament);
         List<Tournament> found = em.createQuery("select t from Tournament t", Tournament.class).getResultList();
@@ -133,7 +126,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindAll() {
         Tournament anotherTournament = new Tournament(LocalDateTime.of(2021, 5, 9, 5, 30 ),
                 LocalDateTime.of(2021, 5, 9, 6, 0 ), 32, 2_000);
@@ -148,14 +140,12 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindById() {
         Tournament found = tournamentDao.findById(tournament.getId());
         assertThat(found).usingRecursiveComparison().isEqualTo(tournament);
     }
 
     @Test
-    @Transactional
     public void testFindByCourt() {
         List<Tournament> found = tournamentDao.findByCourt(tournament.getCourt());
         assertThat(found.size()).isEqualTo(1);
@@ -163,7 +153,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindByStartTime() {
         List<Tournament> found = tournamentDao.findByStartTime(tournament.getStartTime());
         assertThat(found.size()).isEqualTo(1);
@@ -171,7 +160,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindByEndTime() {
         List<Tournament> found = tournamentDao.findByEndTime(tournament.getEndTime());
         assertThat(found.size()).isEqualTo(1);
@@ -179,7 +167,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindByCapacity() {
         List<Tournament> found = tournamentDao.findByCapacity(tournament.getCapacity());
         assertThat(found.size()).isEqualTo(1);
@@ -187,7 +174,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindByPrize() {
         List<Tournament> found = tournamentDao.findByPrize(tournament.getPrize());
         assertThat(found.size()).isEqualTo(1);
@@ -195,7 +181,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindByIntervalContainedInTournament() {
         Tournament expected = createTournamentFromTime(
                 LocalDateTime.of(2022, 10, 5, 12, 30),
@@ -213,7 +198,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindTournamentContainedInInterval() {
         Tournament expected = createTournamentFromTime(
                 LocalDateTime.of(2022, 10, 5, 13, 0),
@@ -231,7 +215,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindTournamentIntersectingIntervalFromLeft() {
         Tournament expected = createTournamentFromTime(
                 LocalDateTime.of(2022, 10, 5, 13, 0),
@@ -249,7 +232,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindTournamentIntersectingIntervalFromRight() {
         Tournament expected = createTournamentFromTime(
                 LocalDateTime.of(2022, 10, 5, 14, 30),
@@ -267,7 +249,6 @@ public class TournamentDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindByIntervalExclusivity() {
         Tournament expected = createTournamentFromTime(
                 LocalDateTime.of(2022, 10, 5, 14, 0),
