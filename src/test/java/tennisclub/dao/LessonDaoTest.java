@@ -172,6 +172,14 @@ public class LessonDaoTest {
     }
 
     @Test
+    public void testRemoveAfterDetach() {
+        em.detach(lesson);
+        lessonDao.remove(lesson);
+        Lesson deletedLesson = em.find(Lesson.class, lesson.getId());
+        assertThat(deletedLesson).isEqualTo(null);
+    }
+
+    @Test
     public void testFindAll() {
         Lesson anotherLesson = new Lesson(LocalDateTime.of(2021, 3, 6, 22, 30 ),
                 LocalDateTime.of(2021, 3, 6, 23, 0 ), Level.INTERMEDIATE);

@@ -1,7 +1,6 @@
 package tennisclub.dao;
 
 import org.springframework.stereotype.Repository;
-import tennisclub.entity.Booking;
 import tennisclub.entity.User;
 
 import javax.persistence.EntityManager;

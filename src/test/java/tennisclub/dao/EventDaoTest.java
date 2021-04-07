@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.annotation.DirtiesContext;
 import tennisclub.entity.*;
 import tennisclub.entity.enums.Level;
 
@@ -437,6 +436,14 @@ public class EventDaoTest {
 
         Event deletedEvent = em.find(Event.class, event.getId());
 
+        assertThat(deletedEvent).isEqualTo(null);
+    }
+
+    @Test
+    public void testDeleteAfterDetach() {
+        em.detach(booking);
+        eventDao.delete(booking);
+        Event deletedEvent = em.find(Event.class, booking.getId());
         assertThat(deletedEvent).isEqualTo(null);
     }
 

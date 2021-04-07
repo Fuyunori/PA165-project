@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.annotation.DirtiesContext;
 import tennisclub.entity.User;
 import tennisclub.entity.enums.Role;
 
@@ -158,6 +157,25 @@ class UserDaoTest {
         userDao.update(bob);
         User charlie = manager.createQuery("select u from User u", User.class).getSingleResult();
         assertThat(charlie.getName()).isEqualTo("Charlie");
+    }
+
+    @Test
+    @Transactional
+    public void delete() {
+        User user = createUser("honza42", "hon@za.cz", "Honza", Role.USER);
+        manager.persist(user);
+        userDao.delete(user);
+        assertThat(manager.find(User.class, user.getId())).isNull();
+    }
+
+    @Test
+    @Transactional
+    public void deleteAfterDetach() {
+        User user = createUser("honza42", "hon@za.cz", "Honza", Role.USER);
+        manager.persist(user);
+        manager.detach(user);
+        userDao.delete(user);
+        assertThat(manager.find(User.class, user.getId())).isNull();
     }
 
     private User createUser(String username, String email, String name, Role role) {

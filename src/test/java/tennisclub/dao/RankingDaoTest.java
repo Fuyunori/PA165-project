@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.test.annotation.DirtiesContext;
 import tennisclub.entity.Court;
 import tennisclub.entity.Tournament;
 import tennisclub.entity.User;
@@ -15,7 +14,6 @@ import tennisclub.entity.ranking.Ranking;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolationException;
 
 import java.util.List;
 

@@ -126,6 +126,13 @@ public class TournamentDaoTest {
     }
 
     @Test
+    public void testRemoveAfterDetach() {
+        em.detach(tournament);
+        tournamentDao.remove(tournament);
+        assertThat(em.find(Tournament.class, tournament.getId())).isNull();
+    }
+
+    @Test
     public void testFindAll() {
         Tournament anotherTournament = new Tournament(LocalDateTime.of(2021, 5, 9, 5, 30 ),
                 LocalDateTime.of(2021, 5, 9, 6, 0 ), 32, 2_000);
@@ -276,5 +283,4 @@ public class TournamentDaoTest {
         t.setCourt(court);
         return t;
     }
-
 }

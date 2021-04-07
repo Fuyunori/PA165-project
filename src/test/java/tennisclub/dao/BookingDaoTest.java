@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.annotation.DirtiesContext;
 import tennisclub.entity.*;
 
 import javax.persistence.EntityManager;
@@ -159,6 +158,14 @@ public class BookingDaoTest {
 
         Booking deletedEvent = em.find(Booking.class, booking.getId());
 
+        assertThat(deletedEvent).isEqualTo(null);
+    }
+
+    @Test
+    public void deleteAfterDetach() {
+        em.detach(booking);
+        bookingDao.delete(booking);
+        Booking deletedEvent = em.find(Booking.class, booking.getId());
         assertThat(deletedEvent).isEqualTo(null);
     }
 
