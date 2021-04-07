@@ -1,5 +1,6 @@
 package tennisclub.dao;
 
+import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import tennisclub.entity.enums.Level;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -187,8 +189,10 @@ public class EventDaoTest {
         event.setStartTime(null);
         Event updatedEvent = eventDao.update(event);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getStartTime()).isEqualTo(event.getStartTime());
+        assertThatThrownBy(() -> {
+            eventDao.update(event);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -205,10 +209,11 @@ public class EventDaoTest {
     @Test
     public void testEventUpdatingEndTimeToNull(){
         event.setEndTime(null);
-        Event updatedEvent = eventDao.update(event);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getEndTime()).isEqualTo(event.getEndTime());
+        assertThatThrownBy(() -> {
+            eventDao.update(event);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -226,10 +231,11 @@ public class EventDaoTest {
     public void testEventUpdatingCourtToNull(){
         // update the event - change court
         event.setCourt(null);
-        Event updatedEvent = eventDao.update(event);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getCourt()).isEqualTo(event.getCourt());
+        assertThatThrownBy(() -> {
+            eventDao.update(event);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -246,10 +252,11 @@ public class EventDaoTest {
     @Test
     public void testBookingUpdatingStartTimeToNull(){
         booking.setStartTime(null);
-        Event updatedEvent = eventDao.update(booking);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getStartTime()).isEqualTo(booking.getStartTime());
+        assertThatThrownBy(() -> {
+            eventDao.update(booking);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -266,10 +273,11 @@ public class EventDaoTest {
     @Test
     public void testBookingUpdatingEndTimeToNull(){
         booking.setEndTime(null);
-        Event updatedEvent = eventDao.update(booking);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getEndTime()).isEqualTo(booking.getEndTime());
+        assertThatThrownBy(() -> {
+            eventDao.update(booking);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -287,10 +295,11 @@ public class EventDaoTest {
     public void testBookingUpdatingCourtToNull(){
         // update the event - change court
         booking.setCourt(null);
-        Event updatedEvent = eventDao.update(booking);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getCourt()).isEqualTo(booking.getCourt());
+        assertThatThrownBy(() -> {
+            eventDao.update(booking);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -307,10 +316,11 @@ public class EventDaoTest {
     @Test
     public void testLessonUpdatingStartTimeToNull(){
         lesson.setStartTime(null);
-        Event updatedEvent = eventDao.update(lesson);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getStartTime()).isEqualTo(lesson.getStartTime());
+        assertThatThrownBy(() -> {
+            eventDao.update(lesson);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -327,10 +337,11 @@ public class EventDaoTest {
     @Test
     public void testLessonUpdatingEndTimeToNull(){
         lesson.setEndTime(null);
-        Event updatedEvent = eventDao.update(lesson);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getEndTime()).isEqualTo(lesson.getEndTime());
+        assertThatThrownBy(() -> {
+            eventDao.update(lesson);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -348,10 +359,11 @@ public class EventDaoTest {
     public void testLessonUpdatingCourtToNull(){
         // update the event - change court
         lesson.setCourt(null);
-        Event updatedEvent = eventDao.update(lesson);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getCourt()).isEqualTo(lesson.getCourt());
+        assertThatThrownBy(() -> {
+            eventDao.update(lesson);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -368,10 +380,11 @@ public class EventDaoTest {
     @Test
     public void testTournamentUpdatingStartTimeToNull(){
         tournament.setStartTime(null);
-        Event updatedEvent = eventDao.update(tournament);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getStartTime()).isEqualTo(tournament.getStartTime());
+        assertThatThrownBy(() -> {
+            eventDao.update(tournament);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -388,10 +401,11 @@ public class EventDaoTest {
     @Test
     public void testTournamentUpdatingEndTimeToNull(){
         tournament.setEndTime(null);
-        Event updatedEvent = eventDao.update(tournament);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getEndTime()).isEqualTo(tournament.getEndTime());
+        assertThatThrownBy(() -> {
+            eventDao.update(tournament);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -409,10 +423,11 @@ public class EventDaoTest {
     public void testTournamentUpdatingCourtToNull(){
         // update the event - change court
         tournament.setCourt(null);
-        Event updatedEvent = eventDao.update(tournament);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getCourt()).isEqualTo(tournament.getCourt());
+        assertThatThrownBy(() -> {
+            eventDao.update(tournament);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
