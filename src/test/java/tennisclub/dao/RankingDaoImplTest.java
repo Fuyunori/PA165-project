@@ -103,7 +103,7 @@ class RankingDaoImplTest {
         Ranking ranking = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
 
         assertThat(ranking.getTournament()).isEqualTo(tournament);
-        assertThat(ranking.getUser()).isEqualTo(user);
+        assertThat(ranking.getPlayer()).isEqualTo(user);
         assertThat(ranking.getPlayerPlacement()).isEqualTo(42);
     }
 
