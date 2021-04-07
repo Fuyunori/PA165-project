@@ -2,13 +2,11 @@ package tennisclub.dao;
 
 import org.springframework.stereotype.Repository;
 import tennisclub.entity.Court;
-import tennisclub.entity.Event;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.enums.Level;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -45,11 +43,6 @@ public class LessonDaoImpl implements LessonDao{
     public Lesson findById(Long id) {
         return em.find(Lesson.class, id);
     }
-
-/*    @Override
-    public List<Lesson> findByLecturerName(String lecturerName) {
-        return null;
-    }*/
 
     @Override
     public List<Lesson> findByCourt(Court court) {
