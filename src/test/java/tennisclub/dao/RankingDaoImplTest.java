@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.annotation.DirtiesContext;
 import tennisclub.entity.Court;
@@ -84,6 +85,17 @@ class RankingDaoImplTest {
                 () -> {
                     rankingDao.create(new Ranking(tournament, null));
                     manager.flush();
+                }
+        );
+    }
+
+    @Test
+    void primaryKeyUniqueness() {
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> {
+                    rankingDao.create(new Ranking(tournament, user));
+                    rankingDao.create(new Ranking(tournament, user));
                 }
         );
     }
