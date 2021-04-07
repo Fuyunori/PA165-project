@@ -661,6 +661,14 @@ public class EventDaoTest {
         assertThat(allEvents).contains(tournament);
     }
 
+    private LocalDateTime tomorrow(LocalDateTime dateTime){
+        return dateTime.plusDays(1);
+    }
+
+    private LocalDateTime yesterday(LocalDateTime dateTime){
+        return dateTime.minusDays(1);
+    }
+
     @Test
     public void findEventByTimeIntervalStartTimeIsEqualToTo(){
         Event otherEvent = new Event(eventEnd, eventEnd);
@@ -674,8 +682,32 @@ public class EventDaoTest {
     }
 
     @Test
+    public void findEventByTimeIntervalStartTimeIsBiggerThanTo(){
+        Event otherEvent = new Event(tomorrow(eventEnd), tomorrow(eventEnd));
+        otherEvent.setCourt(otherCourt);
+        em.persist(otherEvent);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(eventStart, eventEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherEvent);
+    }
+
+    @Test
     public void findEventByTimeIntervalEndTimeIsEqualToFrom(){
         Event otherEvent = new Event(eventStart, eventStart);
+        otherEvent.setCourt(otherCourt);
+        em.persist(otherEvent);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(eventStart, eventEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherEvent);
+    }
+
+    @Test
+    public void findEventByTimeIntervalEndTimeIsSmallerThanFrom(){
+        Event otherEvent = new Event(yesterday(eventStart), yesterday(eventStart));
         otherEvent.setCourt(otherCourt);
         em.persist(otherEvent);
 
@@ -710,8 +742,32 @@ public class EventDaoTest {
     }
 
     @Test
+    public void findBookingByTimeIntervalStartTimeIsBiggerThanTo(){
+        Event otherBooking = new Booking(tomorrow(bookingEnd), tomorrow(bookingEnd));
+        otherBooking.setCourt(otherCourt);
+        em.persist(otherBooking);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherBooking);
+    }
+
+    @Test
     public void findBookingByTimeIntervalEndTimeIsEqualToFrom(){
         Event otherBooking = new Booking(bookingStart, bookingStart);
+        otherBooking.setCourt(otherCourt);
+        em.persist(otherBooking);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherBooking);
+    }
+
+    @Test
+    public void findBookingByTimeIntervalEndTimeIsSmallerThanFrom(){
+        Event otherBooking = new Booking(yesterday(bookingStart), yesterday(bookingStart));
         otherBooking.setCourt(otherCourt);
         em.persist(otherBooking);
 
@@ -746,8 +802,32 @@ public class EventDaoTest {
     }
 
     @Test
+    public void findLessonByTimeIntervalStartTimeIsBiggerThanTo(){
+        Event otherLesson = new Lesson(tomorrow(lessonEnd), tomorrow(lessonEnd), Level.BEGINNER);
+        otherLesson.setCourt(otherCourt);
+        em.persist(otherLesson);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(lessonStart, lessonEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherLesson);
+    }
+
+    @Test
     public void findLessonByTimeIntervalEndTimeIsEqualToFrom(){
         Event otherLesson = new Lesson(lessonStart, lessonStart, Level.BEGINNER);
+        otherLesson.setCourt(otherCourt);
+        em.persist(otherLesson);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(lessonStart, lessonEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherLesson);
+    }
+
+    @Test
+    public void findLessonByTimeIntervalEndTimeIsSmallerThanFrom(){
+        Event otherLesson = new Lesson(yesterday(lessonStart), yesterday(lessonStart), Level.BEGINNER);
         otherLesson.setCourt(otherCourt);
         em.persist(otherLesson);
 
