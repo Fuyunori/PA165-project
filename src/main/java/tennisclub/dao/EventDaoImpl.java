@@ -71,7 +71,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public void delete(Event event) {
         if (!em.contains(event)) {
-            em.merge(event);
+            event = em.merge(event);
         }
         em.remove(event);
     }

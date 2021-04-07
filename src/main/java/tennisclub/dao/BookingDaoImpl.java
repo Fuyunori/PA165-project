@@ -70,7 +70,7 @@ public class BookingDaoImpl implements BookingDao {
     @Override
     public void delete(Booking booking) {
         if (!em.contains(booking)) {
-            em.merge(booking);
+            booking = em.merge(booking);
         }
         em.remove(booking);
     }

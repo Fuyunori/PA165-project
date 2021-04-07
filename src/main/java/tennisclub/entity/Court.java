@@ -25,7 +25,7 @@ public class Court {
     @Column(name = "address")
     private String address;
     private CourtType type;
-    private String previewImage;
+    private String previewImageUrl;
 
     @OneToMany(mappedBy = "court")
     private Set<Event> events = new HashSet<>();
@@ -68,12 +68,12 @@ public class Court {
         this.type = type;
     }
 
-    public String getPreviewImage() {
-        return previewImage;
+    public String getPreviewImageUrl() {
+        return previewImageUrl;
     }
 
-    public void setPreviewImage(String previewImage) {
-        this.previewImage = previewImage;
+    public void setPreviewImageUrl(String previewImageUrl) {
+        this.previewImageUrl = previewImageUrl;
     }
 
     public Set<Event> getEvents() {
@@ -82,16 +82,22 @@ public class Court {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (!(obj instanceof Court)) {
             return false;
         }
         Court otherCourt = (Court) obj;
         String name = getName();
-        return this == otherCourt || name != null && name.equals(otherCourt.getName());
+        String address = getAddress();
+        return name != null && address != null &&
+                name.equals(otherCourt.getName()) &&
+                address.equals(otherCourt.getAddress());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName());
+        return Objects.hash(getName(), getAddress());
     }
 }
