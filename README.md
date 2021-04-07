@@ -1,5 +1,7 @@
-# Milestone 1
-## Requirements
+# Tennis Club
+Wiki to the project is [here](https://github.com/Fuyunori/PA165-project/wiki).
+## Milestone 1
+### Requirements
 - create a project in a Github repository that is publicly accessible (for reading). Select a short and descriptive name. Create some project wiki to publish additional information for your project.
 - on the project wiki there will be a project description, a use case diagram and a class diagram for the entity classes. There will be at least two user roles in the use case diagram. Associations between entities will be shown in a class diagram.  
 - create 4 entity classes for your project if you are a team of four (rule: one entity for each team member).
