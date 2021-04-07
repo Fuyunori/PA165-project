@@ -8,6 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+/**
+ * @author Pavel Tobias
+ */
 @Repository
 public class CourtDaoImpl implements CourtDao {
     @PersistenceContext
@@ -20,6 +23,9 @@ public class CourtDaoImpl implements CourtDao {
 
     @Override
     public void delete(Court court) {
+        if (!manager.contains(court)){
+            manager.merge(court);
+        }
         manager.remove(court);
     }
 
@@ -32,10 +38,10 @@ public class CourtDaoImpl implements CourtDao {
     }
 
     @Override
-    public List<Court> findByAddress(String address) {
+    public List<Court> findByAddress(String addressSubstr) {
         return manager
                 .createQuery("select c from Court c where c.address like concat('%', :a, '%')", Court.class)
-                .setParameter("a", address)
+                .setParameter("a", addressSubstr)
                 .getResultList();
     }
 
