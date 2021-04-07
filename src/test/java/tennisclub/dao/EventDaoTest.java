@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.DirtiesContext;
 import tennisclub.entity.*;
 import tennisclub.entity.enums.Level;
@@ -88,7 +89,7 @@ public class EventDaoTest {
     }
 
     @Test
-    public void testEventCreation(){
+    public void testEventCreationOK(){
         Event event = new Event(eventStart, eventEnd);
         event.setCourt(eventCourt);
         eventDao.create(event);
@@ -103,7 +104,7 @@ public class EventDaoTest {
     }
 
     @Test
-    public void testBookingCreation(){
+    public void testBookingCreationOK(){
         Event booking = new Booking(bookingStart, bookingEnd);
         booking.setCourt(bookingCourt);
         eventDao.create(booking);
@@ -117,7 +118,7 @@ public class EventDaoTest {
     }
 
     @Test
-    public void testLessonCreation(){
+    public void testLessonCreationOK(){
         Event lesson = new Lesson(lessonStart, lessonEnd, Level.BEGINNER);
         lesson.setCourt(lessonCourt);
         eventDao.create(lesson);
@@ -131,7 +132,7 @@ public class EventDaoTest {
     }
 
     @Test
-    public void testTournamentCreation(){
+    public void testTournamentCreationOK(){
         Event tournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
         tournament.setCourt(tournamentCourt);
         eventDao.create(tournament);
@@ -142,6 +143,30 @@ public class EventDaoTest {
         assertThat(foundEvent.getEndTime()).isEqualTo(tournamentEnd);
         assertThat(foundEvent.getCourt()).isEqualTo(tournamentCourt);
         assertThat(foundEvent).isEqualTo(tournament);
+    }
+
+    @Test
+    public void testEventCreationWithoutCourt(){
+        Event event = new Event(eventStart, eventEnd);
+        assertThatThrownBy(() -> eventDao.create(event)).isInstanceOf(DataIntegrityViolationException.class);
+    }
+
+    @Test
+    public void testBookingCreationWithoutCourt(){
+        Event booking = new Booking(bookingStart, bookingEnd);
+        assertThatThrownBy(() -> eventDao.create(booking)).isInstanceOf(DataIntegrityViolationException.class);
+    }
+
+    @Test
+    public void testLessonCreationWithoutCourt(){
+        Event lesson = new Lesson(lessonStart, lessonEnd, Level.BEGINNER);
+        assertThatThrownBy(() -> eventDao.create(lesson)).isInstanceOf(DataIntegrityViolationException.class);
+    }
+
+    @Test
+    public void testTournamentCreationWithoutCourt(){
+        Event tournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
+        assertThatThrownBy(() -> eventDao.create(tournament)).isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
