@@ -54,7 +54,8 @@ public class LessonDaoTest {
         em.persist(student);
 
         lesson = new Lesson(LocalDateTime.of(2021, 4, 6, 13, 0 ),
-                LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.ADVANCED, 10);
+                LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.ADVANCED);
+        lesson.setCapacity(10);
         lesson.setCourt(court);
         lesson.addTeacher(teacher);
         lesson.addStudent(student);
@@ -66,7 +67,8 @@ public class LessonDaoTest {
     @Transactional
     public void testCreateLesson() {
         Lesson created = new Lesson(LocalDateTime.of(2021, 4, 6, 13, 0 ),
-                LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.ADVANCED, 10);
+                LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.ADVANCED);
+        lesson.setCapacity(10);
         created.setCourt(court);
         created.addStudent(student);
         created.addTeacher(teacher);
@@ -82,7 +84,8 @@ public class LessonDaoTest {
     @Transactional
     public void testCreateLessonWithNullCourt() {
         Lesson created = new Lesson(LocalDateTime.of(2021, 4, 6, 13, 0 ),
-                LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.ADVANCED, 10);
+                LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.ADVANCED);
+        lesson.setCapacity(10);
         created.setCourt(null);
         created.addStudent(student);
         created.addTeacher(teacher);
@@ -94,7 +97,8 @@ public class LessonDaoTest {
     @Transactional
     public void testCreateLessonWithNullStartTime() {
         Lesson created = new Lesson(null,
-                LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.ADVANCED, 10);
+                LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.ADVANCED);
+        lesson.setCapacity(10);
         created.setCourt(court);
         created.addStudent(student);
         created.addTeacher(teacher);
@@ -106,7 +110,8 @@ public class LessonDaoTest {
     @Transactional
     public void testCreateLessonWithNullEndTime() {
         Lesson created = new Lesson(LocalDateTime.of(2021, 4, 6, 13, 0 ),
-                null, Level.ADVANCED, 10);
+                null, Level.ADVANCED);
+        lesson.setCapacity(10);
         created.setCourt(court);
         created.addStudent(student);
         created.addTeacher(teacher);
@@ -118,7 +123,8 @@ public class LessonDaoTest {
     @Transactional
     public void testCreateLessonWithNullLevel() {
         Lesson created = new Lesson(LocalDateTime.of(2021, 4, 6, 13, 0 ),
-                LocalDateTime.of(2021, 4, 6, 14, 0 ), null, 10);
+                LocalDateTime.of(2021, 4, 6, 14, 0 ), null);
+        lesson.setCapacity(10);
         created.setCourt(court);
         created.addStudent(student);
         created.addTeacher(teacher);
@@ -130,7 +136,8 @@ public class LessonDaoTest {
     @Transactional
     public void testCreateLessonWithStartTimeAfterEndTime() {
         Lesson created = new Lesson(LocalDateTime.of(2021, 4, 6, 19, 0 ),
-                LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.BEGINNER, 10);
+                LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.BEGINNER);
+        lesson.setCapacity(10);
         created.setCourt(court);
         created.addStudent(student);
         created.addTeacher(teacher);
@@ -177,7 +184,8 @@ public class LessonDaoTest {
     @Transactional
     public void testFindAll() {
         Lesson anotherLesson = new Lesson(LocalDateTime.of(2021, 3, 6, 22, 30 ),
-                LocalDateTime.of(2021, 3, 6, 23, 0 ), Level.INTERMEDIATE, 5);
+                LocalDateTime.of(2021, 3, 6, 23, 0 ), Level.INTERMEDIATE);
+        lesson.setCapacity(5);
         anotherLesson.setCourt(court);
         em.persist(anotherLesson);
 
@@ -332,7 +340,8 @@ public class LessonDaoTest {
 
 
     private Lesson createLessonFromTime(LocalDateTime start, LocalDateTime end) {
-        Lesson lesson = new Lesson(start, end, Level.ADVANCED, 10);
+        Lesson lesson = new Lesson(start, end, Level.ADVANCED);
+        lesson.setCapacity(10);
         lesson.setCourt(court);
         lesson.addTeacher(teacher);
         lesson.addStudent(student);
