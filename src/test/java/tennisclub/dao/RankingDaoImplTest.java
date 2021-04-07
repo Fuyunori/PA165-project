@@ -167,26 +167,36 @@ class RankingDaoImplTest {
     }
 
     @Test
-    void update() {
+    void updateManaged() {
         Ranking ranking = new Ranking(tournament, user);
         ranking.setPlayerPlacement(1);
         manager.persist(ranking);
 
-        Ranking first = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
-        assertThat(first.getPlayerPlacement()).isEqualTo(1);
+        Ranking beforeUpdate = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
+        assertThat(beforeUpdate.getPlayerPlacement()).isEqualTo(1);
 
-        first.setPlayerPlacement(2);
-        Ranking second = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
-        assertThat(second.getPlayerPlacement()).isEqualTo(2);
+        beforeUpdate.setPlayerPlacement(2);
+        Ranking afterUpdate = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
+        assertThat(afterUpdate.getPlayerPlacement()).isEqualTo(2);
+    }
 
-        manager.detach(second);
-        second.setPlayerPlacement(3);
-        Ranking stillSecond = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
-        assertThat(stillSecond.getPlayerPlacement()).isEqualTo(2);
+    @Test
+    void updateDetached() {
+        Ranking ranking = new Ranking(tournament, user);
+        ranking.setPlayerPlacement(1);
+        manager.persist(ranking);
 
-        rankingDao.update(second);
-        Ranking charlie = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
-        assertThat(charlie.getPlayerPlacement()).isEqualTo(3);
+        Ranking beforeUpdate = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
+        assertThat(beforeUpdate.getPlayerPlacement()).isEqualTo(1);
+
+        manager.detach(beforeUpdate);
+        beforeUpdate.setPlayerPlacement(2);
+        Ranking fetched = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
+        assertThat(fetched.getPlayerPlacement()).isEqualTo(1);
+
+        rankingDao.update(beforeUpdate);
+        Ranking afterUpdate = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
+        assertThat(afterUpdate.getPlayerPlacement()).isEqualTo(2);
     }
 
     @Test
