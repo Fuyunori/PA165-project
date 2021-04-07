@@ -32,10 +32,9 @@ public class Lesson extends Event {
 
     public Lesson(){}
 
-    public Lesson(LocalDateTime startTime, LocalDateTime endTime, Level level, Integer capacity) {
+    public Lesson(LocalDateTime startTime, LocalDateTime endTime, Level level) {
         super(startTime, endTime);
         this.level = level;
-        this.capacity = capacity;
     }
 
     public Level getLevel() {
