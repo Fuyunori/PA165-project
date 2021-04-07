@@ -22,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @author Miroslav Demek
  */
 @SpringBootTest
+@Transactional
 public class LessonDaoTest {
 
     @PersistenceContext
@@ -38,7 +39,6 @@ public class LessonDaoTest {
     private Lesson lesson;
 
     @BeforeEach
-    @Transactional
     public void before() {
         court = new Court();
         court.setName("Pretty nice court");
@@ -64,7 +64,6 @@ public class LessonDaoTest {
 
 
     @Test
-    @Transactional
     public void testCreateLesson() {
         Lesson created = new Lesson(LocalDateTime.of(2021, 4, 6, 13, 0 ),
                 LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.ADVANCED);
@@ -76,12 +75,10 @@ public class LessonDaoTest {
         lessonDao.create(created);
 
         Lesson found = em.find(Lesson.class, created.getId());
-
         assertThat(found).usingRecursiveComparison().isEqualTo(created);
     }
 
     @Test
-    @Transactional
     public void testCreateLessonWithNullCourt() {
         Lesson created = new Lesson(LocalDateTime.of(2021, 4, 6, 13, 0 ),
                 LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.ADVANCED);
@@ -94,7 +91,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testCreateLessonWithNullStartTime() {
         Lesson created = new Lesson(null,
                 LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.ADVANCED);
@@ -107,7 +103,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testCreateLessonWithNullEndTime() {
         Lesson created = new Lesson(LocalDateTime.of(2021, 4, 6, 13, 0 ),
                 null, Level.ADVANCED);
@@ -120,7 +115,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testCreateLessonWithNullLevel() {
         Lesson created = new Lesson(LocalDateTime.of(2021, 4, 6, 13, 0 ),
                 LocalDateTime.of(2021, 4, 6, 14, 0 ), null);
@@ -133,7 +127,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testCreateLessonWithStartTimeAfterEndTime() {
         Lesson created = new Lesson(LocalDateTime.of(2021, 4, 6, 19, 0 ),
                 LocalDateTime.of(2021, 4, 6, 14, 0 ), Level.BEGINNER);
@@ -146,7 +139,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testUpdate() {
         Court newCourt = new Court();
         newCourt.setAddress("Praha");
@@ -173,7 +165,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testRemove() {
         lessonDao.remove(lesson);
         List<Lesson> found = em.createQuery("select l from Lesson l", Lesson.class).getResultList();
@@ -181,11 +172,10 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindAll() {
         Lesson anotherLesson = new Lesson(LocalDateTime.of(2021, 3, 6, 22, 30 ),
                 LocalDateTime.of(2021, 3, 6, 23, 0 ), Level.INTERMEDIATE);
-        lesson.setCapacity(5);
+        anotherLesson.setCapacity(5);
         anotherLesson.setCourt(court);
         em.persist(anotherLesson);
 
@@ -197,14 +187,12 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindById() {
         Lesson found = lessonDao.findById(lesson.getId());
         assertThat(found).usingRecursiveComparison().isEqualTo(lesson);
     }
 
     @Test
-    @Transactional
     public void testFindByCourt() {
         List<Lesson> found = lessonDao.findByCourt(lesson.getCourt());
         assertThat(found.size()).isEqualTo(1);
@@ -212,7 +200,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindByStartTime() {
         List<Lesson> found = lessonDao.findByStartTime(lesson.getStartTime());
         assertThat(found.size()).isEqualTo(1);
@@ -220,7 +207,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindByEndTime() {
         List<Lesson> found = lessonDao.findByEndTime(lesson.getEndTime());
         assertThat(found.size()).isEqualTo(1);
@@ -228,7 +214,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindByCapacity() {
         List<Lesson> found = lessonDao.findByCapacity(lesson.getCapacity());
         assertThat(found.size()).isEqualTo(1);
@@ -236,7 +221,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindByLevel() {
         List<Lesson> found = lessonDao.findByLevel(lesson.getLevel());
         assertThat(found.size()).isEqualTo(1);
@@ -244,7 +228,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindByIntervalContainedInLesson() {
         Lesson expected = createLessonFromTime(
                 LocalDateTime.of(2022, 10, 5, 12, 30),
@@ -262,7 +245,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindLessonContainedInInterval() {
         Lesson expected = createLessonFromTime(
                 LocalDateTime.of(2022, 10, 5, 13, 0),
@@ -280,7 +262,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindLessonIntersectingIntervalFromLeft() {
         Lesson expected = createLessonFromTime(
                 LocalDateTime.of(2022, 10, 5, 13, 0),
@@ -298,7 +279,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindLessonIntersectingIntervalFromRight() {
         Lesson expected = createLessonFromTime(
                 LocalDateTime.of(2022, 10, 5, 14, 30),
@@ -316,7 +296,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    @Transactional
     public void testFindByIntervalExclusivity() {
         Lesson expected = createLessonFromTime(
                 LocalDateTime.of(2022, 10, 5, 14, 0),
