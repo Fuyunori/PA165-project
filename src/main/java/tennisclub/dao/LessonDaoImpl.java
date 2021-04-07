@@ -28,7 +28,7 @@ public class LessonDaoImpl implements LessonDao{
     @Override
     public void remove(Lesson lesson) {
         if(!em.contains(lesson)){
-            em.merge(lesson);
+            lesson = em.merge(lesson);
         }
         em.remove(lesson);
     }

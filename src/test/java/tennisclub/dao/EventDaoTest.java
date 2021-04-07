@@ -422,8 +422,6 @@ public class EventDaoTest {
 
         Event deletedEvent = em.find(Event.class, event.getId());
 
-        // TODO - change if necessary
-        // not sure about this - in the court test, it should throw an exception
         assertThat(deletedEvent).isEqualTo(null);
     }
 
@@ -434,7 +432,6 @@ public class EventDaoTest {
 
         Event deletedEvent = em.find(Event.class, booking.getId());
 
-        // not sure about this - in the court test, it should throw an exception
         assertThat(deletedEvent).isEqualTo(null);
     }
 
@@ -445,7 +442,6 @@ public class EventDaoTest {
 
         Event deletedEvent = em.find(Event.class, lesson.getId());
 
-        // not sure about this - in the court test, it should throw an exception
         assertThat(deletedEvent).isEqualTo(null);
     }
 
@@ -456,7 +452,6 @@ public class EventDaoTest {
 
         Event deletedEvent = em.find(Event.class, tournament.getId());
 
-        // not sure about this - in the court test, it should throw an exception
         assertThat(deletedEvent).isEqualTo(null);
     }
 

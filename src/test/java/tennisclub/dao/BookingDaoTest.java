@@ -46,14 +46,6 @@ public class BookingDaoTest {
     private LocalDateTime bookingStart = eventStart.plusDays(1);
     private LocalDateTime bookingEnd = eventEnd.plusDays(1);
 
-    // day after tomorrow
-    private final LocalDateTime lessonStart = eventStart.plusDays(2);
-    private final LocalDateTime lessonEnd = eventEnd.plusDays(2);
-
-    // 3 days later
-    private final LocalDateTime tournamentStart = eventStart.plusDays(3);
-    private final LocalDateTime tournamentEnd = eventEnd.plusDays(3);
-
     // other date
     private final LocalDateTime otherStart = eventStart.plusDays(10);
     private final LocalDateTime otherEnd = eventEnd.plusDays(10);
@@ -62,7 +54,6 @@ public class BookingDaoTest {
     private Court otherCourt = new Court("Other court");
 
     private Booking booking = new Booking(bookingStart, bookingEnd);
-    private Event tournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
 
 
     @BeforeEach
@@ -110,7 +101,7 @@ public class BookingDaoTest {
     @Test
     public void testBookingUpdatingStartTimeToNull(){
         booking.setStartTime(null);
-        Event updatedEvent = bookingDao.update(booking);
+        Booking updatedEvent = bookingDao.update(booking);
 
         // check that the start time has remained the same
         assertThat(updatedEvent.getStartTime()).isEqualTo(booking.getStartTime());
@@ -120,7 +111,7 @@ public class BookingDaoTest {
     public void testBookingUpdatingEndTime(){
         // update the event - delay end time to 2 days later
         booking.setEndTime(otherEnd);
-        Event updatedEvent = bookingDao.update(booking);
+        Booking updatedEvent = bookingDao.update(booking);
 
         assertThat(updatedEvent.getStartTime()).isEqualTo(bookingStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(otherEnd);
@@ -130,7 +121,7 @@ public class BookingDaoTest {
     @Test
     public void testBookingUpdatingEndTimeToNull(){
         booking.setEndTime(null);
-        Event updatedEvent = bookingDao.update(booking);
+        Booking updatedEvent = bookingDao.update(booking);
 
         // check that the start time has remained the same
         assertThat(updatedEvent.getEndTime()).isEqualTo(booking.getEndTime());
@@ -140,7 +131,7 @@ public class BookingDaoTest {
     public void testBookingUpdatingCourt(){
         // update the event - change court
         booking.setCourt(otherCourt);
-        Event updatedEvent = bookingDao.update(booking);
+        Booking updatedEvent = bookingDao.update(booking);
 
         assertThat(updatedEvent.getStartTime()).isEqualTo(bookingStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(bookingEnd);
@@ -151,7 +142,7 @@ public class BookingDaoTest {
     public void testBookingUpdatingCourtToNull(){
         // update the event - change court
         booking.setCourt(null);
-        Event updatedEvent = bookingDao.update(booking);
+        Booking updatedEvent = bookingDao.update(booking);
 
         // check that the start time has remained the same
         assertThat(updatedEvent.getCourt()).isEqualTo(booking.getCourt());
@@ -162,15 +153,14 @@ public class BookingDaoTest {
         // delete the event
         bookingDao.delete(booking);
 
-        Event deletedEvent = em.find(Event.class, booking.getId());
+        Booking deletedEvent = em.find(Booking.class, booking.getId());
 
-        // not sure about this - in the court test, it should throw an exception
         assertThat(deletedEvent).isEqualTo(null);
     }
 
     @Test
     public void findBookingById(){
-        Event foundEvent = bookingDao.findById(booking.getId());
+        Booking foundEvent = bookingDao.findById(booking.getId());
 
         assertThat(foundEvent.getStartTime()).isEqualTo(bookingStart);
         assertThat(foundEvent.getEndTime()).isEqualTo(bookingEnd);

@@ -82,16 +82,22 @@ public class Court {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (!(obj instanceof Court)) {
             return false;
         }
         Court otherCourt = (Court) obj;
         String name = getName();
-        return this == otherCourt || name != null && name.equals(otherCourt.getName());
+        String address = getAddress();
+        return name != null && address != null &&
+                name.equals(otherCourt.getName()) &&
+                address.equals(otherCourt.getAddress());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName());
+        return Objects.hash(getName(), getAddress());
     }
 }
