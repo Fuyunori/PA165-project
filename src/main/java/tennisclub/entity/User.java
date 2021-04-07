@@ -50,7 +50,7 @@ public class User {
 
     public void setUsername(String username) { this.username = username; }
 
-    public boolean verifyPasswordHash(String hash) { return hash.equals(passwordHash); }
+    public String getPasswordHash() { return passwordHash; }
 
     public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
 
