@@ -62,28 +62,6 @@ class RankingDaoImplTest {
     }
 
     @Test
-    void nullTournament() {
-        assertThrows(
-                ConstraintViolationException.class,
-                () -> {
-                    rankingDao.create(new Ranking(null, user));
-                    manager.flush();
-                }
-        );
-    }
-
-    @Test
-    void nullUser() {
-        assertThrows(
-                ConstraintViolationException.class,
-                () -> {
-                    rankingDao.create(new Ranking(tournament, null));
-                    manager.flush();
-                }
-        );
-    }
-
-    @Test
     void primaryKeyUniqueness() {
         assertThrows(
                 DataIntegrityViolationException.class,
