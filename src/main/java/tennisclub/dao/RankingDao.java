@@ -50,7 +50,7 @@ public interface RankingDao {
     void update(Ranking ranking);
 
     /**
-     * Delete a
+     * Delete a Ranking
      * @param ranking to be deleted
      */
     void delete(Ranking ranking);
