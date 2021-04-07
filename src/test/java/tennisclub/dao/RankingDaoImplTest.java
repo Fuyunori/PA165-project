@@ -182,4 +182,22 @@ class RankingDaoImplTest {
         Ranking charlie = manager.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
         assertThat(charlie.getPlayerPlacement()).isEqualTo(3);
     }
+
+    @Test
+    void delete() {
+        Ranking deletedRanking = new Ranking(tournament, user);
+        Ranking keptRanking1 = new Ranking(otherTournament, user);
+        Ranking keptRanking2 = new Ranking(tournament, otherUser);
+        manager.persist(deletedRanking);
+        manager.persist(keptRanking1);
+        manager.persist(keptRanking2);
+
+        rankingDao.delete(deletedRanking);
+
+        List<Ranking> allRankings = manager.createQuery("select r from Ranking r", Ranking.class).getResultList();
+        assertThat(allRankings.size()).isEqualTo(2);
+        assertThat(allRankings).doesNotContain(deletedRanking);
+        assertThat(allRankings).contains(keptRanking1);
+        assertThat(allRankings).contains(keptRanking2);
+    }
 }
