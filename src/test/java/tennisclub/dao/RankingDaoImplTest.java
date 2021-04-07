@@ -119,4 +119,50 @@ class RankingDaoImplTest {
         assertThat(rankingDao.find(tournament, otherUser)).isEqualTo(ranking3);
         assertThrows(EmptyResultDataAccessException.class, () -> rankingDao.find(otherTournament, otherUser));
     }
+
+    @Test
+    @Transactional
+    void findByTournament() {
+        Ranking ranking1 = new Ranking(tournament, user);
+        Ranking ranking2 = new Ranking(otherTournament, user);
+        Ranking ranking3 = new Ranking(tournament, otherUser);
+        manager.persist(ranking1);
+        manager.persist(ranking2);
+        manager.persist(ranking3);
+
+        List<Ranking> byTournament = rankingDao.findByTournament(tournament);
+        assertThat(byTournament.size()).isEqualTo(2);
+        assertThat(byTournament).contains(ranking1);
+        assertThat(byTournament).doesNotContain(ranking2);
+        assertThat(byTournament).contains(ranking3);
+
+        List<Ranking> byOtherTournament = rankingDao.findByTournament(otherTournament);
+        assertThat(byOtherTournament.size()).isEqualTo(1);
+        assertThat(byOtherTournament).doesNotContain(ranking1);
+        assertThat(byOtherTournament).contains(ranking2);
+        assertThat(byOtherTournament).doesNotContain(ranking3);
+    }
+
+    @Test
+    @Transactional
+    void findByUser() {
+        Ranking ranking1 = new Ranking(tournament, user);
+        Ranking ranking2 = new Ranking(otherTournament, user);
+        Ranking ranking3 = new Ranking(tournament, otherUser);
+        manager.persist(ranking1);
+        manager.persist(ranking2);
+        manager.persist(ranking3);
+
+        List<Ranking> byUser = rankingDao.findByUser(user);
+        assertThat(byUser.size()).isEqualTo(2);
+        assertThat(byUser).contains(ranking1);
+        assertThat(byUser).contains(ranking2);
+        assertThat(byUser).doesNotContain(ranking3);
+
+        List<Ranking> byOtherUser = rankingDao.findByUser(otherUser);
+        assertThat(byOtherUser.size()).isEqualTo(1);
+        assertThat(byOtherUser).doesNotContain(ranking1);
+        assertThat(byOtherUser).doesNotContain(ranking2);
+        assertThat(byOtherUser).contains(ranking3);
+    }
 }
