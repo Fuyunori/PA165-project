@@ -10,6 +10,7 @@ import tennisclub.entity.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -101,10 +102,11 @@ public class BookingDaoTest {
     @Test
     public void testBookingUpdatingStartTimeToNull(){
         booking.setStartTime(null);
-        Booking updatedEvent = bookingDao.update(booking);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getStartTime()).isEqualTo(booking.getStartTime());
+        assertThatThrownBy(() -> {
+            bookingDao.update(booking);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -121,10 +123,11 @@ public class BookingDaoTest {
     @Test
     public void testBookingUpdatingEndTimeToNull(){
         booking.setEndTime(null);
-        Booking updatedEvent = bookingDao.update(booking);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getEndTime()).isEqualTo(booking.getEndTime());
+        assertThatThrownBy(() -> {
+            bookingDao.update(booking);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -142,10 +145,11 @@ public class BookingDaoTest {
     public void testBookingUpdatingCourtToNull(){
         // update the event - change court
         booking.setCourt(null);
-        Booking updatedEvent = bookingDao.update(booking);
 
-        // check that the start time has remained the same
-        assertThat(updatedEvent.getCourt()).isEqualTo(booking.getCourt());
+        assertThatThrownBy(() -> {
+            bookingDao.update(booking);
+            em.flush();
+        }).isInstanceOf(PersistenceException.class);
     }
 
     @Test
