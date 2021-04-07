@@ -62,6 +62,34 @@ public class User {
 
     public void setRole(Role role) { this.role = role; }
 
+
+    public Set<Booking> getBookings() { return bookings; }
+
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+        booking.addUser(this);
+    }
+
+    public Set<Lesson> getLessonsToTeach() { return lessonsToTeach; }
+
+    public void addLessonToTeach(Lesson lesson) {
+        lessonsToTeach.add(lesson);
+        lesson.addTeacher(this);
+    }
+
+    public Set<Lesson> getLessonsToAttend() { return lessonsToAttend; }
+
+    public void addLessonToAttend(Lesson lesson) {
+        lessonsToAttend.add(lesson);
+        lesson.addStudent(this);
+    }
+
+    public Set<Ranking> getRankings() { return rankings; }
+
+    public void addRanking(Ranking ranking) {
+        rankings.add(ranking);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
