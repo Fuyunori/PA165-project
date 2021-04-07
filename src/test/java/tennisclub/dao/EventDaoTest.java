@@ -208,4 +208,45 @@ public class EventDaoTest {
         // not sure about this - in the court test, it should throw an exception
         assertThat(deletedEvent).isEqualTo(null);
     }
+
+
+    @Test
+    public void findEventById(){
+        Event foundEvent = eventDao.findById(event.getId());
+
+        assertThat(foundEvent.getStartTime()).isEqualTo(start);
+        assertThat(foundEvent.getEndTime()).isEqualTo(end);
+        assertThat(foundEvent.getCourt()).isEqualTo(court);
+        assertThat(foundEvent).isEqualTo(event);
+    }
+
+    @Test
+    public void findBookingById(){
+        Event foundEvent = eventDao.findById(booking.getId());
+
+        assertThat(foundEvent.getStartTime()).isEqualTo(start);
+        assertThat(foundEvent.getEndTime()).isEqualTo(end);
+        assertThat(foundEvent.getCourt()).isEqualTo(court);
+        assertThat(foundEvent).isEqualTo(booking);
+    }
+
+    @Test
+    public void findLessonById(){
+        Event foundEvent = eventDao.findById(lesson.getId());
+
+        assertThat(foundEvent.getStartTime()).isEqualTo(start);
+        assertThat(foundEvent.getEndTime()).isEqualTo(end);
+        assertThat(foundEvent.getCourt()).isEqualTo(court);
+        assertThat(foundEvent).isEqualTo(lesson);
+    }
+
+    @Test
+    public void findTournamentById(){
+        Event foundEvent = eventDao.findById(tournament.getId());
+
+        assertThat(foundEvent.getStartTime()).isEqualTo(start);
+        assertThat(foundEvent.getEndTime()).isEqualTo(end);
+        assertThat(foundEvent.getCourt()).isEqualTo(court);
+        assertThat(foundEvent).isEqualTo(tournament);
+    }
 }
