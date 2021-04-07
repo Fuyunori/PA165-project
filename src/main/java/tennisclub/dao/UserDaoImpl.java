@@ -1,6 +1,7 @@
 package tennisclub.dao;
 
 import org.springframework.stereotype.Repository;
+import tennisclub.entity.Booking;
 import tennisclub.entity.User;
 
 import javax.persistence.EntityManager;
@@ -63,6 +64,10 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void delete(User user) {
+        if (!em.contains(user)) {
+            em.merge(user);
+        }
         em.remove(user);
     }
+
 }
