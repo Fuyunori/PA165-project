@@ -17,9 +17,9 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
+import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -44,17 +44,11 @@ class RankingDaoImplTest {
         court.setName("My Court");
         manager.persist(court);
 
-        tournament = new Tournament();
-        tournament.setStartTime(LocalDateTime.now());
-        tournament.setEndTime(LocalDateTime.now().plusHours(1));
-        tournament.setPrize(10000);
+        tournament = new Tournament(now(), now().plusHours(1), 10, 10000);
         tournament.setCourt(court);
         manager.persist(tournament);
 
-        otherTournament = new Tournament();
-        otherTournament.setStartTime(LocalDateTime.now().plusHours(1));
-        otherTournament.setEndTime(LocalDateTime.now().plusHours(2));
-        otherTournament.setPrize(5000);
+        otherTournament = new Tournament(now().plusHours(1), now().plusHours(2), 8, 5000);
         otherTournament.setCourt(court);
         manager.persist(otherTournament);
 
