@@ -95,11 +95,10 @@ class UserDaoImplTest {
         manager.persist(createdUser2);
         manager.persist(createdUser3);
 
-        List<User> foundUsers = userDao.findByUsername("honza42");
-        assertThat(foundUsers.size()).isEqualTo(1);
-        assertThat(foundUsers).contains(createdUser1);
-        assertThat(foundUsers).doesNotContain(createdUser2);
-        assertThat(foundUsers).doesNotContain(createdUser3);
+        User foundUser = userDao.findByUsername("honza42");
+        assertThat(foundUser).isEqualTo(createdUser1);
+        assertThat(foundUser).isNotEqualTo(createdUser2);
+        assertThat(foundUser).isNotEqualTo(createdUser3);
     }
 
     @Test
