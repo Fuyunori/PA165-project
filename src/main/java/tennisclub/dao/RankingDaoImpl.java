@@ -24,10 +24,10 @@ public class RankingDaoImpl implements RankingDao {
     }
 
     @Override
-    public Ranking find(Tournament tournament, User user) {
-        return em.createQuery("select r from Ranking r where r.tournament = :t and r.user = :u", Ranking.class)
+    public Ranking find(Tournament tournament, User player) {
+        return em.createQuery("select r from Ranking r where r.tournament = :t and r.player = :p", Ranking.class)
                 .setParameter("t", tournament)
-                .setParameter("u", user)
+                .setParameter("p", player)
                 .getSingleResult();
     }
 
@@ -39,9 +39,9 @@ public class RankingDaoImpl implements RankingDao {
     }
 
     @Override
-    public List<Ranking> findByUser(User user) {
-        return em.createQuery("select r from Ranking r where r.user=:user", Ranking.class)
-                .setParameter("user", user)
+    public List<Ranking> findByUser(User player) {
+        return em.createQuery("select r from Ranking r where r.player=:player", Ranking.class)
+                .setParameter("player", player)
                 .getResultList();
     }
 

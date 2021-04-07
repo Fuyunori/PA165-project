@@ -14,6 +14,10 @@ public class RankingId implements Serializable {
 
     private User player;
 
+    protected RankingId() {
+
+    }
+
     public RankingId(Tournament tournament, User player) {
         this.tournament = tournament;
         this.player = player;
