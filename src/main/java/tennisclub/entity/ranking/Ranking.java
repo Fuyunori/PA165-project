@@ -40,6 +40,10 @@ public class Ranking {
         return tournament;
     }
 
+    public void setTournament(Tournament tournament){
+        this.tournament = tournament;
+    }
+
     public User getUser() {
         return user;
     }

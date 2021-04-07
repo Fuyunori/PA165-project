@@ -20,7 +20,7 @@ public class Tournament extends Event  {
     @NotNull
     private Integer prize;
 
-    @OneToMany
+    @OneToMany(mappedBy = "tournament")
     private Set<Ranking> rankings = new HashSet<>();
 
     public Tournament(){}
@@ -54,5 +54,6 @@ public class Tournament extends Event  {
 
     public void addRanking(Ranking ranking){
         rankings.add(ranking);
+        ranking.setTournament(this);
     }
 }
