@@ -660,4 +660,148 @@ public class EventDaoTest {
         assertThat(allEvents).contains(lesson);
         assertThat(allEvents).contains(tournament);
     }
+
+    @Test
+    public void findEventByTimeIntervalStartTimeIsEqualToTo(){
+        Event otherEvent = new Event(eventEnd, eventEnd);
+        otherEvent.setCourt(otherCourt);
+        em.persist(otherEvent);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(eventStart, eventEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherEvent);
+    }
+
+    @Test
+    public void findEventByTimeIntervalEndTimeIsEqualToFrom(){
+        Event otherEvent = new Event(eventStart, eventStart);
+        otherEvent.setCourt(otherCourt);
+        em.persist(otherEvent);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(eventStart, eventEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherEvent);
+    }
+
+    @Test
+    public void findEventByTimeIntervalBothTimesAreOK(){
+        Event otherEvent = new Event(eventStart, eventEnd);
+        otherEvent.setCourt(otherCourt);
+        em.persist(otherEvent);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(eventStart, eventEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(otherEvent);
+    }
+
+    @Test
+    public void findBookingByTimeIntervalStartTimeIsEqualToTo(){
+        Event otherBooking = new Booking(bookingEnd, bookingEnd);
+        otherBooking.setCourt(otherCourt);
+        em.persist(otherBooking);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherBooking);
+    }
+
+    @Test
+    public void findBookingByTimeIntervalEndTimeIsEqualToFrom(){
+        Event otherBooking = new Booking(bookingStart, bookingStart);
+        otherBooking.setCourt(otherCourt);
+        em.persist(otherBooking);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherBooking);
+    }
+
+    @Test
+    public void findBookingByTimeIntervalBothTimesAreOK(){
+        Event otherBooking = new Booking(bookingStart, bookingEnd);
+        otherBooking.setCourt(otherCourt);
+        em.persist(otherBooking);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(otherBooking);
+    }
+
+    @Test
+    public void findLessonByTimeIntervalStartTimeIsEqualToTo(){
+        Event otherLesson = new Lesson(lessonEnd, lessonEnd, Level.BEGINNER);
+        otherLesson.setCourt(otherCourt);
+        em.persist(otherLesson);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(lessonStart, lessonEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherLesson);
+    }
+
+    @Test
+    public void findLessonByTimeIntervalEndTimeIsEqualToFrom(){
+        Event otherLesson = new Lesson(lessonStart, lessonStart, Level.BEGINNER);
+        otherLesson.setCourt(otherCourt);
+        em.persist(otherLesson);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(lessonStart, lessonEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherLesson);
+    }
+
+    @Test
+    public void findLessonByTimeIntervalBothTimesAreOK(){
+        Event otherLesson = new Lesson(lessonStart, lessonEnd, Level.BEGINNER);
+        otherLesson.setCourt(otherCourt);
+        em.persist(otherLesson);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(lessonStart, lessonEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(otherLesson);
+    }
+
+    @Test
+    public void findTournamentByTimeIntervalStartTimeIsEqualToTo(){
+        Event otherTournament = new Tournament(tournamentEnd, tournamentEnd, 10, 10000);
+        otherTournament.setCourt(otherCourt);
+        em.persist(otherTournament);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(tournamentStart, tournamentEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherTournament);
+    }
+
+    @Test
+    public void findTournamentByTimeIntervalEndTimeIsEqualToFrom(){
+        Event otherTournament = new Tournament(tournamentStart, tournamentStart, 10, 10000);
+        otherTournament.setCourt(otherCourt);
+        em.persist(otherTournament);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(tournamentStart, tournamentEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).doesNotContain(otherTournament);
+    }
+
+    @Test
+    public void findTournamentByTimeIntervalBothTimesAreOK(){
+        Event otherTournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
+        otherTournament.setCourt(otherCourt);
+        em.persist(otherTournament);
+
+        List<Event> foundEvents = eventDao.findByTimeInterval(tournamentStart, tournamentEnd);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(otherTournament);
+    }
 }
