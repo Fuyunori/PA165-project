@@ -29,7 +29,7 @@ public class Ranking {
 
     private int playerPlacement;
 
-    public Ranking() { }
+    protected Ranking() { }
 
     public Ranking(Tournament tournament, User user) {
         this.tournament = tournament;
