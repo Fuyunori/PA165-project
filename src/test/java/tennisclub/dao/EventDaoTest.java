@@ -20,7 +20,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-
+/**
+ * Tests for Event.
+ * @author Xuan Linh Phamová
+ */
 @SpringBootTest
 @Transactional
 public class EventDaoTest {
