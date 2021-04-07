@@ -25,23 +25,25 @@ public class Ranking {
     @ManyToOne
     @NotNull
     @Id
-    private User user;
+    private User player;
 
     private int playerPlacement;
 
-    public  Ranking() { }
+    public Ranking() { }
 
     public Ranking(Tournament tournament, User user) {
         this.tournament = tournament;
-        this.user = user;
+        this.player = user;
+        user.addRanking(this);
+        tournament.addRanking(this);
     }
 
     public Tournament getTournament() {
         return tournament;
     }
 
-    public User getUser() {
-        return user;
+    public User getPlayer() {
+        return player;
     }
 
     public void setPlayerPlacement(int playerPlacement) {
@@ -60,13 +62,13 @@ public class Ranking {
         Ranking ranking = (Ranking) o;
 
         if (!getTournament().equals(ranking.getTournament())) return false;
-        return getUser().equals(ranking.getUser());
+        return getPlayer().equals(ranking.getPlayer());
     }
 
     @Override
     public int hashCode() {
         int result = getTournament().hashCode();
-        result = 31 * result + getUser().hashCode();
+        result = 31 * result + getPlayer().hashCode();
         return result;
     }
 }
