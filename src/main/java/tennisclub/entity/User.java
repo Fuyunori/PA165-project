@@ -5,6 +5,7 @@ import tennisclub.entity.ranking.Ranking;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.awt.print.Book;
 import java.util.Collections;
 import java.util.HashSet;
 
@@ -74,6 +75,11 @@ public class User {
         booking.addUser(this);
     }
 
+    public void removeBooking(Booking booking) {
+        bookings.remove(booking);
+        booking.removeUser(this);
+    }
+
     public Set<Lesson> getLessonsToTeach() { return Collections.unmodifiableSet(lessonsToTeach); }
 
     public void addLessonToTeach(Lesson lesson) {
@@ -81,11 +87,21 @@ public class User {
         lesson.addTeacher(this);
     }
 
+    public void removeLessonToTeach(Lesson lesson) {
+        lessonsToTeach.remove(lesson);
+        lesson.removeTeacher(this);
+    }
+
     public Set<Lesson> getLessonsToAttend() { return Collections.unmodifiableSet(lessonsToAttend); }
 
     public void addLessonToAttend(Lesson lesson) {
         lessonsToAttend.add(lesson);
         lesson.addStudent(this);
+    }
+
+    public void removeLessonToAttend(Lesson lesson) {
+        lessonsToAttend.remove(lesson);
+        lesson.removeStudent(this);
     }
 
     public Set<Ranking> getRankings() { return Collections.unmodifiableSet(rankings); }
