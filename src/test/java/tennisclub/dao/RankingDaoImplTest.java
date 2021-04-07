@@ -22,6 +22,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@Transactional
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class RankingDaoImplTest {
@@ -36,7 +37,7 @@ class RankingDaoImplTest {
     @PersistenceContext
     EntityManager manager;
 
-    @BeforeEach()
+    @BeforeEach
     void initRankingDeps() {
         Court court = new Court();
         court.setName("My Court");
@@ -66,7 +67,6 @@ class RankingDaoImplTest {
     }
 
     @Test
-    @Transactional
     void nullTournament() {
         assertThrows(
                 ConstraintViolationException.class,
@@ -78,7 +78,6 @@ class RankingDaoImplTest {
     }
 
     @Test
-    @Transactional
     void nullUser() {
         assertThrows(
                 ConstraintViolationException.class,
@@ -90,7 +89,6 @@ class RankingDaoImplTest {
     }
 
     @Test
-    @Transactional
     void create() {
         Ranking createdRanking = new Ranking(tournament, user);
         createdRanking.setPlayerPlacement(42);
@@ -104,7 +102,6 @@ class RankingDaoImplTest {
     }
 
     @Test
-    @Transactional
     void find() {
         Ranking ranking1 = new Ranking(tournament, user);
         Ranking ranking2 = new Ranking(otherTournament, user);
@@ -120,7 +117,6 @@ class RankingDaoImplTest {
     }
 
     @Test
-    @Transactional
     void findByTournament() {
         Ranking ranking1 = new Ranking(tournament, user);
         Ranking ranking2 = new Ranking(otherTournament, user);
@@ -143,7 +139,6 @@ class RankingDaoImplTest {
     }
 
     @Test
-    @Transactional
     void findByUser() {
         Ranking ranking1 = new Ranking(tournament, user);
         Ranking ranking2 = new Ranking(otherTournament, user);
@@ -166,7 +161,6 @@ class RankingDaoImplTest {
     }
 
     @Test
-    @Transactional
     void update() {
         Ranking ranking = new Ranking(tournament, user);
         ranking.setPlayerPlacement(1);
