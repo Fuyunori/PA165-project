@@ -8,6 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+/**
+ * @author Pavel Tobias
+ */
 @Repository
 public class CourtDaoImpl implements CourtDao {
     @PersistenceContext
