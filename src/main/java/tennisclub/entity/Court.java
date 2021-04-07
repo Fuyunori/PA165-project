@@ -18,7 +18,7 @@ public class Court {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false, name = "name")
+    @Column(name = "name")
     @NotNull
     private String name;
 
@@ -27,8 +27,7 @@ public class Court {
     private CourtType type;
     private String previewImage;
 
-    // TODO remove eager fetching after figuring out how to do without it
-    @OneToMany(mappedBy = "court", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "court")
     private Set<Event> events = new HashSet<>();
 
     public Court() {}
@@ -39,6 +38,10 @@ public class Court {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -82,12 +85,13 @@ public class Court {
         if (!(obj instanceof Court)) {
             return false;
         }
-        Court court = (Court) obj;
-        return this == court || name != null && name.equals(court.name);
+        Court otherCourt = (Court) obj;
+        String name = getName();
+        return this == otherCourt || name != null && name.equals(otherCourt.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(getName());
     }
 }

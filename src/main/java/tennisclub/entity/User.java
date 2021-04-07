@@ -27,6 +27,7 @@ public class User {
 
     private  String passwordHash;
 
+    @Column(unique = true)
     private String email;
 
     @Enumerated
@@ -45,6 +46,8 @@ public class User {
     private Set<Ranking> rankings = new HashSet<>();
 
     public Long getId() { return id; }
+
+    public void setId(Long id) { this.id = id; }
 
     public String getName() { return name; }
 

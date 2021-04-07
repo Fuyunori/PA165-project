@@ -23,9 +23,13 @@ import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * Tests for Ranking.
+ * @author Pavel Tobiáš
+ */
 @Transactional
 @SpringBootTest
-class RankingDaoImplTest {
+class RankingDaoTest {
     private Tournament tournament;
     private Tournament otherTournament;
     private User user;

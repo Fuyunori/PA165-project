@@ -27,7 +27,7 @@ public class Ranking {
     @Id
     private User player;
 
-    private int playerPlacement;
+    private Integer playerPlacement;
 
     protected Ranking() { }
 
@@ -50,7 +50,7 @@ public class Ranking {
         this.tournament = tournament;
     }
 
-    public void setPlayerPlacement(int playerPlacement) {
+    public void setPlayerPlacement(Integer playerPlacement) {
         this.playerPlacement = playerPlacement;
     }
 
