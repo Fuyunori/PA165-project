@@ -181,6 +181,15 @@ public class EventDaoTest {
     }
 
     @Test
+    public void testEventUpdatingStartTimeToNull(){
+        event.setStartTime(null);
+        Event updatedEvent = eventDao.update(event);
+
+        // check that the start time has remained the same
+        assertThat(updatedEvent.getStartTime()).isEqualTo(event.getStartTime());
+    }
+
+    @Test
     public void testEventUpdatingEndTime(){
         // update the event - delay end time to 2 days later
         event.setEndTime(eventEnd.plusDays(2));
@@ -189,6 +198,15 @@ public class EventDaoTest {
         assertThat(updatedEvent.getStartTime()).isEqualTo(eventStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(eventEnd.plusDays(2));
         assertThat(updatedEvent.getCourt()).isEqualTo(eventCourt);
+    }
+
+    @Test
+    public void testEventUpdatingEndTimeToNull(){
+        event.setEndTime(null);
+        Event updatedEvent = eventDao.update(event);
+
+        // check that the start time has remained the same
+        assertThat(updatedEvent.getEndTime()).isEqualTo(event.getEndTime());
     }
 
     @Test
@@ -203,6 +221,16 @@ public class EventDaoTest {
     }
 
     @Test
+    public void testEventUpdatingCourtToNull(){
+        // update the event - change court
+        event.setCourt(null);
+        Event updatedEvent = eventDao.update(event);
+
+        // check that the start time has remained the same
+        assertThat(updatedEvent.getCourt()).isEqualTo(event.getCourt());
+    }
+
+    @Test
     public void testBookingUpdatingStartTime(){
         // update the event - delay start time to 2 days later
         booking.setStartTime(otherStart);
@@ -211,6 +239,15 @@ public class EventDaoTest {
         assertThat(updatedEvent.getStartTime()).isEqualTo(otherStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(bookingEnd);
         assertThat(updatedEvent.getCourt()).isEqualTo(bookingCourt);
+    }
+
+    @Test
+    public void testBookingUpdatingStartTimeToNull(){
+        booking.setStartTime(null);
+        Event updatedEvent = eventDao.update(booking);
+
+        // check that the start time has remained the same
+        assertThat(updatedEvent.getStartTime()).isEqualTo(booking.getStartTime());
     }
 
     @Test
@@ -225,6 +262,15 @@ public class EventDaoTest {
     }
 
     @Test
+    public void testBookingUpdatingEndTimeToNull(){
+        booking.setEndTime(null);
+        Event updatedEvent = eventDao.update(booking);
+
+        // check that the start time has remained the same
+        assertThat(updatedEvent.getEndTime()).isEqualTo(booking.getEndTime());
+    }
+
+    @Test
     public void testBookingUpdatingCourt(){
         // update the event - change court
         booking.setCourt(otherCourt);
@@ -233,6 +279,16 @@ public class EventDaoTest {
         assertThat(updatedEvent.getStartTime()).isEqualTo(bookingStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(bookingEnd);
         assertThat(updatedEvent.getCourt()).isEqualTo(otherCourt);
+    }
+
+    @Test
+    public void testBookingUpdatingCourtToNull(){
+        // update the event - change court
+        booking.setCourt(null);
+        Event updatedEvent = eventDao.update(booking);
+
+        // check that the start time has remained the same
+        assertThat(updatedEvent.getCourt()).isEqualTo(booking.getCourt());
     }
 
     @Test
@@ -247,6 +303,15 @@ public class EventDaoTest {
     }
 
     @Test
+    public void testLessonUpdatingStartTimeToNull(){
+        lesson.setStartTime(null);
+        Event updatedEvent = eventDao.update(lesson);
+
+        // check that the start time has remained the same
+        assertThat(updatedEvent.getStartTime()).isEqualTo(lesson.getStartTime());
+    }
+
+    @Test
     public void testLessonUpdatingEndTime(){
         // update the event - delay end time to 2 days later
         lesson.setEndTime(otherEnd);
@@ -255,6 +320,15 @@ public class EventDaoTest {
         assertThat(updatedEvent.getStartTime()).isEqualTo(lessonStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(otherEnd);
         assertThat(updatedEvent.getCourt()).isEqualTo(lessonCourt);
+    }
+
+    @Test
+    public void testLessonUpdatingEndTimeToNull(){
+        lesson.setEndTime(null);
+        Event updatedEvent = eventDao.update(lesson);
+
+        // check that the start time has remained the same
+        assertThat(updatedEvent.getEndTime()).isEqualTo(lesson.getEndTime());
     }
 
     @Test
@@ -269,6 +343,16 @@ public class EventDaoTest {
     }
 
     @Test
+    public void testLessonUpdatingCourtToNull(){
+        // update the event - change court
+        lesson.setCourt(null);
+        Event updatedEvent = eventDao.update(lesson);
+
+        // check that the start time has remained the same
+        assertThat(updatedEvent.getCourt()).isEqualTo(lesson.getCourt());
+    }
+
+    @Test
     public void testTournamentUpdatingStartTime(){
         // update the event - delay start time to 2 days later
         tournament.setStartTime(otherStart);
@@ -277,6 +361,15 @@ public class EventDaoTest {
         assertThat(updatedEvent.getStartTime()).isEqualTo(otherStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(tournamentEnd);
         assertThat(updatedEvent.getCourt()).isEqualTo(tournamentCourt);
+    }
+
+    @Test
+    public void testTournamentUpdatingStartTimeToNull(){
+        tournament.setStartTime(null);
+        Event updatedEvent = eventDao.update(tournament);
+
+        // check that the start time has remained the same
+        assertThat(updatedEvent.getStartTime()).isEqualTo(tournament.getStartTime());
     }
 
     @Test
@@ -291,6 +384,15 @@ public class EventDaoTest {
     }
 
     @Test
+    public void testTournamentUpdatingEndTimeToNull(){
+        tournament.setEndTime(null);
+        Event updatedEvent = eventDao.update(tournament);
+
+        // check that the start time has remained the same
+        assertThat(updatedEvent.getEndTime()).isEqualTo(tournament.getEndTime());
+    }
+
+    @Test
     public void testTournamentUpdatingCourt(){
         // update the event - change court
         tournament.setCourt(otherCourt);
@@ -299,6 +401,16 @@ public class EventDaoTest {
         assertThat(updatedEvent.getStartTime()).isEqualTo(tournamentStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(tournamentEnd);
         assertThat(updatedEvent.getCourt()).isEqualTo(otherCourt);
+    }
+
+    @Test
+    public void testTournamentUpdatingCourtToNull(){
+        // update the event - change court
+        tournament.setCourt(null);
+        Event updatedEvent = eventDao.update(tournament);
+
+        // check that the start time has remained the same
+        assertThat(updatedEvent.getCourt()).isEqualTo(tournament.getCourt());
     }
 
     @Test
