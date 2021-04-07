@@ -32,7 +32,7 @@ public class TournamentDaoImpl implements TournamentDao {
     @Override
     public void remove(Tournament tournament) {
         if(!em.contains(tournament)){
-            em.merge(tournament);
+            tournament = em.merge(tournament);
         }
         em.remove(tournament);
     }
