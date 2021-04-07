@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -248,5 +249,137 @@ public class EventDaoTest {
         assertThat(foundEvent.getEndTime()).isEqualTo(end);
         assertThat(foundEvent.getCourt()).isEqualTo(court);
         assertThat(foundEvent).isEqualTo(tournament);
+    }
+
+    @Test
+    public void findEventsByCourtOfWhichThereAreTwoSharingTheSameCourt(){
+        Event otherEvent = new Event(start, end);
+        otherEvent.setCourt(court);
+        em.persist(otherEvent);
+
+        List<Event> foundEvents = eventDao.findByCourt(court);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(booking);
+        assertThat(foundEvents).contains(lesson);
+        assertThat(foundEvents).contains(tournament);
+        assertThat(foundEvents).contains(otherEvent);
+    }
+
+    @Test
+    public void findEventsByCourtOfWhichThereAreTwoNotSharingTheSameCourt(){
+        Court otherCourt = new Court("Court 2");
+        em.persist(otherCourt);
+
+        Event otherEvent = new Event(start, end);
+        otherEvent.setCourt(otherCourt);
+        em.persist(otherEvent);
+
+        List<Event> foundEvents = eventDao.findByCourt(court);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(booking);
+        assertThat(foundEvents).contains(lesson);
+        assertThat(foundEvents).contains(tournament);
+        assertThat(foundEvents).doesNotContain(otherEvent);
+    }
+
+    @Test
+    public void findBookingsByCourtOfWhichThereAreTwoSharingTheSameCourt(){
+        Event otherBooking = new Booking(start, end);
+        otherBooking.setCourt(court);
+        em.persist(otherBooking);
+
+        List<Event> foundEvents = eventDao.findByCourt(court);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(booking);
+        assertThat(foundEvents).contains(lesson);
+        assertThat(foundEvents).contains(tournament);
+        assertThat(foundEvents).contains(otherBooking);
+    }
+
+    @Test
+    public void findBookingsByCourtOfWhichThereAreTwoNotSharingTheSameCourt(){
+        Court otherCourt = new Court("Court 2");
+        em.persist(otherCourt);
+
+        Event otherBooking = new Event(start, end);
+        otherBooking.setCourt(otherCourt);
+        em.persist(otherBooking);
+
+        List<Event> foundEvents = eventDao.findByCourt(court);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(booking);
+        assertThat(foundEvents).contains(lesson);
+        assertThat(foundEvents).contains(tournament);
+        assertThat(foundEvents).doesNotContain(otherBooking);
+    }
+
+    @Test
+    public void findLessonsByCourtOfWhichThereAreTwoSharingTheSameCourt(){
+        Event otherLesson = new Lesson(start, end, Level.BEGINNER, 10);
+        otherLesson.setCourt(court);
+        em.persist(otherLesson);
+
+        List<Event> foundEvents = eventDao.findByCourt(court);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(booking);
+        assertThat(foundEvents).contains(lesson);
+        assertThat(foundEvents).contains(tournament);
+        assertThat(foundEvents).contains(otherLesson);
+    }
+
+    @Test
+    public void findLessonsByCourtOfWhichThereAreTwoNotSharingTheSameCourt(){
+        Court otherCourt = new Court("Court 2");
+        em.persist(otherCourt);
+
+        Event otherEvent = new Lesson(start, end, Level.BEGINNER, 10);
+        otherEvent.setCourt(otherCourt);
+        em.persist(otherEvent);
+
+        List<Event> foundEvents = eventDao.findByCourt(court);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(booking);
+        assertThat(foundEvents).contains(lesson);
+        assertThat(foundEvents).contains(tournament);
+        assertThat(foundEvents).doesNotContain(otherEvent);
+    }
+
+    @Test
+    public void findTournamentsByCourtOfWhichThereAreTwoSharingTheSameCourt(){
+        Event otherTournament = new Tournament(start, end, 10, 10000);
+        otherTournament.setCourt(court);
+        em.persist(otherTournament);
+
+        List<Event> foundEvents = eventDao.findByCourt(court);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(booking);
+        assertThat(foundEvents).contains(lesson);
+        assertThat(foundEvents).contains(tournament);
+        assertThat(foundEvents).contains(otherTournament);
+    }
+
+    @Test
+    public void findTournamentsByCourtOfWhichThereAreTwoNotSharingTheSameCourt(){
+        Court otherCourt = new Court("Court 2");
+        em.persist(otherCourt);
+
+        Event otherTournament = new Tournament(start, end, 10, 10000);
+        otherTournament.setCourt(otherCourt);
+        em.persist(otherTournament);
+
+        List<Event> foundEvents = eventDao.findByCourt(court);
+
+        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(booking);
+        assertThat(foundEvents).contains(lesson);
+        assertThat(foundEvents).contains(tournament);
+        assertThat(foundEvents).doesNotContain(otherTournament);
     }
 }
