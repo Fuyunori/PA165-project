@@ -25,7 +25,7 @@ public class Court {
     @Column(name = "address")
     private String address;
     private CourtType type;
-    private String previewImage;
+    private String previewImageUrl;
 
     @OneToMany(mappedBy = "court")
     private Set<Event> events = new HashSet<>();
@@ -68,12 +68,12 @@ public class Court {
         this.type = type;
     }
 
-    public String getPreviewImage() {
-        return previewImage;
+    public String getPreviewImageUrl() {
+        return previewImageUrl;
     }
 
-    public void setPreviewImage(String previewImage) {
-        this.previewImage = previewImage;
+    public void setPreviewImageUrl(String previewImageUrl) {
+        this.previewImageUrl = previewImageUrl;
     }
 
     public Set<Event> getEvents() {
