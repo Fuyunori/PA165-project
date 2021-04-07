@@ -20,6 +20,9 @@ public class CourtDaoImpl implements CourtDao {
 
     @Override
     public void delete(Court court) {
+        if (!manager.contains(court)){
+            manager.merge(court);
+        }
         manager.remove(court);
     }
 
