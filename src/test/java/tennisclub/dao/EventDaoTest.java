@@ -56,8 +56,11 @@ public class EventDaoTest {
     private final LocalDateTime otherStart = eventStart.plusDays(10);
     private final LocalDateTime otherEnd = eventEnd.plusDays(10);
 
-    private Court court = new Court("Court 1");
-    private Court otherCourt = new Court("Court 2");
+    private Court eventCourt = new Court("Court 1");
+    private Court bookingCourt = new Court("Court 2");
+    private Court lessonCourt = new Court("Court 3");
+    private Court tournamentCourt = new Court("Court 4");
+    private Court otherCourt = new Court("Other court");
 
     private Event event = new Event(eventStart, eventEnd);
     private Event booking = new Booking(bookingStart, bookingEnd);
@@ -67,13 +70,16 @@ public class EventDaoTest {
 
     @BeforeEach
     public void setup(){
-        em.persist(court);
+        em.persist(eventCourt);
+        em.persist(bookingCourt);
+        em.persist(lessonCourt);
+        em.persist(tournamentCourt);
         em.persist(otherCourt);
 
-        event.setCourt(court);
-        booking.setCourt(court);
-        lesson.setCourt(court);
-        tournament.setCourt(court);
+        event.setCourt(eventCourt);
+        booking.setCourt(bookingCourt);
+        lesson.setCourt(lessonCourt);
+        tournament.setCourt(tournamentCourt);
 
         em.persist(event);
         em.persist(booking);
@@ -84,7 +90,7 @@ public class EventDaoTest {
     @Test
     public void testEventCreation(){
         Event event = new Event(eventStart, eventEnd);
-        event.setCourt(court);
+        event.setCourt(eventCourt);
         eventDao.create(event);
 
         // test that the created instance is in the database
@@ -92,49 +98,49 @@ public class EventDaoTest {
 
         assertThat(foundEvent.getStartTime()).isEqualTo(eventStart);
         assertThat(foundEvent.getEndTime()).isEqualTo(eventEnd);
-        assertThat(foundEvent.getCourt()).isEqualTo(court);
+        assertThat(foundEvent.getCourt()).isEqualTo(eventCourt);
         assertThat(foundEvent).isEqualTo(event);
     }
 
     @Test
     public void testBookingCreation(){
-        Event booking = new Booking(eventStart, eventEnd);
-        booking.setCourt(court);
+        Event booking = new Booking(bookingStart, bookingEnd);
+        booking.setCourt(bookingCourt);
         eventDao.create(booking);
 
         // test that the created instance is in the database
         Event foundEvent = em.find(Event.class, booking.getId());
-        assertThat(foundEvent.getStartTime()).isEqualTo(eventStart);
-        assertThat(foundEvent.getEndTime()).isEqualTo(eventEnd);
-        assertThat(foundEvent.getCourt()).isEqualTo(court);
+        assertThat(foundEvent.getStartTime()).isEqualTo(bookingStart);
+        assertThat(foundEvent.getEndTime()).isEqualTo(bookingEnd);
+        assertThat(foundEvent.getCourt()).isEqualTo(bookingCourt);
         assertThat(foundEvent).isEqualTo(booking);
     }
 
     @Test
     public void testLessonCreation(){
-        Event lesson = new Lesson(eventStart, eventEnd, Level.BEGINNER);
-        lesson.setCourt(court);
+        Event lesson = new Lesson(lessonStart, lessonEnd, Level.BEGINNER);
+        lesson.setCourt(lessonCourt);
         eventDao.create(lesson);
 
         // test that the created instance is in the database
         Event foundEvent = em.find(Event.class, lesson.getId());
-        assertThat(foundEvent.getStartTime()).isEqualTo(eventStart);
-        assertThat(foundEvent.getEndTime()).isEqualTo(eventEnd);
-        assertThat(foundEvent.getCourt()).isEqualTo(court);
+        assertThat(foundEvent.getStartTime()).isEqualTo(lessonStart);
+        assertThat(foundEvent.getEndTime()).isEqualTo(lessonEnd);
+        assertThat(foundEvent.getCourt()).isEqualTo(lessonCourt);
         assertThat(foundEvent).isEqualTo(lesson);
     }
 
     @Test
     public void testTournamentCreation(){
-        Event tournament = new Tournament(eventStart, eventEnd, 10, 10000);
-        tournament.setCourt(court);
+        Event tournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
+        tournament.setCourt(tournamentCourt);
         eventDao.create(tournament);
 
         // test that the created instance is in the database
         Event foundEvent = em.find(Event.class, tournament.getId());
-        assertThat(foundEvent.getStartTime()).isEqualTo(eventStart);
-        assertThat(foundEvent.getEndTime()).isEqualTo(eventEnd);
-        assertThat(foundEvent.getCourt()).isEqualTo(court);
+        assertThat(foundEvent.getStartTime()).isEqualTo(tournamentStart);
+        assertThat(foundEvent.getEndTime()).isEqualTo(tournamentEnd);
+        assertThat(foundEvent.getCourt()).isEqualTo(tournamentCourt);
         assertThat(foundEvent).isEqualTo(tournament);
     }
 
@@ -146,7 +152,7 @@ public class EventDaoTest {
 
         assertThat(updatedEvent.getStartTime()).isEqualTo(eventStart.plusDays(2));
         assertThat(updatedEvent.getEndTime()).isEqualTo(eventEnd);
-        assertThat(updatedEvent.getCourt()).isEqualTo(court);
+        assertThat(updatedEvent.getCourt()).isEqualTo(eventCourt);
     }
 
     @Test
@@ -157,129 +163,117 @@ public class EventDaoTest {
 
         assertThat(updatedEvent.getStartTime()).isEqualTo(eventStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(eventEnd.plusDays(2));
-        assertThat(updatedEvent.getCourt()).isEqualTo(court);
+        assertThat(updatedEvent.getCourt()).isEqualTo(eventCourt);
     }
 
     @Test
     public void testEventUpdatingCourt(){
         // update the event - change court
-        Court anotherCourt = new Court("Court 2");
-        em.persist(anotherCourt);
-
-        event.setCourt(anotherCourt);
+        event.setCourt(otherCourt);
         Event updatedEvent = eventDao.update(event);
 
         assertThat(updatedEvent.getStartTime()).isEqualTo(eventStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(eventEnd);
-        assertThat(updatedEvent.getCourt()).isEqualTo(anotherCourt);
+        assertThat(updatedEvent.getCourt()).isEqualTo(otherCourt);
     }
 
     @Test
     public void testBookingUpdatingStartTime(){
         // update the event - delay start time to 2 days later
-        booking.setStartTime(bookingStart.plusDays(2));
+        booking.setStartTime(otherStart);
         Event updatedEvent = eventDao.update(booking);
 
-        assertThat(updatedEvent.getStartTime()).isEqualTo(bookingStart.plusDays(2));
+        assertThat(updatedEvent.getStartTime()).isEqualTo(otherStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(bookingEnd);
-        assertThat(updatedEvent.getCourt()).isEqualTo(court);
+        assertThat(updatedEvent.getCourt()).isEqualTo(bookingCourt);
     }
 
     @Test
     public void testBookingUpdatingEndTime(){
         // update the event - delay end time to 2 days later
-        booking.setEndTime(bookingEnd.plusDays(2));
+        booking.setEndTime(otherEnd);
         Event updatedEvent = eventDao.update(booking);
 
         assertThat(updatedEvent.getStartTime()).isEqualTo(bookingStart);
-        assertThat(updatedEvent.getEndTime()).isEqualTo(bookingEnd.plusDays(2));
-        assertThat(updatedEvent.getCourt()).isEqualTo(court);
+        assertThat(updatedEvent.getEndTime()).isEqualTo(otherEnd);
+        assertThat(updatedEvent.getCourt()).isEqualTo(bookingCourt);
     }
 
     @Test
     public void testBookingUpdatingCourt(){
         // update the event - change court
-        Court anotherCourt = new Court("Court 2");
-        em.persist(anotherCourt);
-
-        booking.setCourt(anotherCourt);
+        booking.setCourt(otherCourt);
         Event updatedEvent = eventDao.update(booking);
 
         assertThat(updatedEvent.getStartTime()).isEqualTo(bookingStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(bookingEnd);
-        assertThat(updatedEvent.getCourt()).isEqualTo(anotherCourt);
+        assertThat(updatedEvent.getCourt()).isEqualTo(otherCourt);
     }
 
     @Test
     public void testLessonUpdatingStartTime(){
         // update the event - delay start time to 2 days later
-        lesson.setStartTime(lessonStart.plusDays(2));
+        lesson.setStartTime(otherStart);
         Event updatedEvent = eventDao.update(lesson);
 
-        assertThat(updatedEvent.getStartTime()).isEqualTo(lessonStart.plusDays(2));
+        assertThat(updatedEvent.getStartTime()).isEqualTo(otherStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(lessonEnd);
-        assertThat(updatedEvent.getCourt()).isEqualTo(court);
+        assertThat(updatedEvent.getCourt()).isEqualTo(lessonCourt);
     }
 
     @Test
     public void testLessonUpdatingEndTime(){
         // update the event - delay end time to 2 days later
-        lesson.setEndTime(lessonEnd.plusDays(2));
+        lesson.setEndTime(otherEnd);
         Event updatedEvent = eventDao.update(lesson);
 
         assertThat(updatedEvent.getStartTime()).isEqualTo(lessonStart);
-        assertThat(updatedEvent.getEndTime()).isEqualTo(lessonEnd.plusDays(2));
-        assertThat(updatedEvent.getCourt()).isEqualTo(court);
+        assertThat(updatedEvent.getEndTime()).isEqualTo(otherEnd);
+        assertThat(updatedEvent.getCourt()).isEqualTo(lessonCourt);
     }
 
     @Test
     public void testLessonUpdatingCourt(){
         // update the event - change court
-        Court anotherCourt = new Court("Court 2");
-        em.persist(anotherCourt);
-
-        lesson.setCourt(anotherCourt);
+        lesson.setCourt(otherCourt);
         Event updatedEvent = eventDao.update(lesson);
 
         assertThat(updatedEvent.getStartTime()).isEqualTo(lessonStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(lessonEnd);
-        assertThat(updatedEvent.getCourt()).isEqualTo(anotherCourt);
+        assertThat(updatedEvent.getCourt()).isEqualTo(otherCourt);
     }
 
     @Test
     public void testTournamentUpdatingStartTime(){
         // update the event - delay start time to 2 days later
-        tournament.setStartTime(tournamentStart.plusDays(2));
+        tournament.setStartTime(otherStart);
         Event updatedEvent = eventDao.update(tournament);
 
-        assertThat(updatedEvent.getStartTime()).isEqualTo(tournamentStart.plusDays(2));
+        assertThat(updatedEvent.getStartTime()).isEqualTo(otherStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(tournamentEnd);
-        assertThat(updatedEvent.getCourt()).isEqualTo(court);
+        assertThat(updatedEvent.getCourt()).isEqualTo(tournamentCourt);
     }
 
     @Test
     public void testTournamentUpdatingEndTime(){
         // update the event - delay end time to 2 days later
-        tournament.setEndTime(tournamentEnd.plusDays(2));
+        tournament.setEndTime(otherEnd);
         Event updatedEvent = eventDao.update(tournament);
 
         assertThat(updatedEvent.getStartTime()).isEqualTo(tournamentStart);
-        assertThat(updatedEvent.getEndTime()).isEqualTo(tournamentEnd.plusDays(2));
-        assertThat(updatedEvent.getCourt()).isEqualTo(court);
+        assertThat(updatedEvent.getEndTime()).isEqualTo(otherEnd);
+        assertThat(updatedEvent.getCourt()).isEqualTo(tournamentCourt);
     }
 
     @Test
     public void testTournamentUpdatingCourt(){
         // update the event - change court
-        Court anotherCourt = new Court("Court 2");
-        em.persist(anotherCourt);
-
-        tournament.setCourt(anotherCourt);
+        tournament.setCourt(otherCourt);
         Event updatedEvent = eventDao.update(tournament);
 
         assertThat(updatedEvent.getStartTime()).isEqualTo(tournamentStart);
         assertThat(updatedEvent.getEndTime()).isEqualTo(tournamentEnd);
-        assertThat(updatedEvent.getCourt()).isEqualTo(anotherCourt);
+        assertThat(updatedEvent.getCourt()).isEqualTo(otherCourt);
     }
 
     @Test
@@ -334,7 +328,7 @@ public class EventDaoTest {
 
         assertThat(foundEvent.getStartTime()).isEqualTo(eventStart);
         assertThat(foundEvent.getEndTime()).isEqualTo(eventEnd);
-        assertThat(foundEvent.getCourt()).isEqualTo(court);
+        assertThat(foundEvent.getCourt()).isEqualTo(eventCourt);
         assertThat(foundEvent).isEqualTo(event);
     }
 
@@ -344,7 +338,7 @@ public class EventDaoTest {
 
         assertThat(foundEvent.getStartTime()).isEqualTo(bookingStart);
         assertThat(foundEvent.getEndTime()).isEqualTo(bookingEnd);
-        assertThat(foundEvent.getCourt()).isEqualTo(court);
+        assertThat(foundEvent.getCourt()).isEqualTo(bookingCourt);
         assertThat(foundEvent).isEqualTo(booking);
     }
 
@@ -354,7 +348,7 @@ public class EventDaoTest {
 
         assertThat(foundEvent.getStartTime()).isEqualTo(lessonStart);
         assertThat(foundEvent.getEndTime()).isEqualTo(lessonEnd);
-        assertThat(foundEvent.getCourt()).isEqualTo(court);
+        assertThat(foundEvent.getCourt()).isEqualTo(lessonCourt);
         assertThat(foundEvent).isEqualTo(lesson);
     }
 
@@ -364,22 +358,19 @@ public class EventDaoTest {
 
         assertThat(foundEvent.getStartTime()).isEqualTo(tournamentStart);
         assertThat(foundEvent.getEndTime()).isEqualTo(tournamentEnd);
-        assertThat(foundEvent.getCourt()).isEqualTo(court);
+        assertThat(foundEvent.getCourt()).isEqualTo(tournamentCourt);
         assertThat(foundEvent).isEqualTo(tournament);
     }
 
     @Test
     public void findEventsByCourtOfWhichThereAreTwoSharingTheSameCourt(){
         Event otherEvent = new Event(eventStart, eventEnd);
-        otherEvent.setCourt(court);
+        otherEvent.setCourt(eventCourt);
         em.persist(otherEvent);
 
-        List<Event> foundEvents = eventDao.findByCourt(court);
+        List<Event> foundEvents = eventDao.findByCourt(eventCourt);
 
         assertThat(foundEvents).contains(event);
-        assertThat(foundEvents).contains(booking);
-        assertThat(foundEvents).contains(lesson);
-        assertThat(foundEvents).contains(tournament);
         assertThat(foundEvents).contains(otherEvent);
     }
 
@@ -389,108 +380,87 @@ public class EventDaoTest {
         otherEvent.setCourt(otherCourt);
         em.persist(otherEvent);
 
-        List<Event> foundEvents = eventDao.findByCourt(court);
+        List<Event> foundEvents = eventDao.findByCourt(eventCourt);
 
         assertThat(foundEvents).contains(event);
-        assertThat(foundEvents).contains(booking);
-        assertThat(foundEvents).contains(lesson);
-        assertThat(foundEvents).contains(tournament);
         assertThat(foundEvents).doesNotContain(otherEvent);
     }
 
     @Test
     public void findBookingsByCourtOfWhichThereAreTwoSharingTheSameCourt(){
-        Event otherBooking = new Booking(eventStart, eventEnd);
-        otherBooking.setCourt(court);
+        Event otherBooking = new Booking(otherStart, otherEnd);
+        otherBooking.setCourt(bookingCourt);
         em.persist(otherBooking);
 
-        List<Event> foundEvents = eventDao.findByCourt(court);
+        List<Event> foundEvents = eventDao.findByCourt(bookingCourt);
 
-        assertThat(foundEvents).contains(event);
         assertThat(foundEvents).contains(booking);
-        assertThat(foundEvents).contains(lesson);
-        assertThat(foundEvents).contains(tournament);
         assertThat(foundEvents).contains(otherBooking);
     }
 
     @Test
     public void findBookingsByCourtOfWhichThereAreTwoNotSharingTheSameCourt(){
-        Event otherBooking = new Event(eventStart, eventEnd);
+        Event otherBooking = new Booking(bookingStart, bookingEnd);
         otherBooking.setCourt(otherCourt);
         em.persist(otherBooking);
 
-        List<Event> foundEvents = eventDao.findByCourt(court);
+        List<Event> foundEvents = eventDao.findByCourt(bookingCourt);
 
-        assertThat(foundEvents).contains(event);
         assertThat(foundEvents).contains(booking);
-        assertThat(foundEvents).contains(lesson);
-        assertThat(foundEvents).contains(tournament);
         assertThat(foundEvents).doesNotContain(otherBooking);
     }
 
     @Test
     public void findLessonsByCourtOfWhichThereAreTwoSharingTheSameCourt(){
-        Event otherLesson = new Lesson(eventStart, eventEnd, Level.BEGINNER);
-        otherLesson.setCourt(court);
+        Event otherLesson = new Lesson(otherStart, otherEnd, Level.BEGINNER);
+        otherLesson.setCourt(lessonCourt);
         em.persist(otherLesson);
 
-        List<Event> foundEvents = eventDao.findByCourt(court);
+        List<Event> foundEvents = eventDao.findByCourt(lessonCourt);
 
-        assertThat(foundEvents).contains(event);
-        assertThat(foundEvents).contains(booking);
         assertThat(foundEvents).contains(lesson);
-        assertThat(foundEvents).contains(tournament);
         assertThat(foundEvents).contains(otherLesson);
     }
 
     @Test
     public void findLessonsByCourtOfWhichThereAreTwoNotSharingTheSameCourt(){
-        Event otherLesson = new Lesson(eventStart, eventEnd, Level.BEGINNER);
+        Event otherLesson = new Lesson(lessonStart, lessonEnd, Level.BEGINNER);
         otherLesson.setCourt(otherCourt);
         em.persist(otherLesson);
 
-        List<Event> foundEvents = eventDao.findByCourt(court);
+        List<Event> foundEvents = eventDao.findByCourt(lessonCourt);
 
-        assertThat(foundEvents).contains(event);
-        assertThat(foundEvents).contains(booking);
         assertThat(foundEvents).contains(lesson);
-        assertThat(foundEvents).contains(tournament);
         assertThat(foundEvents).doesNotContain(otherLesson);
     }
 
     @Test
     public void findTournamentsByCourtOfWhichThereAreTwoSharingTheSameCourt(){
-        Event otherTournament = new Tournament(eventStart, eventEnd, 10, 10000);
-        otherTournament.setCourt(court);
+        Event otherTournament = new Tournament(otherStart, otherEnd, 10, 10000);
+        otherTournament.setCourt(tournamentCourt);
         em.persist(otherTournament);
 
-        List<Event> foundEvents = eventDao.findByCourt(court);
+        List<Event> foundEvents = eventDao.findByCourt(tournamentCourt);
 
-        assertThat(foundEvents).contains(event);
-        assertThat(foundEvents).contains(booking);
-        assertThat(foundEvents).contains(lesson);
         assertThat(foundEvents).contains(tournament);
         assertThat(foundEvents).contains(otherTournament);
     }
 
     @Test
     public void findTournamentsByCourtOfWhichThereAreTwoNotSharingTheSameCourt(){
-        Event otherTournament = new Tournament(eventStart, eventEnd, 10, 10000);
+        Event otherTournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
         otherTournament.setCourt(otherCourt);
         em.persist(otherTournament);
 
-        List<Event> foundEvents = eventDao.findByCourt(court);
+        List<Event> foundEvents = eventDao.findByCourt(tournamentCourt);
 
-        assertThat(foundEvents).contains(event);
-        assertThat(foundEvents).contains(booking);
-        assertThat(foundEvents).contains(lesson);
         assertThat(foundEvents).contains(tournament);
         assertThat(foundEvents).doesNotContain(otherTournament);
     }
 
     @Test
     public void findEventsByStartTimeOfWhichThereAreTwoSharingTheSameStartTime(){
-        Event otherEvent = new Event(eventStart, bookingStart);
+        Event otherEvent = new Event(eventStart, eventEnd);
         otherEvent.setCourt(otherCourt);
         em.persist(otherEvent);
 
@@ -503,7 +473,7 @@ public class EventDaoTest {
     @Test
     public void findEventsByStartTimeOfWhichThereAreTwoNotSharingTheSameStartTime(){
         Event otherEvent = new Event(otherStart, otherEnd);
-        otherEvent.setCourt(court);
+        otherEvent.setCourt(eventCourt);
         em.persist(otherEvent);
 
         List<Event> foundEvents = eventDao.findByStartTime(eventStart);
@@ -526,8 +496,8 @@ public class EventDaoTest {
 
     @Test
     public void findBookingsByStartTimeOfWhichThereAreTwoNotSharingTheSameStartTime(){
-        Event otherBooking = new Event(otherStart, otherEnd);
-        otherBooking.setCourt(court);
+        Event otherBooking = new Booking(otherStart, otherEnd);
+        otherBooking.setCourt(bookingCourt);
         em.persist(otherBooking);
 
         List<Event> foundEvents = eventDao.findByStartTime(bookingStart);
@@ -551,7 +521,7 @@ public class EventDaoTest {
     @Test
     public void findLessonsByStartTimeOfWhichThereAreTwoNotSharingTheSameStartTime(){
         Event otherLesson = new Lesson(otherStart, otherEnd, Level.BEGINNER);
-        otherLesson.setCourt(court);
+        otherLesson.setCourt(lessonCourt);
         em.persist(otherLesson);
 
         List<Event> foundEvents = eventDao.findByStartTime(lessonStart);
@@ -575,7 +545,7 @@ public class EventDaoTest {
     @Test
     public void findTournamentsByStartTimeOfWhichThereAreTwoNotSharingTheSameStartTime(){
         Event otherTournament = new Tournament(otherStart, otherEnd, 10, 10000);
-        otherTournament.setCourt(court);
+        otherTournament.setCourt(tournamentCourt);
         em.persist(otherTournament);
 
         List<Event> foundEvents = eventDao.findByStartTime(tournamentStart);
@@ -599,7 +569,7 @@ public class EventDaoTest {
     @Test
     public void findEventsByEndTimeOfWhichThereAreTwoNotSharingTheSameEndTime(){
         Event otherEvent = new Event(otherStart, otherEnd);
-        otherEvent.setCourt(court);
+        otherEvent.setCourt(eventCourt);
         em.persist(otherEvent);
 
         List<Event> foundEvents = eventDao.findByEndTime(eventEnd);
@@ -622,8 +592,8 @@ public class EventDaoTest {
 
     @Test
     public void findBookingsByEndTimeOfWhichThereAreTwoNotSharingTheSameEndTime(){
-        Event otherBooking = new Event(otherStart, otherEnd);
-        otherBooking.setCourt(court);
+        Event otherBooking = new Booking(otherStart, otherEnd);
+        otherBooking.setCourt(bookingCourt);
         em.persist(otherBooking);
 
         List<Event> foundEvents = eventDao.findByEndTime(bookingEnd);
@@ -647,7 +617,7 @@ public class EventDaoTest {
     @Test
     public void findLessonsByEndTimeOfWhichThereAreTwoNotSharingTheSameEndTime(){
         Event otherLesson = new Lesson(otherStart, otherEnd, Level.BEGINNER);
-        otherLesson.setCourt(court);
+        otherLesson.setCourt(lessonCourt);
         em.persist(otherLesson);
 
         List<Event> foundEvents = eventDao.findByEndTime(lessonEnd);
@@ -671,7 +641,7 @@ public class EventDaoTest {
     @Test
     public void findTournamentsByEndTimeOfWhichThereAreTwoNotSharingTheSameEndTime(){
         Event otherTournament = new Tournament(otherStart, otherEnd, 10, 10000);
-        otherTournament.setCourt(court);
+        otherTournament.setCourt(tournamentCourt);
         em.persist(otherTournament);
 
         List<Event> foundEvents = eventDao.findByEndTime(tournamentEnd);
