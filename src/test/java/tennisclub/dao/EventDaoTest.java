@@ -679,4 +679,15 @@ public class EventDaoTest {
         assertThat(foundEvents).contains(tournament);
         assertThat(foundEvents).doesNotContain(otherTournament);
     }
+
+    @Test
+    public void testFindAll(){
+        List<Event> allEvents = eventDao.findAll();
+
+        assertThat(allEvents.size()).isEqualTo(4);
+        assertThat(allEvents).contains(event);
+        assertThat(allEvents).contains(booking);
+        assertThat(allEvents).contains(lesson);
+        assertThat(allEvents).contains(tournament);
+    }
 }
