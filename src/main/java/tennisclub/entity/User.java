@@ -5,7 +5,6 @@ import tennisclub.entity.ranking.Ranking;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.awt.print.Book;
 import java.util.Collections;
 import java.util.HashSet;
 
