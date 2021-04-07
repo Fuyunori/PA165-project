@@ -52,6 +52,9 @@ public class RankingDaoImpl implements RankingDao {
 
     @Override
     public void delete(Ranking ranking) {
+        if (!em.contains(ranking)) {
+            em.merge(ranking);
+        }
         em.remove(ranking);
     }
 
