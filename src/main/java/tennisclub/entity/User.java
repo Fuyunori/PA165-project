@@ -31,10 +31,10 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private Set<Booking> bookings = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "teachers")
     private Set<Lesson>  lessonsToTeach = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "students")
     private Set<Lesson> lessonsToAttend = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
@@ -76,4 +76,5 @@ public class User {
     public int hashCode() {
         return getUsername().hashCode();
     }
+
 }
