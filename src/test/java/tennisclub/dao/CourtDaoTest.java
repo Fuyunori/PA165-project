@@ -1,12 +1,8 @@
 package tennisclub.dao;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.test.annotation.DirtiesContext;
 import tennisclub.entity.Court;
 import tennisclub.entity.enums.CourtType;
 
@@ -74,33 +70,31 @@ class CourtDaoTest {
 		court1.setAddress("Torquay Squash Club, TQ2 7NS");
 		courtDao.create(court1);
 
-		Court court2 = new Court("Court 1");
-		court2.setAddress("Torquay Squash Club, TQ2 7NS");
-		courtDao.create(court2);
-
-		assertThatThrownBy(() ->
-				em.flush()
-		).isInstanceOf(PersistenceException.class);
+		assertThatThrownBy(() -> {
+			Court court2 = new Court("Court 1");
+			court2.setAddress("Torquay Squash Club, TQ2 7NS");
+			courtDao.create(court2);
+			em.flush();
+		}).isInstanceOf(PersistenceException.class);
 	}
 
 	@Test
 	void updateViolateConstraintTest() {
 		Court court1 = new Court("Court 1");
 		court1.setAddress("Torquay Squash Club, TQ2 7NS");
-		courtDao.create(court1);
+		em.persist(court1);
 
 		Court court2 = new Court("Court 2");
 		court2.setAddress("Torquay Squash Club, TQ2 7NS");
-		courtDao.create(court2);
+		em.persist(court2);
 
-		courtDao.findByAddress("TQ2 7NS");
+		em.flush();
 
-		court2.setName("Court 1");
-		courtDao.update(court2);
-
-		assertThatThrownBy(() ->
-			em.flush()
-		).isInstanceOf(PersistenceException.class);
+		assertThatThrownBy(() -> {
+			court2.setName("Court 1");
+			courtDao.update(court2);
+			em.flush();
+		}).isInstanceOf(PersistenceException.class);
 	}
 
 	@Test
