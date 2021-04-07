@@ -15,7 +15,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-
     private String name;
 
     @NotNull
@@ -28,6 +27,18 @@ public class User {
 
     @Enumerated
     private Role role;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<Booking> bookings = new HashSet<>();
+
+    @ManyToMany
+    private Set<Lesson>  lessonsToTeach = new HashSet<>();
+
+    @ManyToMany
+    private Set<Lesson> lessonsToAttend = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Ranking> rankings = new HashSet<>();
 
     public Long getId() { return id; }
 
@@ -70,20 +81,6 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
-
-
-
-    @ManyToMany(mappedBy = "users")
-    private Set<Booking> bookings = new HashSet<>();
-
-    @ManyToMany
-    private Set<Lesson>  lessonsToTeach = new HashSet<>();
-
-    @ManyToMany
-    private Set<Lesson> lessonsToAttend = new HashSet<>();
-
-    @OneToMany(mappedBy = "user")
-    private Set<Ranking> rankings = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
