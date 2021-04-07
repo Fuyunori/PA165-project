@@ -40,7 +40,7 @@ public class User {
     @ManyToMany(mappedBy = "students")
     private Set<Lesson> lessonsToAttend = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "player")
     private Set<Ranking> rankings = new HashSet<>();
 
     public Long getId() { return id; }
