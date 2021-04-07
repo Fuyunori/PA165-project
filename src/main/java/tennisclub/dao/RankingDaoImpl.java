@@ -25,7 +25,10 @@ public class RankingDaoImpl implements RankingDao {
 
     @Override
     public Ranking find(Tournament tournament, User user) {
-        return em.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
+        return em.createQuery("select r from Ranking r where r.tournament = :t and r.user = :u", Ranking.class)
+                .setParameter("t", tournament)
+                .setParameter("u", user)
+                .getSingleResult();
     }
 
     @Override
