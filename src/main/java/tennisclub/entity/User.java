@@ -9,6 +9,9 @@ import java.util.HashSet;
 
 import java.util.Set;
 
+/**
+ * @author Ondrej Holub
+ */
 @Entity
 public class User {
     @Id
