@@ -18,31 +18,43 @@ public class RankingDaoImpl implements RankingDao {
     @PersistenceContext
     private EntityManager em;
 
+    @Override
     public void create(Ranking ranking) {
         em.persist(ranking);
     }
 
+    @Override
     public Ranking find(Tournament tournament, User user) {
-        return em.createQuery("select r from Ranking r", Ranking.class).getSingleResult();
+        return em.createQuery("select r from Ranking r where r.tournament = :t and r.user = :u", Ranking.class)
+                .setParameter("t", tournament)
+                .setParameter("u", user)
+                .getSingleResult();
     }
 
+    @Override
     public List<Ranking> findByTournament(Tournament tournament) {
         return em.createQuery("select r from Ranking r where r.tournament=:tournament", Ranking.class)
                 .setParameter("tournament", tournament)
                 .getResultList();
     }
 
+    @Override
     public List<Ranking> findByUser(User user) {
         return em.createQuery("select r from Ranking r where r.user=:user", Ranking.class)
                 .setParameter("user", user)
                 .getResultList();
     }
 
+    @Override
     public void update(Ranking ranking) {
         em.merge(ranking);
     }
 
+    @Override
     public void delete(Ranking ranking) {
+        if (!em.contains(ranking)) {
+            em.merge(ranking);
+        }
         em.remove(ranking);
     }
 

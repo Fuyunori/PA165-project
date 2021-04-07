@@ -54,7 +54,6 @@ public class Tournament extends Event  {
 
     public void addRanking(Ranking ranking){
         rankings.add(ranking);
-        // TODO: uncomment this code where User entity is finished
-        // user.setTournament(this);
+        ranking.setTournament(this);
     }
 }

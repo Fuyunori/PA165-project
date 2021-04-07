@@ -44,6 +44,9 @@ public class Ranking {
 
     public User getPlayer() {
         return player;
+  
+    public void setTournament(Tournament tournament){
+        this.tournament = tournament;
     }
 
     public void setPlayerPlacement(int playerPlacement) {
