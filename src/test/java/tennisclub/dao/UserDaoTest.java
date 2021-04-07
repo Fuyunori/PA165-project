@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author Pavel Tobiáš
  */
 @SpringBootTest
-class UserDaoImplTest {
+class UserDaoTest {
     @PersistenceContext
     EntityManager manager;
 

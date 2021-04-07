@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 @Transactional
 @SpringBootTest
-class RankingDaoImplTest {
+class RankingDaoTest {
     private Tournament tournament;
     private Tournament otherTournament;
     private User user;
