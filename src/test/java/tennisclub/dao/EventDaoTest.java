@@ -874,7 +874,7 @@ public class EventDaoTest {
 
         List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
 
-        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(booking);
         assertThat(foundEvents).doesNotContain(otherBooking);
     }
 
@@ -886,7 +886,7 @@ public class EventDaoTest {
 
         List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
 
-        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(booking);
         assertThat(foundEvents).doesNotContain(otherBooking);
     }
 
@@ -898,7 +898,7 @@ public class EventDaoTest {
 
         List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
 
-        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(booking);
         assertThat(foundEvents).doesNotContain(otherBooking);
     }
 
@@ -910,7 +910,7 @@ public class EventDaoTest {
 
         List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
 
-        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(booking);
         assertThat(foundEvents).doesNotContain(otherBooking);
     }
 
@@ -922,7 +922,7 @@ public class EventDaoTest {
 
         List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
 
-        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(booking);
         assertThat(foundEvents).contains(otherBooking);
     }
 
@@ -934,7 +934,7 @@ public class EventDaoTest {
 
         List<Event> foundEvents = eventDao.findByTimeInterval(lessonStart, lessonEnd);
 
-        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(lesson);
         assertThat(foundEvents).doesNotContain(otherLesson);
     }
 
@@ -946,7 +946,7 @@ public class EventDaoTest {
 
         List<Event> foundEvents = eventDao.findByTimeInterval(lessonStart, lessonEnd);
 
-        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(lesson);
         assertThat(foundEvents).doesNotContain(otherLesson);
     }
 
@@ -958,7 +958,7 @@ public class EventDaoTest {
 
         List<Event> foundEvents = eventDao.findByTimeInterval(lessonStart, lessonEnd);
 
-        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(lesson);
         assertThat(foundEvents).doesNotContain(otherLesson);
     }
 
@@ -970,7 +970,7 @@ public class EventDaoTest {
 
         List<Event> foundEvents = eventDao.findByTimeInterval(lessonStart, lessonEnd);
 
-        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(lesson);
         assertThat(foundEvents).doesNotContain(otherLesson);
     }
 
@@ -982,7 +982,7 @@ public class EventDaoTest {
 
         List<Event> foundEvents = eventDao.findByTimeInterval(lessonStart, lessonEnd);
 
-        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(lesson);
         assertThat(foundEvents).contains(otherLesson);
     }
 
@@ -994,7 +994,7 @@ public class EventDaoTest {
 
         List<Event> foundEvents = eventDao.findByTimeInterval(tournamentStart, tournamentEnd);
 
-        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(tournament);
         assertThat(foundEvents).doesNotContain(otherTournament);
     }
 
@@ -1006,7 +1006,7 @@ public class EventDaoTest {
 
         List<Event> foundEvents = eventDao.findByTimeInterval(tournamentStart, tournamentEnd);
 
-        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(tournament);
         assertThat(foundEvents).doesNotContain(otherTournament);
     }
 
@@ -1018,7 +1018,7 @@ public class EventDaoTest {
 
         List<Event> foundEvents = eventDao.findByTimeInterval(tournamentStart, tournamentEnd);
 
-        assertThat(foundEvents).contains(event);
+        assertThat(foundEvents).contains(tournament);
         assertThat(foundEvents).contains(otherTournament);
     }
 }
