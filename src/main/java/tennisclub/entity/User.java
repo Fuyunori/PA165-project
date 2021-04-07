@@ -27,6 +27,7 @@ public class User {
 
     private  String passwordHash;
 
+    @Column(unique = true)
     private String email;
 
     @Enumerated
