@@ -30,28 +30,28 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override
     public List<Booking> findByCourt(Court court) {
-        return em.createQuery("select b from Booking b where b.court = :court", Booking.class)
+        return em.createQuery("SELECT b FROM Booking b WHERE b.court = :court", Booking.class)
                 .setParameter("court", court)
                 .getResultList();
     }
 
     @Override
     public List<Booking> findByStartTime(LocalDateTime startTime) {
-        return em.createQuery("select b from Booking b where b.startTime = :startTime", Booking.class)
+        return em.createQuery("SELECT b FROM Booking b WHERE b.startTime = :startTime", Booking.class)
                 .setParameter("startTime", startTime)
                 .getResultList();
     }
 
     @Override
     public List<Booking> findByEndTime(LocalDateTime endTime) {
-        return em.createQuery("select b from Booking b where b.endTime = :endTime", Booking.class)
+        return em.createQuery("SELECT b FROM Booking b WHERE b.endTime = :endTime", Booking.class)
                 .setParameter("endTime", endTime)
                 .getResultList();
     }
 
     @Override
     public List<Booking> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
-        return em.createQuery("select b from Booking b where b.endTime > :from and b.startTime < :to", Booking.class)
+        return em.createQuery("SELECT b FROM Booking b WHERE b.endTime > :from AND b.startTime < :to", Booking.class)
                 .setParameter("from", from)
                 .setParameter("to", to)
                 .getResultList();
@@ -59,7 +59,7 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override
     public List<Booking> findAll() {
-        return em.createQuery("select b from Booking b", Booking.class).getResultList();
+        return em.createQuery("SELECT b FROM Booking b", Booking.class).getResultList();
     }
 
     @Override
