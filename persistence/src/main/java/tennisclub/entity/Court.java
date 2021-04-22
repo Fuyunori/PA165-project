@@ -9,6 +9,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * @author Pavel Tobias
+ */
 @Entity
 @Table(
     uniqueConstraints = @UniqueConstraint(columnNames = {"name", "address"})
