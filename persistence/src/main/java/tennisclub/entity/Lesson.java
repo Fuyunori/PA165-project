@@ -2,9 +2,7 @@ package tennisclub.entity;
 
 import tennisclub.entity.enums.Level;
 
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -23,9 +21,19 @@ public class Lesson extends Event {
     private Level level;
 
     @ManyToMany
+    @JoinTable(
+            name = "teacherLesson",
+            joinColumns = @JoinColumn(name = "lessonId"),
+            inverseJoinColumns = @JoinColumn(name = "teacherId")
+    )
     private Set<User> teachers = new HashSet<>();
 
     @ManyToMany
+    @JoinTable(
+            name = "studentLesson",
+            joinColumns = @JoinColumn(name = "lessonId"),
+            inverseJoinColumns = @JoinColumn(name = "studentId")
+    )
     private Set<User> students = new HashSet<>();
 
     public Lesson(){}

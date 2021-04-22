@@ -16,14 +16,16 @@ import java.util.Objects;
 @IdClass(RankingId.class)
 public class Ranking implements Serializable {
 
-    @ManyToOne
-    @NotNull
     @Id
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "tournamentId")
     private Tournament tournament;
 
-    @ManyToOne
-    @NotNull
     @Id
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "playerId")
     private User player;
 
     private Integer playerPlacement;

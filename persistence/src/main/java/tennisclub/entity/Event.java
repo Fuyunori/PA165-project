@@ -23,6 +23,7 @@ public class Event implements Serializable {
 
     @NotNull
     @ManyToOne
+    @JoinColumn(name = "courtId")
     private Court court;
 
     @NotNull
