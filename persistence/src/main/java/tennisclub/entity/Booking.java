@@ -2,7 +2,6 @@ package tennisclub.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
