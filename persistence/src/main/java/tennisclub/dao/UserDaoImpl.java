@@ -24,35 +24,35 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findById(Long id) {
-        return em.createQuery("select u from User u where u.id=:id", User.class)
+        return em.createQuery("SELECT u FROM User u WHERE u.id=:id", User.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }
 
     @Override
     public List<User> findByName(String name) {
-        return em.createQuery("select u from User u where u.name like concat('%', :name, '%') ", User.class)
+        return em.createQuery("SELECT u FROM User u WHERE u.name LIKE CONCAT('%', :name, '%') ", User.class)
                 .setParameter("name", name)
                 .getResultList();
     }
 
     @Override
     public User findByUsername(String username) {
-        return em.createQuery("select u from User u where u.username=:username", User.class)
+        return em.createQuery("SELECT u FROM User u WHERE u.username=:username", User.class)
                 .setParameter("username", username)
                 .getSingleResult();
     }
 
     @Override
     public List<User> findByEmail(String email) {
-        return em.createQuery("select u from User u where u.email=:email", User.class)
+        return em.createQuery("SELECT u FROM User u WHERE u.email=:email", User.class)
                 .setParameter("email", email)
                 .getResultList();
     }
 
     @Override
     public List<User> findAll() {
-        return em.createQuery("select u from User u", User.class)
+        return em.createQuery("SELECT u FROM User u", User.class)
                 .getResultList();
     }
 
