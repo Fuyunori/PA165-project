@@ -5,6 +5,7 @@ import tennisclub.entity.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "ranking")
 @IdClass(RankingId.class)
-public class Ranking {
+public class Ranking implements Serializable {
 
     @ManyToOne
     @NotNull

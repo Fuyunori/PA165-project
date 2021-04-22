@@ -5,6 +5,7 @@ import tennisclub.entity.ranking.Ranking;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
 
@@ -15,7 +16,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;

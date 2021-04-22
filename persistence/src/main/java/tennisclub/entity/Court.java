@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import tennisclub.entity.enums.CourtType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -17,7 +18,7 @@ import java.util.Set;
     name = "court",
     uniqueConstraints = @UniqueConstraint(columnNames = {"name", "address"})
 )
-public class Court {
+public class Court implements Serializable {
     @Id
     @GeneratedValue
     private Long id;

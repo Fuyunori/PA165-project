@@ -4,6 +4,7 @@ import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ import java.util.Objects;
 @Table(name = "event")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Check(constraints =  "start_time <= end_time")
-public class Event {
+public class Event implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
