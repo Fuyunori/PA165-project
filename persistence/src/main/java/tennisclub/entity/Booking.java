@@ -12,7 +12,6 @@ import java.util.Set;
  * @author Miroslav Demek
  */
 @Entity
-@Table(name = "booking")
 public class Booking extends Event {
 
     @ManyToMany
