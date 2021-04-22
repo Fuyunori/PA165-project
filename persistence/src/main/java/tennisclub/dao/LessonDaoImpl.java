@@ -35,7 +35,7 @@ public class LessonDaoImpl implements LessonDao{
 
     @Override
     public List<Lesson> findAll() {
-        return em.createQuery("select l from Lesson l", Lesson.class)
+        return em.createQuery("SELECT l FROM Lesson l", Lesson.class)
                 .getResultList();
     }
 
@@ -46,28 +46,28 @@ public class LessonDaoImpl implements LessonDao{
 
     @Override
     public List<Lesson> findByCourt(Court court) {
-        return em.createQuery("select l from Lesson l where l.court = :court", Lesson.class)
+        return em.createQuery("SELECT l FROM Lesson l WHERE l.court = :court", Lesson.class)
                 .setParameter("court", court)
                 .getResultList();
     }
 
     @Override
     public List<Lesson> findByStartTime(LocalDateTime startTime) {
-        return em.createQuery("select l from Lesson l where l.startTime = :startTime", Lesson.class)
+        return em.createQuery("SELECT l FROM Lesson l WHERE l.startTime = :startTime", Lesson.class)
                 .setParameter("startTime", startTime)
                 .getResultList();
     }
 
     @Override
     public List<Lesson> findByEndTime(LocalDateTime endTime) {
-        return em.createQuery("select l from Lesson l where l.endTime = :endTime", Lesson.class)
+        return em.createQuery("SELECT l FROM Lesson l WHERE l.endTime = :endTime", Lesson.class)
                 .setParameter("endTime", endTime)
                 .getResultList();
     }
 
     @Override
     public List<Lesson> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
-        return em.createQuery("select l from Lesson l where l.endTime > :from and l.startTime < :to", Lesson.class)
+        return em.createQuery("SELECT l FROM Lesson l WHERE l.endTime > :from AND l.startTime < :to", Lesson.class)
                 .setParameter("from", from)
                 .setParameter("to", to)
                 .getResultList();
@@ -75,14 +75,14 @@ public class LessonDaoImpl implements LessonDao{
 
     @Override
     public List<Lesson> findByCapacity(Integer capacity) {
-        return em.createQuery("select l from Lesson l where l.capacity = :capacity", Lesson.class)
+        return em.createQuery("SELECT l FROM Lesson l WHERE l.capacity = :capacity", Lesson.class)
                 .setParameter("capacity", capacity)
                 .getResultList();
     }
 
     @Override
     public List<Lesson> findByLevel(Level level) {
-        return em.createQuery("select l from Lesson l where l.level = :level", Lesson.class)
+        return em.createQuery("SELECT l FROM Lesson l WHERE l.level = :level", Lesson.class)
                 .setParameter("level", level)
                 .getResultList();
     }
