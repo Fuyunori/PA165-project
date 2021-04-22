@@ -2,6 +2,7 @@ package tennisclub.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import java.util.Set;
  * @author Miroslav Demek
  */
 @Entity
+@Table(name = "booking")
 public class Booking extends Event {
 
     @ManyToMany

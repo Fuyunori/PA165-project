@@ -3,10 +3,7 @@ package tennisclub.entity.ranking;
 import tennisclub.entity.Tournament;
 import tennisclub.entity.User;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -14,6 +11,7 @@ import java.util.Objects;
  * @author Ondrej Holub
  */
 @Entity
+@Table(name = "ranking")
 @IdClass(RankingId.class)
 public class Ranking {
 

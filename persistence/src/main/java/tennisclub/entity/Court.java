@@ -14,6 +14,7 @@ import java.util.Set;
  */
 @Entity
 @Table(
+    name = "court",
     uniqueConstraints = @UniqueConstraint(columnNames = {"name", "address"})
 )
 public class Court {

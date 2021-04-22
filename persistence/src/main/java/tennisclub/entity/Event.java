@@ -11,6 +11,7 @@ import java.util.Objects;
  * @author Miroslav Demek
  */
 @Entity
+@Table(name = "event")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Check(constraints =  "start_time <= end_time")
 public class Event {

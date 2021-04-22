@@ -14,6 +14,7 @@ import java.util.Set;
  * @author Ondrej Holub
  */
 @Entity
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
