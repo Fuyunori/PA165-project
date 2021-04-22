@@ -40,7 +40,7 @@ public class CourtDaoImpl implements CourtDao {
     @Override
     public List<Court> findByAddress(String addressSubstr) {
         return manager
-                .createQuery("SELECT c FROM Court c WHERE c.address LIKE concat('%', :a, '%')", Court.class)
+                .createQuery("SELECT c FROM Court c WHERE c.address LIKE CONCAT('%', :a, '%') ", Court.class)
                 .setParameter("a", addressSubstr)
                 .getResultList();
     }
