@@ -1,6 +1,5 @@
 package tennisclub.entity;
 
-import com.sun.istack.NotNull;
 import tennisclub.entity.enums.CourtType;
 
 import javax.persistence.*;
@@ -23,8 +22,7 @@ public class Court implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "name")
-    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "address")

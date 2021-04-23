@@ -4,7 +4,6 @@ import tennisclub.entity.Tournament;
 import tennisclub.entity.User;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,15 +16,13 @@ import java.util.Objects;
 public class Ranking implements Serializable {
 
     @Id
-    @NotNull
     @ManyToOne
-    @JoinColumn(name = "tournamentId")
+    @JoinColumn(name = "tournamentId", nullable = false)
     private Tournament tournament;
 
     @Id
-    @NotNull
     @ManyToOne
-    @JoinColumn(name = "playerId")
+    @JoinColumn(name = "playerId", nullable = false)
     private User player;
 
     private Integer playerPlacement;

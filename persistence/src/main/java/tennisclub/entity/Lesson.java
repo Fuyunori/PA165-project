@@ -3,7 +3,6 @@ package tennisclub.entity;
 import tennisclub.entity.enums.Level;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
@@ -17,7 +16,7 @@ public class Lesson extends Event {
     private Integer capacity;
 
     @Enumerated
-    @NotNull
+    @Column(nullable = false)
     private Level level;
 
     @ManyToMany

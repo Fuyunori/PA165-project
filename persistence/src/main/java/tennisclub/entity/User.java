@@ -4,7 +4,6 @@ import tennisclub.entity.enums.Role;
 import tennisclub.entity.ranking.Ranking;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,8 +22,7 @@ public class User implements Serializable {
 
     private String name;
 
-    @NotNull
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private  String username;
 
     private  String passwordHash;
