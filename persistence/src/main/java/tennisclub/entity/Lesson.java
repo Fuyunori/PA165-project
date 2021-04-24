@@ -21,17 +21,17 @@ public class Lesson extends Event {
 
     @ManyToMany
     @JoinTable(
-            name = "teacherLesson",
-            joinColumns = @JoinColumn(name = "lessonId"),
-            inverseJoinColumns = @JoinColumn(name = "teacherId")
+            name = "teacher_lesson",
+            joinColumns = @JoinColumn(name = "lesson_id"),
+            inverseJoinColumns = @JoinColumn(name = "teacher_id")
     )
     private Set<User> teachers = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
-            name = "studentLesson",
-            joinColumns = @JoinColumn(name = "lessonId"),
-            inverseJoinColumns = @JoinColumn(name = "studentId")
+            name = "student_lesson",
+            joinColumns = @JoinColumn(name = "lesson_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private Set<User> students = new HashSet<>();
 

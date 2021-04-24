@@ -17,12 +17,12 @@ public class Ranking implements Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "tournamentId", nullable = false)
+    @JoinColumn(name = "tournament_id", nullable = false)
     private Tournament tournament;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "playerId", nullable = false)
+    @JoinColumn(name = "player_id", nullable = false)
     private User player;
 
     private Integer playerPlacement;

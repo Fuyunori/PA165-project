@@ -21,7 +21,7 @@ public class Event implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "courtId", nullable = false)
+    @JoinColumn(name = "court_id", nullable = false)
     private Court court;
 
     @Column(nullable = false)

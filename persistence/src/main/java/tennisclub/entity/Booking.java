@@ -17,9 +17,9 @@ public class Booking extends Event {
 
     @ManyToMany
     @JoinTable(
-        name = "userBooking",
-        joinColumns = @JoinColumn(name = "bookingId"),
-        inverseJoinColumns = @JoinColumn(name = "userId")
+        name = "user_booking",
+        joinColumns = @JoinColumn(name = "booking_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> users = new HashSet<>();
 
