@@ -13,11 +13,19 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    boolean login(User user, String plainTextPassword);
+    boolean authenticate(User user, String plainTextPassword);
 
     boolean hasRights(User user, Role role);
 
     User findUserById(Long id);
 
-    User findUserByEmail(String email);
+    List<User> findUsersByName(String name);
+
+    User findUserByUsername(String username);
+
+    List<User> findUsersByEmail(String email);
+
+    void updateUserData(User user);
+
+    void removeUser(User user);
 }
