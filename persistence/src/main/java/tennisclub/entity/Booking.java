@@ -1,6 +1,8 @@
 package tennisclub.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -14,6 +16,11 @@ import java.util.Set;
 public class Booking extends Event {
 
     @ManyToMany
+    @JoinTable(
+        name = "user_booking",
+        joinColumns = @JoinColumn(name = "booking_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private Set<User> users = new HashSet<>();
 
     public Booking() { }

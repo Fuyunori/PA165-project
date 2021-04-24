@@ -3,7 +3,7 @@ package tennisclub.entity;
 import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -11,22 +11,23 @@ import java.util.Objects;
  * @author Miroslav Demek
  */
 @Entity
+@Table(name = "event")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Check(constraints =  "start_time <= end_time")
-public class Event {
+public class Event implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @ManyToOne
+    @JoinColumn(name = "court_id", nullable = false)
     private Court court;
 
-    @NotNull
+    @Column(nullable = false)
     private LocalDateTime startTime;
 
-    @NotNull
+    @Column(nullable = false)
     private LocalDateTime endTime;
 
     public Event() { }

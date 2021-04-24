@@ -3,21 +3,19 @@ package tennisclub.entity;
 import tennisclub.entity.ranking.Ranking;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 /**
- * @author Xuan Linh PHamová
+ * @author Xuan Linh Phamová
  */
 @Entity
 public class Tournament extends Event  {
     private Integer capacity;
 
-    @NotNull
+    @Column(nullable = false)
     private Integer prize;
 
     @OneToMany(mappedBy = "tournament")

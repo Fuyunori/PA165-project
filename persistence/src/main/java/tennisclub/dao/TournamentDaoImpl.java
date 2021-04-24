@@ -39,7 +39,7 @@ public class TournamentDaoImpl implements TournamentDao {
 
     @Override
     public List<Tournament> findAll() {
-        return em.createQuery("select t from Tournament t", Tournament.class)
+        return em.createQuery("SELECT t FROM Tournament t", Tournament.class)
                 .getResultList();
     }
 
@@ -50,28 +50,28 @@ public class TournamentDaoImpl implements TournamentDao {
 
     @Override
     public List<Tournament> findByCourt(Court court) {
-        return em.createQuery("select t from Tournament t where t.court = :court", Tournament.class)
+        return em.createQuery("SELECT t FROM Tournament t WHERE t.court = :court", Tournament.class)
                 .setParameter("court", court)
                 .getResultList();
     }
 
     @Override
     public List<Tournament> findByStartTime(LocalDateTime startTime) {
-        return em.createQuery("select t from Tournament t where t.startTime = :startTime", Tournament.class)
+        return em.createQuery("SELECT t FROM Tournament t WHERE t.startTime = :startTime", Tournament.class)
                 .setParameter("startTime", startTime)
                 .getResultList();
     }
 
     @Override
     public List<Tournament> findByEndTime(LocalDateTime endTime) {
-        return em.createQuery("select t from Tournament t where t.endTime = :endTime", Tournament.class)
+        return em.createQuery("SELECT t FROM Tournament t WHERE t.endTime = :endTime", Tournament.class)
                 .setParameter("endTime", endTime)
                 .getResultList();
     }
 
     @Override
     public List<Tournament> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
-        return em.createQuery("select t from Tournament t where t.endTime > :from and t.startTime < :to", Tournament.class)
+        return em.createQuery("SELECT t FROM Tournament t WHERE t.endTime > :from AND t.startTime < :to", Tournament.class)
                 .setParameter("from", from)
                 .setParameter("to", to)
                 .getResultList();
@@ -79,14 +79,14 @@ public class TournamentDaoImpl implements TournamentDao {
 
     @Override
     public List<Tournament> findByCapacity(Integer capacity) {
-        return em.createQuery("select t from Tournament t where t.capacity = :capacity", Tournament.class)
+        return em.createQuery("SELECT t FROM Tournament t WHERE t.capacity = :capacity", Tournament.class)
                 .setParameter("capacity", capacity)
                 .getResultList();
     }
 
     @Override
     public List<Tournament> findByPrize(Integer prize) {
-        return em.createQuery("select t from Tournament t where t.prize = :prize", Tournament.class)
+        return em.createQuery("SELECT t FROM Tournament t WHERE t.prize = :prize", Tournament.class)
                 .setParameter("prize", prize)
                 .getResultList();
     }
