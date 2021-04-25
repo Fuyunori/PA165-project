@@ -11,6 +11,7 @@ public interface LessonService {
     void create(Lesson lesson);
     Lesson update(Lesson lesson);
     void remove(Lesson lesson);
+    List<Lesson> listAll();
     List<Lesson> listByStartTime(LocalDateTime startTime);
     List<Lesson> listByEndTime(LocalDateTime endTime);
     List<Lesson> listByTimeInterval(LocalDateTime from, LocalDateTime to);

@@ -36,6 +36,11 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
+    public List<Lesson> listAll(){
+        return lessonDao.findAll();
+    }
+
+    @Override
     public List<Lesson> listByStartTime(LocalDateTime startTime) {
         return lessonDao.findByStartTime(startTime);
     }
