@@ -70,6 +70,14 @@ public interface BookingDao {
     List<Booking> findByTimeInterval(LocalDateTime from, LocalDateTime to);
 
     /**
+     * Retrieve all bookings if the specified user
+     *
+     * @param user the user whose bookings to retrieve
+     * @return List of the bookings of the user
+     */
+    List<Booking> findByUser(User user);
+
+    /**
      * Retrieve all bookings.
      *
      * @return List of all booking.

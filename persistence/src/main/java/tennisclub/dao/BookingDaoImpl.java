@@ -3,6 +3,7 @@ package tennisclub.dao;
 import org.springframework.stereotype.Repository;
 import tennisclub.entity.Booking;
 import tennisclub.entity.Court;
+import tennisclub.entity.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -54,6 +55,13 @@ public class BookingDaoImpl implements BookingDao {
         return em.createQuery("SELECT b FROM Booking b WHERE b.endTime > :from AND b.startTime < :to", Booking.class)
                 .setParameter("from", from)
                 .setParameter("to", to)
+                .getResultList();
+    }
+
+    @Override
+    public List<Booking> findByUser(User user) {
+        return em.createQuery("SELECT b FROM Booking b JOIN b.users u ON u = :user", Booking.class)
+                .setParameter("user", user)
                 .getResultList();
     }
 
