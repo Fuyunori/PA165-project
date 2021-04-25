@@ -16,7 +16,4 @@ public interface LessonService {
     List<Lesson> listByTimeInterval(LocalDateTime from, LocalDateTime to);
     List<Lesson> findByCapacity(Integer capacity);
     List<Lesson> findByLevel(Level level);
-
-    void enrollStudent(Lesson lesson, User student);
-    void addTeacher(Lesson lesson, User teacher);
 }

@@ -6,6 +6,7 @@ import tennisclub.dao.LessonDao;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
 import tennisclub.entity.enums.Level;
+import tennisclub.exceptions.TennisClubManagerException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -57,16 +58,5 @@ public class LessonServiceImpl implements LessonService{
     @Override
     public List<Lesson> findByLevel(Level level) {
         return lessonDao.findByLevel(level);
-    }
-
-    @Override
-    public void enrollStudent(Lesson lesson, User student) {
-        // TODO: check whether the student isn't already enrolled
-        lesson.addStudent(student);
-    }
-
-    @Override
-    public void addTeacher(Lesson lesson, User teacher) {
-        lesson.addTeacher(teacher);
     }
 }
