@@ -51,12 +51,12 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public List<Lesson> findByCapacity(Integer capacity) {
+    public List<Lesson> listByCapacity(Integer capacity) {
         return lessonDao.findByCapacity(capacity);
     }
 
     @Override
-    public List<Lesson> findByLevel(Level level) {
+    public List<Lesson> listByLevel(Level level) {
         return lessonDao.findByLevel(level);
     }
 }
