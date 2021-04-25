@@ -35,6 +35,11 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
+    public List<Tournament> listAll(){
+        return tournamentDao.findAll();
+    }
+
+    @Override
     public List<Tournament> listByStartTime(LocalDateTime startTime) {
         return tournamentDao.findByStartTime(startTime);
     }

@@ -10,6 +10,7 @@ public interface TournamentService {
     void create(Tournament tournament);
     Tournament update(Tournament tournament);
     void remove(Tournament tournament);
+    List<Tournament> listAll();
     List<Tournament> listByStartTime(LocalDateTime startTime);
     List<Tournament> listByEndTime(LocalDateTime endTime);
     List<Tournament> listByTimeInterval(LocalDateTime from, LocalDateTime to);
