@@ -3,10 +3,11 @@ package tennisclub.facade;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tennisclub.dto.CourtDto;
 import tennisclub.entity.Court;
 import tennisclub.enums.CourtType;
 import tennisclub.service.CourtService;
-import tennisclub.dto.CourtDto;
+import tennisclub.dto.CourtCreateDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class CourtFacadeImpl implements CourtFacade {
     }
 
     @Override
-    public void create(CourtDto court) {
+    public void create(CourtCreateDto court) {
         Court entity = mapper.map(court, Court.class);
         courtService.create(entity);
     }

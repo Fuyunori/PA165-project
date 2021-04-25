@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import tennisclub.dto.CourtDto;
+import tennisclub.dto.CourtCreateDto;
 import tennisclub.entity.Court;
 import tennisclub.enums.CourtType;
 import tennisclub.service.CourtService;
@@ -23,7 +23,7 @@ public class CourtFacadeTest {
 
     @Test
     void create() {
-        CourtDto passedDto = new CourtDto();
+        CourtCreateDto passedDto = new CourtCreateDto();
         passedDto.setName("Hello");
         passedDto.setPreviewImageUrl("http://localhost/image.png");
         passedDto.setType(CourtType.TURF);
