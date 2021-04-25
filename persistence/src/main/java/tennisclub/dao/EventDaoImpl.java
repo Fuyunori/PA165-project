@@ -31,28 +31,28 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public List<Event> findByCourt(Court court) {
-        return em.createQuery("select e from Event e where e.court = :court", Event.class)
+        return em.createQuery("SELECT e FROM Event e WHERE e.court = :court", Event.class)
                 .setParameter("court", court)
                 .getResultList();
     }
 
     @Override
     public List<Event> findByStartTime(LocalDateTime startTime) {
-        return em.createQuery("select e from Event e where e.startTime = :startTime", Event.class)
+        return em.createQuery("SELECT e FROM Event e WHERE e.startTime = :startTime", Event.class)
                 .setParameter("startTime", startTime)
                 .getResultList();
     }
 
     @Override
     public List<Event> findByEndTime(LocalDateTime endTime) {
-        return em.createQuery("select e from Event e where e.endTime = :endTime", Event.class)
+        return em.createQuery("SELECT e FROM Event e WHERE e.endTime = :endTime", Event.class)
                 .setParameter("endTime", endTime)
                 .getResultList();
     }
 
     @Override
     public List<Event> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
-        return em.createQuery("select e from Event e where e.endTime > :from and e.startTime < :to", Event.class)
+        return em.createQuery("SELECT e FROM Event e WHERE e.endTime > :from AND e.startTime < :to", Event.class)
                 .setParameter("from", from)
                 .setParameter("to", to)
                 .getResultList();
@@ -60,7 +60,7 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public List<Event> findAll() {
-        return em.createQuery("select e from Event e", Event.class).getResultList();
+        return em.createQuery("SELECT e FROM Event e", Event.class).getResultList();
     }
 
     @Override

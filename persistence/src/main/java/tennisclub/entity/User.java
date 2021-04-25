@@ -4,7 +4,7 @@ import tennisclub.entity.enums.Role;
 import tennisclub.entity.ranking.Ranking;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
 
@@ -14,15 +14,15 @@ import java.util.Set;
  * @author Ondrej Holub
  */
 @Entity
-public class User {
+@Table(name = "user")
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String name;
 
-    @NotNull
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private  String username;
 
     private  String passwordHash;

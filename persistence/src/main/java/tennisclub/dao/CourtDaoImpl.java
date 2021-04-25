@@ -32,7 +32,7 @@ public class CourtDaoImpl implements CourtDao {
     @Override
     public Court findById(Long id) {
         return manager
-                .createQuery("select c from Court c where c.id = :id", Court.class)
+                .createQuery("SELECT c FROM Court c WHERE c.id = :id", Court.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }
@@ -40,7 +40,7 @@ public class CourtDaoImpl implements CourtDao {
     @Override
     public List<Court> findByAddress(String addressSubstr) {
         return manager
-                .createQuery("select c from Court c where c.address like concat('%', :a, '%')", Court.class)
+                .createQuery("SELECT c FROM Court c WHERE c.address LIKE CONCAT('%', :a, '%') ", Court.class)
                 .setParameter("a", addressSubstr)
                 .getResultList();
     }
@@ -48,7 +48,7 @@ public class CourtDaoImpl implements CourtDao {
     @Override
     public List<Court> findByType(CourtType type) {
         return manager
-                .createQuery("select c from Court c where c.type = :t", Court.class)
+                .createQuery("SELECT c FROM Court c WHERE c.type = :t", Court.class)
                 .setParameter("t", type)
                 .getResultList();
     }

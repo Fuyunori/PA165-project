@@ -3,28 +3,26 @@ package tennisclub.entity.ranking;
 import tennisclub.entity.Tournament;
 import tennisclub.entity.User;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * @author Ondrej Holub
  */
 @Entity
+@Table(name = "ranking")
 @IdClass(RankingId.class)
-public class Ranking {
+public class Ranking implements Serializable {
 
-    @ManyToOne
-    @NotNull
     @Id
+    @ManyToOne
+    @JoinColumn(name = "tournament_id", nullable = false)
     private Tournament tournament;
 
-    @ManyToOne
-    @NotNull
     @Id
+    @ManyToOne
+    @JoinColumn(name = "player_id", nullable = false)
     private User player;
 
     private Integer playerPlacement;
