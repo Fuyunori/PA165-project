@@ -1,7 +1,7 @@
 package tennisclub.service;
 
 import tennisclub.entity.Court;
-import tennisclub.entity.enums.CourtType;
+import tennisclub.enums.CourtType;
 import java.util.List;
 
 /**

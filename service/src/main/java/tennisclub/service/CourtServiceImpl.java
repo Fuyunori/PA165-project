@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tennisclub.dao.CourtDao;
 import tennisclub.entity.Court;
-import tennisclub.entity.enums.CourtType;
+import tennisclub.enums.CourtType;
 import java.util.List;
 
 /**
