@@ -48,4 +48,27 @@ public class CourtDto {
     public void setPreviewImageUrl(String previewImageUrl) {
         this.previewImageUrl = previewImageUrl;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CourtDto)) return false;
+
+        CourtDto courtDto = (CourtDto) o;
+
+        if (getName() != null ? !getName().equals(courtDto.getName()) : courtDto.getName() != null) return false;
+        if (getAddress() != null ? !getAddress().equals(courtDto.getAddress()) : courtDto.getAddress() != null)
+            return false;
+        if (getType() != courtDto.getType()) return false;
+        return getPreviewImageUrl() != null ? getPreviewImageUrl().equals(courtDto.getPreviewImageUrl()) : courtDto.getPreviewImageUrl() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
+        result = 31 * result + (getType() != null ? getType().hashCode() : 0);
+        result = 31 * result + (getPreviewImageUrl() != null ? getPreviewImageUrl().hashCode() : 0);
+        return result;
+    }
 }
