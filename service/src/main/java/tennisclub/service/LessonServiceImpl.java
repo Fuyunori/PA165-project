@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tennisclub.dao.LessonDao;
 import tennisclub.entity.Lesson;
+import tennisclub.entity.User;
+import tennisclub.entity.enums.Level;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,5 +42,31 @@ public class LessonServiceImpl implements LessonService{
     @Override
     public List<Lesson> listByEndTime(LocalDateTime endTime) {
         return lessonDao.findByEndTime(endTime);
+    }
+
+    @Override
+    public List<Lesson> listByTimeInterval(LocalDateTime from, LocalDateTime to) {
+        return lessonDao.findByTimeInterval(from, to);
+    }
+
+    @Override
+    public List<Lesson> findByCapacity(Integer capacity) {
+        return lessonDao.findByCapacity(capacity);
+    }
+
+    @Override
+    public List<Lesson> findByLevel(Level level) {
+        return lessonDao.findByLevel(level);
+    }
+
+    @Override
+    public void enrollStudent(Lesson lesson, User student) {
+        // TODO: check whether the student isn't already enrolled
+        lesson.addStudent(student);
+    }
+
+    @Override
+    public void addTeacher(Lesson lesson, User teacher) {
+        lesson.addTeacher(teacher);
     }
 }
