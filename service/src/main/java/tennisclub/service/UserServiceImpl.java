@@ -3,12 +3,14 @@ package tennisclub.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import tennisclub.dao.UserDao;
 import tennisclub.entity.User;
 import tennisclub.entity.enums.Role;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
