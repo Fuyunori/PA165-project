@@ -1,4 +1,4 @@
-package tennisclub.validator;
+package tennisclub.validators;
 import org.apache.commons.beanutils.PropertyUtils;
 import tennisclub.annotations.IsEndTimeAfterStartTime;
 
