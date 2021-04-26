@@ -51,8 +51,8 @@ public class LessonDTO {
         if (o == null || getClass() != o.getClass()) return false;
         LessonDTO lessonDTO = (LessonDTO) o;
         return // Objects.equals(court, lessonDTO.court) &&
-                Objects.equals(startTime, lessonDTO.startTime)
-                && Objects.equals(endTime, lessonDTO.endTime);
+                Objects.equals(startTime, lessonDTO.getStartTime())
+                && Objects.equals(endTime, lessonDTO.getEndTime());
     }
 
     @Override
