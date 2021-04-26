@@ -1,18 +1,18 @@
 package tennisclub.validator;
 import org.apache.commons.beanutils.PropertyUtils;
-import tennisclub.annotations.IsLaterThan;
+import tennisclub.annotations.IsEndTimeAfterStartTime;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 
-public class IsEndTimeLaterThanStartTimeValidator implements ConstraintValidator<IsLaterThan, Object> {
+public class IsEndTimeLaterThanStartTimeValidator implements ConstraintValidator<IsEndTimeAfterStartTime, Object> {
     private String firstFieldName;
     private String secondFieldName;
 
     @Override
-    public void initialize(final IsLaterThan constraintAnnotation)
+    public void initialize(final IsEndTimeAfterStartTime constraintAnnotation)
     {
         firstFieldName = constraintAnnotation.start();
         secondFieldName = constraintAnnotation.end();

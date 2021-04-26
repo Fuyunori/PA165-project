@@ -1,6 +1,6 @@
 package tennisclub.dto;
 
-import tennisclub.annotations.IsLaterThan;
+import tennisclub.annotations.IsEndTimeAfterStartTime;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@IsLaterThan(start = "startTime", end = "endTime")
+@IsEndTimeAfterStartTime(start = "startTime", end = "endTime")
 public class LessonCreateDTO {
     // TODO: uncomment once the courtDTO is done :)
     // @NotNull

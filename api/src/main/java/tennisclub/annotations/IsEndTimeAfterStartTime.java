@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = IsEndTimeLaterThanStartTimeValidator.class)
 @Documented
-public @interface IsLaterThan {
+public @interface IsEndTimeAfterStartTime {
     String start();
 
     String end();
