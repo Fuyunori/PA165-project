@@ -19,15 +19,14 @@ public class IsEndTimeLaterThanStartTimeValidator implements ConstraintValidator
     }
 
     @Override
-    public boolean isValid(final Object value, final ConstraintValidatorContext constraintValidatorContext){
+    public boolean isValid(final Object annotatedObject, final ConstraintValidatorContext constraintValidatorContext){
         try {
-            final LocalDateTime startTime = (LocalDateTime) PropertyUtils.getProperty(value, firstFieldName);
-            final LocalDateTime endTime = (LocalDateTime) PropertyUtils.getProperty(value, secondFieldName);
+            final LocalDateTime startTime = (LocalDateTime) PropertyUtils.getProperty(annotatedObject, firstFieldName);
+            final LocalDateTime endTime = (LocalDateTime) PropertyUtils.getProperty(annotatedObject, secondFieldName);
 
             return endTime.isEqual(startTime) || endTime.isAfter(startTime);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error while reading startTime or endTime on class " + annotatedObject.getClass().getName() );
         }
-        return true;
     }
 }
