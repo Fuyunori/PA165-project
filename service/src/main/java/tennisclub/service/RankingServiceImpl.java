@@ -15,7 +15,7 @@ public class RankingServiceImpl implements RankingService {
     private final RankingDao rankingDao;
 
     @Autowired
-    RankingServiceImpl(RankingDao rankingDao) { this.rankingDao = rankingDao; }
+    public RankingServiceImpl(RankingDao rankingDao) { this.rankingDao = rankingDao; }
 
     @Override
     public void create(Ranking ranking) {
