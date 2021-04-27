@@ -48,17 +48,13 @@ public class CourtCreateDto {
         CourtCreateDto that = (CourtCreateDto) o;
 
         if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
-        if (getAddress() != null ? !getAddress().equals(that.getAddress()) : that.getAddress() != null) return false;
-        if (getType() != that.getType()) return false;
-        return getPreviewImageUrl() != null ? getPreviewImageUrl().equals(that.getPreviewImageUrl()) : that.getPreviewImageUrl() == null;
+        return getAddress() != null ? getAddress().equals(that.getAddress()) : that.getAddress() == null;
     }
 
     @Override
     public int hashCode() {
         int result = getName() != null ? getName().hashCode() : 0;
         result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
-        result = 31 * result + (getType() != null ? getType().hashCode() : 0);
-        result = 31 * result + (getPreviewImageUrl() != null ? getPreviewImageUrl().hashCode() : 0);
         return result;
     }
 }
