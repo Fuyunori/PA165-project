@@ -35,6 +35,11 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
+    public Tournament listById(Long id){
+        return tournamentDao.findById(id);
+    }
+
+    @Override
     public List<Tournament> listAll(){
         return tournamentDao.findAll();
     }
