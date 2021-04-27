@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public interface LessonService {
-    void create(Lesson lesson);
+    Lesson create(Lesson lesson);
     Lesson update(Lesson lesson);
     void remove(Lesson lesson);
 
