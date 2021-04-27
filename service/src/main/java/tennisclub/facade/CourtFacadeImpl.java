@@ -27,15 +27,17 @@ public class CourtFacadeImpl implements CourtFacade {
     }
 
     @Override
-    public void create(CourtCreateDto court) {
+    public CourtDto create(CourtCreateDto court) {
         Court entity = mapper.map(court, Court.class);
         courtService.create(entity);
+        return mapper.map(entity, CourtDto.class);
     }
 
     @Override
-    public void update(CourtDto court) {
+    public CourtDto update(CourtDto court) {
         Court entity = mapper.map(court, Court.class);
-        courtService.update(entity);
+        Court updatedEntity = courtService.update(entity);
+        return mapper.map(updatedEntity, CourtDto.class);
     }
 
     @Override

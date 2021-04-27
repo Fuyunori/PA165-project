@@ -9,8 +9,8 @@ import java.util.List;
  * @author Pavel Tobiáš
  */
 public interface CourtFacade {
-    void create(CourtCreateDto court);
-    void update(CourtDto court);
+    CourtDto create(CourtCreateDto court);
+    CourtDto update(CourtDto court);
     void delete(CourtDto court);
     CourtDto getById(Long id);
     List<CourtDto> listByAddress(String address);
