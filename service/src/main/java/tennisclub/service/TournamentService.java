@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public interface TournamentService {
-    void create(Tournament tournament);
+    Tournament create(Tournament tournament);
     Tournament update(Tournament tournament);
     void remove(Tournament tournament);
 

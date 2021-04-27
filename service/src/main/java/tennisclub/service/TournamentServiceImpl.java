@@ -20,8 +20,9 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public void create(Tournament tournament) {
+    public Tournament create(Tournament tournament) {
         tournamentDao.create(tournament);
+        return tournament;
     }
 
     @Override
