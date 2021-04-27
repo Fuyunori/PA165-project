@@ -1,6 +1,7 @@
 package tennisclub.service;
 
 import org.springframework.stereotype.Service;
+import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
 import tennisclub.entity.enums.Level;
@@ -22,6 +23,7 @@ public interface LessonService {
 
     Lesson listById(Long id);
     List<Lesson> listAll();
+    List<Lesson> listByCourt(Court court);
     List<Lesson> listByStartTime(LocalDateTime startTime);
     List<Lesson> listByEndTime(LocalDateTime endTime);
     List<Lesson> listByTimeInterval(LocalDateTime from, LocalDateTime to);
