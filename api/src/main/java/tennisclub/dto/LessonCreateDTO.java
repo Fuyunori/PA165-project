@@ -10,9 +10,8 @@ import java.util.Objects;
 
 @IsEndTimeAfterStartTime(start = "startTime", end = "endTime")
 public class LessonCreateDTO {
-    // TODO: uncomment once the courtDTO is done :)
-    // @NotNull
-    // private CourtDto court;
+    @NotNull
+    private Long courtId;
 
     @NotNull
     @FutureOrPresent
@@ -25,7 +24,17 @@ public class LessonCreateDTO {
     private Integer capacity;
 
     // TODO: uncomment once the PR is merged :)
+    // @NotNull
     // private Level level;
+
+
+    public Long getCourtId() {
+        return courtId;
+    }
+
+    public void setCourtId(Long courtId) {
+        this.courtId = courtId;
+    }
 
     public LocalDateTime getStartTime() {
         return startTime;
