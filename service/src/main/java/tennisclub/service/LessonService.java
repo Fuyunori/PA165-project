@@ -1,5 +1,6 @@
 package tennisclub.service;
 
+import org.springframework.stereotype.Service;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
 import tennisclub.entity.enums.Level;
@@ -7,6 +8,7 @@ import tennisclub.entity.enums.Level;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public interface LessonService {
     void create(Lesson lesson);
     Lesson update(Lesson lesson);
