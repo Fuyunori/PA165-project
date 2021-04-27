@@ -12,11 +12,13 @@ public interface TournamentService {
     void create(Tournament tournament);
     Tournament update(Tournament tournament);
     void remove(Tournament tournament);
+
+    void addRanking(Tournament tournament, Ranking ranking);
+
     Tournament listById(Long id);
     List<Tournament> listAll();
     List<Tournament> listByStartTime(LocalDateTime startTime);
     List<Tournament> listByEndTime(LocalDateTime endTime);
     List<Tournament> listByTimeInterval(LocalDateTime from, LocalDateTime to);
     List<Tournament> listByCapacity(Integer capacity);
-    void addRanking(Tournament tournament, Ranking ranking);
 }

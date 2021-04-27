@@ -35,6 +35,16 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
+    public void addRanking(Tournament tournament, Ranking ranking){
+        if(tournament.getRankings().contains(ranking)){
+            throw new TennisClubManagerException("Tournament already contains the rank of the player.\n Tournament: "
+                    + tournament.getId() + ",\n player: "
+                    + ranking.getPlayer().getId());
+        }
+        tournament.addRanking(ranking);
+    }
+
+    @Override
     public Tournament listById(Long id){
         return tournamentDao.findById(id);
     }
@@ -62,15 +72,5 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public List<Tournament> listByCapacity(Integer capacity) {
         return tournamentDao.findByCapacity(capacity);
-    }
-
-    @Override
-    public void addRanking(Tournament tournament, Ranking ranking){
-        if(tournament.getRankings().contains(ranking)){
-            throw new TennisClubManagerException("Tournament already contains the rank of the player.\n Tournament: "
-                    + tournament.getId() + ",\n player: "
-                    + ranking.getPlayer().getId());
-        }
-        tournament.addRanking(ranking);
     }
 }
