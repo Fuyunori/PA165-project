@@ -48,8 +48,7 @@ public class LessonDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LessonDTO lessonDTO = (LessonDTO) o;
-        return // Objects.equals(court, lessonDTO.court) &&
-                Objects.equals(startTime, lessonDTO.getStartTime())
+        return Objects.equals(startTime, lessonDTO.getStartTime())
                 && Objects.equals(endTime, lessonDTO.getEndTime());
     }
 
@@ -57,7 +56,6 @@ public class LessonDTO {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        //result = prime * result + ((court == null) ? 0 : court.hashCode());
         result = prime * result  + ((startTime == null) ? 0 : startTime.hashCode());
         result = prime * result  + ((endTime == null) ? 0 : endTime.hashCode());
         return result;
