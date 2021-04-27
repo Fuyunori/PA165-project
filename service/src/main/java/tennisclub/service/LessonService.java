@@ -14,6 +14,13 @@ public interface LessonService {
     Lesson update(Lesson lesson);
     void remove(Lesson lesson);
     Lesson listById(Long id);
+
+    void enrollStudent(Lesson lesson, User student);
+    void addTeacher(Lesson lesson, User teacher);
+
+    void withdrawStudent(Lesson lesson, User student);
+    void removeTeacher(Lesson lesson, User teacher);
+
     List<Lesson> listAll();
     List<Lesson> listByStartTime(LocalDateTime startTime);
     List<Lesson> listByEndTime(LocalDateTime endTime);

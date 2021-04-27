@@ -36,6 +36,38 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
+    public void enrollStudent(Lesson lesson, User student) {
+        if(lesson.getStudents().contains(student)){
+            throw new TennisClubManagerException("Can't enroll a student into a course in which he/she is already enrolled into!");
+        }
+        student.addLessonToAttend(lesson);
+    }
+
+    @Override
+    public void addTeacher(Lesson lesson, User teacher) {
+        if(lesson.getTeachers().contains(teacher)){
+            throw new TennisClubManagerException("Can't assign a teacher to a course which he/she already teaches!");
+        }
+        teacher.addLessonToTeach(lesson);
+    }
+
+    @Override
+    public void withdrawStudent(Lesson lesson, User student) {
+        if(!lesson.getStudents().contains(student)){
+            throw new TennisClubManagerException("Can't enroll a student into a course in which he/she is already enrolled into!");
+        }
+        student.removeLessonToAttend(lesson);
+    }
+
+    @Override
+    public void removeTeacher(Lesson lesson, User teacher) {
+        if(!lesson.getTeachers().contains(teacher)){
+            throw new TennisClubManagerException("Can't assign a teacher to a course which he/she already teaches!");
+        }
+        teacher.removeLessonToTeach(lesson);
+    }
+
+    @Override
     public Lesson listById(Long id){
         return lessonDao.findById(id);
     }
