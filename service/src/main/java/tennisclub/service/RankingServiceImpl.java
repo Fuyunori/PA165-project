@@ -38,8 +38,8 @@ public class RankingServiceImpl implements RankingService {
     }
 
     @Override
-    public void update(Ranking ranking) {
-        rankingDao.update(ranking);
+    public Ranking update(Ranking ranking) {
+        return rankingDao.update(ranking);
     }
 
     @Override
