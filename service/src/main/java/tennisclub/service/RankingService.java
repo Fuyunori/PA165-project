@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface RankingService {
     void create(Ranking ranking);
-    Ranking find(User player, Tournament tournament);
+    Ranking find(Tournament tournament, User player);
     List<Ranking> findByPlayer(User player);
     List<Ranking> findByTournament(Tournament tournament);
     void update(Ranking ranking);
