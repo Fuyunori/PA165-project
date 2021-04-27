@@ -2,8 +2,12 @@ package tennisclub.dto;
 
 import tennisclub.enums.CourtType;
 
+import javax.validation.constraints.NotBlank;
+
 public class CourtCreateDto {
+    @NotBlank
     private String name;
+
     private String address;
     private CourtType type;
     private String previewImageUrl;
