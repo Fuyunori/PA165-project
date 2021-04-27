@@ -5,8 +5,6 @@ import java.util.Objects;
 
 public class LessonDTO {
     private Long id;
-    // TODO: uncomment once the courtDTO is done :)
-    //private CourtDto court;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer capacity;
