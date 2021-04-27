@@ -25,7 +25,7 @@ public interface UserService {
 
     List<User> findUsersByEmail(String email);
 
-    void updateUserData(User user);
+    User updateUserData(User user);
 
     void removeUser(User user);
 }
