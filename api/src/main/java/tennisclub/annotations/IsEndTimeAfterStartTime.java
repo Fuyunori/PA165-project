@@ -1,6 +1,6 @@
 package tennisclub.annotations;
 
-import tennisclub.validators.IsEndTimeLaterThanStartTimeValidator;
+import tennisclub.validators.IsEndAfterStartValidator;
 
 import javax.validation.Constraint;
 import java.lang.annotation.Documented;
@@ -12,7 +12,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({TYPE, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = IsEndTimeLaterThanStartTimeValidator.class)
+@Constraint(validatedBy = IsEndAfterStartValidator.class)
 @Documented
 public @interface IsEndTimeAfterStartTime {
     String message() default "End date must be greater or equal to start date.";
