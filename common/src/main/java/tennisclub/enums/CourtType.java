@@ -1,4 +1,4 @@
-package tennisclub.entity.enums;
+package tennisclub.enums;
 
 public enum CourtType {
     GRASS,

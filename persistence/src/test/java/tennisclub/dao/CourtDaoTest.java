@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import tennisclub.entity.Court;
-import tennisclub.entity.enums.CourtType;
+import tennisclub.enums.CourtType;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
