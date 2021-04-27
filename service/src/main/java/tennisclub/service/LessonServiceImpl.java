@@ -54,7 +54,7 @@ public class LessonServiceImpl implements LessonService{
     @Override
     public void withdrawStudent(Lesson lesson, User student) {
         if(!lesson.getStudents().contains(student)){
-            throw new TennisClubManagerException("Can't enroll a student into a course in which he/she is already enrolled into!");
+            throw new TennisClubManagerException("Can't withdraw a student from a course in which he/she is not enrolled into!");
         }
         student.removeLessonToAttend(lesson);
     }
@@ -62,7 +62,7 @@ public class LessonServiceImpl implements LessonService{
     @Override
     public void removeTeacher(Lesson lesson, User teacher) {
         if(!lesson.getTeachers().contains(teacher)){
-            throw new TennisClubManagerException("Can't assign a teacher to a course which he/she already teaches!");
+            throw new TennisClubManagerException("Can't remove a teacher from a course which he/she doesn't teach!");
         }
         teacher.removeLessonToTeach(lesson);
     }
