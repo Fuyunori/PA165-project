@@ -7,7 +7,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 
-public class IsEndTimeLaterThanStartTimeValidator implements ConstraintValidator<IsEndTimeAfterStartTime, Object> {
+public class IsEndAfterStartValidator implements ConstraintValidator<IsEndTimeAfterStartTime, Object> {
     private String firstFieldName;
     private String secondFieldName;
 
