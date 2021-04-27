@@ -36,6 +36,11 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
+    public Lesson listById(Long id){
+        return lessonDao.findById(id);
+    }
+
+    @Override
     public List<Lesson> listAll(){
         return lessonDao.findAll();
     }
