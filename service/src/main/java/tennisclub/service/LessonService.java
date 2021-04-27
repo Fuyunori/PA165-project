@@ -25,6 +25,7 @@ public interface LessonService {
     List<Lesson> listByStartTime(LocalDateTime startTime);
     List<Lesson> listByEndTime(LocalDateTime endTime);
     List<Lesson> listByTimeInterval(LocalDateTime from, LocalDateTime to);
+    List<Lesson> listAllLessonsToday();
     List<Lesson> listByCapacity(Integer capacity);
     List<Lesson> listByLevel(Level level);
 }

@@ -8,7 +8,9 @@ import tennisclub.entity.User;
 import tennisclub.entity.enums.Level;
 import tennisclub.exceptions.TennisClubManagerException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -91,6 +93,18 @@ public class LessonServiceImpl implements LessonService{
     @Override
     public List<Lesson> listByTimeInterval(LocalDateTime from, LocalDateTime to) {
         return lessonDao.findByTimeInterval(from, to);
+    }
+
+    @Override
+    public List<Lesson> listAllLessonsToday(){
+        LocalTime startOfDay = LocalTime.of(0,0);
+        LocalTime endOfDay = LocalTime.of(23,59);
+        LocalDate today = LocalDate.now();
+
+        LocalDateTime startOfToday = LocalDateTime.of(today, startOfDay);
+        LocalDateTime endOfToday = LocalDateTime.of(today, endOfDay);
+
+        return lessonDao.findByTimeInterval(startOfToday, endOfToday);
     }
 
     @Override
