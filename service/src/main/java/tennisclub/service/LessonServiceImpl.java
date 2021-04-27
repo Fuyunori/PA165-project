@@ -21,8 +21,9 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public void create(Lesson lesson) {
+    public Lesson create(Lesson lesson) {
         lessonDao.create(lesson);
+        return lesson;
     }
 
     @Override
