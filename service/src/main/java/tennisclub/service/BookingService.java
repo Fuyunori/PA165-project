@@ -16,9 +16,9 @@ public interface BookingService {
 
     void deleteBooking(Booking booking);
 
-    void removeUser(Booking booking, User user);
+    Booking removeUser(Booking booking, User user);
 
-    void addUser(Booking booking, User user);
+    Booking addUser(Booking booking, User user);
 
     List<Booking> findAll();
 

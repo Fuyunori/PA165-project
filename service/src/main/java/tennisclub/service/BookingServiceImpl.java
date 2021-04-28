@@ -37,19 +37,21 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void removeUser(Booking booking, User user) {
+    public Booking removeUser(Booking booking, User user) {
         if (!booking.getUsers().contains(user)) {
             throw new TennisClubManagerException("Removing user from a booking he is not in!");
         }
         user.removeBooking(booking);
+        return bookingDao.update(booking);
     }
 
     @Override
-    public void addUser(Booking booking, User user) {
+    public Booking addUser(Booking booking, User user) {
         if (booking.getUsers().contains(user)) {
             throw new TennisClubManagerException("Adding user to a booking he is already in!");
         }
         user.addBooking(booking);
+        return bookingDao.update(booking);
     }
 
     @Override
