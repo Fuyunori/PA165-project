@@ -60,16 +60,15 @@ public class LessonServiceTest {
 
     @Test
     public void updateLesson() {
-        Lesson expected = lesson;
-        expected.setCapacity(12);
-        expected.setLevel(Level.ADVANCED);
-        expected.setStartTime(LocalDateTime.of(2021, 4, 25, 9, 0));
+        lesson.setCapacity(12);
+        lesson.setLevel(Level.ADVANCED);
+        lesson.setStartTime(LocalDateTime.of(2021, 4, 25, 9, 0));
 
-        when(lessonDao.update(expected)).thenReturn(expected);
+        when(lessonDao.update(lesson)).thenReturn(lesson);
 
         Lesson actual = lessonService.update(lesson);
 
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isEqualTo(lesson);
     }
 
     @Test
