@@ -14,14 +14,13 @@ import java.util.Set;
 public interface LessonService {
     Lesson create(Lesson lesson);
     Lesson update(Lesson lesson);
-
-    void enrollStudent(Lesson lesson, User student);
-
-    void addTeacher(Lesson lesson, User teacher);
-    void withdrawStudent(Lesson lesson, User student);
-
-    void removeTeacher(Lesson lesson, User teacher);
     void remove(Lesson lesson);
+
+    Lesson enrollStudent(Lesson lesson, User student);
+    Lesson withdrawStudent(Lesson lesson, User student);
+
+    Lesson addTeacher(Lesson lesson, User teacher);
+    Lesson removeTeacher(Lesson lesson, User teacher);
 
     Lesson findById(Long id);
     List<Lesson> findAll();
