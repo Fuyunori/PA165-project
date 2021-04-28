@@ -18,7 +18,7 @@ public interface BookingService {
 
     void addUser(Booking booking, User user);
 
-    List<Booking> findALL();
+    List<Booking> findAll();
 
     Booking findById(Long id);
 

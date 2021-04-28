@@ -52,7 +52,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> findALL() {
+    public List<Booking> findAll() {
         return bookingDao.findAll();
     }
 
