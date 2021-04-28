@@ -6,11 +6,12 @@ import tennisclub.dao.LessonDao;
 import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
-import tennisclub.entity.enums.Level;
+import tennisclub.enums.Level;
 import tennisclub.exceptions.TennisClubManagerException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class LessonServiceImpl implements LessonService{
@@ -38,74 +39,88 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public void enrollStudent(Lesson lesson, User student) {
+    public Lesson enrollStudent(Lesson lesson, User student) {
         if(lesson.getStudents().contains(student)){
             throw new TennisClubManagerException("Can't enroll a student into a course in which he/she is already enrolled into!");
         }
         student.addLessonToAttend(lesson);
+        return lessonDao.update(lesson);
     }
 
     @Override
-    public void addTeacher(Lesson lesson, User teacher) {
+    public Lesson addTeacher(Lesson lesson, User teacher) {
         if(lesson.getTeachers().contains(teacher)){
             throw new TennisClubManagerException("Can't assign a teacher to a course which he/she already teaches!");
         }
         teacher.addLessonToTeach(lesson);
+        return lessonDao.update(lesson);
     }
 
     @Override
-    public void withdrawStudent(Lesson lesson, User student) {
+    public Lesson withdrawStudent(Lesson lesson, User student) {
         if(!lesson.getStudents().contains(student)){
             throw new TennisClubManagerException("Can't withdraw a student from a course in which he/she is not enrolled into!");
         }
         student.removeLessonToAttend(lesson);
+        return lessonDao.update(lesson);
     }
 
     @Override
-    public void removeTeacher(Lesson lesson, User teacher) {
+    public Lesson removeTeacher(Lesson lesson, User teacher) {
         if(!lesson.getTeachers().contains(teacher)){
             throw new TennisClubManagerException("Can't remove a teacher from a course which he/she doesn't teach!");
         }
         teacher.removeLessonToTeach(lesson);
+        return lessonDao.update(lesson);
     }
 
     @Override
-    public Lesson listById(Long id){
+    public Lesson findById(Long id){
         return lessonDao.findById(id);
     }
 
     @Override
-    public List<Lesson> listAll(){
-        return lessonDao.findAll();
-    }
-
-    @Override
-    public List<Lesson> listByCourt(Court court){
+    public List<Lesson> findByCourt(Court court){
         return lessonDao.findByCourt(court);
     }
 
     @Override
-    public List<Lesson> listByStartTime(LocalDateTime startTime) {
+    public List<Lesson> findAll(){
+        return lessonDao.findAll();
+    }
+
+    @Override
+    public List<Lesson> findByStartTime(LocalDateTime startTime) {
         return lessonDao.findByStartTime(startTime);
     }
 
     @Override
-    public List<Lesson> listByEndTime(LocalDateTime endTime) {
+    public List<Lesson> findByEndTime(LocalDateTime endTime) {
         return lessonDao.findByEndTime(endTime);
     }
 
     @Override
-    public List<Lesson> listByTimeInterval(LocalDateTime from, LocalDateTime to) {
+    public List<Lesson> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
         return lessonDao.findByTimeInterval(from, to);
     }
 
     @Override
-    public List<Lesson> listByCapacity(Integer capacity) {
+    public Set<Lesson> findByTeacher(User teacher) {
+        return teacher.getLessonsToTeach();
+    }
+
+    @Override
+    public Set<Lesson> findByStudent(User student) {
+        return student.getLessonsToAttend();
+    }
+
+    @Override
+    public List<Lesson> findByCapacity(Integer capacity) {
         return lessonDao.findByCapacity(capacity);
     }
 
     @Override
-    public List<Lesson> listByLevel(Level level) {
+    public List<Lesson> findByLevel(Level level) {
         return lessonDao.findByLevel(level);
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import tennisclub.entity.User;
-import tennisclub.entity.enums.Role;
+import tennisclub.enums.Role;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

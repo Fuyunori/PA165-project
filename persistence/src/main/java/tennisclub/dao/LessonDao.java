@@ -1,9 +1,8 @@
 package tennisclub.dao;
 
 import tennisclub.entity.Court;
-import tennisclub.entity.Event;
 import tennisclub.entity.Lesson;
-import tennisclub.entity.enums.Level;
+import tennisclub.enums.Level;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,6 +45,15 @@ public interface LessonDao {
      * @return a Lesson whose id matches the given id
      */
     Lesson findById(Long id);
+
+    //List<Lesson> findByLecturerName(String lecturerName);
+
+    /**
+     * Finds all Lessons taking place on the specified court.
+     * @param court on which the Lessons take place
+     * @return all Lessons taking place on the given court
+     */
+    List<Lesson> findByCourt(Court court);
 
     /**
      * Finds all Lessons starting at the specified time.

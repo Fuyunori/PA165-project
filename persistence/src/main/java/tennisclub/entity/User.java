@@ -1,6 +1,6 @@
 package tennisclub.entity;
 
-import tennisclub.entity.enums.Role;
+import tennisclub.enums.Role;
 import tennisclub.entity.ranking.Ranking;
 
 import javax.persistence.*;

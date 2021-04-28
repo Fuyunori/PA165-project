@@ -29,6 +29,13 @@ public class BookingDaoImpl implements BookingDao {
     }
 
     @Override
+    public List<Booking> findByCourt(Court court) {
+        return em.createQuery("SELECT b FROM Booking b WHERE b.court = :court", Booking.class)
+                .setParameter("court", court)
+                .getResultList();
+    }
+
+    @Override
     public List<Booking> findByStartTime(LocalDateTime startTime) {
         return em.createQuery("SELECT b FROM Booking b WHERE b.startTime = :startTime", Booking.class)
                 .setParameter("startTime", startTime)

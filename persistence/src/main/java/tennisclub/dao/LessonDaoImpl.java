@@ -3,7 +3,7 @@ package tennisclub.dao;
 import org.springframework.stereotype.Repository;
 import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
-import tennisclub.entity.enums.Level;
+import tennisclub.enums.Level;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -42,6 +42,13 @@ public class LessonDaoImpl implements LessonDao{
     @Override
     public Lesson findById(Long id) {
         return em.find(Lesson.class, id);
+    }
+
+    @Override
+    public List<Lesson> findByCourt(Court court) {
+        return em.createQuery("SELECT l FROM Lesson l WHERE l.court = :court", Lesson.class)
+                .setParameter("court", court)
+                .getResultList();
     }
 
     @Override

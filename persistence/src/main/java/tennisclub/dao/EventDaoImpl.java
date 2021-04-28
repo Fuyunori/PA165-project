@@ -30,6 +30,13 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
+    public List<Event> findByCourt(Court court) {
+        return em.createQuery("SELECT e FROM Event e WHERE e.court = :court", Event.class)
+                .setParameter("court", court)
+                .getResultList();
+    }
+
+    @Override
     public List<Event> findByStartTime(LocalDateTime startTime) {
         return em.createQuery("SELECT e FROM Event e WHERE e.startTime = :startTime", Event.class)
                 .setParameter("startTime", startTime)

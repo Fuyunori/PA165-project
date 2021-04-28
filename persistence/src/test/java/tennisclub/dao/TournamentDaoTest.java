@@ -153,6 +153,13 @@ public class TournamentDaoTest {
     }
 
     @Test
+    public void testFindByCourt() {
+        List<Tournament> found = tournamentDao.findByCourt(tournament.getCourt());
+        assertThat(found.size()).isEqualTo(1);
+        assertThat(found).contains(tournament);
+    }
+
+    @Test
     public void testFindByStartTime() {
         List<Tournament> found = tournamentDao.findByStartTime(tournament.getStartTime());
         assertThat(found.size()).isEqualTo(1);

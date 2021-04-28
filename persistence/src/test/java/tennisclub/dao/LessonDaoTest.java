@@ -8,7 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
-import tennisclub.entity.enums.Level;
+import tennisclub.enums.Level;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -198,6 +198,13 @@ public class LessonDaoTest {
     public void testFindById() {
         Lesson found = lessonDao.findById(lesson.getId());
         assertThat(found).usingRecursiveComparison().isEqualTo(lesson);
+    }
+
+    @Test
+    public void testFindByCourt() {
+        List<Lesson> found = lessonDao.findByCourt(lesson.getCourt());
+        assertThat(found.size()).isEqualTo(1);
+        assertThat(found).contains(lesson);
     }
 
     @Test

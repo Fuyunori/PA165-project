@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tennisclub.dao.UserDao;
 import tennisclub.entity.User;
-import tennisclub.entity.enums.Role;
+import tennisclub.enums.Role;
 
 import java.util.List;
 
