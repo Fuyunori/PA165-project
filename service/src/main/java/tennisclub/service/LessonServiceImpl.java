@@ -105,16 +105,6 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public Set<Lesson> findByTeacher(User teacher) {
-        return teacher.getLessonsToTeach();
-    }
-
-    @Override
-    public Set<Lesson> findByStudent(User student) {
-        return student.getLessonsToAttend();
-    }
-
-    @Override
     public List<Lesson> findByCapacity(Integer capacity) {
         return lessonDao.findByCapacity(capacity);
     }
