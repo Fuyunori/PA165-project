@@ -63,16 +63,6 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> findByUser(User user) {
-        return bookingDao.findByUser(user);
-    }
-
-    @Override
-    public List<Booking> findByCourt(Court court) {
-        return bookingDao.findByCourt(court);
-    }
-
-    @Override
     public List<Booking> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
         return bookingDao.findByTimeInterval(from, to);
     }

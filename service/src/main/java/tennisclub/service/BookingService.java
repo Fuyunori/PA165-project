@@ -23,9 +23,5 @@ public interface BookingService {
 
     Booking findById(Long id);
 
-    List<Booking> findByUser(User user);
-
-    List<Booking> findByCourt(Court court);
-
     List<Booking> findByTimeInterval(LocalDateTime from, LocalDateTime to);
 }

@@ -59,13 +59,6 @@ public class BookingDaoImpl implements BookingDao {
     }
 
     @Override
-    public List<Booking> findByUser(User user) {
-        return em.createQuery("SELECT b FROM Booking b JOIN b.users u ON u = :user", Booking.class)
-                .setParameter("user", user)
-                .getResultList();
-    }
-
-    @Override
     public List<Booking> findAll() {
         return em.createQuery("SELECT b FROM Booking b", Booking.class).getResultList();
     }
