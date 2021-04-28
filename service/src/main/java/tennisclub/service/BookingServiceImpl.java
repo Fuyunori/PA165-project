@@ -21,18 +21,18 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking createBooking(Booking booking) {
+    public Booking create(Booking booking) {
         bookingDao.create(booking);
         return booking;
     }
 
     @Override
-    public Booking updateBooking(Booking booking) {
+    public Booking update(Booking booking) {
         return bookingDao.update(booking);
     }
 
     @Override
-    public void deleteBooking(Booking booking) {
+    public void remove(Booking booking) {
         bookingDao.delete(booking);
     }
 
