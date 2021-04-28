@@ -3,6 +3,7 @@ package tennisclub.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tennisclub.dao.LessonDao;
+import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
 import tennisclub.entity.enums.Level;
@@ -74,6 +75,11 @@ public class LessonServiceImpl implements LessonService{
     @Override
     public Lesson listById(Long id){
         return lessonDao.findById(id);
+    }
+
+    @Override
+    public List<Lesson> listByCourt(Court court){
+        return lessonDao.findByCourt(court);
     }
 
     @Override
