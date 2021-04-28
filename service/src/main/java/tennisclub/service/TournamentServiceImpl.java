@@ -3,6 +3,7 @@ package tennisclub.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tennisclub.dao.TournamentDao;
+import tennisclub.entity.Court;
 import tennisclub.entity.Tournament;
 import tennisclub.entity.ranking.Ranking;
 import tennisclub.exceptions.TennisClubManagerException;
@@ -46,32 +47,37 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public Tournament listById(Long id){
+    public Tournament findById(Long id){
         return tournamentDao.findById(id);
     }
 
     @Override
-    public List<Tournament> listAll(){
+    public List<Tournament> findAll(){
         return tournamentDao.findAll();
     }
 
     @Override
-    public List<Tournament> listByStartTime(LocalDateTime startTime) {
+    public List<Tournament> findByCourt(Court court) {
+        return tournamentDao.findByCourt(court);
+    }
+
+    @Override
+    public List<Tournament> findByStartTime(LocalDateTime startTime) {
         return tournamentDao.findByStartTime(startTime);
     }
 
     @Override
-    public List<Tournament> listByEndTime(LocalDateTime endTime) {
+    public List<Tournament> findByEndTime(LocalDateTime endTime) {
         return tournamentDao.findByEndTime(endTime);
     }
 
     @Override
-    public List<Tournament> listByTimeInterval(LocalDateTime from, LocalDateTime to) {
+    public List<Tournament> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
         return tournamentDao.findByTimeInterval(from, to);
     }
 
     @Override
-    public List<Tournament> listByCapacity(Integer capacity) {
+    public List<Tournament> findByCapacity(Integer capacity) {
         return tournamentDao.findByCapacity(capacity);
     }
 }
