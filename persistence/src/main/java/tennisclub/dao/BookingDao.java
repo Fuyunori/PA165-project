@@ -2,7 +2,6 @@ package tennisclub.dao;
 
 import tennisclub.entity.Booking;
 import tennisclub.entity.Court;
-import tennisclub.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.List;

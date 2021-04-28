@@ -1,6 +1,6 @@
 package tennisclub.entity;
 
-import tennisclub.entity.enums.CourtType;
+import tennisclub.enums.CourtType;
 
 import javax.persistence.*;
 import java.io.Serializable;
