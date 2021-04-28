@@ -1,11 +1,13 @@
 package tennisclub.service;
 
+import org.springframework.stereotype.Service;
 import tennisclub.entity.Booking;
 import tennisclub.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public interface BookingService {
 
     Booking createBooking(Booking booking);
