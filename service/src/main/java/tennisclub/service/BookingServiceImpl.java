@@ -40,7 +40,7 @@ public class BookingServiceImpl implements BookingService {
         if (!booking.getUsers().contains(user)) {
             throw new TennisClubManagerException("Removing user from a booking he is not in!");
         }
-        booking.removeUser(user);
+        user.removeBooking(booking);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class BookingServiceImpl implements BookingService {
         if (booking.getUsers().contains(user)) {
             throw new TennisClubManagerException("Adding user to a booking he is already in!");
         }
-        booking.addUser(user);
+        user.addBooking(booking);
     }
 
     @Override
