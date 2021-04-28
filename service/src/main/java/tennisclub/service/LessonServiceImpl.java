@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class LessonServiceImpl implements LessonService{
@@ -105,6 +106,16 @@ public class LessonServiceImpl implements LessonService{
         LocalDateTime endOfToday = LocalDateTime.of(today, endOfDay);
 
         return lessonDao.findByTimeInterval(startOfToday, endOfToday);
+    }
+
+    @Override
+    public Set<Lesson> listByTeacher(User teacher) {
+        return teacher.getLessonsToTeach();
+    }
+
+    @Override
+    public Set<Lesson> listByStudent(User student) {
+        return student.getLessonsToAttend();
     }
 
     @Override

@@ -7,6 +7,7 @@ import tennisclub.entity.enums.Level;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public interface LessonService {
@@ -26,6 +27,8 @@ public interface LessonService {
     List<Lesson> listByEndTime(LocalDateTime endTime);
     List<Lesson> listByTimeInterval(LocalDateTime from, LocalDateTime to);
     List<Lesson> listAllLessonsToday();
+    Set<Lesson> listByTeacher(User teacher);
+    Set<Lesson> listByStudent(User student);
     List<Lesson> listByCapacity(Integer capacity);
     List<Lesson> listByLevel(Level level);
 }
