@@ -28,7 +28,6 @@ public interface LessonService {
     List<Lesson> findByStartTime(LocalDateTime startTime);
     List<Lesson> findByEndTime(LocalDateTime endTime);
     List<Lesson> findByTimeInterval(LocalDateTime from, LocalDateTime to);
-    List<Lesson> findAllLessonsToday();
     Set<Lesson> findByTeacher(User teacher);
     Set<Lesson> findByStudent(User student);
     List<Lesson> findByCapacity(Integer capacity);

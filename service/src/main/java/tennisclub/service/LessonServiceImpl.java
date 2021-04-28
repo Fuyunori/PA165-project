@@ -107,18 +107,6 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public List<Lesson> findAllLessonsToday(){
-        LocalTime startOfDay = LocalTime.of(0,0);
-        LocalTime endOfDay = LocalTime.of(23,59);
-        LocalDate today = LocalDate.now();
-
-        LocalDateTime startOfToday = LocalDateTime.of(today, startOfDay);
-        LocalDateTime endOfToday = LocalDateTime.of(today, endOfDay);
-
-        return lessonDao.findByTimeInterval(startOfToday, endOfToday);
-    }
-
-    @Override
     public Set<Lesson> findByTeacher(User teacher) {
         return teacher.getLessonsToTeach();
     }
