@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tennisclub.dao.BookingDao;
 import tennisclub.entity.Booking;
-import tennisclub.entity.Court;
 import tennisclub.entity.User;
 import tennisclub.exceptions.TennisClubManagerException;
 

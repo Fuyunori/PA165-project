@@ -1,7 +1,6 @@
 package tennisclub.service;
 
 import tennisclub.entity.Booking;
-import tennisclub.entity.Court;
 import tennisclub.entity.User;
 
 import java.time.LocalDateTime;
