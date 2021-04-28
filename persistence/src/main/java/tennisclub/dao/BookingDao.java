@@ -29,6 +29,14 @@ public interface BookingDao {
     Booking findById(Long id);
 
     /**
+     * Retrieve all bookings on the specified court
+     *
+     * @param court the court whose bookings to retrieve
+     * @return List of the bookings on the supplied court
+     */
+    List<Booking> findByCourt(Court court);
+
+    /**
      * Retrieve all Bookings starting at the specified time.
      *
      * @param startTime the time when the bookings should start

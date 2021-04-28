@@ -47,6 +47,15 @@ public interface LessonDao {
      */
     Lesson findById(Long id);
 
+    //List<Lesson> findByLecturerName(String lecturerName);
+
+    /**
+     * Finds all Lessons taking place on the specified court.
+     * @param court on which the Lessons take place
+     * @return all Lessons taking place on the given court
+     */
+    List<Lesson> findByCourt(Court court);
+
     /**
      * Finds all Lessons starting at the specified time.
      * @param startTime at which the Lessons start

@@ -45,6 +45,13 @@ public class LessonDaoImpl implements LessonDao{
     }
 
     @Override
+    public List<Lesson> findByCourt(Court court) {
+        return em.createQuery("SELECT l FROM Lesson l WHERE l.court = :court", Lesson.class)
+                .setParameter("court", court)
+                .getResultList();
+    }
+
+    @Override
     public List<Lesson> findByStartTime(LocalDateTime startTime) {
         return em.createQuery("SELECT l FROM Lesson l WHERE l.startTime = :startTime", Lesson.class)
                 .setParameter("startTime", startTime)

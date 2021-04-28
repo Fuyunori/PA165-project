@@ -180,6 +180,30 @@ public class BookingDaoTest {
     }
 
     @Test
+    public void findBookingsByCourtOfWhichThereAreTwoSharingTheSameCourt(){
+        Booking otherBooking = new Booking(otherStart, otherEnd);
+        otherBooking.setCourt(bookingCourt);
+        em.persist(otherBooking);
+
+        List<Booking> foundEvents = bookingDao.findByCourt(bookingCourt);
+
+        assertThat(foundEvents).contains(booking);
+        assertThat(foundEvents).contains(otherBooking);
+    }
+
+    @Test
+    public void findBookingsByCourtOfWhichThereAreTwoNotSharingTheSameCourt(){
+        Booking otherBooking = new Booking(bookingStart, bookingEnd);
+        otherBooking.setCourt(otherCourt);
+        em.persist(otherBooking);
+
+        List<Booking> foundEvents = bookingDao.findByCourt(bookingCourt);
+
+        assertThat(foundEvents).contains(booking);
+        assertThat(foundEvents).doesNotContain(otherBooking);
+    }
+
+    @Test
     public void findBookingsByStartTimeOfWhichThereAreTwoSharingTheSameStartTime(){
         Booking otherBooking = new Booking(bookingStart, bookingEnd);
         otherBooking.setCourt(otherCourt);

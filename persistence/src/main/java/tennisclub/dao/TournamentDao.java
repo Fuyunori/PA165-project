@@ -47,6 +47,13 @@ public interface TournamentDao {
     Tournament findById(Long id);
 
     /**
+     * Finds all Tournaments taking place on the specified court.
+     * @param court on which the Tournaments take place
+     * @return all Tournaments taking place on the given court
+     */
+    List<Tournament> findByCourt(Court court);
+
+    /**
      * Finds all Tournaments starting at the specified time.
      * @param startTime at which the Tournaments start
      * @return all Tournaments starting at the given time
