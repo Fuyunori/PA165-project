@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BookingService {
 
-    void createBooking(Booking booking);
+    Booking createBooking(Booking booking);
 
     Booking updateBooking(Booking booking);
 
