@@ -73,37 +73,37 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public Lesson listById(Long id){
+    public Lesson findById(Long id){
         return lessonDao.findById(id);
     }
 
     @Override
-    public List<Lesson> listByCourt(Court court){
+    public List<Lesson> findByCourt(Court court){
         return lessonDao.findByCourt(court);
     }
 
     @Override
-    public List<Lesson> listAll(){
+    public List<Lesson> findAll(){
         return lessonDao.findAll();
     }
 
     @Override
-    public List<Lesson> listByStartTime(LocalDateTime startTime) {
+    public List<Lesson> findByStartTime(LocalDateTime startTime) {
         return lessonDao.findByStartTime(startTime);
     }
 
     @Override
-    public List<Lesson> listByEndTime(LocalDateTime endTime) {
+    public List<Lesson> findByEndTime(LocalDateTime endTime) {
         return lessonDao.findByEndTime(endTime);
     }
 
     @Override
-    public List<Lesson> listByTimeInterval(LocalDateTime from, LocalDateTime to) {
+    public List<Lesson> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
         return lessonDao.findByTimeInterval(from, to);
     }
 
     @Override
-    public List<Lesson> listAllLessonsToday(){
+    public List<Lesson> findAllLessonsToday(){
         LocalTime startOfDay = LocalTime.of(0,0);
         LocalTime endOfDay = LocalTime.of(23,59);
         LocalDate today = LocalDate.now();
@@ -115,22 +115,22 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public Set<Lesson> listByTeacher(User teacher) {
+    public Set<Lesson> findByTeacher(User teacher) {
         return teacher.getLessonsToTeach();
     }
 
     @Override
-    public Set<Lesson> listByStudent(User student) {
+    public Set<Lesson> findByStudent(User student) {
         return student.getLessonsToAttend();
     }
 
     @Override
-    public List<Lesson> listByCapacity(Integer capacity) {
+    public List<Lesson> findByCapacity(Integer capacity) {
         return lessonDao.findByCapacity(capacity);
     }
 
     @Override
-    public List<Lesson> listByLevel(Level level) {
+    public List<Lesson> findByLevel(Level level) {
         return lessonDao.findByLevel(level);
     }
 }

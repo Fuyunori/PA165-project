@@ -23,15 +23,15 @@ public interface LessonService {
     void removeTeacher(Lesson lesson, User teacher);
     void remove(Lesson lesson);
 
-    Lesson listById(Long id);
-    List<Lesson> listAll();
-    List<Lesson> listByCourt(Court court);
-    List<Lesson> listByStartTime(LocalDateTime startTime);
-    List<Lesson> listByEndTime(LocalDateTime endTime);
-    List<Lesson> listByTimeInterval(LocalDateTime from, LocalDateTime to);
-    List<Lesson> listAllLessonsToday();
-    Set<Lesson> listByTeacher(User teacher);
-    Set<Lesson> listByStudent(User student);
-    List<Lesson> listByCapacity(Integer capacity);
-    List<Lesson> listByLevel(Level level);
+    Lesson findById(Long id);
+    List<Lesson> findAll();
+    List<Lesson> findByCourt(Court court);
+    List<Lesson> findByStartTime(LocalDateTime startTime);
+    List<Lesson> findByEndTime(LocalDateTime endTime);
+    List<Lesson> findByTimeInterval(LocalDateTime from, LocalDateTime to);
+    List<Lesson> findAllLessonsToday();
+    Set<Lesson> findByTeacher(User teacher);
+    Set<Lesson> findByStudent(User student);
+    List<Lesson> findByCapacity(Integer capacity);
+    List<Lesson> findByLevel(Level level);
 }
