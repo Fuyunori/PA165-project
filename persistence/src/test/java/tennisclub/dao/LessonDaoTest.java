@@ -201,13 +201,6 @@ public class LessonDaoTest {
     }
 
     @Test
-    public void testFindByCourt() {
-        List<Lesson> found = lessonDao.findByCourt(lesson.getCourt());
-        assertThat(found.size()).isEqualTo(1);
-        assertThat(found).contains(lesson);
-    }
-
-    @Test
     public void testFindByStartTime() {
         List<Lesson> found = lessonDao.findByStartTime(lesson.getStartTime());
         assertThat(found.size()).isEqualTo(1);

@@ -29,14 +29,6 @@ public interface EventDao {
     Event findById(Long id);
 
     /**
-     * Retrieve all events on the specified court.
-     *
-     * @param court the court whose events to retrieve
-     * @return List of all events on the court
-     */
-    List<Event> findByCourt(Court court);
-
-    /**
      * Retrieve all events starting at the specified time.
      *
      * @param startTime the time when the events should start

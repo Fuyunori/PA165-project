@@ -2,7 +2,6 @@ package tennisclub.dao;
 
 import tennisclub.entity.Booking;
 import tennisclub.entity.Court;
-import tennisclub.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,14 +27,6 @@ public interface BookingDao {
      * @return the booking with the supplied id
      */
     Booking findById(Long id);
-
-    /**
-     * Retrieve all bookings on the specified court
-     *
-     * @param court the court whose bookings to retrieve
-     * @return List of the bookings on the supplied court
-     */
-    List<Booking> findByCourt(Court court);
 
     /**
      * Retrieve all Bookings starting at the specified time.
