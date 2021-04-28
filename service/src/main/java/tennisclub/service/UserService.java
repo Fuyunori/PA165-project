@@ -2,7 +2,7 @@ package tennisclub.service;
 
 import org.springframework.stereotype.Service;
 import tennisclub.entity.User;
-import tennisclub.entity.enums.Role;
+import tennisclub.enums.Role;
 
 import java.util.List;
 

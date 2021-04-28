@@ -1,13 +1,12 @@
 package tennisclub.dao;
 
-import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import tennisclub.entity.*;
-import tennisclub.entity.enums.Level;
+import tennisclub.enums.Level;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

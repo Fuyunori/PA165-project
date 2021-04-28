@@ -1,6 +1,6 @@
 package tennisclub.entity;
 
-import tennisclub.entity.enums.Level;
+import tennisclub.enums.Level;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

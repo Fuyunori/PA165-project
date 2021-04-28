@@ -3,7 +3,7 @@ package tennisclub.dao;
 import org.springframework.stereotype.Repository;
 import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
-import tennisclub.entity.enums.Level;
+import tennisclub.enums.Level;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

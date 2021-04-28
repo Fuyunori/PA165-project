@@ -6,12 +6,10 @@ import tennisclub.dao.LessonDao;
 import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
-import tennisclub.entity.enums.Level;
+import tennisclub.enums.Level;
 import tennisclub.exceptions.TennisClubManagerException;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 

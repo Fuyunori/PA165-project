@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
-import tennisclub.entity.enums.Level;
+import tennisclub.enums.Level;
 
 import java.time.LocalDateTime;
 import java.util.List;

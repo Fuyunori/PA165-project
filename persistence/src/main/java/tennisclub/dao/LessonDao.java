@@ -1,9 +1,8 @@
 package tennisclub.dao;
 
 import tennisclub.entity.Court;
-import tennisclub.entity.Event;
 import tennisclub.entity.Lesson;
-import tennisclub.entity.enums.Level;
+import tennisclub.enums.Level;
 
 import java.time.LocalDateTime;
 import java.util.List;

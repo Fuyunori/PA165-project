@@ -8,7 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
-import tennisclub.entity.enums.Level;
+import tennisclub.enums.Level;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
