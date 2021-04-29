@@ -6,7 +6,7 @@ import tennisclub.enums.Level;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class LessonWithCourtDTO {
+public class LessonFullDTO {
     private Long id;
     private CourtDto court;
     private LocalDateTime startTime;
@@ -66,7 +66,7 @@ public class LessonWithCourtDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LessonWithCourtDTO lessonDTO = (LessonWithCourtDTO) o;
+        LessonFullDTO lessonDTO = (LessonFullDTO) o;
         return  Objects.equals(court, lessonDTO.getCourt())
                 && Objects.equals(startTime, lessonDTO.getStartTime())
                 && Objects.equals(endTime, lessonDTO.getEndTime());
