@@ -1,24 +1,26 @@
-package tennisclub.dto;
+package tennisclub.dto.lesson;
 
-import tennisclub.annotations.IsEndTimeAfterStartTime;
+import tennisclub.dto.court.CourtDto;
+import tennisclub.enums.Level;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@IsEndTimeAfterStartTime(start = "startTime", end = "endTime")
-public class LessonRescheduleDTO {
+public class LessonWithCourtDTO {
     private Long id;
-
-    @NotNull
-    @FutureOrPresent
+    private CourtDto court;
     private LocalDateTime startTime;
-
-    @NotNull
-    @Future
     private LocalDateTime endTime;
+    private Integer capacity;
+    private Level level;
+
+    public CourtDto getCourt() {
+        return court;
+    }
+
+    public void setCourt(CourtDto court) {
+        this.court = court;
+    }
 
     public Long getId() {
         return id;
@@ -44,12 +46,29 @@ public class LessonRescheduleDTO {
         this.endTime = endTime;
     }
 
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LessonRescheduleDTO lessonDTO = (LessonRescheduleDTO) o;
-        return Objects.equals(startTime, lessonDTO.getStartTime())
+        LessonWithCourtDTO lessonDTO = (LessonWithCourtDTO) o;
+        return  Objects.equals(court, lessonDTO.getCourt())
+                && Objects.equals(startTime, lessonDTO.getStartTime())
                 && Objects.equals(endTime, lessonDTO.getEndTime());
     }
 
@@ -57,6 +76,7 @@ public class LessonRescheduleDTO {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result  + ((court == null) ? 0 : court.hashCode());
         result = prime * result  + ((startTime == null) ? 0 : startTime.hashCode());
         result = prime * result  + ((endTime == null) ? 0 : endTime.hashCode());
         return result;

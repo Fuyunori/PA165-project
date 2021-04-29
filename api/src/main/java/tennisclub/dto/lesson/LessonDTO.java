@@ -1,13 +1,12 @@
-package tennisclub.dto;
+package tennisclub.dto.lesson;
 
+import tennisclub.dto.event.EventDTO;
 import tennisclub.enums.Level;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class LessonDTO extends EventDTO {
     private Integer capacity;
     private Level level;
+
 
     public Integer getCapacity() {
         return capacity;

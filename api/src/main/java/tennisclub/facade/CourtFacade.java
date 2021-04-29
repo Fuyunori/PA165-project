@@ -1,7 +1,7 @@
 package tennisclub.facade;
 
-import tennisclub.dto.CourtCreateDto;
-import tennisclub.dto.CourtDto;
+import tennisclub.dto.court.CourtCreateDto;
+import tennisclub.dto.court.CourtDto;
 import tennisclub.enums.CourtType;
 import java.util.List;
 
