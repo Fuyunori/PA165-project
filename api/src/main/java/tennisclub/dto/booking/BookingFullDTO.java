@@ -1,17 +1,18 @@
 package tennisclub.dto.booking;
 
-import tennisclub.dto.event.EventCreateDTO;
+import tennisclub.dto.event.EventWithCourtDTO;
 import tennisclub.dto.user.UserDTO;
 
-import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 /**
+ * Booking DTO which contains references both to its court
+ * and users that made the booking.
+ *
  * @author Miroslav Demek
  */
-public class BookingCreateDTO extends EventCreateDTO {
+public class BookingFullDTO extends EventWithCourtDTO {
 
-    @NotEmpty
     private Set<UserDTO> users;
 
     public Set<UserDTO> getUsers() {

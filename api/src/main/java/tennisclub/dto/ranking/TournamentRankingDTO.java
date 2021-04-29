@@ -1,6 +1,7 @@
 package tennisclub.dto.ranking;
 
-import tennisclub.dto.UserDTO;
+
+import tennisclub.dto.user.UserDTO;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
