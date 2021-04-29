@@ -1,13 +1,13 @@
 package tennisclub.dto.event;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class EventDTO {
 
     private Long id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    // EventCourtDTO court;
 
     public Long getId() {
         return id;
@@ -31,5 +31,19 @@ public class EventDTO {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EventDTO)) return false;
+        EventDTO eventDTO = (EventDTO) o;
+        return Objects.equals(startTime, eventDTO.startTime) &&
+                Objects.equals(endTime, eventDTO.endTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startTime, endTime);
     }
 }

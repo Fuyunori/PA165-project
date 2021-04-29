@@ -1,6 +1,5 @@
 package tennisclub.dto.event;
 
-
 import tennisclub.annotations.IsEndTimeAfterStartTime;
 
 import javax.validation.constraints.Future;
