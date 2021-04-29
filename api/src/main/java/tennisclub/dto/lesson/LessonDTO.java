@@ -1,5 +1,7 @@
 package tennisclub.dto.lesson;
 
+import tennisclub.enums.Level;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -8,8 +10,7 @@ public class LessonDTO {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer capacity;
-    // TODO: uncomment once the PR is merged :)
-    // private Level level;
+    private Level level;
 
     public Long getId() {
         return id;
@@ -41,6 +42,14 @@ public class LessonDTO {
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
     }
 
     @Override
