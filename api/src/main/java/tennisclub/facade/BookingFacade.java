@@ -1,7 +1,7 @@
 package tennisclub.facade;
 
-import tennisclub.dto.BookingCreateDTO;
-import tennisclub.dto.BookingDTO;
+import tennisclub.dto.booking.BookingCreateDTO;
+import tennisclub.dto.booking.BookingDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
