@@ -1,6 +1,7 @@
-package tennisclub.dto;
+package tennisclub.dto.booking;
 
 import tennisclub.annotations.IsEndTimeAfterStartTime;
+import tennisclub.dto.court.CourtDto;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
