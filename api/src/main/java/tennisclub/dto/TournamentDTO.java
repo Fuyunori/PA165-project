@@ -65,6 +65,10 @@ public class TournamentDTO {
         this.prize = prize;
     }
 
+    public Set<TournamentRankingDTO> getPlayerPlacements() { return playerPlacements; }
+
+    public void setPlayerPlacements(Set<TournamentRankingDTO> playerPlacements) { this.playerPlacements = playerPlacements; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
