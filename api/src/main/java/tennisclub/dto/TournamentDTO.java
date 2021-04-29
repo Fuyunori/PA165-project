@@ -7,6 +7,7 @@ public class TournamentDTO {
     private Long id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private String name;
     private Integer capacity;
     private Integer prize;
     // TODO: uncomment once the RankingDTO is available :)
@@ -40,6 +41,14 @@ public class TournamentDTO {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getCapacity() {
