@@ -7,6 +7,9 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+/**
+ * @author Miroslav Demek
+ */
 @IsEndTimeAfterStartTime(start = "start", end = "end")
 public class EventRescheduleDTO {
     private Long id;

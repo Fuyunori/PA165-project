@@ -9,6 +9,9 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * @author Miroslav Demek
+ */
 @IsEndTimeAfterStartTime(start = "startTime", end = "endTime")
 public abstract class EventCreateDTO {
 

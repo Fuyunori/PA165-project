@@ -3,6 +3,9 @@ package tennisclub.dto.event;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * @author Miroslav Demek
+ */
 public class EventDTO {
 
     private Long id;

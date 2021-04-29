@@ -5,6 +5,9 @@ import tennisclub.dto.court.CourtDto;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * @author Miroslav Demek
+ */
 public class EventWithCourtDTO {
 
     private LocalDateTime startTime;
