@@ -1,13 +1,14 @@
 package tennisclub.dto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class UserAuthDTO {
 
-    @NotNull
+    @NotBlank
     private  String username;
 
-    @NotNull
+    @NotBlank
     private  String password;
 
 
