@@ -1,8 +1,8 @@
 package tennisclub.facade;
 
 
-import tennisclub.dto.EventDTO;
-import tennisclub.dto.EventRescheduleDTO;
+import tennisclub.dto.event.EventDTO;
+import tennisclub.dto.event.EventRescheduleDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;

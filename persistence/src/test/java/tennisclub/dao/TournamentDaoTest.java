@@ -41,7 +41,7 @@ public class TournamentDaoTest {
         em.persist(court);
 
         tournament = new Tournament(LocalDateTime.of(2021, 3, 2, 13, 0 ),
-                LocalDateTime.of(2021, 3, 2, 14, 0 ), 15, 5_000);
+                LocalDateTime.of(2021, 3, 2, 14, 0 ), "Wimbledon", 15, 5_000);
         tournament.setCourt(court);
         em.persist(tournament);
     }
@@ -50,7 +50,7 @@ public class TournamentDaoTest {
     @Test
     public void testCreate() {
         Tournament created = new Tournament(LocalDateTime.of(2021, 4, 6, 13, 0 ),
-                LocalDateTime.of(2021, 4, 6, 14, 0 ), 10, 20_000);
+                LocalDateTime.of(2021, 4, 6, 14, 0 ), "Wimbledon",10, 20_000);
         created.setCourt(court);
 
         tournamentDao.create(created);
@@ -62,7 +62,7 @@ public class TournamentDaoTest {
     @Test
     public void testCreateWithNullCourt() {
         Tournament created = new Tournament(LocalDateTime.of(2021, 4, 6, 13, 0 ),
-                LocalDateTime.of(2021, 4, 6, 14, 0 ), 10, 20_000);
+                LocalDateTime.of(2021, 4, 6, 14, 0 ),"Wimbledon", 10, 20_000);
         created.setCourt(null);
 
         assertThatThrownBy(() -> tournamentDao.create(created))
@@ -72,7 +72,7 @@ public class TournamentDaoTest {
     @Test
     public void testCreateWithNullStartTime() {
         Tournament created = new Tournament(null,
-                LocalDateTime.of(2021, 4, 6, 14, 0 ), 10, 20_000);
+                LocalDateTime.of(2021, 4, 6, 14, 0 ),"Wimbledon", 10, 20_000);
         created.setCourt(court);
 
         assertThatThrownBy(() -> tournamentDao.create(created))
@@ -82,7 +82,17 @@ public class TournamentDaoTest {
     @Test
     public void testCreateWithNullEndTime() {
         Tournament created = new Tournament(LocalDateTime.of(2021, 4, 6, 13, 0 ),
-                null, 10, 20_000);
+                null, "Wimbledon",10, 20_000);
+        created.setCourt(court);
+
+        assertThatThrownBy(() -> tournamentDao.create(created))
+                .isInstanceOf(DataIntegrityViolationException.class);
+    }
+
+    @Test
+    public void testCreateWithNullName() {
+        Tournament created = new Tournament(LocalDateTime.of(2021, 4, 6, 13, 0 ),
+                LocalDateTime.of(2021, 4, 6, 14, 0 ), null,10, 20_000);
         created.setCourt(court);
 
         assertThatThrownBy(() -> tournamentDao.create(created))
@@ -92,7 +102,7 @@ public class TournamentDaoTest {
     @Test
     public void testCreateWithStartTimeAfterEndTime() {
         Tournament created = new Tournament(LocalDateTime.of(2021, 4, 7, 15, 0 ),
-                LocalDateTime.of(2021, 4, 6, 14, 0 ), 10, 20_000);
+                LocalDateTime.of(2021, 4, 6, 14, 0 ),"Wimbledon", 10, 20_000);
         created.setCourt(court);
 
         assertThatThrownBy(() -> tournamentDao.create(created))
@@ -135,7 +145,7 @@ public class TournamentDaoTest {
     @Test
     public void testFindAll() {
         Tournament anotherTournament = new Tournament(LocalDateTime.of(2021, 5, 9, 5, 30 ),
-                LocalDateTime.of(2021, 5, 9, 6, 0 ), 32, 2_000);
+                LocalDateTime.of(2021, 5, 9, 6, 0 ),"Wimbledon", 32, 2_000);
         anotherTournament.setCourt(court);
         em.persist(anotherTournament);
 
@@ -169,6 +179,13 @@ public class TournamentDaoTest {
     @Test
     public void testFindByEndTime() {
         List<Tournament> found = tournamentDao.findByEndTime(tournament.getEndTime());
+        assertThat(found.size()).isEqualTo(1);
+        assertThat(found).contains(tournament);
+    }
+
+    @Test
+    public void testFindByName() {
+        List<Tournament> found = tournamentDao.findByName(tournament.getName());
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(tournament);
     }
@@ -279,7 +296,7 @@ public class TournamentDaoTest {
 
 
     private Tournament createTournamentFromTime(LocalDateTime start, LocalDateTime end) {
-        Tournament t = new Tournament(start, end, 10, 10_000);
+        Tournament t = new Tournament(start, end, "Wimbledon", 10, 10_000);
         t.setCourt(court);
         return t;
     }

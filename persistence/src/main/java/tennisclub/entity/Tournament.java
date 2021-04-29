@@ -13,6 +13,9 @@ import java.util.Set;
  */
 @Entity
 public class Tournament extends Event  {
+    @Column(nullable = false)
+    private String name;
+
     private Integer capacity;
 
     @Column(nullable = false)
@@ -23,12 +26,20 @@ public class Tournament extends Event  {
 
     public Tournament(){}
 
-    public Tournament(LocalDateTime startTime, LocalDateTime endTime, int capacity, int prize) {
+    public Tournament(LocalDateTime startTime, LocalDateTime endTime, String name, int capacity, int prize) {
         super(startTime, endTime);
+        this.name = name;
         this.capacity = capacity;
         this.prize = prize;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Integer getCapacity() {
         return capacity;

@@ -1,24 +1,39 @@
-package tennisclub.dto;
+package tennisclub.dto.tournament;
 
+import tennisclub.dto.court.CourtDto;
+
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class LessonWithCourtDTO {
-    private Long id;
-    // TODO: uncomment once the PR is merged :)
-    // private CourtDto court;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private Integer capacity;
-    // TODO: uncomment once the PR is merged :)
-    // private Level level;
+public class TournamentCreateDTO {
+    @NotNull
+    private CourtDto court;
 
-    public Long getId() {
-        return id;
+    @NotNull
+    @FutureOrPresent
+    private LocalDateTime startTime;
+
+    @NotNull
+    @Future
+    private LocalDateTime endTime;
+
+    @NotBlank
+    private String name;
+
+    @Min(0)
+    private Integer capacity;
+
+    @NotNull
+    @Min(0)
+    private Integer prize;
+
+    public CourtDto getCourt() {
+        return court;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCourt(CourtDto court) {
+        this.court = court;
     }
 
     public LocalDateTime getStartTime() {
@@ -37,6 +52,14 @@ public class LessonWithCourtDTO {
         this.endTime = endTime;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Integer getCapacity() {
         return capacity;
     }
@@ -45,21 +68,29 @@ public class LessonWithCourtDTO {
         this.capacity = capacity;
     }
 
+    public Integer getPrize() {
+        return prize;
+    }
+
+    public void setPrize(Integer prize) {
+        this.prize = prize;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LessonWithCourtDTO lessonDTO = (LessonWithCourtDTO) o;
-        return // Objects.equals(court, lessonDTO.getCourt());
-                Objects.equals(startTime, lessonDTO.getStartTime())
-                && Objects.equals(endTime, lessonDTO.getEndTime());
+        TournamentCreateDTO tournamentDTO = (TournamentCreateDTO) o;
+        return Objects.equals(court, tournamentDTO.getCourt()) &&
+                Objects.equals(startTime, tournamentDTO.getStartTime())
+                && Objects.equals(endTime, tournamentDTO.getEndTime());
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        // result = prime * result  + ((court == null) ? 0 : court.hashCode());
+        result = prime * result  + ((court == null) ? 0 : court.hashCode());
         result = prime * result  + ((startTime == null) ? 0 : startTime.hashCode());
         result = prime * result  + ((endTime == null) ? 0 : endTime.hashCode());
         return result;
