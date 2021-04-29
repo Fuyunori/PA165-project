@@ -10,7 +10,7 @@ import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
 import tennisclub.enums.Level;
-import tennisclub.exceptions.TennisClubManagerException;
+import tennisclub.exceptions.ServiceLayerException;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -90,7 +90,7 @@ public class LessonServiceTest {
     @Test
     public void enrollAlreadyEnrolledStudentTest() {
         assertThatThrownBy(() -> lessonService.enrollStudent(lesson, student))
-                .isInstanceOf(TennisClubManagerException.class);
+                .isInstanceOf(ServiceLayerException.class);
     }
 
     @Test
@@ -106,7 +106,7 @@ public class LessonServiceTest {
     @Test
     public void withdrawNonEnrolledStudentTest() {
         assertThatThrownBy(() -> lessonService.withdrawStudent(lesson, newStudent))
-                .isInstanceOf(TennisClubManagerException.class);
+                .isInstanceOf(ServiceLayerException.class);
     }
 
     @Test
@@ -122,7 +122,7 @@ public class LessonServiceTest {
     @Test
     public void addAlreadyTeachingTeacherTest() {
         assertThatThrownBy(() -> lessonService.addTeacher(lesson, teacher))
-                .isInstanceOf(TennisClubManagerException.class);
+                .isInstanceOf(ServiceLayerException.class);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class LessonServiceTest {
     @Test
     public void removeNonTeachingTeacherTest() {
         assertThatThrownBy(() -> lessonService.removeTeacher(lesson, newTeacher))
-                .isInstanceOf(TennisClubManagerException.class);
+                .isInstanceOf(ServiceLayerException.class);
     }
 
     @Test
