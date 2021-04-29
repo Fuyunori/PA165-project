@@ -1,5 +1,6 @@
 package tennisclub.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,7 +9,6 @@ import tennisclub.dao.UserDao;
 import tennisclub.entity.User;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -22,21 +22,25 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
+    private User user;
+    private String password;
+
+    @BeforeEach
+    void initUsers() {
+        user = new User();
+        password = "Never.gonna_give-You up!";
+    }
+
     @Test
     void register() {
-        User user = new User();
-        userService.register(user, "password");
-
+        userService.register(user, password);
         verify(userDao).create(user);
         assertThat(user.getPasswordHash()).isNotBlank();
     }
 
     @Test
     void authenticate() {
-        User user = new User();
-        String password = "Never.gonna_give-You up!";
         userService.register(user, password);
-
         assertThat(userService.authenticate(user, password)).isTrue();
     }
 }
