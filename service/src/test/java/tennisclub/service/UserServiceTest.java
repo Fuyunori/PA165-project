@@ -24,11 +24,13 @@ public class UserServiceTest {
 
     private User user;
     private String password;
+    private String otherPassword;
 
     @BeforeEach
     void initUsers() {
         user = new User();
         password = "Never.gonna_give-You up!";
+        otherPassword = "my L17713 pony";
     }
 
     @Test
@@ -42,5 +44,11 @@ public class UserServiceTest {
     void authenticate() {
         userService.register(user, password);
         assertThat(userService.authenticate(user, password)).isTrue();
+    }
+
+    @Test
+    void authenticateWithWrongPassword() {
+        userService.register(user, password);
+        assertThat(userService.authenticate(user, otherPassword)).isFalse();
     }
 }
