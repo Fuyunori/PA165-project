@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import tennisclub.dao.BookingDao;
 import tennisclub.entity.Booking;
 import tennisclub.entity.User;
-import tennisclub.exceptions.TennisClubManagerException;
+import tennisclub.exceptions.ServiceLayerException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,7 +39,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking removeUser(Booking booking, User user) {
         if (!booking.getUsers().contains(user)) {
-            throw new TennisClubManagerException("Removing user from a booking he is not in!");
+            throw new ServiceLayerException("Removing user from a booking he is not in!");
         }
         user.removeBooking(booking);
         return bookingDao.update(booking);
@@ -48,7 +48,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking addUser(Booking booking, User user) {
         if (booking.getUsers().contains(user)) {
-            throw new TennisClubManagerException("Adding user to a booking he is already in!");
+            throw new ServiceLayerException("Adding user to a booking he is already in!");
         }
         user.addBooking(booking);
         return bookingDao.update(booking);

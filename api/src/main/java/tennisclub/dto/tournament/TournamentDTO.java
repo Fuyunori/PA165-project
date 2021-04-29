@@ -1,4 +1,4 @@
-package tennisclub.dto;
+package tennisclub.dto.tournament;
 
 import tennisclub.dto.ranking.TournamentRankingDTO;
 

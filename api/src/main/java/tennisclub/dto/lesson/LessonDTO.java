@@ -1,25 +1,16 @@
-package tennisclub.dto;
+package tennisclub.dto.lesson;
 
 import tennisclub.enums.Level;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class LessonWithCourtDTO {
+public class LessonDTO {
     private Long id;
-    private CourtDto court;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer capacity;
     private Level level;
-
-    public CourtDto getCourt() {
-        return court;
-    }
-
-    public void setCourt(CourtDto court) {
-        this.court = court;
-    }
 
     public Long getId() {
         return id;
@@ -65,9 +56,8 @@ public class LessonWithCourtDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LessonWithCourtDTO lessonDTO = (LessonWithCourtDTO) o;
-        return  Objects.equals(court, lessonDTO.getCourt())
-                && Objects.equals(startTime, lessonDTO.getStartTime())
+        LessonDTO lessonDTO = (LessonDTO) o;
+        return Objects.equals(startTime, lessonDTO.getStartTime())
                 && Objects.equals(endTime, lessonDTO.getEndTime());
     }
 
@@ -75,7 +65,6 @@ public class LessonWithCourtDTO {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result  + ((court == null) ? 0 : court.hashCode());
         result = prime * result  + ((startTime == null) ? 0 : startTime.hashCode());
         result = prime * result  + ((endTime == null) ? 0 : endTime.hashCode());
         return result;

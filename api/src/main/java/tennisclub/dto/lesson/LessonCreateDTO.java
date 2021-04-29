@@ -1,4 +1,4 @@
-package tennisclub.dto;
+package tennisclub.dto.lesson;
 
 import tennisclub.annotations.IsEndTimeAfterStartTime;
 

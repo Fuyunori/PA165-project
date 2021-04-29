@@ -1,4 +1,4 @@
-package tennisclub.dto;
+package tennisclub.dto.event;
 
 import java.time.LocalDateTime;
 
