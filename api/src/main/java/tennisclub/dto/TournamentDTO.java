@@ -3,7 +3,7 @@ package tennisclub.dto;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class TournamentDTO {
+public class TournamentDTO extends EventDTO {
     private String name;
     private Integer capacity;
     private Integer prize;
@@ -15,6 +15,15 @@ public class TournamentDTO {
     (we would have to add a tournament name to make it meaningful).
      */
     // private Set<RankingDTO> playerPlacements = new HashSet<>();
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Integer getCapacity() {
         return capacity;
