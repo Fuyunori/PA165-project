@@ -1,23 +1,15 @@
-package tennisclub.dto;
+package tennisclub.dto.lesson;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class TournamentDTO {
+public class LessonDTO {
     private Long id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private String name;
     private Integer capacity;
-    private Integer prize;
-    // TODO: uncomment once the RankingDTO is available :)
-    /* From RankingDTO side there shouldn't be reference to TournamentDTO
-    since I don't expect to see RankingDTO separately (i.e., not inside Tournament - the relationship is strong)
-    From the User side, it is meaningless to have a set of Rankings, since
-    the user would be missing information about what tournament he ranked in
-    (we would have to add a tournament name to make it meaningful).
-     */
-    // private Set<RankingDTO> playerPlacements = new HashSet<>();
+    // TODO: uncomment once the PR is merged :)
+    // private Level level;
 
     public Long getId() {
         return id;
@@ -43,14 +35,6 @@ public class TournamentDTO {
         this.endTime = endTime;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Integer getCapacity() {
         return capacity;
     }
@@ -59,21 +43,13 @@ public class TournamentDTO {
         this.capacity = capacity;
     }
 
-    public Integer getPrize() {
-        return prize;
-    }
-
-    public void setPrize(Integer prize) {
-        this.prize = prize;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TournamentDTO tournamentDTO = (TournamentDTO) o;
-        return Objects.equals(startTime, tournamentDTO.getStartTime())
-                && Objects.equals(endTime, tournamentDTO.getEndTime());
+        LessonDTO lessonDTO = (LessonDTO) o;
+        return Objects.equals(startTime, lessonDTO.getStartTime())
+                && Objects.equals(endTime, lessonDTO.getEndTime());
     }
 
     @Override

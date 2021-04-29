@@ -1,4 +1,4 @@
-package tennisclub.dto;
+package tennisclub.dto.lesson;
 
 import tennisclub.annotations.IsEndTimeAfterStartTime;
 
@@ -9,8 +9,12 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @IsEndTimeAfterStartTime(start = "startTime", end = "endTime")
-public class LessonRescheduleDTO {
-    private Long id;
+public class LessonCreateDTO {
+    // TODO: uncomment once the courtDTO is available
+    /*
+    @NotNull
+    private CourtDto court;
+     */
 
     @NotNull
     @FutureOrPresent
@@ -20,13 +24,11 @@ public class LessonRescheduleDTO {
     @Future
     private LocalDateTime endTime;
 
-    public Long getId() {
-        return id;
-    }
+    private Integer capacity;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // TODO: uncomment once the PR is merged :)
+    // @NotNull
+    // private Level level;
 
     public LocalDateTime getStartTime() {
         return startTime;
@@ -44,12 +46,21 @@ public class LessonRescheduleDTO {
         this.endTime = endTime;
     }
 
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LessonRescheduleDTO lessonDTO = (LessonRescheduleDTO) o;
-        return Objects.equals(startTime, lessonDTO.getStartTime())
+        LessonCreateDTO lessonDTO = (LessonCreateDTO) o;
+        return // Objects.equals(court, lessonDTO.court) &&
+                Objects.equals(startTime, lessonDTO.getStartTime())
                 && Objects.equals(endTime, lessonDTO.getEndTime());
     }
 
@@ -57,6 +68,7 @@ public class LessonRescheduleDTO {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        //result = prime * result + ((court == null) ? 0 : court.hashCode());
         result = prime * result  + ((startTime == null) ? 0 : startTime.hashCode());
         result = prime * result  + ((endTime == null) ? 0 : endTime.hashCode());
         return result;
