@@ -39,5 +39,10 @@
             <artifactId>dozer-spring-boot-starter</artifactId>
             <version>6.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.64</version>
+        </dependency>
     </dependencies>
 </project>
