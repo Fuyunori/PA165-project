@@ -1,6 +1,6 @@
 package tennisclub.dto.user;
 
-import tennisclub.dto.lesson.LessonFullDTO;
+import tennisclub.dto.lesson.LessonWithCourtDTO;
 import tennisclub.enums.Role;
 
 import java.util.HashSet;
@@ -20,9 +20,9 @@ public class UserDTO {
 
     private Role role;
 
-    private Set<LessonFullDTO> lessonsToTeach = new HashSet<>();
+    private Set<LessonWithCourtDTO> lessonsToTeach = new HashSet<>();
 
-    private Set<LessonFullDTO> lessonsToAttendTo = new HashSet<>();
+    private Set<LessonWithCourtDTO> lessonsToAttendTo = new HashSet<>();
 
 //    Uncomment when BookingDTO is added
 //    private Set<BookingDTO> bookings = new HashSet<>();
@@ -54,19 +54,19 @@ public class UserDTO {
 
     public void setRole(Role role) { this.role = role; }
 
-    public Set<LessonFullDTO> getLessonsToTeach() {
+    public Set<LessonWithCourtDTO> getLessonsToTeach() {
         return lessonsToTeach;
     }
 
-    public void setLessonsToTeach(Set<LessonFullDTO> lessonsToTeach) {
+    public void setLessonsToTeach(Set<LessonWithCourtDTO> lessonsToTeach) {
         this.lessonsToTeach = lessonsToTeach;
     }
 
-    public Set<LessonFullDTO> getLessonsToAttendTo() {
+    public Set<LessonWithCourtDTO> getLessonsToAttendTo() {
         return lessonsToAttendTo;
     }
 
-    public void setLessonsToAttendTo(Set<LessonFullDTO> lessonsToAttendTo) {
+    public void setLessonsToAttendTo(Set<LessonWithCourtDTO> lessonsToAttendTo) {
         this.lessonsToAttendTo = lessonsToAttendTo;
     }
 
