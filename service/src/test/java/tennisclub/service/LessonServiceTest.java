@@ -53,13 +53,13 @@ public class LessonServiceTest {
     }
 
     @Test
-    public void createLesson() {
+    public void createLessonTest() {
         lessonService.create(lesson);
         verify(lessonDao).create(lesson);
     }
 
     @Test
-    public void updateLesson() {
+    public void updateLessonTest() {
         lesson.setCapacity(12);
         lesson.setLevel(Level.ADVANCED);
         lesson.setStartTime(LocalDateTime.of(2021, 4, 25, 9, 0));
@@ -72,13 +72,13 @@ public class LessonServiceTest {
     }
 
     @Test
-    public void deleteLesson() {
+    public void deleteLessonTest() {
         lessonService.remove(lesson);
         verify(lessonDao).remove(lesson);
     }
 
     @Test
-    public void enrollStudent() {
+    public void enrollStudentTest() {
         when(lessonDao.update(lesson)).thenReturn(lesson);
 
         Lesson updated = lessonService.enrollStudent(lesson, newStudent);
@@ -88,13 +88,13 @@ public class LessonServiceTest {
     }
 
     @Test
-    public void enrollAlreadyEnrolledStudent() {
+    public void enrollAlreadyEnrolledStudentTest() {
         assertThatThrownBy(() -> lessonService.enrollStudent(lesson, student))
                 .isInstanceOf(TennisClubManagerException.class);
     }
 
     @Test
-    public void withdrawStudent() {
+    public void withdrawStudentTest() {
         when(lessonDao.update(lesson)).thenReturn(lesson);
 
         Lesson updated = lessonService.withdrawStudent(lesson, student);
@@ -104,13 +104,13 @@ public class LessonServiceTest {
     }
 
     @Test
-    public void withdrawNonEnrolledStudent() {
+    public void withdrawNonEnrolledStudentTest() {
         assertThatThrownBy(() -> lessonService.withdrawStudent(lesson, newStudent))
                 .isInstanceOf(TennisClubManagerException.class);
     }
 
     @Test
-    public void addTeacher() {
+    public void addTeacherTest() {
         when(lessonDao.update(lesson)).thenReturn(lesson);
 
         Lesson updated = lessonService.addTeacher(lesson, newTeacher);
@@ -120,13 +120,13 @@ public class LessonServiceTest {
     }
 
     @Test
-    public void addAlreadyTeachingTeacher() {
+    public void addAlreadyTeachingTeacherTest() {
         assertThatThrownBy(() -> lessonService.addTeacher(lesson, teacher))
                 .isInstanceOf(TennisClubManagerException.class);
     }
 
     @Test
-    public void removeTeacher() {
+    public void removeTeacherTest() {
         when(lessonDao.update(lesson)).thenReturn(lesson);
 
         Lesson updated = lessonService.removeTeacher(lesson, teacher);
@@ -136,13 +136,13 @@ public class LessonServiceTest {
     }
 
     @Test
-    public void removeNonTeachingTeacher() {
+    public void removeNonTeachingTeacherTest() {
         assertThatThrownBy(() -> lessonService.removeTeacher(lesson, newTeacher))
                 .isInstanceOf(TennisClubManagerException.class);
     }
 
     @Test
-    public void findById() {
+    public void findByIdTest() {
         when(lessonDao.findById(lesson.getId())).thenReturn(lesson);
 
         Lesson found = lessonService.findById(lesson.getId());
@@ -151,7 +151,7 @@ public class LessonServiceTest {
     }
 
     @Test
-    public void findByNonExistingId() {
+    public void findByNonExistingIdTest() {
         when(lessonDao.findById(10L)).thenReturn(null);
 
         Lesson found = lessonService.findById(10L);
