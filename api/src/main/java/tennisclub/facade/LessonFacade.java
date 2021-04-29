@@ -2,6 +2,7 @@ package tennisclub.facade;
 
 import tennisclub.dto.lesson.LessonCreateDTO;
 import tennisclub.dto.lesson.LessonDTO;
+import tennisclub.dto.lesson.LessonFullDTO;
 import tennisclub.enums.Level;
 
 import java.time.LocalDateTime;
@@ -17,10 +18,10 @@ public interface LessonFacade {
     void withdrawStudent(Long lessonId, Long studentId);
     void removeTeacher(Long lessonId, Long teacherId);
 
-    LessonDTO getLessonWithId(Long id);
-    List<LessonDTO> getAllLessons();
-    List<LessonDTO> getLessonsByStartTime(LocalDateTime startTime);
-    List<LessonDTO> getLessonsByEndTime(LocalDateTime endTime);
-    List<LessonDTO> getLessonsByLevel(Level level);
-    List<LessonDTO> getLessonsByCourt(Long courtId);
+    LessonFullDTO getLessonWithId(Long id);
+    List<LessonFullDTO> getAllLessons();
+    List<LessonFullDTO> getLessonsByStartTime(LocalDateTime startTime);
+    List<LessonFullDTO> getLessonsByEndTime(LocalDateTime endTime);
+    List<LessonFullDTO> getLessonsByLevel(Level level);
+    List<LessonFullDTO> getLessonsByCourt(Long courtId);
 }
