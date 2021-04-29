@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import tennisclub.dao.UserDao;
 import tennisclub.entity.User;
+import tennisclub.enums.Role;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -23,12 +24,18 @@ public class UserServiceTest {
     private UserService userService;
 
     private User user;
+    private User manager;
     private String password;
     private String otherPassword;
 
     @BeforeEach
     void initUsers() {
         user = new User();
+        user.setRole(Role.USER);
+
+        manager = new User();
+        manager.setRole(Role.MANAGER);
+
         password = "Never.gonna_give-You up!";
         otherPassword = "my L17713 pony";
     }
@@ -50,5 +57,13 @@ public class UserServiceTest {
     void authenticateWithWrongPassword() {
         userService.register(user, password);
         assertThat(userService.authenticate(user, otherPassword)).isFalse();
+    }
+
+    @Test
+    void hasRights() {
+        assertThat(userService.hasRights(user, Role.USER)).isTrue();
+        assertThat(userService.hasRights(user, Role.MANAGER)).isFalse();
+        assertThat(userService.hasRights(manager, Role.USER)).isTrue();
+        assertThat(userService.hasRights(manager, Role.MANAGER)).isTrue();
     }
 }
