@@ -1,9 +1,12 @@
-package tennisclub.dto;
+package tennisclub.dto.booking;
+
+import tennisclub.dto.event.EventCreateDTO;
+import tennisclub.dto.user.UserDTO;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 public class BookingCreateDTO extends EventCreateDTO {
-    /* TODO: uncomment
     @NotEmpty
     private Set<UserDTO> users;
 
@@ -14,5 +17,4 @@ public class BookingCreateDTO extends EventCreateDTO {
     public void setUsers(Set<UserDTO> users) {
         this.users = users;
     }
-    */
 }
