@@ -151,6 +151,15 @@ public class LessonServiceTest {
     }
 
     @Test
+    public void findByNonExistingId() {
+        when(lessonDao.findById(10L)).thenReturn(null);
+
+        Lesson found = lessonService.findById(10L);
+
+        assertThat(found).isNull();
+    }
+
+    @Test
     public void findAllTest() {
         Lesson lesson1 = makeLesson(makeTime(10), makeTime(12), Level.BEGINNER, 25);
         Lesson lesson2 = makeLesson(makeTime(13), makeTime(14), Level.ADVANCED, 20);
@@ -167,6 +176,15 @@ public class LessonServiceTest {
     }
 
     @Test
+    public void findAllEmptyTest() {
+        when(lessonDao.findAll()).thenReturn(Collections.emptyList());
+
+        List<Lesson> found = lessonService.findAll();
+
+        assertThat(found).isEmpty();
+    }
+
+    @Test
     public void findByCourtTest() {
         Court court = new Court();
         lesson.setCourt(court);
@@ -176,6 +194,16 @@ public class LessonServiceTest {
 
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(lesson);
+    }
+
+    @Test
+    public void findByCourtEmptyTest() {
+        Court court = new Court();
+        when(lessonDao.findByCourt(court)).thenReturn(Collections.emptyList());
+
+        List<Lesson> found = lessonService.findByCourt(court);
+
+        assertThat(found).isEmpty();
     }
 
     @Test
@@ -237,6 +265,17 @@ public class LessonServiceTest {
     }
 
     @Test
+    public void findByTimeIntervalEmptyTest() {
+        LocalDateTime from = makeTime(10);
+        LocalDateTime to = makeTime(14);
+        when(lessonDao.findByTimeInterval(from ,to)).thenReturn(Collections.emptyList());
+
+        List<Lesson> found = lessonService.findByTimeInterval(from ,to);
+
+        assertThat(found).isEmpty();
+    }
+
+    @Test
     public void findByCapacityTest() {
         when(lessonDao.findByCapacity(lesson.getCapacity())).thenReturn(Collections.singletonList(lesson));
 
@@ -247,6 +286,15 @@ public class LessonServiceTest {
     }
 
     @Test
+    public void findByCapacityEmptyTest() {
+        when(lessonDao.findByCapacity(42)).thenReturn(Collections.emptyList());
+
+        List<Lesson> found = lessonService.findByCapacity(lesson.getCapacity());
+
+        assertThat(found).isEmpty();
+    }
+
+    @Test
     public void findByLevelTest() {
         when(lessonDao.findByLevel(lesson.getLevel())).thenReturn(Collections.singletonList(lesson));
 
@@ -254,6 +302,15 @@ public class LessonServiceTest {
 
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(lesson);
+    }
+
+    @Test
+    public void findByLevelEmptyTest() {
+        when(lessonDao.findByLevel(Level.ADVANCED)).thenReturn(Collections.emptyList());
+
+        List<Lesson> found = lessonService.findByLevel(lesson.getLevel());
+
+        assertThat(found).isEmpty();
     }
 
 
