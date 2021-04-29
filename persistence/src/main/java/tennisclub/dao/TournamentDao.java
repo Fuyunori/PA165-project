@@ -84,6 +84,13 @@ public interface TournamentDao {
     List<Tournament> findByTimeInterval(LocalDateTime from, LocalDateTime to);
 
     /**
+     * Finds all Tournaments with particular name.
+     * @param name of the tournament
+     * @return all Tournaments which have the given name
+     */
+    List<Tournament> findByName(String name);
+
+    /**
      * Finds all Tournaments with particular capacity.
      * @param capacity of the tournaments
      * @return all Tournaments which have the given capacity

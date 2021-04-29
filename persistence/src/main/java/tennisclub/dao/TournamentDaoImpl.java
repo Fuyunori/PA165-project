@@ -78,6 +78,13 @@ public class TournamentDaoImpl implements TournamentDao {
     }
 
     @Override
+    public List<Tournament> findByName(String name) {
+        return em.createQuery("SELECT t FROM Tournament t WHERE t.name = :name", Tournament.class)
+                .setParameter("name", name)
+                .getResultList();
+    }
+
+    @Override
     public List<Tournament> findByCapacity(Integer capacity) {
         return em.createQuery("SELECT t FROM Tournament t WHERE t.capacity = :capacity", Tournament.class)
                 .setParameter("capacity", capacity)

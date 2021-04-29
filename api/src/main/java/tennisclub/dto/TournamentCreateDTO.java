@@ -1,9 +1,6 @@
 package tennisclub.dto;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -18,6 +15,9 @@ public class TournamentCreateDTO {
     @NotNull
     @Future
     private LocalDateTime endTime;
+
+    @NotBlank
+    private String name;
 
     @Min(0)
     private Integer capacity;
@@ -48,6 +48,14 @@ public class TournamentCreateDTO {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getCapacity() {
