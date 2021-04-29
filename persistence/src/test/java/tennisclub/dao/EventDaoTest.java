@@ -68,7 +68,7 @@ public class EventDaoTest {
     private Event event = new Event(eventStart, eventEnd);
     private Event booking = new Booking(bookingStart, bookingEnd);
     private Event lesson = new Lesson(lessonStart, lessonEnd, Level.BEGINNER);
-    private Event tournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
+    private Event tournament = new Tournament(tournamentStart, tournamentEnd, "Wimbledon",10, 10000);
 
 
     @BeforeEach
@@ -135,7 +135,7 @@ public class EventDaoTest {
 
     @Test
     public void testTournamentCreationOK(){
-        Event tournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
+        Event tournament = new Tournament(tournamentStart, tournamentEnd,"Wimbledon", 10, 10000);
         tournament.setCourt(tournamentCourt);
         eventDao.create(tournament);
 
@@ -167,7 +167,7 @@ public class EventDaoTest {
 
     @Test
     public void testTournamentCreationWithoutCourt(){
-        Event tournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
+        Event tournament = new Tournament(tournamentStart, tournamentEnd, "Wimbledon", 10, 10000);
         assertThatThrownBy(() -> eventDao.create(tournament)).isInstanceOf(DataIntegrityViolationException.class);
     }
 
@@ -591,7 +591,7 @@ public class EventDaoTest {
 
     @Test
     public void findTournamentsByCourtOfWhichThereAreTwoSharingTheSameCourt(){
-        Event otherTournament = new Tournament(otherStart, otherEnd, 10, 10000);
+        Event otherTournament = new Tournament(otherStart, otherEnd, "US OPEN", 10, 10000);
         otherTournament.setCourt(tournamentCourt);
         em.persist(otherTournament);
 
@@ -603,7 +603,7 @@ public class EventDaoTest {
 
     @Test
     public void findTournamentsByCourtOfWhichThereAreTwoNotSharingTheSameCourt(){
-        Event otherTournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
+        Event otherTournament = new Tournament(tournamentStart, tournamentEnd, "US OPEN", 10, 10000);
         otherTournament.setCourt(otherCourt);
         em.persist(otherTournament);
 
@@ -687,7 +687,7 @@ public class EventDaoTest {
 
     @Test
     public void findTournamentsByStartTimeOfWhichThereAreTwoSharingTheSameStartTime(){
-        Event otherTournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
+        Event otherTournament = new Tournament(tournamentStart, tournamentEnd, "US OPEN", 10, 10000);
         otherTournament.setCourt(otherCourt);
         em.persist(otherTournament);
 
@@ -699,7 +699,7 @@ public class EventDaoTest {
 
     @Test
     public void findTournamentsByStartTimeOfWhichThereAreTwoNotSharingTheSameStartTime(){
-        Event otherTournament = new Tournament(otherStart, otherEnd, 10, 10000);
+        Event otherTournament = new Tournament(otherStart, otherEnd, "US OPEN", 10, 10000);
         otherTournament.setCourt(tournamentCourt);
         em.persist(otherTournament);
 
@@ -783,7 +783,7 @@ public class EventDaoTest {
 
     @Test
     public void findTournamentsByEndTimeOfWhichThereAreTwoSharingTheSameEndTime(){
-        Event otherTournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
+        Event otherTournament = new Tournament(tournamentStart, tournamentEnd,"US OPEN", 10, 10000);
         otherTournament.setCourt(otherCourt);
         em.persist(otherTournament);
 
@@ -795,7 +795,7 @@ public class EventDaoTest {
 
     @Test
     public void findTournamentsByEndTimeOfWhichThereAreTwoNotSharingTheSameEndTime(){
-        Event otherTournament = new Tournament(otherStart, otherEnd, 10, 10000);
+        Event otherTournament = new Tournament(otherStart, otherEnd, "US OPEN", 10, 10000);
         otherTournament.setCourt(tournamentCourt);
         em.persist(otherTournament);
 
@@ -1006,7 +1006,7 @@ public class EventDaoTest {
 
     @Test
     public void findTournamentByTimeIntervalStartTimeIsEqualToTo(){
-        Event otherTournament = new Tournament(tournamentEnd, tournamentEnd, 10, 10000);
+        Event otherTournament = new Tournament(tournamentEnd, tournamentEnd, "US OPEN", 10, 10000);
         otherTournament.setCourt(otherCourt);
         em.persist(otherTournament);
 
@@ -1018,7 +1018,7 @@ public class EventDaoTest {
 
     @Test
     public void findTournamentByTimeIntervalEndTimeIsEqualToFrom(){
-        Event otherTournament = new Tournament(tournamentStart, tournamentStart, 10, 10000);
+        Event otherTournament = new Tournament(tournamentStart, tournamentStart,"US OPEN", 10, 10000);
         otherTournament.setCourt(otherCourt);
         em.persist(otherTournament);
 
@@ -1030,7 +1030,7 @@ public class EventDaoTest {
 
     @Test
     public void findTournamentByTimeIntervalBothTimesAreOK(){
-        Event otherTournament = new Tournament(tournamentStart, tournamentEnd, 10, 10000);
+        Event otherTournament = new Tournament(tournamentStart, tournamentEnd,"US OPEN", 10, 10000);
         otherTournament.setCourt(otherCourt);
         em.persist(otherTournament);
 
