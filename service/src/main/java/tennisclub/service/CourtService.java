@@ -1,5 +1,6 @@
 package tennisclub.service;
 
+import org.springframework.stereotype.Service;
 import tennisclub.entity.Court;
 import tennisclub.enums.CourtType;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 /**
  * @author Pavel Tobiáš
  */
+@Service
 public interface CourtService {
     void create(Court court);
     Court update(Court court);
