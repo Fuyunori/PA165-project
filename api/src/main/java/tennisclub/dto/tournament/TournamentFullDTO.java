@@ -6,7 +6,7 @@ import tennisclub.dto.ranking.TournamentRankingDTO;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TournamentWithRankingsDTO extends EventDTO {
+public class TournamentFullDTO extends EventDTO {
     private String name;
     private Integer capacity;
     private Integer prize;
