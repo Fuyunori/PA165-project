@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tennisclub.dto.lesson.LessonCreateDTO;
 import tennisclub.dto.lesson.LessonDTO;
 import tennisclub.dto.lesson.LessonFullDTO;
+import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
 import tennisclub.enums.Level;
@@ -16,7 +17,6 @@ import tennisclub.service.LessonService;
 import tennisclub.service.UserService;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -96,16 +96,11 @@ public class LessonFacadeImpl implements LessonFacade {
 
     @Override
     public List<LessonFullDTO> getLessonsByCourt(Long courtId) {
-        // TODO: check whether it is correct later once the service has added listById method
-        /*
-        Court court = courtService.listById(courtId);
+        Court court = courtService.getById(courtId);
         List<Lesson> lessons = lessonService.findByCourt(court);
         return lessons.stream()
-                .map(e -> mapper.map(e, LessonDTO.class))
+                .map(e -> mapper.map(e, LessonFullDTO.class))
                 .collect(Collectors.toList());
-
-         */
-        return new ArrayList<>();
     }
 
     @Override
