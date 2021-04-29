@@ -1,7 +1,7 @@
 package tennisclub.facade;
 
-import tennisclub.dto.LessonCreateDTO;
-import tennisclub.dto.LessonDTO;
+import tennisclub.dto.lesson.LessonCreateDTO;
+import tennisclub.dto.lesson.LessonDTO;
 import tennisclub.enums.Level;
 
 import java.time.LocalDateTime;
