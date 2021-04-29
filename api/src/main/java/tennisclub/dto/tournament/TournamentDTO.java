@@ -1,7 +1,11 @@
 package tennisclub.dto.tournament;
 
+import tennisclub.dto.ranking.TournamentRankingDTO;
+
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class TournamentDTO {
     private Long id;
@@ -10,14 +14,8 @@ public class TournamentDTO {
     private String name;
     private Integer capacity;
     private Integer prize;
-    // TODO: uncomment once the RankingDTO is available :)
-    /* From RankingDTO side there shouldn't be reference to TournamentDTO
-    since I don't expect to see RankingDTO separately (i.e., not inside Tournament - the relationship is strong)
-    From the User side, it is meaningless to have a set of Rankings, since
-    the user would be missing information about what tournament he ranked in
-    (we would have to add a tournament name to make it meaningful).
-     */
-    // private Set<RankingDTO> playerPlacements = new HashSet<>();
+
+    private Set<TournamentRankingDTO> playerPlacements = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -66,6 +64,10 @@ public class TournamentDTO {
     public void setPrize(Integer prize) {
         this.prize = prize;
     }
+
+    public Set<TournamentRankingDTO> getPlayerPlacements() { return playerPlacements; }
+
+    public void setPlayerPlacements(Set<TournamentRankingDTO> playerPlacements) { this.playerPlacements = playerPlacements; }
 
     @Override
     public boolean equals(Object o) {
