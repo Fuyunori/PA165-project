@@ -1,30 +1,39 @@
-package tennisclub.dto;
+package tennisclub.dto.tournament;
 
+import tennisclub.dto.court.CourtDto;
+
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class TournamentDTO {
-    private Long id;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private String name;
-    private Integer capacity;
-    private Integer prize;
-    // TODO: uncomment once the RankingDTO is available :)
-    /* From RankingDTO side there shouldn't be reference to TournamentDTO
-    since I don't expect to see RankingDTO separately (i.e., not inside Tournament - the relationship is strong)
-    From the User side, it is meaningless to have a set of Rankings, since
-    the user would be missing information about what tournament he ranked in
-    (we would have to add a tournament name to make it meaningful).
-     */
-    // private Set<RankingDTO> playerPlacements = new HashSet<>();
+public class TournamentCreateDTO {
+    @NotNull
+    private CourtDto court;
 
-    public Long getId() {
-        return id;
+    @NotNull
+    @FutureOrPresent
+    private LocalDateTime startTime;
+
+    @NotNull
+    @Future
+    private LocalDateTime endTime;
+
+    @NotBlank
+    private String name;
+
+    @Min(0)
+    private Integer capacity;
+
+    @NotNull
+    @Min(0)
+    private Integer prize;
+
+    public CourtDto getCourt() {
+        return court;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCourt(CourtDto court) {
+        this.court = court;
     }
 
     public LocalDateTime getStartTime() {
@@ -71,8 +80,9 @@ public class TournamentDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TournamentDTO tournamentDTO = (TournamentDTO) o;
-        return Objects.equals(startTime, tournamentDTO.getStartTime())
+        TournamentCreateDTO tournamentDTO = (TournamentCreateDTO) o;
+        return Objects.equals(court, tournamentDTO.getCourt()) &&
+                Objects.equals(startTime, tournamentDTO.getStartTime())
                 && Objects.equals(endTime, tournamentDTO.getEndTime());
     }
 
@@ -80,6 +90,7 @@ public class TournamentDTO {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result  + ((court == null) ? 0 : court.hashCode());
         result = prime * result  + ((startTime == null) ? 0 : startTime.hashCode());
         result = prime * result  + ((endTime == null) ? 0 : endTime.hashCode());
         return result;

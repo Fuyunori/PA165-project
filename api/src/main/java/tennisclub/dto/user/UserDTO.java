@@ -1,9 +1,9 @@
-package tennisclub.dto;
+package tennisclub.dto.user;
 
+import tennisclub.dto.lesson.LessonWithCourtDTO;
 import tennisclub.enums.Role;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class UserDTO {

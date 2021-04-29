@@ -1,4 +1,4 @@
-package tennisclub.dto;
+package tennisclub.dto.court;
 
 import tennisclub.enums.CourtType;
 
