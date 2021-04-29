@@ -9,8 +9,11 @@ import tennisclub.dao.UserDao;
 import tennisclub.entity.User;
 import tennisclub.enums.Role;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Pavel Tobiáš
@@ -24,6 +27,7 @@ public class UserServiceTest {
     private UserService userService;
 
     private User user;
+    private User otherUser;
     private User manager;
     private String password;
     private String otherPassword;
@@ -32,6 +36,9 @@ public class UserServiceTest {
     void initUsers() {
         user = new User();
         user.setRole(Role.USER);
+
+        otherUser = new User();
+        otherUser.setRole(Role.USER);
 
         manager = new User();
         manager.setRole(Role.MANAGER);
@@ -65,5 +72,15 @@ public class UserServiceTest {
         assertThat(userService.hasRights(user, Role.MANAGER)).isFalse();
         assertThat(userService.hasRights(manager, Role.USER)).isTrue();
         assertThat(userService.hasRights(manager, Role.MANAGER)).isTrue();
+    }
+
+    @Test
+    void getAllUsers() {
+        when(userDao.findAll()).thenReturn(List.of(user, manager, otherUser));
+        List<User> users = userService.getAllUsers();
+
+        verify(userDao).findAll();
+        assertThat(users).hasSize(3);
+        assertThat(users).contains(user, otherUser, manager);
     }
 }
