@@ -1,14 +1,14 @@
 package tennisclub.dto;
 
+import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 public class UserAuthDTO {
 
     @NotBlank
     private  String username;
 
-    @NotBlank
+    @Length(min = 6)
     private  String password;
 
     public String getUsername() {
