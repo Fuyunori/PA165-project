@@ -23,7 +23,7 @@ public interface TournamentService {
     List<Tournament> findByTimeInterval(LocalDateTime from, LocalDateTime to);
     List<Tournament> findByCapacity(Integer capacity);
 
-    List<Ranking> findRanking(Tournament tournament, User player);
+    Ranking findRanking(Tournament tournament, User player);
     List<Ranking> findRankingByTournament(Tournament tournament);
     List<Ranking> findRankingByPlayer(User player);
     void enrollPlayer(Tournament tournament, User player);
