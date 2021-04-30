@@ -125,7 +125,11 @@ public class UserFacadeTest {
 
     @Test
     void findUsersByName() {
-        // TODO
+        when(userService.findUsersByName("Karel")).thenReturn(List.of(entity, otherEntity));
+
+        List<UserFullDTO> entities = userFacade.findUsersByName("Karel");
+        verify(userService).findUsersByName("Karel");
+        assertThat(entities).hasSize(2).contains(fullDto, otherFullDto);
     }
 
     @Test
