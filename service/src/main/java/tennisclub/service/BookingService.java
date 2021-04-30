@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import tennisclub.entity.Booking;
 import tennisclub.entity.User;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,4 +26,6 @@ public interface BookingService {
     Booking findById(Long id);
 
     List<Booking> findByTimeInterval(LocalDateTime from, LocalDateTime to);
+
+    Duration getTotalReservedHoursToday(User user);
 }

@@ -7,7 +7,9 @@ import tennisclub.entity.Booking;
 import tennisclub.entity.User;
 import tennisclub.exceptions.ServiceLayerException;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -75,5 +77,19 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
         return bookingDao.findByTimeInterval(from, to);
+    }
+
+    @Override
+    public Duration getTotalReservedHoursToday(User user) {
+        List<Booking> bookings = findByTimeInterval(
+                timeService.getCurrentDate().atStartOfDay(),
+                timeService.getCurrentDate().atTime(LocalTime.MAX));
+        Duration totalTime = Duration.ZERO;
+        for (Booking booking : bookings) {
+            if (booking.getAuthor().equals(user)) {
+                totalTime = totalTime.plus(Duration.between(booking.getStartTime(), booking.getEndTime()));
+            }
+        }
+        return totalTime;
     }
 }

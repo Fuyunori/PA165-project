@@ -58,17 +58,8 @@ public class BookingFacadeImpl implements BookingFacade {
             throw new SecurityException("Can't make a booking. Court is not free at this time.");
         }
 
-        List<Booking> bookings = bookingService.findByTimeInterval(
-                timeService.getCurrentDate().atStartOfDay(),
-                timeService.getCurrentDate().atTime(LocalTime.MAX));
-        Duration totalTime = Duration.between(booking.getStartTime(), booking.getEndTime());
-        for (Booking userBooking : bookings) {
-            if (userBooking.getAuthor().equals(booking.getAuthor())) {
-                totalTime = totalTime.plus(
-                        Duration.between(userBooking.getStartTime(), userBooking.getEndTime()));
-            }
-        }
-
+        Duration totalTime = bookingService.getTotalReservedHoursToday(booking.getAuthor())
+                .plus(Duration.between(booking.getStartTime(), booking.getEndTime()));
         if (totalTime.compareTo(Duration.ofHours(2)) > 0) {
             throw new ServiceLayerException("Maximum number of reserved hours per day exceeded.");
         }
