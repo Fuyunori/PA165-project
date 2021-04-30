@@ -3,6 +3,7 @@ package tennisclub.facade;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tennisclub.dto.court.CourtDto;
 import tennisclub.entity.Court;
 import tennisclub.enums.CourtType;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
  * @author Pavel Tobiáš
  */
 @Service
+@Transactional
 public class CourtFacadeImpl implements CourtFacade {
     private final Mapper mapper;
     private final CourtService courtService;

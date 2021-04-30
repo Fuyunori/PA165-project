@@ -13,9 +13,6 @@ public interface TournamentService {
     Tournament create(Tournament tournament);
     Tournament update(Tournament tournament);
     void remove(Tournament tournament);
-
-    void addRanking(Tournament tournament, Ranking ranking);
-
     Tournament findById(Long id);
     List<Tournament> findAll();
     List<Tournament> findByCourt(Court court);
