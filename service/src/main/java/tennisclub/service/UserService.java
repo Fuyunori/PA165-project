@@ -14,7 +14,7 @@ import java.util.List;
 public interface UserService {
 
     /**
-     * Registers a new User
+     * Registers a new user
      * @param user to be registered
      * @param plainTextPassword of the user
      */
