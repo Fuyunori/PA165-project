@@ -21,6 +21,7 @@ public interface LessonService {
 
     Lesson addTeacher(Lesson lesson, User teacher);
     Lesson removeTeacher(Lesson lesson, User teacher);
+    Lesson replaceTeacher(Lesson lesson, User oldTeacher, User newTeacher);
 
     Lesson findById(Long id);
     List<Lesson> findAll();

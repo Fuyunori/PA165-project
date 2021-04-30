@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tennisclub.dto.lesson.LessonCreateDTO;
-import tennisclub.dto.lesson.LessonDTO;
-import tennisclub.dto.lesson.LessonFullDTO;
+import tennisclub.dto.lesson.LessonWithCourtDTO;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
 import tennisclub.enums.Level;
@@ -81,21 +80,21 @@ public class LessonFacadeImpl implements LessonFacade {
     }
 
     @Override
-    public LessonFullDTO getLessonWithId(Long id) {
+    public LessonWithCourtDTO getLessonWithId(Long id) {
         Lesson lesson = lessonService.findById(id);
-        return (lesson == null) ? null : mapper.map(lesson, LessonFullDTO.class);
+        return (lesson == null) ? null : mapper.map(lesson, LessonWithCourtDTO.class);
     }
 
     @Override
-    public List<LessonFullDTO> getAllLessons() {
+    public List<LessonWithCourtDTO> getAllLessons() {
         List<Lesson> lessons = lessonService.findAll();
         return lessons.stream()
-                .map(e -> mapper.map(e, LessonFullDTO.class))
+                .map(e -> mapper.map(e, LessonWithCourtDTO.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<LessonFullDTO> getLessonsByCourt(Long courtId) {
+    public List<LessonWithCourtDTO> getLessonsByCourt(Long courtId) {
         // TODO: check whether it is correct later once the service has added listById method
         /*
         Court court = courtService.listById(courtId);
@@ -109,26 +108,26 @@ public class LessonFacadeImpl implements LessonFacade {
     }
 
     @Override
-    public List<LessonFullDTO> getLessonsByStartTime(LocalDateTime startTime) {
+    public List<LessonWithCourtDTO> getLessonsByStartTime(LocalDateTime startTime) {
         List<Lesson> lessons = lessonService.findByStartTime(startTime);
         return lessons.stream()
-                .map(e -> mapper.map(e, LessonFullDTO.class))
+                .map(e -> mapper.map(e, LessonWithCourtDTO.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<LessonFullDTO> getLessonsByEndTime(LocalDateTime endTime) {
+    public List<LessonWithCourtDTO> getLessonsByEndTime(LocalDateTime endTime) {
         List<Lesson> lessons = lessonService.findByEndTime(endTime);
         return lessons.stream()
-                .map(e -> mapper.map(e, LessonFullDTO.class))
+                .map(e -> mapper.map(e, LessonWithCourtDTO.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<LessonFullDTO> getLessonsByLevel(Level level) {
+    public List<LessonWithCourtDTO> getLessonsByLevel(Level level) {
         List<Lesson> lessons = lessonService.findByLevel(level);
         return lessons.stream()
-                .map(e -> mapper.map(e, LessonFullDTO.class))
+                .map(e -> mapper.map(e, LessonWithCourtDTO.class))
                 .collect(Collectors.toList());
     }
 }
