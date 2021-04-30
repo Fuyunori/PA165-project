@@ -1,9 +1,6 @@
 package tennisclub.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,6 +20,10 @@ public class Booking extends Event {
     )
     private Set<User> users = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "court_id", nullable = false)
+    private User author;
+
     public Booking() { }
 
     public Booking(LocalDateTime startTime, LocalDateTime endTime) {
@@ -39,5 +40,13 @@ public class Booking extends Event {
 
     public void removeUser(User user) {
         users.remove(user);
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }

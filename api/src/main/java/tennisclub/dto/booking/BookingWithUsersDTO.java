@@ -11,6 +11,7 @@ import java.util.Set;
 public class BookingWithUsersDTO extends EventDTO {
 
     private Set<UserDTO> users;
+    private UserDTO author;
 
     public Set<UserDTO> getUsers() {
         return users;
@@ -18,5 +19,13 @@ public class BookingWithUsersDTO extends EventDTO {
 
     public void setUsers(Set<UserDTO> users) {
         this.users = users;
+    }
+
+    public UserDTO getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(UserDTO author) {
+        this.author = author;
     }
 }
