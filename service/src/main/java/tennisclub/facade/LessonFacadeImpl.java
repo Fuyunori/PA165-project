@@ -43,7 +43,7 @@ public class LessonFacadeImpl implements LessonFacade {
         Lesson lesson = mapper.map(lessonDTO, Lesson.class);
 
         if (!courtService.isFree(lesson.getCourt(), lesson.getStartTime(), lesson.getEndTime())) {
-            throw new SecurityException("Can't make a booking. Court is not free at this time.");
+            throw new SecurityException("Can't make a lesson. Court is not free at this time.");
         }
 
         Lesson newLesson = lessonService.create(lesson);
