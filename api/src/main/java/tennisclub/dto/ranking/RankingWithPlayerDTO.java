@@ -6,6 +6,10 @@ import tennisclub.dto.user.UserDTO;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Ranking DTO describing the ranking from the perspective of a tournament
+ * @author Ondrej Holub
+ */
 public class RankingWithPlayerDTO {
 
     @NotNull
