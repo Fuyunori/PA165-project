@@ -96,9 +96,9 @@ public class EventServiceTest {
     public void testRescheduleLesson(){
         when(eventDao.update(lesson)).thenReturn(lesson);
 
-        Event rescheduled = eventService.reschedule(booking, OTHER_START, OTHER_END);
+        Event rescheduled = eventService.reschedule(lesson, OTHER_START, OTHER_END);
 
-        assertThat(rescheduled).isEqualTo(booking);
+        assertThat(rescheduled).isEqualTo(lesson);
     }
 
     @Test
@@ -299,7 +299,7 @@ public class EventServiceTest {
     public void testFindByEndTimeBooking(){
         List<Event> onlyBooking = Collections.singletonList(booking);
 
-        when(eventDao.findByStartTime(BOOKING_END)).thenReturn(onlyBooking);
+        when(eventDao.findByEndTime(BOOKING_END)).thenReturn(onlyBooking);
 
         List<Event> found = eventService.findByEndTime(BOOKING_END);
 
@@ -312,7 +312,7 @@ public class EventServiceTest {
     public void testFindByEndTimeLesson(){
         List<Event> onlyLesson = Collections.singletonList(lesson);
 
-        when(eventDao.findByStartTime(LESSON_END)).thenReturn(onlyLesson);
+        when(eventDao.findByEndTime(LESSON_END)).thenReturn(onlyLesson);
 
         List<Event> found = eventService.findByEndTime(LESSON_END);
 
@@ -325,7 +325,7 @@ public class EventServiceTest {
     public void testFindByEndTimeTournament(){
         List<Event> onlyTournament = Collections.singletonList(tournament);
 
-        when(eventDao.findByStartTime(TOURNAMENT_END)).thenReturn(onlyTournament);
+        when(eventDao.findByEndTime(TOURNAMENT_END)).thenReturn(onlyTournament);
 
         List<Event> found = eventService.findByEndTime(TOURNAMENT_END);
 
