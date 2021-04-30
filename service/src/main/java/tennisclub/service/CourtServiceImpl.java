@@ -47,6 +47,11 @@ public class CourtServiceImpl implements CourtService {
     }
 
     @Override
+    public List<Court> listAll() {
+        return courtDao.findAll();
+    }
+
+    @Override
     public List<Court> listByAddress(String address) {
         return courtDao.findByAddress(address);
     }

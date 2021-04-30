@@ -1,6 +1,7 @@
 package tennisclub.facade;
 
 import tennisclub.dto.lesson.LessonCreateDTO;
+import tennisclub.dto.lesson.LessonFullDTO;
 import tennisclub.dto.lesson.LessonWithCourtDTO;
 import tennisclub.enums.Level;
 
@@ -17,10 +18,10 @@ public interface LessonFacade {
     void withdrawStudent(Long lessonId, Long studentId);
     void removeTeacher(Long lessonId, Long teacherId);
 
-    LessonWithCourtDTO getLessonWithId(Long id);
-    List<LessonWithCourtDTO> getAllLessons();
-    List<LessonWithCourtDTO> getLessonsByStartTime(LocalDateTime startTime);
-    List<LessonWithCourtDTO> getLessonsByEndTime(LocalDateTime endTime);
-    List<LessonWithCourtDTO> getLessonsByLevel(Level level);
-    List<LessonWithCourtDTO> getLessonsByCourt(Long courtId);
+    LessonFullDTO getLessonWithId(Long id);
+    List<LessonFullDTO> getAllLessons();
+    List<LessonFullDTO> getLessonsByStartTime(LocalDateTime startTime);
+    List<LessonFullDTO> getLessonsByEndTime(LocalDateTime endTime);
+    List<LessonFullDTO> getLessonsByLevel(Level level);
+    List<LessonFullDTO> getLessonsByCourt(Long courtId);
 }

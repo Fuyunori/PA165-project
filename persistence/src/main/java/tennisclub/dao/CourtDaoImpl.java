@@ -30,6 +30,13 @@ public class CourtDaoImpl implements CourtDao {
     }
 
     @Override
+    public List<Court> findAll() {
+        return manager
+                .createQuery("SELECT c FROM Court c", Court.class)
+                .getResultList();
+    }
+
+    @Override
     public Court findById(Long id) {
         return manager
                 .createQuery("SELECT c FROM Court c WHERE c.id = :id", Court.class)
