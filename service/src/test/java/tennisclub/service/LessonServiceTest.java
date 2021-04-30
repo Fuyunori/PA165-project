@@ -29,6 +29,9 @@ public class LessonServiceTest {
     @MockBean
     private LessonDao lessonDao;
 
+    @MockBean
+    private TimeService timeService;
+
     @Autowired
     private LessonService lessonService;
 
@@ -48,8 +51,8 @@ public class LessonServiceTest {
         teacher = makeUser("aaa", "bbb", "ccc@ddd.com");
         newTeacher = makeUser("eee", "fff", "ggg@hhh.com");
 
-        lesson.addStudent(student);
-        lesson.addTeacher(teacher);
+        student.addLessonToAttend(lesson);
+        teacher.addLessonToTeach(lesson);
     }
 
     @Test
@@ -79,64 +82,121 @@ public class LessonServiceTest {
 
     @Test
     public void enrollStudentTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(lesson.getStartTime().minusDays(1));
         when(lessonDao.update(lesson)).thenReturn(lesson);
 
         Lesson updated = lessonService.enrollStudent(lesson, newStudent);
 
         verify(lessonDao).update(lesson);
         assertThat(updated.getStudents()).contains(newStudent);
+        assertThat(newStudent.getLessonsToAttend()).contains(lesson);
     }
 
     @Test
     public void enrollAlreadyEnrolledStudentTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(lesson.getStartTime().minusDays(1));
+
         assertThatThrownBy(() -> lessonService.enrollStudent(lesson, student))
                 .isInstanceOf(ServiceLayerException.class);
     }
 
     @Test
+    public void enrollStudentAfterLessonStartTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(lesson.getStartTime().plusDays(1));
+
+        assertThatThrownBy(() -> lessonService.enrollStudent(lesson, newStudent))
+                .isInstanceOf(ServiceLayerException.class);
+    }
+
+    @Test
+    public void enrollStudentFullCapacityTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(lesson.getStartTime().minusDays(1));
+        lesson.setCapacity(lesson.getStudents().size());
+
+        assertThatThrownBy(() -> lessonService.enrollStudent(lesson, newStudent))
+                .isInstanceOf(ServiceLayerException.class);
+    }
+
+    @Test
     public void withdrawStudentTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(lesson.getStartTime().minusDays(1));
         when(lessonDao.update(lesson)).thenReturn(lesson);
 
         Lesson updated = lessonService.withdrawStudent(lesson, student);
 
         verify(lessonDao).update(lesson);
         assertThat(updated.getStudents()).doesNotContain(student);
+        assertThat(student.getLessonsToAttend()).doesNotContain(lesson);
     }
 
     @Test
     public void withdrawNonEnrolledStudentTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(lesson.getStartTime().minusDays(1));
+
         assertThatThrownBy(() -> lessonService.withdrawStudent(lesson, newStudent))
                 .isInstanceOf(ServiceLayerException.class);
     }
 
     @Test
+    public void withdrawStudentAfterStartTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(lesson.getStartTime().plusDays(1));
+
+        assertThatThrownBy(() -> lessonService.withdrawStudent(lesson, student))
+                .isInstanceOf(ServiceLayerException.class);
+    }
+
+    @Test
     public void addTeacherTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(lesson.getStartTime().minusDays(1));
         when(lessonDao.update(lesson)).thenReturn(lesson);
 
         Lesson updated = lessonService.addTeacher(lesson, newTeacher);
 
         verify(lessonDao).update(lesson);
         assertThat(updated.getTeachers()).contains(newTeacher);
+        assertThat(newTeacher.getLessonsToTeach()).contains(lesson);
     }
 
     @Test
     public void addAlreadyTeachingTeacherTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(lesson.getStartTime().minusDays(1));
+
         assertThatThrownBy(() -> lessonService.addTeacher(lesson, teacher))
                 .isInstanceOf(ServiceLayerException.class);
     }
 
     @Test
+    public void addTeacherAfterStartTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(lesson.getStartTime().plusDays(1));
+
+        assertThatThrownBy(() -> lessonService.addTeacher(lesson, newTeacher))
+                .isInstanceOf(ServiceLayerException.class);
+    }
+
+    @Test
     public void removeTeacherTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(lesson.getStartTime().minusDays(1));
         when(lessonDao.update(lesson)).thenReturn(lesson);
 
         Lesson updated = lessonService.removeTeacher(lesson, teacher);
 
         verify(lessonDao).update(lesson);
         assertThat(updated.getTeachers()).doesNotContain(teacher);
+        assertThat(teacher.getLessonsToTeach()).doesNotContain(lesson);
+    }
+
+    @Test
+    public void removeTeacherAfterStartTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(lesson.getStartTime().plusDays(1));
+
+        assertThatThrownBy(() -> lessonService.removeTeacher(lesson, teacher))
+                .isInstanceOf(ServiceLayerException.class);
     }
 
     @Test
     public void removeNonTeachingTeacherTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(lesson.getStartTime().minusDays(1));
+
         assertThatThrownBy(() -> lessonService.removeTeacher(lesson, newTeacher))
                 .isInstanceOf(ServiceLayerException.class);
     }
