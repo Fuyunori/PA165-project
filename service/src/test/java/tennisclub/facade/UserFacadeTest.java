@@ -131,9 +131,9 @@ public class UserFacadeTest {
     void findUsersByName() {
         when(userService.findUsersByName("Karel")).thenReturn(List.of(entity, otherEntity));
 
-        List<UserFullDTO> entities = userFacade.findUsersByName("Karel");
+        List<UserFullDTO> foundDtos = userFacade.findUsersByName("Karel");
         verify(userService).findUsersByName("Karel");
-        assertThat(entities).hasSize(2).contains(fullDto, otherFullDto);
+        assertThat(foundDtos).hasSize(2).contains(fullDto, otherFullDto);
     }
 
     @Test
@@ -150,9 +150,9 @@ public class UserFacadeTest {
     void findUsersByEmail() {
         when(userService.findUsersByEmail("pepa@localhost")).thenReturn(List.of(entity, otherEntity));
 
-        List<UserFullDTO> entities = userFacade.findUsersByEmail("pepa@localhost");
+        List<UserFullDTO> foundDtos = userFacade.findUsersByEmail("pepa@localhost");
         verify(userService).findUsersByEmail("pepa@localhost");
-        assertThat(entities).hasSize(2).contains(fullDto, otherFullDto);
+        assertThat(foundDtos).hasSize(2).contains(fullDto, otherFullDto);
     }
 
     @Test
