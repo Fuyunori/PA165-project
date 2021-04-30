@@ -19,6 +19,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -115,6 +116,7 @@ public class EventServiceTest {
 
         Event found = eventService.findById(BOOKING_ID);
 
+        verify(eventDao).findById(BOOKING_ID);
         assertThat(found).isEqualTo(booking);
     }
 
@@ -124,6 +126,7 @@ public class EventServiceTest {
 
         Event found = eventService.findById(LESSON_ID);
 
+        verify(eventDao).findById(LESSON_ID);
         assertThat(found).isEqualTo(lesson);
     }
 
@@ -133,6 +136,7 @@ public class EventServiceTest {
 
         Event found = eventService.findById(TOURNAMENT_ID);
 
+        verify(eventDao).findById(TOURNAMENT_ID);
         assertThat(found).isEqualTo(tournament);
     }
 
@@ -143,6 +147,7 @@ public class EventServiceTest {
 
         Event found = eventService.findById(NON_EXISTING_ID);
 
+        verify(eventDao).findById(NON_EXISTING_ID);
         assertThat(found).isNull();
     }
 
@@ -154,6 +159,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findAll();
 
+        verify(eventDao).findAll();
         assertThat(found.size()).isEqualTo(3);
         assertThat(found).contains(booking);
         assertThat(found).contains(lesson);
@@ -168,6 +174,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findAll();
 
+        verify(eventDao).findAll();
         assertThat(found).isEmpty();
     }
 
@@ -180,6 +187,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findByTimeInterval(START, END);
 
+        verify(eventDao).findByTimeInterval(START, END);
         assertThat(found.size()).isEqualTo(3);
         assertThat(found).contains(booking);
         assertThat(found).contains(lesson);
@@ -195,6 +203,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findByTimeInterval(BOOKING_START, BOOKING_END);
 
+        verify(eventDao).findByTimeInterval(BOOKING_START, BOOKING_END);
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(booking);
     }
@@ -208,6 +217,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findByTimeInterval(LESSON_START, LESSON_END);
 
+        verify(eventDao).findByTimeInterval(LESSON_START, LESSON_END);
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(lesson);
     }
@@ -221,6 +231,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findByTimeInterval(TOURNAMENT_START, TOURNAMENT_END);
 
+        verify(eventDao).findByTimeInterval(TOURNAMENT_START, TOURNAMENT_END);
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(tournament);
     }
@@ -231,6 +242,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findByTimeInterval(OTHER_START, OTHER_END);
 
+        verify(eventDao).findByTimeInterval(OTHER_START, OTHER_END);
         assertThat(found).isEmpty();
     }
 
@@ -242,6 +254,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findByStartTime(BOOKING_START);
 
+        verify(eventDao).findByStartTime(BOOKING_START);
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(booking);
     }
@@ -254,6 +267,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findByStartTime(LESSON_START);
 
+        verify(eventDao).findByStartTime(LESSON_START);
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(lesson);
     }
@@ -266,6 +280,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findByStartTime(TOURNAMENT_START);
 
+        verify(eventDao).findByStartTime(TOURNAMENT_START);
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(tournament);
     }
@@ -276,6 +291,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findByStartTime(OTHER_START);
 
+        verify(eventDao).findByStartTime(OTHER_START);
         assertThat(found).isEmpty();
     }
 
@@ -287,6 +303,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findByEndTime(BOOKING_END);
 
+        verify(eventDao).findByEndTime(BOOKING_END);
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(booking);
     }
@@ -299,6 +316,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findByEndTime(LESSON_END);
 
+        verify(eventDao).findByEndTime(LESSON_END);
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(lesson);
     }
@@ -311,6 +329,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findByEndTime(TOURNAMENT_END);
 
+        verify(eventDao).findByEndTime(TOURNAMENT_END);
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(tournament);
     }
@@ -321,6 +340,7 @@ public class EventServiceTest {
 
         List<Event> found = eventService.findByEndTime(OTHER_END);
 
+        verify(eventDao).findByEndTime(OTHER_END);
         assertThat(found).isEmpty();
     }
 }
