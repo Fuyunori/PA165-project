@@ -33,7 +33,6 @@ public class BookingFacadeImpl implements BookingFacade {
     private final BookingService bookingService;
     private final CourtService courtService;
     private final UserService userService;
-    private final TimeService timeService;
 
     final private Mapper mapper;
 
@@ -41,12 +40,10 @@ public class BookingFacadeImpl implements BookingFacade {
     public BookingFacadeImpl(BookingService bookingService,
                              CourtService courtService,
                              UserService userService,
-                             TimeService timeService,
                              Mapper mapper) {
         this.bookingService = bookingService;
         this.courtService = courtService;
         this.userService = userService;
-        this.timeService = timeService;
         this.mapper = mapper;
     }
 
