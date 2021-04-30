@@ -78,8 +78,8 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public List<Ranking> findRanking(Tournament tournament, User player) {
-        return rankingDao.findByTournament(tournament);
+    public Ranking findRanking(Tournament tournament, User player) {
+        return rankingDao.find(tournament, player);
     }
 
     @Override
