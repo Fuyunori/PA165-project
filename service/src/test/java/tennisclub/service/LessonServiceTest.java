@@ -71,6 +71,7 @@ public class LessonServiceTest {
 
         Lesson actual = lessonService.update(lesson);
 
+        verify(lessonDao).update(lesson);
         assertThat(actual).isEqualTo(lesson);
     }
 
@@ -207,6 +208,7 @@ public class LessonServiceTest {
 
         Lesson found = lessonService.findById(lesson.getId());
 
+        verify(lessonDao).findById(lesson.getId());
         assertThat(found).isEqualTo(lesson);
     }
 
@@ -216,6 +218,7 @@ public class LessonServiceTest {
 
         Lesson found = lessonService.findById(10L);
 
+        verify(lessonDao).findById(10L);
         assertThat(found).isNull();
     }
 
@@ -229,6 +232,7 @@ public class LessonServiceTest {
 
         List<Lesson> found = lessonService.findAll();
 
+        verify(lessonDao).findAll();
         assertThat(found.size()).isEqualTo(3);
         assertThat(found).contains(lesson1);
         assertThat(found).contains(lesson2);
@@ -252,6 +256,7 @@ public class LessonServiceTest {
 
         List<Lesson> found = lessonService.findByCourt(court);
 
+        verify(lessonDao).findByCourt(court);
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(lesson);
     }
@@ -263,6 +268,7 @@ public class LessonServiceTest {
 
         List<Lesson> found = lessonService.findByCourt(court);
 
+        verify(lessonDao).findByCourt(court);
         assertThat(found).isEmpty();
     }
 
@@ -273,6 +279,7 @@ public class LessonServiceTest {
 
         List<Lesson> found = lessonService.findByStartTime(lesson.getStartTime());
 
+        verify(lessonDao).findByStartTime(lesson.getStartTime());
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(lesson);
     }
@@ -284,6 +291,7 @@ public class LessonServiceTest {
 
         List<Lesson> found = lessonService.findByStartTime(lesson.getStartTime());
 
+        verify(lessonDao).findByStartTime(lesson.getStartTime());
         assertThat(found).isEmpty();
     }
 
@@ -294,17 +302,19 @@ public class LessonServiceTest {
 
         List<Lesson> found = lessonService.findByEndTime(lesson.getEndTime());
 
+        verify(lessonDao).findByEndTime(lesson.getEndTime());
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(lesson);
     }
 
     @Test
     public void findByEndTimeEmptyTest() {
-        when(lessonDao.findByStartTime(lesson.getEndTime()))
+        when(lessonDao.findByEndTime(lesson.getEndTime()))
                 .thenReturn(Collections.emptyList());
 
-        List<Lesson> found = lessonService.findByEndTime(lesson.getStartTime());
+        List<Lesson> found = lessonService.findByEndTime(lesson.getEndTime());
 
+        verify(lessonDao).findByEndTime(lesson.getEndTime());
         assertThat(found).isEmpty();
     }
 
@@ -319,6 +329,7 @@ public class LessonServiceTest {
 
         List<Lesson> found = lessonService.findByTimeInterval(from ,to);
 
+        verify(lessonDao).findByTimeInterval(from ,to);
         assertThat(found.size()).isEqualTo(2);
         assertThat(found).contains(lesson1);
         assertThat(found).contains(lesson2);
@@ -332,6 +343,7 @@ public class LessonServiceTest {
 
         List<Lesson> found = lessonService.findByTimeInterval(from ,to);
 
+        verify(lessonDao).findByTimeInterval(from ,to);
         assertThat(found).isEmpty();
     }
 
@@ -341,6 +353,7 @@ public class LessonServiceTest {
 
         List<Lesson> found = lessonService.findByCapacity(lesson.getCapacity());
 
+        verify(lessonDao).findByCapacity(lesson.getCapacity());
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(lesson);
     }
@@ -351,6 +364,7 @@ public class LessonServiceTest {
 
         List<Lesson> found = lessonService.findByCapacity(lesson.getCapacity());
 
+        verify(lessonDao).findByCapacity(lesson.getCapacity());
         assertThat(found).isEmpty();
     }
 
@@ -360,6 +374,7 @@ public class LessonServiceTest {
 
         List<Lesson> found = lessonService.findByLevel(lesson.getLevel());
 
+        verify(lessonDao).findByLevel(lesson.getLevel());
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(lesson);
     }
@@ -370,6 +385,7 @@ public class LessonServiceTest {
 
         List<Lesson> found = lessonService.findByLevel(lesson.getLevel());
 
+        verify(lessonDao).findByLevel(lesson.getLevel());
         assertThat(found).isEmpty();
     }
 
