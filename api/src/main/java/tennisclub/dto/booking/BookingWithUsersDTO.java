@@ -29,3 +29,5 @@ public class BookingWithUsersDTO extends EventDTO {
         this.author = author;
     }
 }
+
+

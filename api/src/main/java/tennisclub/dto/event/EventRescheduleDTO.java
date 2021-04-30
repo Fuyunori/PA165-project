@@ -6,6 +6,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author Miroslav Demek
@@ -50,5 +51,18 @@ public class EventRescheduleDTO {
 
     public void setEnd(LocalDateTime end) {
         this.end = end;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EventRescheduleDTO)) return false;
+        EventRescheduleDTO that = (EventRescheduleDTO) o;
+        return Objects.equals(start, that.start) && Objects.equals(end, that.end);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(start, end);
     }
 }
