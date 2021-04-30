@@ -8,14 +8,20 @@ import tennisclub.dao.CourtDao;
 import tennisclub.dao.EventDao;
 import tennisclub.entity.Court;
 import tennisclub.entity.Event;
+import tennisclub.enums.CourtType;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+/**
+ * @author Ondrej Holub
+ */
 @SpringBootTest
 public class CourtServiceTest {
     @MockBean
@@ -27,22 +33,74 @@ public class CourtServiceTest {
     @Autowired
     private CourtService courtService;
 
+    Court testCourt = new Court();
+
     @Test
     void create() {
-        Court court = new Court();
-        courtService.create(court);
+        courtService.create(testCourt);
 
-        verify(courtDao).create(court);
+        verify(courtDao).create(testCourt);
+    }
+
+    @Test
+    void update() {
+        courtService.update(testCourt);
+
+        verify(courtDao).update(testCourt);
+    }
+
+    @Test
+    void delete() {
+        courtService.delete(testCourt);
+
+        verify(courtDao).delete(testCourt);
+    }
+
+    @Test
+    void getById() {
+        when(courtDao.findById(42L)).thenReturn(testCourt);
+
+        Court found = courtService.getById(42L);
+        verify(courtDao).findById(42L);
+        assertThat(found).isEqualTo(testCourt);
+    }
+
+    @Test
+    void listAll() {
+        Court testCourt2 = new Court("Court 2");
+        Court testCourt3 = new Court("Court 3");
+        Court testCourt4 = new Court("Court 4");
+        List<Court> list = asList(testCourt, testCourt2, testCourt3, testCourt4);
+        when(courtDao.findAll()).thenReturn(list);
+
+        List<Court> found = courtService.listAll();
+        verify(courtDao).findAll();
+        assertThat(found).contains(testCourt, testCourt2, testCourt3, testCourt4);
+        assertThat(found).hasSize(4);
     }
 
     @Test
     void listByAddress() {
-        Court court = new Court();
-        when(courtDao.findByAddress("Botanická")).thenReturn(asList(court));
+        when(courtDao.findByAddress("Botanická")).thenReturn(Collections.singletonList(testCourt));
 
         List<Court> courts = courtService.listByAddress("Botanická");
+        verify(courtDao).findByAddress("Botanická");
         assertThat(courts).hasSize(1);
-        assertThat(courts).contains(court);
+        assertThat(courts).contains(testCourt);
+    }
+
+    @Test
+    void listByType() {
+        Court testCourt2 = new Court("Court 2");
+        Court testCourt3 = new Court("Court 3");
+        Court testCourt4 = new Court("Court 4");
+        List<Court> list = asList(testCourt, testCourt2, testCourt3, testCourt4);
+        when(courtDao.findByType(CourtType.GRASS)).thenReturn(list);
+
+        List<Court> found = courtService.listByType(CourtType.GRASS);
+        verify(courtDao).findByType(CourtType.GRASS);
+        assertThat(found).contains(testCourt, testCourt2, testCourt3, testCourt4);
+        assertThat(found).hasSize(4);
     }
 
     @Test
