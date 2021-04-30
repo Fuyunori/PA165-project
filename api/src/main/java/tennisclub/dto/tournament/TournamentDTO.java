@@ -1,10 +1,6 @@
 package tennisclub.dto.tournament;
 
 import tennisclub.dto.event.EventDTO;
-import tennisclub.dto.ranking.TournamentRankingDTO;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class TournamentDTO extends EventDTO {
     private String name;

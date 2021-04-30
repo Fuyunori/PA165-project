@@ -6,7 +6,7 @@ import tennisclub.dto.user.UserDTO;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-public class TournamentRankingDTO {
+public class RankingWithPlayerDTO {
 
     @NotNull
     private UserDTO player;
@@ -32,9 +32,9 @@ public class TournamentRankingDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TournamentRankingDTO)) return false;
+        if (!(o instanceof RankingWithPlayerDTO)) return false;
 
-        TournamentRankingDTO that = (TournamentRankingDTO) o;
+        RankingWithPlayerDTO that = (RankingWithPlayerDTO) o;
 
         if (getPlayerPlacement() != that.getPlayerPlacement()) return false;
         return getPlayer() != null ? getPlayer().equals(that.getPlayer()) : that.getPlayer() == null;
