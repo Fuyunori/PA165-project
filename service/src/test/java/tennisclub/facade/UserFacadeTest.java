@@ -120,7 +120,11 @@ public class UserFacadeTest {
 
     @Test
     void findUserById() {
-        // TODO
+        when(userService.findUserById(1L)).thenReturn(entity);
+
+        UserFullDTO foundDto = userFacade.findUserById(1L);
+        verify(userService).findUserById(1L);
+        assertThat(foundDto).isEqualTo(fullDto);
     }
 
     @Test
