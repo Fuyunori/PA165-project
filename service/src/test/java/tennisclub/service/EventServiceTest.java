@@ -101,6 +101,15 @@ public class EventServiceTest {
     }
 
     @Test
+    public void testRescheduleTournament(){
+        when(eventDao.update(tournament)).thenReturn(tournament);
+
+        Event rescheduled = eventService.reschedule(tournament, OTHER_START, OTHER_END);
+
+        assertThat(rescheduled).isEqualTo(tournament);
+    }
+
+    @Test
     public void testFindByIdBooking(){
         when(eventDao.findById(BOOKING_ID)).thenReturn(booking);
 
