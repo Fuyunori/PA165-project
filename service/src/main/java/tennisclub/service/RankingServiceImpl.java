@@ -38,7 +38,8 @@ public class RankingServiceImpl implements RankingService {
     }
 
     @Override
-    public Ranking update(Ranking ranking) {
+    public Ranking updatePlacement(Ranking ranking, int newPlacement) {
+        ranking.setPlayerPlacement(newPlacement);
         return rankingDao.update(ranking);
     }
 
