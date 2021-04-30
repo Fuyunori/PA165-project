@@ -145,4 +145,43 @@ public class CourtFacadeTest {
         assertThat(obtained).contains(expected1, expected2);
         assertThat(obtained).hasSize(2);
     }
+
+    @Test
+    void listByType() {
+        Court entity1 = new Court();
+        entity1.setId(42L);
+        entity1.setName("Hello");
+        entity1.setPreviewImageUrl("http://localhost/image.png");
+        entity1.setType(CourtType.TURF);
+        entity1.setAddress("Abbey Road");
+
+        Court entity2 = new Court();
+        entity2.setId(360L);
+        entity2.setName("Noscope");
+        entity2.setPreviewImageUrl("http://globalhost/image.bmp");
+        entity2.setType(CourtType.TURF);
+        entity2.setAddress("Boboddy Road");
+
+        List<Court> list = asList(entity1, entity2);
+        when(courtService.listByType(CourtType.TURF)).thenReturn(list);
+
+        CourtDto expected1 = new CourtDto();
+        expected1.setId(42L);
+        expected1.setName("Hello");
+        expected1.setPreviewImageUrl("http://localhost/image.png");
+        expected1.setType(CourtType.TURF);
+        expected1.setAddress("Abbey Road");
+
+        CourtDto expected2 = new CourtDto();
+        expected2.setId(360L);
+        expected2.setName("Noscope");
+        expected2.setPreviewImageUrl("http://globalhost/image.bmp");
+        expected2.setType(CourtType.TURF);
+        expected2.setAddress("Boboddy Road");
+
+        List<CourtDto> obtained = courtFacade.listByType(CourtType.TURF);
+
+        assertThat(obtained).contains(expected1, expected2);
+        assertThat(obtained).hasSize(2);
+    }
 }
