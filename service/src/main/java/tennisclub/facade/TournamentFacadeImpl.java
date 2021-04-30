@@ -3,7 +3,6 @@ package tennisclub.facade;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tennisclub.dto.ranking.TournamentRankingDTO;
 import tennisclub.dto.tournament.TournamentCreateDTO;
 import tennisclub.dto.tournament.TournamentFullDTO;
 import tennisclub.entity.Tournament;
@@ -67,16 +66,20 @@ public class TournamentFacadeImpl implements TournamentFacade {
     }
 
     @Override
-    public void rankPlayer(Long tournamentId, Long playerId, Integer placement) {
+    public void rankPlayer(Long tournamentId, Long playerId, int placement) {
+        Tournament tournament = tournamentService.findById(tournamentId);
+        User player = userService.findUserById(playerId);
 
+        Ranking ranking = rankingService.find(tournament, player);
+        rankingService.updatePlacement(ranking, placement);
     }
 
     @Override
-    public List<TournamentRankingDTO> getRankingsOfTournament(Long tournamentId) {
+    public List<TournamentFullDTO> getRankingsOfTournament(Long tournamentId) {
         Tournament tournament = tournamentService.findById(tournamentId);
         Set<Ranking> rankings = tournament.getRankings();
         return rankings.stream()
-                .map(e -> mapper.map(e, TournamentRankingDTO.class))
+                .map(e -> mapper.map(e, TournamentFullDTO.class))
                 .collect(Collectors.toList());
     }
 
