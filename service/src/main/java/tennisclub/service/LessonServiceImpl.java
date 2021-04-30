@@ -43,6 +43,12 @@ public class LessonServiceImpl implements LessonService{
         if(lesson.getStudents().contains(student)){
             throw new TennisClubManagerException("Can't enroll a student into a course in which he/she is already enrolled into!");
         }
+
+        final LocalDateTime CURRENT_TIME = LocalDateTime.now();
+        if(CURRENT_TIME.isAfter(lesson.getEndTime())){
+            throw new TennisClubManagerException("Can't enroll a student into a course which has already ended!");
+        }
+
         student.addLessonToAttend(lesson);
         return lessonDao.update(lesson);
     }
@@ -52,6 +58,12 @@ public class LessonServiceImpl implements LessonService{
         if(lesson.getTeachers().contains(teacher)){
             throw new TennisClubManagerException("Can't assign a teacher to a course which he/she already teaches!");
         }
+
+        final LocalDateTime CURRENT_TIME = LocalDateTime.now();
+        if(CURRENT_TIME.isAfter(lesson.getEndTime())){
+            throw new TennisClubManagerException("Can't enroll a student into a course which has already ended!");
+        }
+
         teacher.addLessonToTeach(lesson);
         return lessonDao.update(lesson);
     }
@@ -61,6 +73,12 @@ public class LessonServiceImpl implements LessonService{
         if(!lesson.getStudents().contains(student)){
             throw new TennisClubManagerException("Can't withdraw a student from a course in which he/she is not enrolled into!");
         }
+
+        final LocalDateTime CURRENT_TIME = LocalDateTime.now();
+        if(CURRENT_TIME.isAfter(lesson.getEndTime())){
+            throw new TennisClubManagerException("Can't enroll a student into a course which has already ended!");
+        }
+
         student.removeLessonToAttend(lesson);
         return lessonDao.update(lesson);
     }
@@ -70,6 +88,12 @@ public class LessonServiceImpl implements LessonService{
         if(!lesson.getTeachers().contains(teacher)){
             throw new TennisClubManagerException("Can't remove a teacher from a course which he/she doesn't teach!");
         }
+
+        final LocalDateTime CURRENT_TIME = LocalDateTime.now();
+        if(CURRENT_TIME.isAfter(lesson.getEndTime())){
+            throw new TennisClubManagerException("Can't enroll a student into a course which has already ended!");
+        }
+
         teacher.removeLessonToTeach(lesson);
         return lessonDao.update(lesson);
     }
