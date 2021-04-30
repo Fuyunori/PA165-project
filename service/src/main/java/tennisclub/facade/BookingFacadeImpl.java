@@ -11,12 +11,15 @@ import tennisclub.dto.user.UserDTO;
 import tennisclub.entity.Booking;
 import tennisclub.entity.Court;
 import tennisclub.entity.User;
+import tennisclub.exceptions.ServiceLayerException;
 import tennisclub.service.BookingService;
 import tennisclub.service.CourtService;
 import tennisclub.service.TimeService;
 import tennisclub.service.UserService;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,9 +30,10 @@ import java.util.stream.Collectors;
 @Transactional
 public class BookingFacadeImpl implements BookingFacade {
 
-    private final  BookingService bookingService;
+    private final BookingService bookingService;
     private final CourtService courtService;
     private final UserService userService;
+    private final TimeService timeService;
 
     final private Mapper mapper;
 
@@ -37,10 +41,12 @@ public class BookingFacadeImpl implements BookingFacade {
     public BookingFacadeImpl(BookingService bookingService,
                              CourtService courtService,
                              UserService userService,
+                             TimeService timeService,
                              Mapper mapper) {
         this.bookingService = bookingService;
         this.courtService = courtService;
         this.userService = userService;
+        this.timeService = timeService;
         this.mapper = mapper;
     }
 
@@ -52,6 +58,20 @@ public class BookingFacadeImpl implements BookingFacade {
             throw new SecurityException("Can't make a booking. Court is not free at this time.");
         }
 
+        List<Booking> bookings = bookingService.findByTimeInterval(
+                timeService.getCurrentDate().atStartOfDay(),
+                timeService.getCurrentDate().atTime(LocalTime.MAX));
+        Duration totalTime = Duration.between(booking.getStartTime(), booking.getEndTime());
+        for (Booking userBooking : bookings) {
+            if (userBooking.getAuthor().equals(booking.getAuthor())) {
+                totalTime = totalTime.plus(
+                        Duration.between(userBooking.getStartTime(), userBooking.getEndTime()));
+            }
+        }
+
+        if (totalTime.compareTo(Duration.ofHours(2)) > 0) {
+            throw new ServiceLayerException("Maximum number of reserved hours per day exceeded.");
+        }
         /*
         for (User user : booking.getUsers()) {
             if (!userService.isFree(user, booking.getStartTime(), booking.getEndTime())) {

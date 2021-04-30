@@ -43,9 +43,6 @@ public class BookingServiceImpl implements BookingService {
         if (!booking.getUsers().contains(user)) {
             throw new ServiceLayerException("Removing user from a booking he is not in!");
         }
-        if (booking.getUsers().size() == 1) {
-            throw new ServiceLayerException("Can't remove last user from booking. Delete the booking instead.");
-        }
         if (timeService.getCurrentDateTime().isAfter(booking.getStartTime())) {
             throw new ServiceLayerException("Can't remove user from booking after it started.");
         }
