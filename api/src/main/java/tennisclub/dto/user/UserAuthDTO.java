@@ -19,11 +19,11 @@ public class UserAuthDTO {
         this.username = username;
     }
 
-    public String getPasswordHash() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPasswordHash(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
