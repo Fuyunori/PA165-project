@@ -8,6 +8,7 @@ import tennisclub.dao.CourtDao;
 import tennisclub.dao.EventDao;
 import tennisclub.entity.Court;
 import tennisclub.entity.Event;
+import tennisclub.enums.CourtType;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -80,6 +81,19 @@ public class CourtServiceTest {
         List<Court> courts = courtService.listByAddress("Botanická");
         assertThat(courts).hasSize(1);
         assertThat(courts).contains(testCourt);
+    }
+
+    @Test
+    void listByType() {
+        Court testCourt2 = new Court("Court 2");
+        Court testCourt3 = new Court("Court 3");
+        Court testCourt4 = new Court("Court 4");
+        List<Court> list = asList(testCourt, testCourt2, testCourt3, testCourt4);
+        when(courtDao.findByType(CourtType.GRASS)).thenReturn(list);
+
+        List<Court> found = courtService.listByType(CourtType.GRASS);
+        assertThat(found).contains(testCourt, testCourt2, testCourt3, testCourt4);
+        assertThat(found).hasSize(4);
     }
 
     @Test
