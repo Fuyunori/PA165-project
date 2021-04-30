@@ -138,7 +138,12 @@ public class UserFacadeTest {
 
     @Test
     void findUserByUsername() {
-        // TODO
+        String username = entity.getUsername();
+        when(userService.findUserByUsername(username)).thenReturn(entity);
+
+        UserFullDTO foundDto = userFacade.findUserByUsername(username);
+        verify(userService).findUserByUsername(username);
+        assertThat(foundDto).isEqualTo(fullDto);
     }
 
     @Test
