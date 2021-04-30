@@ -9,6 +9,7 @@ import tennisclub.dto.lesson.LessonFullDTO;
 import tennisclub.dto.lesson.LessonWithCourtDTO;
 import tennisclub.dto.tournament.TournamentFullDTO;
 import tennisclub.entity.*;
+import tennisclub.exceptions.FacadeLayerException;
 import tennisclub.exceptions.ServiceLayerException;
 import tennisclub.service.CourtService;
 import tennisclub.service.EventService;
@@ -41,7 +42,7 @@ public class EventFacadeImpl implements EventFacade {
         Court court = courtService.getById(eventRescheduleDTO.getId());
 
         if (!courtService.isFree(court, eventRescheduleDTO.getStart(), eventRescheduleDTO.getEnd())) {
-            throw new ServiceLayerException("Can't reschedule the event. The court is not free at the new time.");
+            throw new FacadeLayerException("Can't reschedule the event. The court is not free at the new time.");
         }
 
         Event event = eventService.findById(eventRescheduleDTO.getId());
@@ -97,6 +98,6 @@ public class EventFacadeImpl implements EventFacade {
         if (event instanceof Tournament) {
             return mapper.map(event, TournamentFullDTO.class);
         }
-        throw new ServiceLayerException("Trying to map invalid event.");
+        throw new FacadeLayerException("Trying to map invalid event.");
     }
 }
