@@ -1,18 +1,26 @@
 package tennisclub.dto.ranking;
 
 
-import tennisclub.dto.user.UserDTO;
+import tennisclub.dto.tournament.TournamentDTO;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-public class TournamentRankingDTO {
+public class RankingWithTournamentDTO {
 
     @NotNull
-    private UserDTO player;
+    private TournamentDTO tournament;
 
     @Min(1)
     private int playerPlacement;
+
+    public TournamentDTO getTournament() {
+        return tournament;
+    }
+
+    public void setTournament(TournamentDTO tournament) {
+        this.tournament = tournament;
+    }
 
     public int getPlayerPlacement() {
         return playerPlacement;
@@ -22,27 +30,20 @@ public class TournamentRankingDTO {
         this.playerPlacement = playerPlacement;
     }
 
-    public UserDTO getPlayer() {
-        return player;
-    }
-    public void setPlayer(UserDTO player) {
-        this.player = player;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TournamentRankingDTO)) return false;
+        if (!(o instanceof RankingWithTournamentDTO)) return false;
 
-        TournamentRankingDTO that = (TournamentRankingDTO) o;
+        RankingWithTournamentDTO that = (RankingWithTournamentDTO) o;
 
         if (getPlayerPlacement() != that.getPlayerPlacement()) return false;
-        return getPlayer() != null ? getPlayer().equals(that.getPlayer()) : that.getPlayer() == null;
+        return getTournament() != null ? getTournament().equals(that.getTournament()) : that.getTournament() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getPlayer() != null ? getPlayer().hashCode() : 0;
+        int result = getTournament() != null ? getTournament().hashCode() : 0;
         result = 31 * result + getPlayerPlacement();
         return result;
     }
