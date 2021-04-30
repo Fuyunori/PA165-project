@@ -5,12 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import tennisclub.dao.RankingDao;
 import tennisclub.dao.TournamentDao;
 import tennisclub.entity.Court;
 import tennisclub.entity.Tournament;
 import tennisclub.entity.User;
 import tennisclub.entity.ranking.Ranking;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,11 +23,18 @@ import static org.mockito.Mockito.verify;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+/**
+ * @author Miroslav Demek
+ */
 @SpringBootTest
 public class TournamentServiceTest {
 
     @MockBean
     private TournamentDao tournamentDao;
+    @MockBean
+    private RankingDao rankingDao;
+    @MockBean
+    private TimeService timeService;
 
     @Autowired
     private TournamentService tournamentService;
@@ -35,6 +44,7 @@ public class TournamentServiceTest {
     @BeforeEach
     public void setup() {
         tournament = new Tournament(makeTime(5), makeTime(10), "Turnaj", 15, 10_000);
+
     }
 
     @Test
@@ -54,6 +64,7 @@ public class TournamentServiceTest {
 
         Tournament updated = tournamentService.update(tournament);
 
+        verify(tournamentDao).update(tournament);
         assertThat(updated).isEqualTo(tournament);
     }
 
@@ -69,6 +80,7 @@ public class TournamentServiceTest {
 
         Tournament found = tournamentService.findById(tournament.getId());
 
+        verify(tournamentDao).findById(tournament.getId());
         assertThat(found).isEqualTo(tournament);
     }
 
@@ -78,6 +90,7 @@ public class TournamentServiceTest {
 
         Tournament found = tournamentService.findById(tournament.getId());
 
+        verify(tournamentDao).findById(tournament.getId());
         assertThat(found).isNull();
     }
 
@@ -90,6 +103,7 @@ public class TournamentServiceTest {
 
         List<Tournament> found = tournamentService.findAll();
 
+        verify(tournamentDao).findAll();
         assertThat(found.size()).isEqualTo(2);
         assertThat(found).contains(tournament1);
         assertThat(found).contains(tournament2);
@@ -101,6 +115,7 @@ public class TournamentServiceTest {
 
         List<Tournament> found = tournamentService.findAll();
 
+        verify(tournamentDao).findAll();
         assertThat(found).isEmpty();
     }
 
@@ -116,6 +131,7 @@ public class TournamentServiceTest {
 
         List<Tournament> found = tournamentService.findByCourt(court);
 
+        verify(tournamentDao).findByCourt(court);
         assertThat(found.size()).isEqualTo(2);
         assertThat(found).contains(tournament1);
         assertThat(found).contains(tournament2);
@@ -128,6 +144,7 @@ public class TournamentServiceTest {
 
         List<Tournament> found = tournamentService.findByCourt(court);
 
+        verify(tournamentDao).findByCourt(court);
         assertThat(found).isEmpty();
     }
 
@@ -138,6 +155,7 @@ public class TournamentServiceTest {
 
         List<Tournament> found = tournamentService.findByStartTime(tournament.getStartTime());
 
+        verify(tournamentDao).findByStartTime(tournament.getStartTime());
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(tournament);
     }
@@ -149,6 +167,7 @@ public class TournamentServiceTest {
 
         List<Tournament> found = tournamentService.findByStartTime(tournament.getStartTime());
 
+        verify(tournamentDao).findByStartTime(tournament.getStartTime());
         assertThat(found).isEmpty();
     }
 
@@ -159,6 +178,7 @@ public class TournamentServiceTest {
 
         List<Tournament> found = tournamentService.findByEndTime(tournament.getEndTime());
 
+        verify(tournamentDao).findByEndTime(tournament.getEndTime());
         assertThat(found.size()).isEqualTo(1);
         assertThat(found).contains(tournament);
     }
@@ -170,6 +190,7 @@ public class TournamentServiceTest {
 
         List<Tournament> found = tournamentService.findByEndTime(tournament.getEndTime());
 
+        verify(tournamentDao).findByEndTime(tournament.getEndTime());
         assertThat(found).isEmpty();
     }
 
@@ -184,6 +205,7 @@ public class TournamentServiceTest {
 
         List<Tournament> found = tournamentService.findByTimeInterval(from, to);
 
+        verify(tournamentDao).findByTimeInterval(from, to);
         assertThat(found.size()).isEqualTo(2);
         assertThat(found).contains(tournament1);
         assertThat(found).contains(tournament2);
@@ -197,6 +219,7 @@ public class TournamentServiceTest {
 
         List<Tournament> found = tournamentService.findByTimeInterval(from, to);
 
+        verify(tournamentDao).findByTimeInterval(from, to);
         assertThat(found).isEmpty();
     }
 
@@ -209,6 +232,7 @@ public class TournamentServiceTest {
 
         List<Tournament> found = tournamentService.findByCapacity(15);
 
+        verify(tournamentDao).findByCapacity(15);
         assertThat(found.size()).isEqualTo(2);
         assertThat(found).contains(tournament1);
         assertThat(found).contains(tournament2);
@@ -220,8 +244,38 @@ public class TournamentServiceTest {
 
         List<Tournament> found = tournamentService.findByCapacity(15);
 
+        verify(tournamentDao).findByCapacity(15);
         assertThat(found).isEmpty();
     }
+
+    @Test
+    public void findRankingByTournamentTest() {
+        User user1 = makeUser("Node", "nodejs", "js@node.com");
+        User user2 = makeUser("Mode", "modejs", "js@mode.com");
+        Ranking ranking1 = new Ranking(tournament, user1);
+        Ranking ranking2 = new Ranking(tournament, user2);
+        List<Ranking> rankings = Arrays.asList(ranking1, ranking2);
+        when(rankingDao.findByTournament(tournament)).thenReturn(rankings);
+
+        List<Ranking> found = tournamentService.findRankingByTournament(tournament);
+
+        verify(rankingDao).findByTournament(tournament);
+        assertThat(found.size()).isEqualTo(2);
+        assertThat(found).contains(ranking1);
+        assertThat(found).contains(ranking2);
+    }
+
+    @Test
+    public void findRankingByTournamentEmptyTest() {
+        when(rankingDao.findByTournament(tournament)).thenReturn(Collections.emptyList());
+
+        List<Ranking> found = tournamentService.findRankingByTournament(tournament);
+
+        verify(rankingDao).findByTournament(tournament);
+        assertThat(found).isEmpty();
+    }
+
+
 
     private User makeUser(String name, String userName, String email) {
         User user = new User();
