@@ -10,6 +10,7 @@ import tennisclub.entity.Court;
 import tennisclub.entity.Event;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -27,18 +28,33 @@ public class CourtServiceTest {
     @Autowired
     private CourtService courtService;
 
+    Court testCourt = new Court();
+
     @Test
     void create() {
-        Court court = new Court();
-        courtService.create(court);
+        courtService.create(testCourt);
 
-        verify(courtDao).create(court);
+        verify(courtDao).create(testCourt);
+    }
+
+    @Test
+    void update() {
+        courtService.update(testCourt);
+
+        verify(courtDao).update(testCourt);
+    }
+
+    @Test
+    void delete() {
+        courtService.delete(testCourt);
+
+        verify(courtDao).delete(testCourt);
     }
 
     @Test
     void listByAddress() {
         Court court = new Court();
-        when(courtDao.findByAddress("Botanická")).thenReturn(asList(court));
+        when(courtDao.findByAddress("Botanická")).thenReturn(Collections.singletonList(court));
 
         List<Court> courts = courtService.listByAddress("Botanická");
         assertThat(courts).hasSize(1);
