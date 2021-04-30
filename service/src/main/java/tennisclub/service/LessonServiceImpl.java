@@ -46,20 +46,9 @@ public class LessonServiceImpl implements LessonService{
         }
 
         checkEnrollmentOpen(lesson);
+        checkCapacityLimit(lesson);
 
         student.addLessonToAttend(lesson);
-        return lessonDao.update(lesson);
-    }
-
-    @Override
-    public Lesson addTeacher(Lesson lesson, User teacher) {
-        if(lesson.getTeachers().contains(teacher)){
-            throw new ServiceLayerException("Can't assign a teacher to a course which he/she already teaches!");
-        }
-
-        checkEnrollmentOpen(lesson);
-
-        teacher.addLessonToTeach(lesson);
         return lessonDao.update(lesson);
     }
 
@@ -76,14 +65,32 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public Lesson removeTeacher(Lesson lesson, User teacher) {
-        if(!lesson.getTeachers().contains(teacher)){
-            throw new ServiceLayerException("Can't remove a teacher from a course which he/she doesn't teach!");
-        }
+    public Lesson addTeacher(Lesson lesson, User teacher) {
+        checkIsNotTeacher(lesson, teacher);
+        checkEnrollmentOpen(lesson);
 
+        teacher.addLessonToTeach(lesson);
+        return lessonDao.update(lesson);
+    }
+
+    @Override
+    public Lesson removeTeacher(Lesson lesson, User teacher) {
+        checkIsTeacher(lesson, teacher);
         checkEnrollmentOpen(lesson);
 
         teacher.removeLessonToTeach(lesson);
+        return lessonDao.update(lesson);
+    }
+
+    @Override
+    public Lesson replaceTeacher(Lesson lesson, User oldTeacher, User newTeacher){
+        checkIsTeacher(lesson, oldTeacher);
+        checkIsNotTeacher(lesson, newTeacher);
+        checkNumberOfTeachers(lesson);
+
+        oldTeacher.removeLessonToTeach(lesson);
+        newTeacher.addLessonToTeach(lesson);
+
         return lessonDao.update(lesson);
     }
 
@@ -127,10 +134,39 @@ public class LessonServiceImpl implements LessonService{
         return lessonDao.findByLevel(level);
     }
 
+    private void checkIsTeacher(Lesson lesson, User teacher) {
+        if(!lesson.getTeachers().contains(teacher)){
+            throw new ServiceLayerException("Can't remove a teacher from a course which he/she doesn't teach!");
+        }
+    }
+
+    private void checkIsNotTeacher(Lesson lesson, User teacher) {
+        if(lesson.getTeachers().contains(teacher)){
+            throw new ServiceLayerException("Can't assign a teacher to a course which he/she already teaches!");
+        }
+    }
+
     private void checkEnrollmentOpen(Lesson lesson) {
-        final LocalDateTime CURRENT_TIME = timeService.getCurrentDateTime();
-        if (CURRENT_TIME.isAfter(lesson.getStartTime())) {
+        final LocalDateTime currentDateTime = timeService.getCurrentDateTime();
+        if (currentDateTime.isAfter(lesson.getStartTime())) {
             throw new ServiceLayerException("Can't enroll/withdraw user from a lesson that doesn't allow enrollment!");
+        }
+    }
+
+    private void checkCapacityLimit(Lesson lesson){
+        if(lesson.getCapacity() != null) {
+            final int numberOfStudents = lesson.getStudents().size();
+            final int capacity = lesson.getCapacity();
+            if (numberOfStudents >= capacity) {
+                throw new ServiceLayerException("The lesson is fully occupied!");
+            }
+        }
+    }
+
+    private void checkNumberOfTeachers(Lesson lesson){
+        final int numberOfTeachers = lesson.getTeachers().size();
+        if(numberOfTeachers == 1){
+            throw new ServiceLayerException("The lesson must have at least one teacher!");
         }
     }
 }
