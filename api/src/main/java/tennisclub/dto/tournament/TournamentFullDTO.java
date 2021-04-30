@@ -1,6 +1,6 @@
 package tennisclub.dto.tournament;
 
-import tennisclub.dto.event.EventDTO;
+import tennisclub.dto.event.EventWithCourtDTO;
 import tennisclub.dto.ranking.RankingWithPlayerDTO;
 
 import java.util.HashSet;
