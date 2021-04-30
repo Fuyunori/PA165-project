@@ -162,11 +162,14 @@ public class UserServiceTest {
 
     @Test
     void updateUserData() {
-
+        when(userDao.update(user)).thenReturn(otherUser);
+        assertThat(userService.updateUserData(user)).isEqualTo(otherUser); // return value propagates correctly
+        verify(userDao).update(user);
     }
 
     @Test
     void removeUser() {
-
+        userService.removeUser(user);
+        verify(userDao).delete(user);
     }
 }
