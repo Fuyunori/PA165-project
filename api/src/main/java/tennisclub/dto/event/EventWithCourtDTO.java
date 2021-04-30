@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author Miroslav Demek
  */
 public class EventWithCourtDTO {
-
+    private Long id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private CourtDto court;
@@ -36,6 +36,14 @@ public class EventWithCourtDTO {
 
     public void setCourt(CourtDto court) {
         this.court = court;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
