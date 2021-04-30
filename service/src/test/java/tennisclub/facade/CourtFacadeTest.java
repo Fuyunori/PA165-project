@@ -75,6 +75,7 @@ public class CourtFacadeTest {
 
         when(courtService.getById(42L)).thenReturn(returnedEntity);
         assertThat(courtFacade.getById(42L)).isEqualTo(expectedDTO);
+        verify(courtService).getById(42L);
     }
 
     @Test
@@ -101,6 +102,7 @@ public class CourtFacadeTest {
         expected2.setAddress("Abbey Road");
 
         List<CourtDto> obtained = courtFacade.listByAddress("Abbey Road");
+        verify(courtService).listByAddress("Abbey Road");
 
         assertThat(obtained).contains(expected1, expected2);
         assertThat(obtained).hasSize(2);
@@ -130,6 +132,7 @@ public class CourtFacadeTest {
         expected2.setAddress("Boboddy Road");
 
         List<CourtDto> obtained = courtFacade.listByType(CourtType.TURF);
+        verify(courtService).listByType(CourtType.TURF);
 
         assertThat(obtained).contains(expected1, expected2);
         assertThat(obtained).hasSize(2);
