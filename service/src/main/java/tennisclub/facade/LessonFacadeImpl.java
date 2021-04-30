@@ -19,6 +19,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of {@link LessonFacade}
+ * @author Xuan Linh Phamová
+ */
 @Service
 @Transactional
 public class LessonFacadeImpl implements LessonFacade {

@@ -1,5 +1,6 @@
 package tennisclub.facade;
 
+import tennisclub.dto.ranking.RankingWithPlayerDTO;
 import tennisclub.dto.tournament.TournamentCreateDTO;
 import tennisclub.dto.tournament.TournamentFullDTO;
 
@@ -10,11 +11,11 @@ public interface TournamentFacade {
     Long createTournament(TournamentCreateDTO tournamentDTO);
     void deleteTournament(Long tournamentId);
 
-    void addPlayerParticipation(Long tournamentId, Long playerId);
-    void withdrawPlayerParticipation(Long tournamentId, Long playerId);
+    void enrollPlayer(Long tournamentId, Long playerId);
+    void withdrawPlayer(Long tournamentId, Long playerId);
 
     void rankPlayer(Long tournamentId, Long playerId, int placement);
-    List<TournamentFullDTO> getRankingsOfTournament(Long tournamentId);
+    List<RankingWithPlayerDTO> getRankingsOfTournament(Long tournamentId);
 
     TournamentFullDTO getTournamentWithId(Long id);
     List<TournamentFullDTO> getAllTournaments();

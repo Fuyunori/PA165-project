@@ -16,7 +16,7 @@ public class RankingWithTournamentDTO {
     private TournamentDTO tournament;
 
     @Min(1)
-    private int playerPlacement;
+    private Integer playerPlacement;
 
     public TournamentDTO getTournament() {
         return tournament;
@@ -26,11 +26,11 @@ public class RankingWithTournamentDTO {
         this.tournament = tournament;
     }
 
-    public int getPlayerPlacement() {
+    public Integer getPlayerPlacement() {
         return playerPlacement;
     }
 
-    public void setPlayerPlacement(int playerPlacement) {
+    public void setPlayerPlacement(Integer playerPlacement) {
         this.playerPlacement = playerPlacement;
     }
 

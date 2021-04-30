@@ -1,15 +1,14 @@
 package tennisclub.dto.lesson;
 
-import tennisclub.annotations.IsEndTimeAfterStartTime;
 import tennisclub.dto.event.EventCreateDTO;
 import tennisclub.enums.Level;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
-import java.util.Objects;
 
+/**
+ * DTO for creating lessons
+ * @author Xuan Linh Phamová
+ */
 public class LessonCreateDTO extends EventCreateDTO {
     private Integer capacity;
 

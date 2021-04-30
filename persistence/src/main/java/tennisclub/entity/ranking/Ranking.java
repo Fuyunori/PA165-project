@@ -52,7 +52,7 @@ public class Ranking implements Serializable {
         this.playerPlacement = playerPlacement;
     }
 
-    public int getPlayerPlacement() {
+    public Integer getPlayerPlacement() {
         return playerPlacement;
     }
 
