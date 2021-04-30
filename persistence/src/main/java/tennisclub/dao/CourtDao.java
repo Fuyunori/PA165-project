@@ -23,6 +23,12 @@ public interface CourtDao {
     void delete(Court court);
 
     /**
+     * Finds all persisted courts.
+     * @return a list of all courts
+     */
+    List<Court> findAll();
+
+    /**
      * Finds a court with a given primary key.
      * @param id the primary key of some persistent court
      * @return the found court

@@ -36,6 +36,9 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "users")
     private Set<Booking> bookings = new HashSet<>();
 
+    @OneToMany(mappedBy = "author")
+    private Set<Booking> authoredBookings = new HashSet<>();
+
     @ManyToMany(mappedBy = "teachers")
     private Set<Lesson>  lessonsToTeach = new HashSet<>();
 
@@ -80,6 +83,15 @@ public class User implements Serializable {
     public void removeBooking(Booking booking) {
         bookings.remove(booking);
         booking.removeUser(this);
+    }
+
+    public Set<Booking> getAuthoredBookings() {
+        return Collections.unmodifiableSet(authoredBookings);
+    }
+
+    public void addAuthoredBooking(Booking booking) {
+        authoredBookings.add(booking);
+        booking.setAuthor(this);
     }
 
     public Set<Lesson> getLessonsToTeach() { return Collections.unmodifiableSet(lessonsToTeach); }
