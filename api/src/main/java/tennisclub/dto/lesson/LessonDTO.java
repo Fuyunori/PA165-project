@@ -3,6 +3,10 @@ package tennisclub.dto.lesson;
 import tennisclub.dto.event.EventDTO;
 import tennisclub.enums.Level;
 
+/**
+ * DTO for lessons without any relations
+ * @author Xuan Linh Phamová
+ */
 public class LessonDTO extends EventDTO {
     private Integer capacity;
     private Level level;

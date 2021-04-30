@@ -1,12 +1,12 @@
 package tennisclub.dto.lesson;
 
-import tennisclub.dto.court.CourtDto;
 import tennisclub.dto.event.EventWithCourtDTO;
 import tennisclub.enums.Level;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
-
+/**
+ * DTO for lessons including relation with court
+ * @author Xuan Linh Phamová
+ */
 public class LessonWithCourtDTO extends EventWithCourtDTO {
     private Integer capacity;
     private Level level;

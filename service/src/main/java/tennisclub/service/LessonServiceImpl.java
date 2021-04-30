@@ -8,10 +8,15 @@ import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
 import tennisclub.enums.Level;
 import tennisclub.exceptions.ServiceLayerException;
+import tennisclub.facade.LessonFacade;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Implementation of {@link LessonService}
+ * @author Xuan Linh Phamová
+ */
 @Service
 public class LessonServiceImpl implements LessonService{
     private final LessonDao lessonDao;

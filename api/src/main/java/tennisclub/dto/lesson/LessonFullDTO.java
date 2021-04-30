@@ -6,6 +6,10 @@ import tennisclub.enums.Level;
 
 import java.util.Set;
 
+/**
+ * DTO for lessons including all relations
+ * @author Xuan Linh Phamová
+ */
 public class LessonFullDTO extends EventWithCourtDTO {
     private Integer capacity;
     private Level level;
