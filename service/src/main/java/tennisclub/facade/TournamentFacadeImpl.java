@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tennisclub.dto.tournament.TournamentCreateDTO;
 import tennisclub.dto.tournament.TournamentFullDTO;
+import tennisclub.entity.Court;
 import tennisclub.entity.Tournament;
 import tennisclub.entity.User;
 import tennisclub.entity.ranking.Ranking;
+import tennisclub.service.CourtService;
 import tennisclub.service.RankingService;
 import tennisclub.service.TournamentService;
 import tennisclub.service.UserService;
@@ -25,18 +27,29 @@ public class TournamentFacadeImpl implements TournamentFacade {
     private final TournamentService tournamentService;
     private final RankingService rankingService;
     private final UserService userService;
+    private final CourtService courtService;
 
     @Autowired
-    public TournamentFacadeImpl(Mapper mapper, TournamentService tournamentService, RankingService rankingService, UserService userService){
+    public TournamentFacadeImpl(Mapper mapper,
+                                TournamentService tournamentService,
+                                RankingService rankingService,
+                                UserService userService,
+                                CourtService courtService){
         this.mapper = mapper;
         this.tournamentService = tournamentService;
         this.rankingService = rankingService;
         this.userService = userService;
+        this.courtService = courtService;
     }
 
     @Override
     public Long createTournament(TournamentCreateDTO tournamentDTO) {
         Tournament tournament = mapper.map(tournamentDTO, Tournament.class);
+
+        if (!courtService.isFree(tournament.getCourt(), tournament.getStartTime(), tournament.getEndTime())) {
+            throw new SecurityException("Can't make a tournament. Court is not free at this time.");
+        }
+
         Tournament newTournament = tournamentService.create(tournament);
         return newTournament.getId();
     }
