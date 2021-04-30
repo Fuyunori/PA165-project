@@ -62,6 +62,14 @@ public class CourtServiceTest {
     }
 
     @Test
+    void getById() {
+        when(courtDao.findById(42L)).thenReturn(testCourt);
+
+        Court found = courtService.getById(42L);
+        assertThat(found).isEqualTo(testCourt);
+    }
+
+    @Test
     void isFree() {
         LocalDateTime eventStart = LocalDateTime.parse("2021-04-30T16:00");
         LocalDateTime eventEnd = LocalDateTime.parse("2021-04-30T17:00");
