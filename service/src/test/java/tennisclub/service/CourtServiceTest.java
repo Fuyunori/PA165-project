@@ -61,6 +61,7 @@ public class CourtServiceTest {
         when(courtDao.findById(42L)).thenReturn(testCourt);
 
         Court found = courtService.getById(42L);
+        verify(courtDao).findById(42L);
         assertThat(found).isEqualTo(testCourt);
     }
 
@@ -73,6 +74,7 @@ public class CourtServiceTest {
         when(courtDao.findAll()).thenReturn(list);
 
         List<Court> found = courtService.listAll();
+        verify(courtDao).findAll();
         assertThat(found).contains(testCourt, testCourt2, testCourt3, testCourt4);
         assertThat(found).hasSize(4);
     }
@@ -82,6 +84,7 @@ public class CourtServiceTest {
         when(courtDao.findByAddress("Botanická")).thenReturn(Collections.singletonList(testCourt));
 
         List<Court> courts = courtService.listByAddress("Botanická");
+        verify(courtDao).findByAddress("Botanická");
         assertThat(courts).hasSize(1);
         assertThat(courts).contains(testCourt);
     }
@@ -95,6 +98,7 @@ public class CourtServiceTest {
         when(courtDao.findByType(CourtType.GRASS)).thenReturn(list);
 
         List<Court> found = courtService.listByType(CourtType.GRASS);
+        verify(courtDao).findByType(CourtType.GRASS);
         assertThat(found).contains(testCourt, testCourt2, testCourt3, testCourt4);
         assertThat(found).hasSize(4);
     }
