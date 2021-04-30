@@ -1,11 +1,11 @@
 package tennisclub.dto.user;
 
-import tennisclub.dto.lesson.LessonWithCourtDTO;
 import tennisclub.enums.Role;
 
-import java.util.HashSet;
-import java.util.Set;
-
+/**
+ * User DTO describing the user without its relations
+ * @author Ondrej Holub
+ */
 public class UserDTO {
 
     private Long id;
