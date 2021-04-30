@@ -16,6 +16,7 @@ public interface CourtService {
     Court update(Court court);
     void delete(Court court);
     Court getById(Long id);
+    List<Court> listAll();
     List<Court> listByAddress(String addressSubstr);
     List<Court> listByType(CourtType type);
     boolean isFree(Court court, LocalDateTime from, LocalDateTime to);
