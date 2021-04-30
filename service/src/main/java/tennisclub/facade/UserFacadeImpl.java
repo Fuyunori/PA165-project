@@ -14,6 +14,10 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of {@link UserFacade}
+ * @author Ondrej Holub
+ */
 @Service
 @Transactional
 public class UserFacadeImpl implements UserFacade {

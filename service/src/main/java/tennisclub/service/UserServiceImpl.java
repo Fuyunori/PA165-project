@@ -10,6 +10,10 @@ import tennisclub.enums.Role;
 
 import java.util.List;
 
+/**
+ * Implementation of {@link UserService}
+ * @author Ondrej Holub
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
