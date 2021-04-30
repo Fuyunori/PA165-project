@@ -10,6 +10,9 @@ import tennisclub.entity.Court;
 import tennisclub.enums.CourtType;
 import tennisclub.service.CourtService;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.refEq;
@@ -102,5 +105,44 @@ public class CourtFacadeTest {
 
         when(courtService.getById(42L)).thenReturn(returnedEntity);
         assertThat(courtFacade.getById(42L)).isEqualTo(expectedDTO);
+    }
+
+    @Test
+    void listByAddress() {
+        Court entity1 = new Court();
+        entity1.setId(42L);
+        entity1.setName("Hello");
+        entity1.setPreviewImageUrl("http://localhost/image.png");
+        entity1.setType(CourtType.TURF);
+        entity1.setAddress("Abbey Road");
+
+        Court entity2 = new Court();
+        entity2.setId(360L);
+        entity2.setName("Noscope");
+        entity2.setPreviewImageUrl("http://globalhost/image.bmp");
+        entity2.setType(CourtType.GRASS);
+        entity2.setAddress("Abbey Road");
+
+        List<Court> list = asList(entity1, entity2);
+        when(courtService.listByAddress("Abbey Road")).thenReturn(list);
+
+        CourtDto expected1 = new CourtDto();
+        expected1.setId(42L);
+        expected1.setName("Hello");
+        expected1.setPreviewImageUrl("http://localhost/image.png");
+        expected1.setType(CourtType.TURF);
+        expected1.setAddress("Abbey Road");
+
+        CourtDto expected2 = new CourtDto();
+        expected2.setId(360L);
+        expected2.setName("Noscope");
+        expected2.setPreviewImageUrl("http://globalhost/image.bmp");
+        expected2.setType(CourtType.GRASS);
+        expected2.setAddress("Abbey Road");
+
+        List<CourtDto> obtained = courtFacade.listByAddress("Abbey Road");
+
+        assertThat(obtained).contains(expected1, expected2);
+        assertThat(obtained).hasSize(2);
     }
 }
