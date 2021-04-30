@@ -63,4 +63,24 @@ public class CourtFacadeTest {
         verify(courtService).update(refEq(expectedEntity));
         assertThat(result).isEqualTo(passedDto);
     }
+
+    @Test
+    void delete() {
+        CourtDto passedDto = new CourtDto();
+        passedDto.setId(42L);
+        passedDto.setName("Hello");
+        passedDto.setPreviewImageUrl("http://localhost/image.png");
+        passedDto.setType(CourtType.TURF);
+        passedDto.setAddress("Abbey Road");
+
+        Court expectedEntity = new Court();
+        expectedEntity.setId(42L);
+        expectedEntity.setName("Hello");
+        expectedEntity.setPreviewImageUrl("http://localhost/image.png");
+        expectedEntity.setType(CourtType.TURF);
+        expectedEntity.setAddress("Abbey Road");
+
+        courtFacade.delete(passedDto);
+        verify(courtService).delete(refEq(expectedEntity));
+    }
 }
