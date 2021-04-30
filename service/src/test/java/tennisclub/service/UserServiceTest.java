@@ -38,16 +38,19 @@ public class UserServiceTest {
         user.setId(1L);
         user.setUsername("destroyer777");
         user.setRole(Role.USER);
+        user.setName("Karel");
 
         otherUser = new User();
-        otherUser.setUsername("notJohn");
         otherUser.setId(2L);
+        otherUser.setUsername("notJohn");
         otherUser.setRole(Role.USER);
+        otherUser.setName("Honza");
 
         manager = new User();
-        manager.setUsername("tennis_hustler");
         manager.setId(3L);
+        manager.setUsername("tennis_hustler");
         manager.setRole(Role.MANAGER);
+        manager.setName("Karel");
 
         password = "Never.gonna_give-You up!";
         otherPassword = "my L17713 pony";
@@ -111,9 +114,18 @@ public class UserServiceTest {
         verify(userDao).findById(3L);
         assertThat(foundUser).isEqualTo(manager);
 
-        // TODO is this good practice? Should an exception be thrown instead?
         foundUser = userService.findUserById(42L);
         verify(userDao).findById(42L);
         assertThat(foundUser).isNull();
+    }
+
+    @Test
+    void findUsersByName() {
+        when(userDao.findByName("Karel")).thenReturn(List.of(user, manager));
+        List<User> users = userService.findUsersByName("Karel");
+
+        verify(userDao).findByName("Karel");
+        assertThat(users).hasSize(2);
+        assertThat(users).contains(user, manager);
     }
 }
