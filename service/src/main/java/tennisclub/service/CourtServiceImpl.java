@@ -3,9 +3,13 @@ package tennisclub.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tennisclub.dao.CourtDao;
+import tennisclub.dao.EventDao;
 import tennisclub.entity.Court;
 import tennisclub.enums.CourtType;
+
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of {@link CourtService}
@@ -14,10 +18,12 @@ import java.util.List;
 @Service
 public class CourtServiceImpl implements CourtService {
     private final CourtDao courtDao;
+    private final EventDao eventDao;
 
     @Autowired
-    public CourtServiceImpl(CourtDao courtDao) {
+    public CourtServiceImpl(CourtDao courtDao, EventDao eventDao) {
         this.courtDao = courtDao;
+        this.eventDao = eventDao;
     }
 
     @Override
@@ -48,5 +54,11 @@ public class CourtServiceImpl implements CourtService {
     @Override
     public List<Court> listByType(CourtType type) {
         return courtDao.findByType(type);
+    }
+
+    @Override
+    public boolean isFree(Court court, LocalDateTime from, LocalDateTime to) {
+        return eventDao.findByTimeInterval(from, to).stream()
+                .noneMatch(event -> court.equals(event.getCourt()));
     }
 }

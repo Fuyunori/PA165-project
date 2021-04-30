@@ -45,11 +45,11 @@ class RankingDaoTest {
         court.setName("My Court");
         manager.persist(court);
 
-        tournament = new Tournament(now(), now().plusHours(1), 10, 10000);
+        tournament = new Tournament(now(), now().plusHours(1), "Wimbledon", 10, 10000);
         tournament.setCourt(court);
         manager.persist(tournament);
 
-        otherTournament = new Tournament(now().plusHours(1), now().plusHours(2), 8, 5000);
+        otherTournament = new Tournament(now().plusHours(1), now().plusHours(2), "US OPEN", 8, 5000);
         otherTournament.setCourt(court);
         manager.persist(otherTournament);
 

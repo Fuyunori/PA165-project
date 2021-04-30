@@ -6,7 +6,7 @@ import tennisclub.dao.TournamentDao;
 import tennisclub.entity.Court;
 import tennisclub.entity.Tournament;
 import tennisclub.entity.ranking.Ranking;
-import tennisclub.exceptions.TennisClubManagerException;
+import tennisclub.exceptions.ServiceLayerException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,16 +34,6 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public void remove(Tournament tournament) {
         tournamentDao.remove(tournament);
-    }
-
-    @Override
-    public void addRanking(Tournament tournament, Ranking ranking){
-        if(tournament.getRankings().contains(ranking)){
-            throw new TennisClubManagerException("Tournament already contains the rank of the player.\n Tournament: "
-                    + tournament.getId() + ",\n player: "
-                    + ranking.getPlayer().getId());
-        }
-        tournament.addRanking(ranking);
     }
 
     @Override

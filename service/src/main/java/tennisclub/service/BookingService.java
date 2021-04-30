@@ -10,15 +10,15 @@ import java.util.List;
 @Service
 public interface BookingService {
 
-    Booking createBooking(Booking booking);
+    Booking create(Booking booking);
 
-    Booking updateBooking(Booking booking);
+    Booking update(Booking booking);
 
-    void deleteBooking(Booking booking);
+    void remove(Booking booking);
 
-    void removeUser(Booking booking, User user);
+    Booking removeUser(Booking booking, User user);
 
-    void addUser(Booking booking, User user);
+    Booking addUser(Booking booking, User user);
 
     List<Booking> findAll();
 

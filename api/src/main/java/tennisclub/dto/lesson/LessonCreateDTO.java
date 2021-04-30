@@ -1,23 +1,34 @@
-package tennisclub.dto;
+package tennisclub.dto.lesson;
 
+import tennisclub.annotations.IsEndTimeAfterStartTime;
+
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class LessonDTO {
-    private Long id;
+@IsEndTimeAfterStartTime(start = "startTime", end = "endTime")
+public class LessonCreateDTO {
+    // TODO: uncomment once the courtDTO is available
+    /*
+    @NotNull
+    private CourtDto court;
+     */
+
+    @NotNull
+    @FutureOrPresent
     private LocalDateTime startTime;
+
+    @NotNull
+    @Future
     private LocalDateTime endTime;
+
     private Integer capacity;
+
     // TODO: uncomment once the PR is merged :)
+    // @NotNull
     // private Level level;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public LocalDateTime getStartTime() {
         return startTime;
@@ -47,8 +58,9 @@ public class LessonDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LessonDTO lessonDTO = (LessonDTO) o;
-        return Objects.equals(startTime, lessonDTO.getStartTime())
+        LessonCreateDTO lessonDTO = (LessonCreateDTO) o;
+        return // Objects.equals(court, lessonDTO.court) &&
+                Objects.equals(startTime, lessonDTO.getStartTime())
                 && Objects.equals(endTime, lessonDTO.getEndTime());
     }
 
@@ -56,6 +68,7 @@ public class LessonDTO {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        //result = prime * result + ((court == null) ? 0 : court.hashCode());
         result = prime * result  + ((startTime == null) ? 0 : startTime.hashCode());
         result = prime * result  + ((endTime == null) ? 0 : endTime.hashCode());
         return result;
