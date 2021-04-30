@@ -46,19 +46,8 @@ public class CourtFacadeTest {
 
     @Test
     void update() {
-        CourtDto passedDto = new CourtDto();
-        passedDto.setId(42L);
-        passedDto.setName("Hello");
-        passedDto.setPreviewImageUrl("http://localhost/image.png");
-        passedDto.setType(CourtType.TURF);
-        passedDto.setAddress("Abbey Road");
-
-        Court expectedEntity = new Court();
-        expectedEntity.setId(42L);
-        expectedEntity.setName("Hello");
-        expectedEntity.setPreviewImageUrl("http://localhost/image.png");
-        expectedEntity.setType(CourtType.TURF);
-        expectedEntity.setAddress("Abbey Road");
+        CourtDto passedDto = createSampleCourtDto();
+        Court expectedEntity = createSampleCourtEntity();
 
         when(courtService.update(expectedEntity)).thenReturn(expectedEntity);
 
@@ -69,19 +58,8 @@ public class CourtFacadeTest {
 
     @Test
     void delete() {
-        CourtDto passedDto = new CourtDto();
-        passedDto.setId(42L);
-        passedDto.setName("Hello");
-        passedDto.setPreviewImageUrl("http://localhost/image.png");
-        passedDto.setType(CourtType.TURF);
-        passedDto.setAddress("Abbey Road");
-
-        Court expectedEntity = new Court();
-        expectedEntity.setId(42L);
-        expectedEntity.setName("Hello");
-        expectedEntity.setPreviewImageUrl("http://localhost/image.png");
-        expectedEntity.setType(CourtType.TURF);
-        expectedEntity.setAddress("Abbey Road");
+        CourtDto passedDto = createSampleCourtDto();
+        Court expectedEntity = createSampleCourtEntity();
 
         courtFacade.delete(passedDto);
         verify(courtService).delete(refEq(expectedEntity));
@@ -89,19 +67,8 @@ public class CourtFacadeTest {
 
     @Test
     void getById() {
-        Court returnedEntity = new Court();
-        returnedEntity.setId(42L);
-        returnedEntity.setName("Hello");
-        returnedEntity.setPreviewImageUrl("http://localhost/image.png");
-        returnedEntity.setType(CourtType.TURF);
-        returnedEntity.setAddress("Abbey Road");
-
-        CourtDto expectedDTO = new CourtDto();
-        expectedDTO.setId(42L);
-        expectedDTO.setName("Hello");
-        expectedDTO.setPreviewImageUrl("http://localhost/image.png");
-        expectedDTO.setType(CourtType.TURF);
-        expectedDTO.setAddress("Abbey Road");
+        Court returnedEntity = createSampleCourtEntity();
+        CourtDto expectedDTO = createSampleCourtDto();
 
         when(courtService.getById(42L)).thenReturn(returnedEntity);
         assertThat(courtFacade.getById(42L)).isEqualTo(expectedDTO);
@@ -109,12 +76,7 @@ public class CourtFacadeTest {
 
     @Test
     void listByAddress() {
-        Court entity1 = new Court();
-        entity1.setId(42L);
-        entity1.setName("Hello");
-        entity1.setPreviewImageUrl("http://localhost/image.png");
-        entity1.setType(CourtType.TURF);
-        entity1.setAddress("Abbey Road");
+        Court entity1 = createSampleCourtEntity();
 
         Court entity2 = new Court();
         entity2.setId(360L);
@@ -126,12 +88,7 @@ public class CourtFacadeTest {
         List<Court> list = asList(entity1, entity2);
         when(courtService.listByAddress("Abbey Road")).thenReturn(list);
 
-        CourtDto expected1 = new CourtDto();
-        expected1.setId(42L);
-        expected1.setName("Hello");
-        expected1.setPreviewImageUrl("http://localhost/image.png");
-        expected1.setType(CourtType.TURF);
-        expected1.setAddress("Abbey Road");
+        CourtDto expected1 = createSampleCourtDto();
 
         CourtDto expected2 = new CourtDto();
         expected2.setId(360L);
@@ -148,12 +105,7 @@ public class CourtFacadeTest {
 
     @Test
     void listByType() {
-        Court entity1 = new Court();
-        entity1.setId(42L);
-        entity1.setName("Hello");
-        entity1.setPreviewImageUrl("http://localhost/image.png");
-        entity1.setType(CourtType.TURF);
-        entity1.setAddress("Abbey Road");
+        Court entity1 = createSampleCourtEntity();
 
         Court entity2 = new Court();
         entity2.setId(360L);
@@ -165,12 +117,7 @@ public class CourtFacadeTest {
         List<Court> list = asList(entity1, entity2);
         when(courtService.listByType(CourtType.TURF)).thenReturn(list);
 
-        CourtDto expected1 = new CourtDto();
-        expected1.setId(42L);
-        expected1.setName("Hello");
-        expected1.setPreviewImageUrl("http://localhost/image.png");
-        expected1.setType(CourtType.TURF);
-        expected1.setAddress("Abbey Road");
+        CourtDto expected1 = createSampleCourtDto();
 
         CourtDto expected2 = new CourtDto();
         expected2.setId(360L);
@@ -184,4 +131,25 @@ public class CourtFacadeTest {
         assertThat(obtained).contains(expected1, expected2);
         assertThat(obtained).hasSize(2);
     }
+
+    private CourtDto createSampleCourtDto() {
+        CourtDto sample = new CourtDto();
+        sample.setId(42L);
+        sample.setName("Hello");
+        sample.setPreviewImageUrl("http://localhost/image.png");
+        sample.setType(CourtType.TURF);
+        sample.setAddress("Abbey Road");
+        return sample;
+    }
+
+    private Court createSampleCourtEntity() {
+        Court sample = new Court();
+        sample.setId(42L);
+        sample.setName("Hello");
+        sample.setPreviewImageUrl("http://localhost/image.png");
+        sample.setType(CourtType.TURF);
+        sample.setAddress("Abbey Road");
+        return sample;
+    }
+
 }
