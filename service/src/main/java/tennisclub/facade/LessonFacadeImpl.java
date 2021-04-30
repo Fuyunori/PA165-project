@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tennisclub.dto.lesson.LessonCreateDTO;
 import tennisclub.dto.lesson.LessonFullDTO;
-import tennisclub.dto.lesson.LessonWithCourtDTO;
 import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
@@ -16,9 +15,7 @@ import tennisclub.service.CourtService;
 import tennisclub.service.LessonService;
 import tennisclub.service.UserService;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
