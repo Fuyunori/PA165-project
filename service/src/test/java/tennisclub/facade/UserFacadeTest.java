@@ -8,9 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import tennisclub.dto.user.UserAuthDTO;
 import tennisclub.dto.user.UserDTO;
+import tennisclub.dto.user.UserFullDTO;
 import tennisclub.entity.User;
 import tennisclub.enums.Role;
 import tennisclub.service.UserService;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -28,26 +31,38 @@ public class UserFacadeTest {
     private String password;
     private UserAuthDTO authDto;
     private User authEntity;
+
     private UserDTO dto;
+    private UserFullDTO fullDto;
     private User entity;
+
+    private UserDTO otherDto;
+    private UserFullDTO otherFullDto;
+    private User otherEntity;
 
     @BeforeEach
     void init() {
         username = "us3rn4m3";
         password = "p4ssw0rd";
-
         authDto = new UserAuthDTO();
         authDto.setUsername(username);
         authDto.setPassword(password);
-
         authEntity = new User();
         authEntity.setUsername(authDto.getUsername());
 
         dto = new UserDTO();
-        dto.setUsername(username);
-
+        dto.setUsername("someUsername");
+        fullDto = new UserFullDTO();
+        fullDto.setUsername(dto.getUsername());
         entity = new User();
-        entity.setUsername(username);
+        entity.setUsername(dto.getUsername());
+
+        otherDto = new UserDTO();
+        otherDto.setUsername("someDifferentUsername");
+        otherFullDto = new UserFullDTO();
+        otherFullDto.setUsername(otherDto.getUsername());
+        otherEntity = new User();
+        otherEntity.setUsername(otherDto.getUsername());
     }
 
     @Test
@@ -96,7 +111,11 @@ public class UserFacadeTest {
 
     @Test
     void findAllUsers() {
-        // TODO
+        when(userService.getAllUsers()).thenReturn(List.of(entity, otherEntity));
+
+        List<UserFullDTO> entities = userFacade.findAllUsers();
+        verify(userService).getAllUsers();
+        assertThat(entities).hasSize(2).contains(fullDto, otherFullDto);
     }
 
     @Test
