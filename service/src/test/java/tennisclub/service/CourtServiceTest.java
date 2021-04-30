@@ -11,6 +11,7 @@ import tennisclub.entity.Event;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -66,6 +67,19 @@ public class CourtServiceTest {
 
         Court found = courtService.getById(42L);
         assertThat(found).isEqualTo(testCourt);
+    }
+
+    @Test
+    void listAll() {
+        Court testCourt2 = new Court("Court 2");
+        Court testCourt3 = new Court("Court 3");
+        Court testCourt4 = new Court("Court 4");
+        List<Court> list = asList(testCourt, testCourt2, testCourt3, testCourt4);
+        when(courtDao.findAll()).thenReturn(list);
+
+        List<Court> found = courtService.listAll();
+        assertThat(found).contains(testCourt, testCourt2, testCourt3, testCourt4);
+        assertThat(found).hasSize(4);
     }
 
     @Test
