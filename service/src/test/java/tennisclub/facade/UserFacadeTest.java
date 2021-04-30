@@ -157,11 +157,21 @@ public class UserFacadeTest {
 
     @Test
     void updateUser() {
-        // TODO
+        when(userService.updateUserData(entity)).thenReturn(otherEntity);
+        ArgumentCaptor<User> passedEntity = ArgumentCaptor.forClass(User.class);
+
+        UserFullDTO updatedUser = userFacade.updateUser(fullDto);
+        verify(userService).updateUserData(passedEntity.capture());
+        assertThat(passedEntity.getValue()).isEqualTo(entity);
+        assertThat(updatedUser).isEqualTo(otherFullDto);
     }
 
     @Test
     void removeUser() {
-        // TODO
+        ArgumentCaptor<User> passedEntity = ArgumentCaptor.forClass(User.class);
+
+        userFacade.removeUser(dto);
+        verify(userService).removeUser(passedEntity.capture());
+        assertThat(passedEntity.getValue()).isEqualTo(entity);
     }
 }
