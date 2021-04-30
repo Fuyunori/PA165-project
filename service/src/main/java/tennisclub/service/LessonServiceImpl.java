@@ -15,10 +15,12 @@ import java.util.List;
 @Service
 public class LessonServiceImpl implements LessonService{
     private final LessonDao lessonDao;
+    private final TimeService timeService;
 
     @Autowired
-    public LessonServiceImpl(LessonDao lessonDao) {
+    public LessonServiceImpl(LessonDao lessonDao, TimeService timeService) {
         this.lessonDao = lessonDao;
+        this.timeService = timeService;
     }
 
     @Override
@@ -43,10 +45,7 @@ public class LessonServiceImpl implements LessonService{
             throw new ServiceLayerException("Can't enroll a student into a course in which he/she is already enrolled into!");
         }
 
-        final LocalDateTime CURRENT_TIME = LocalDateTime.now();
-        if(CURRENT_TIME.isAfter(lesson.getEndTime())){
-            throw new TennisClubManagerException("Can't enroll a student into a course which has already ended!");
-        }
+        hasLessonConcluded(lesson);
 
         student.addLessonToAttend(lesson);
         return lessonDao.update(lesson);
@@ -58,10 +57,7 @@ public class LessonServiceImpl implements LessonService{
             throw new ServiceLayerException("Can't assign a teacher to a course which he/she already teaches!");
         }
 
-        final LocalDateTime CURRENT_TIME = LocalDateTime.now();
-        if(CURRENT_TIME.isAfter(lesson.getEndTime())){
-            throw new TennisClubManagerException("Can't enroll a student into a course which has already ended!");
-        }
+        hasLessonConcluded(lesson);
 
         teacher.addLessonToTeach(lesson);
         return lessonDao.update(lesson);
@@ -73,10 +69,7 @@ public class LessonServiceImpl implements LessonService{
             throw new ServiceLayerException("Can't withdraw a student from a course in which he/she is not enrolled into!");
         }
 
-        final LocalDateTime CURRENT_TIME = LocalDateTime.now();
-        if(CURRENT_TIME.isAfter(lesson.getEndTime())){
-            throw new TennisClubManagerException("Can't enroll a student into a course which has already ended!");
-        }
+        hasLessonConcluded(lesson);
 
         student.removeLessonToAttend(lesson);
         return lessonDao.update(lesson);
@@ -88,10 +81,7 @@ public class LessonServiceImpl implements LessonService{
             throw new ServiceLayerException("Can't remove a teacher from a course which he/she doesn't teach!");
         }
 
-        final LocalDateTime CURRENT_TIME = LocalDateTime.now();
-        if(CURRENT_TIME.isAfter(lesson.getEndTime())){
-            throw new TennisClubManagerException("Can't enroll a student into a course which has already ended!");
-        }
+        hasLessonConcluded(lesson);
 
         teacher.removeLessonToTeach(lesson);
         return lessonDao.update(lesson);
@@ -135,5 +125,12 @@ public class LessonServiceImpl implements LessonService{
     @Override
     public List<Lesson> findByLevel(Level level) {
         return lessonDao.findByLevel(level);
+    }
+
+    private void hasLessonConcluded(Lesson lesson) {
+        final LocalDateTime CURRENT_TIME = timeService.getCurrentDateTime();
+        if (CURRENT_TIME.isAfter(lesson.getEndTime())) {
+            throw new ServiceLayerException("Can't enroll/withdraw user from a lesson that has already concluded!");
+        }
     }
 }
