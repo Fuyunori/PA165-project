@@ -139,7 +139,11 @@ public class UserFacadeTest {
 
     @Test
     void findUsersByEmail() {
-        // TODO
+        when(userService.findUsersByEmail("pepa@localhost")).thenReturn(List.of(entity, otherEntity));
+
+        List<UserFullDTO> entities = userFacade.findUsersByEmail("pepa@localhost");
+        verify(userService).findUsersByEmail("pepa@localhost");
+        assertThat(entities).hasSize(2).contains(fullDto, otherFullDto);
     }
 
     @Test
