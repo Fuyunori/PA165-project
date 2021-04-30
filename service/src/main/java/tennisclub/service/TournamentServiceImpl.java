@@ -6,7 +6,7 @@ import tennisclub.dao.TournamentDao;
 import tennisclub.entity.Court;
 import tennisclub.entity.Tournament;
 import tennisclub.entity.ranking.Ranking;
-import tennisclub.exceptions.TennisClubManagerException;
+import tennisclub.exceptions.ServiceLayerException;
 
 import java.time.LocalDateTime;
 import java.util.List;
