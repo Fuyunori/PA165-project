@@ -15,10 +15,12 @@ import java.util.List;
 @Service
 public class LessonServiceImpl implements LessonService{
     private final LessonDao lessonDao;
+    private final TimeService timeService;
 
     @Autowired
-    public LessonServiceImpl(LessonDao lessonDao) {
+    public LessonServiceImpl(LessonDao lessonDao, TimeService timeService) {
         this.lessonDao = lessonDao;
+        this.timeService = timeService;
     }
 
     @Override
@@ -42,6 +44,9 @@ public class LessonServiceImpl implements LessonService{
         if(lesson.getStudents().contains(student)){
             throw new ServiceLayerException("Can't enroll a student into a course in which he/she is already enrolled into!");
         }
+
+        checkEnrollmentOpen(lesson);
+
         student.addLessonToAttend(lesson);
         return lessonDao.update(lesson);
     }
@@ -51,6 +56,9 @@ public class LessonServiceImpl implements LessonService{
         if(lesson.getTeachers().contains(teacher)){
             throw new ServiceLayerException("Can't assign a teacher to a course which he/she already teaches!");
         }
+
+        checkEnrollmentOpen(lesson);
+
         teacher.addLessonToTeach(lesson);
         return lessonDao.update(lesson);
     }
@@ -60,6 +68,9 @@ public class LessonServiceImpl implements LessonService{
         if(!lesson.getStudents().contains(student)){
             throw new ServiceLayerException("Can't withdraw a student from a course in which he/she is not enrolled into!");
         }
+
+        checkEnrollmentOpen(lesson);
+
         student.removeLessonToAttend(lesson);
         return lessonDao.update(lesson);
     }
@@ -69,6 +80,9 @@ public class LessonServiceImpl implements LessonService{
         if(!lesson.getTeachers().contains(teacher)){
             throw new ServiceLayerException("Can't remove a teacher from a course which he/she doesn't teach!");
         }
+
+        checkEnrollmentOpen(lesson);
+
         teacher.removeLessonToTeach(lesson);
         return lessonDao.update(lesson);
     }
@@ -111,5 +125,12 @@ public class LessonServiceImpl implements LessonService{
     @Override
     public List<Lesson> findByLevel(Level level) {
         return lessonDao.findByLevel(level);
+    }
+
+    private void checkEnrollmentOpen(Lesson lesson) {
+        final LocalDateTime CURRENT_TIME = timeService.getCurrentDateTime();
+        if (CURRENT_TIME.isAfter(lesson.getStartTime())) {
+            throw new ServiceLayerException("Can't enroll/withdraw user from a lesson that doesn't allow enrollment!");
+        }
     }
 }

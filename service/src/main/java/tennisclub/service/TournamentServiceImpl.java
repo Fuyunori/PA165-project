@@ -37,16 +37,6 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public void addRanking(Tournament tournament, Ranking ranking){
-        if(tournament.getRankings().contains(ranking)){
-            throw new ServiceLayerException("Tournament already contains the rank of the player.\n Tournament: "
-                    + tournament.getId() + ",\n player: "
-                    + ranking.getPlayer().getId());
-        }
-        tournament.addRanking(ranking);
-    }
-
-    @Override
     public Tournament findById(Long id){
         return tournamentDao.findById(id);
     }
