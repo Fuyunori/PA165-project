@@ -13,6 +13,6 @@ public interface RankingService {
     Ranking find(Tournament tournament, User player);
     List<Ranking> findByPlayer(User player);
     List<Ranking> findByTournament(Tournament tournament);
-    Ranking update(Ranking ranking);
+    Ranking updatePlacement(Ranking ranking, int newPlacement);
     void remove(Ranking ranking);
 }
