@@ -45,7 +45,7 @@ public class LessonServiceImpl implements LessonService{
             throw new ServiceLayerException("Can't enroll a student into a course in which he/she is already enrolled into!");
         }
 
-        hasLessonConcluded(lesson);
+        checkEnrollmentOpen(lesson);
 
         student.addLessonToAttend(lesson);
         return lessonDao.update(lesson);
@@ -57,7 +57,7 @@ public class LessonServiceImpl implements LessonService{
             throw new ServiceLayerException("Can't assign a teacher to a course which he/she already teaches!");
         }
 
-        hasLessonConcluded(lesson);
+        checkEnrollmentOpen(lesson);
 
         teacher.addLessonToTeach(lesson);
         return lessonDao.update(lesson);
@@ -69,7 +69,7 @@ public class LessonServiceImpl implements LessonService{
             throw new ServiceLayerException("Can't withdraw a student from a course in which he/she is not enrolled into!");
         }
 
-        hasLessonConcluded(lesson);
+        checkEnrollmentOpen(lesson);
 
         student.removeLessonToAttend(lesson);
         return lessonDao.update(lesson);
@@ -81,7 +81,7 @@ public class LessonServiceImpl implements LessonService{
             throw new ServiceLayerException("Can't remove a teacher from a course which he/she doesn't teach!");
         }
 
-        hasLessonConcluded(lesson);
+        checkEnrollmentOpen(lesson);
 
         teacher.removeLessonToTeach(lesson);
         return lessonDao.update(lesson);
@@ -127,7 +127,7 @@ public class LessonServiceImpl implements LessonService{
         return lessonDao.findByLevel(level);
     }
 
-    private void hasLessonConcluded(Lesson lesson) {
+    private void checkEnrollmentOpen(Lesson lesson) {
         final LocalDateTime CURRENT_TIME = timeService.getCurrentDateTime();
         if (CURRENT_TIME.isAfter(lesson.getStartTime())) {
             throw new ServiceLayerException("Can't enroll/withdraw user from a lesson that has already concluded!");
