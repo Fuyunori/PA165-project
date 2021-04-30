@@ -19,6 +19,9 @@ import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * @author Ondrej Holub
+ */
 @SpringBootTest
 public class CourtFacadeTest {
     @MockBean
