@@ -98,21 +98,33 @@ public class TournamentServiceImpl implements TournamentService {
             throw new ServiceLayerException("Can't enroll a player into a tournament in which he/she already participates!");
         }
 
-        checkEnrollment(tournament);
+        checkEnrollmentOpen(tournament);
 
         Ranking ranking = new Ranking(tournament, player);
         rankingDao.create(ranking);
     }
 
     @Override
+    public void withdrawPlayer(Tournament tournament, User player) {
+        if(rankingDao.find(tournament, player) == null){
+            throw new ServiceLayerException("Can't withdraw a player from a tournament in which he/she doesn't participate!");
+        }
+
+        checkEnrollmentOpen(tournament);
+
+        Ranking ranking = rankingDao.find(tournament, player);
+        rankingDao.delete(ranking);
+    }
+
+    @Override
     public Ranking rankPlayer(Ranking ranking, Integer newPlacement) {
-        checkEnrollment(ranking.getTournament());
+        checkEnrollmentOpen(ranking.getTournament());
 
         ranking.setPlayerPlacement(newPlacement);
         return rankingDao.update(ranking);
     }
 
-    private void checkEnrollment(Tournament tournament) {
+    private void checkEnrollmentOpen(Tournament tournament) {
         final LocalDateTime CURRENT_DATE_TIME = timeService.getCurrentDateTime();
         if (CURRENT_DATE_TIME.isAfter(tournament.getStartTime())) {
             throw new ServiceLayerException("Can't enroll/withdraw user from a tournament has already started!");
