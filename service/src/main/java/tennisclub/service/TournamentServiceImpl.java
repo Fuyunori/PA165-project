@@ -106,19 +106,31 @@ public class TournamentServiceImpl implements TournamentService {
 
     @Override
     public void withdrawPlayer(Tournament tournament, User player) {
-        if(rankingDao.find(tournament, player) == null){
+        Ranking ranking = rankingDao.find(tournament, player);
+
+        if(ranking == null){
             throw new ServiceLayerException("Can't withdraw a player from a tournament in which he/she doesn't participate!");
         }
 
         checkEnrollmentOpen(tournament);
 
-        Ranking ranking = rankingDao.find(tournament, player);
+        player.removeRanking(ranking);
+        tournament.removeRanking(ranking);
         rankingDao.delete(ranking);
     }
 
     @Override
-    public Ranking rankPlayer(Ranking ranking, Integer newPlacement) {
-        checkEnrollmentOpen(ranking.getTournament());
+    public Ranking rankPlayer(Tournament tournament, User player, Integer newPlacement) {
+        Ranking ranking = rankingDao.find(tournament, player);
+        if(ranking == null){
+            throw new ServiceLayerException("Can't rank a player in a tournament he/she is not enrolled in!");
+        }
+
+        checkAfterTournamentStart(ranking.getTournament());
+
+        if (newPlacement > tournament.getCapacity()) {
+            throw new ServiceLayerException("Can't rank a player lower than the number of participants!");
+        }
 
         ranking.setPlayerPlacement(newPlacement);
         return rankingDao.update(ranking);
@@ -128,6 +140,13 @@ public class TournamentServiceImpl implements TournamentService {
         final LocalDateTime CURRENT_DATE_TIME = timeService.getCurrentDateTime();
         if (CURRENT_DATE_TIME.isAfter(tournament.getStartTime())) {
             throw new ServiceLayerException("Can't enroll/withdraw user from a tournament has already started!");
+        }
+    }
+
+    private void checkAfterTournamentStart(Tournament tournament) {
+        final LocalDateTime CURRENT_DATE_TIME = timeService.getCurrentDateTime();
+        if (CURRENT_DATE_TIME.isBefore(tournament.getStartTime())) {
+            throw new ServiceLayerException("Can't rank a player before a tournament has started!");
         }
     }
 }

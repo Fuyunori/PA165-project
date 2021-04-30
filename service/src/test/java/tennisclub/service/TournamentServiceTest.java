@@ -11,6 +11,7 @@ import tennisclub.entity.Court;
 import tennisclub.entity.Tournament;
 import tennisclub.entity.User;
 import tennisclub.entity.ranking.Ranking;
+import tennisclub.exceptions.ServiceLayerException;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,11 +42,16 @@ public class TournamentServiceTest {
     private TournamentService tournamentService;
 
     private Tournament tournament;
+    private User player;
+    private User newPlayer;
+    private Ranking ranking;
 
     @BeforeEach
     public void setup() {
         tournament = new Tournament(makeTime(5), makeTime(10), "Turnaj", 15, 10_000);
-
+        player = makeUser("Node", "nodejs", "js@node.com");
+        newPlayer = makeUser("Mode", "modejs", "js@mode.com");
+        ranking = new Ranking(tournament, player);
     }
 
     @Test
@@ -249,6 +256,26 @@ public class TournamentServiceTest {
     }
 
     @Test
+    public void findRankingTest() {
+        when(rankingDao.find(tournament, player)).thenReturn(ranking);
+
+        Ranking found = tournamentService.findRanking(tournament, player);
+
+        verify(rankingDao).find(tournament, player);
+        assertThat(found).isEqualTo(ranking);
+    }
+
+    @Test
+    public void findNonExistentRankingTest() {
+        when(rankingDao.find(tournament, player)).thenReturn(null);
+
+        Ranking found = tournamentService.findRanking(tournament, player);
+
+        verify(rankingDao).find(tournament, player);
+        assertThat(found).isNull();
+    }
+
+    @Test
     public void findRankingByTournamentTest() {
         User user1 = makeUser("Node", "nodejs", "js@node.com");
         User user2 = makeUser("Mode", "modejs", "js@mode.com");
@@ -275,6 +302,137 @@ public class TournamentServiceTest {
         assertThat(found).isEmpty();
     }
 
+    @Test
+    public void findRankingByPlayerTest() {
+        Tournament tournament2 = new Tournament(makeTime(5), makeTime(10), "Turnaj", 15, 10_000);
+        Ranking ranking2 = new Ranking(tournament, player);
+        List<Ranking> rankings = Arrays.asList(ranking, ranking2);
+        when(rankingDao.findByUser(player)).thenReturn(rankings);
+
+        List<Ranking> found = tournamentService.findRankingByPlayer(player);
+
+        verify(rankingDao).findByUser(player);
+        assertThat(found.size()).isEqualTo(2);
+        assertThat(found).contains(ranking);
+        assertThat(found).contains(ranking2);
+    }
+
+    @Test
+    public void findRankingByPlayerEmptyTest() {
+        when(rankingDao.findByUser(player)).thenReturn(Collections.emptyList());
+
+        List<Ranking> found = tournamentService.findRankingByPlayer(player);
+
+        verify(rankingDao).findByUser(player);
+        assertThat(found).isEmpty();
+    }
+
+    @Test
+    public void enrollPlayerTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(tournament.getStartTime().minusDays(1));
+        when(rankingDao.find(tournament, newPlayer)).thenReturn(null);
+
+        tournamentService.enrollPlayer(tournament, newPlayer);
+
+        verify(rankingDao).find(tournament, newPlayer);
+        assertThat(newPlayer.getRankings().size()).isEqualTo(1);
+
+        Ranking created = newPlayer.getRankings().iterator().next();
+
+        verify(rankingDao).create(created);
+        assertThat(created.getTournament()).isEqualTo(tournament);
+        assertThat(tournament.getRankings()).contains(created);
+    }
+
+    @Test
+    public void enrollAlreadyEnrolledPlayerTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(tournament.getStartTime().minusDays(1));
+        when(rankingDao.find(tournament, player)).thenReturn(ranking);
+
+        assertThatThrownBy(() -> tournamentService.enrollPlayer(tournament, player))
+                .isInstanceOf(ServiceLayerException.class);
+    }
+
+    @Test
+    public void enrollPlayerAfterStartTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(tournament.getStartTime().plusDays(1));
+        when(rankingDao.find(tournament, newPlayer)).thenReturn(null);
+
+        assertThatThrownBy(() -> tournamentService.enrollPlayer(tournament, newPlayer))
+                .isInstanceOf(ServiceLayerException.class);
+    }
+
+    @Test
+    public void withdrawPlayerTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(tournament.getStartTime().minusDays(1));
+        when(rankingDao.find(tournament, player)).thenReturn(ranking);
+
+        tournamentService.withdrawPlayer(tournament, player);
+
+        verify(rankingDao).find(tournament, player);
+        verify(rankingDao).delete(ranking);
+        assertThat(player.getRankings()).doesNotContain(ranking);
+        assertThat(tournament.getRankings()).doesNotContain(ranking);
+    }
+
+    @Test
+    public void withdrawNonEnrolledPlayerTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(tournament.getStartTime().minusDays(1));
+        when(rankingDao.find(tournament, newPlayer)).thenReturn(null);
+
+        assertThatThrownBy(() -> tournamentService.withdrawPlayer(tournament, newPlayer))
+                .isInstanceOf(ServiceLayerException.class);
+    }
+
+    @Test
+    public void withdrawPlayerAfterStartTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(tournament.getStartTime().plusDays(1));
+        when(rankingDao.find(tournament, player)).thenReturn(ranking);
+
+        assertThatThrownBy(() -> tournamentService.withdrawPlayer(tournament, player))
+                .isInstanceOf(ServiceLayerException.class);
+    }
+
+    @Test
+    public void rankPlayerTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(tournament.getStartTime().plusHours(1));
+        when(rankingDao.find(tournament, player)).thenReturn(ranking);
+        when(rankingDao.update(ranking)).thenReturn(ranking);
+
+        Ranking updated = tournamentService.rankPlayer(tournament, player, 5);
+
+        verify(rankingDao).find(tournament, player);
+        verify(rankingDao).update(ranking);
+        assertThat(updated.getPlayerPlacement()).isEqualTo(5);
+    }
+
+    @Test
+    public void rankPlayerBeforeStartTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(tournament.getStartTime().minusHours(1));
+        when(rankingDao.find(tournament, player)).thenReturn(ranking);
+        when(rankingDao.update(ranking)).thenReturn(ranking);
+
+        assertThatThrownBy(() -> tournamentService.rankPlayer(tournament, player, 5))
+                .isInstanceOf(ServiceLayerException.class);
+    }
+
+    @Test
+    public void rankNotEnrolledPlayerTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(tournament.getStartTime().plusHours(1));
+        when(rankingDao.find(tournament, newPlayer)).thenReturn(null);
+
+        assertThatThrownBy(() -> tournamentService.rankPlayer(tournament, newPlayer, 5))
+                .isInstanceOf(ServiceLayerException.class);
+    }
+
+    @Test
+    public void rankPlayerTooLowTest() {
+        when(timeService.getCurrentDateTime()).thenReturn(tournament.getStartTime().plusHours(1));
+        when(rankingDao.find(tournament, player)).thenReturn(ranking);
+
+        assertThatThrownBy(() -> tournamentService.rankPlayer(tournament, player, tournament.getCapacity() + 1))
+                .isInstanceOf(ServiceLayerException.class);
+    }
 
 
     private User makeUser(String name, String userName, String email) {
