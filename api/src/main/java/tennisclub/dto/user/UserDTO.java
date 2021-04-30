@@ -20,16 +20,6 @@ public class UserDTO {
 
     private Role role;
 
-    private Set<LessonWithCourtDTO> lessonsToTeach = new HashSet<>();
-
-    private Set<LessonWithCourtDTO> lessonsToAttendTo = new HashSet<>();
-
-//    Uncomment when BookingDTO is added
-//    private Set<BookingDTO> bookings = new HashSet<>();
-
-//    Uncomment when RankingDTO is added
-//    private Set<RankingDTO> rankings = new HashSet<>();
-
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
@@ -53,40 +43,6 @@ public class UserDTO {
     public Role getRole() { return role; }
 
     public void setRole(Role role) { this.role = role; }
-
-    public Set<LessonWithCourtDTO> getLessonsToTeach() {
-        return lessonsToTeach;
-    }
-
-    public void setLessonsToTeach(Set<LessonWithCourtDTO> lessonsToTeach) {
-        this.lessonsToTeach = lessonsToTeach;
-    }
-
-    public Set<LessonWithCourtDTO> getLessonsToAttendTo() {
-        return lessonsToAttendTo;
-    }
-
-    public void setLessonsToAttendTo(Set<LessonWithCourtDTO> lessonsToAttendTo) {
-        this.lessonsToAttendTo = lessonsToAttendTo;
-    }
-
-//    Uncomment when BookingDTO is added
-//    public Set<BookingDTO> getBookings() {
-//        return bookings;
-//    }
-//
-//    public void setBookings(Set<BookingDTO> bookings) {
-//        this.bookings = bookings;
-//    }
-
-//    Uncomment when RankingDTO is added
-//    public Set<RankingDTO> getRankings() {
-//        return rankings;
-//    }
-//
-//    public void setRankings(Set<RankingDTO> rankings) {
-//        this.rankings = rankings;
-//    }
 
     @Override
     public boolean equals(Object o) {
