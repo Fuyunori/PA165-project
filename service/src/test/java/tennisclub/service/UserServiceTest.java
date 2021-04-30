@@ -1,5 +1,6 @@
 package tennisclub.service;
 
+import com.sun.xml.bind.v2.runtime.reflect.opt.Const;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,18 +39,21 @@ public class UserServiceTest {
         user.setUsername("destroyer777");
         user.setRole(Role.USER);
         user.setName("Karel");
+        user.setEmail("destroyer@localhost");
 
         otherUser = new User();
         otherUser.setId(2L);
         otherUser.setUsername("notJohn");
         otherUser.setRole(Role.USER);
         otherUser.setName("Honza");
+        otherUser.setEmail("honza@localhost");
 
         manager = new User();
         manager.setId(3L);
         manager.setUsername("tennis_hustler");
         manager.setRole(Role.MANAGER);
         manager.setName("Karel");
+        manager.setEmail("karel@localhost");
 
         password = "Never.gonna_give-You up!";
         otherPassword = "my L17713 pony";
@@ -133,11 +137,36 @@ public class UserServiceTest {
         String username = user.getUsername();
         String nonexUsername = "someUsernameThatDoesNotExist";
         when(userDao.findByUsername(username)).thenReturn(user);
+        when(userDao.findByUsername(nonexUsername)).thenReturn(null);
 
         assertThat(userService.findUserByUsername(username)).isEqualTo(user);
         verify(userDao).findByUsername(username);
 
         assertThat(userService.findUserByUsername(nonexUsername)).isNull();
         verify(userDao).findByUsername(nonexUsername);
+    }
+
+    @Test
+    void findUsersByEmail() {
+        String email = user.getEmail();
+        String nonexEmail = "some.email.that.does.not@exi.st";
+        when(userDao.findByEmail(email)).thenReturn(List.of(user));
+        when(userDao.findByEmail(nonexEmail)).thenReturn(List.of());
+
+        assertThat(userService.findUsersByEmail(email)).hasSize(1).contains(user);
+        verify(userDao).findByEmail(email);
+
+        assertThat(userService.findUsersByEmail(nonexEmail)).isEmpty();
+        verify(userDao).findByEmail(nonexEmail);
+    }
+
+    @Test
+    void updateUserData() {
+
+    }
+
+    @Test
+    void removeUser() {
+
     }
 }
