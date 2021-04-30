@@ -66,13 +66,19 @@ public class EventDaoTest {
     private Court otherCourt = new Court("Other court");
 
     private Event event = new Event(eventStart, eventEnd);
-    private Event booking = new Booking(bookingStart, bookingEnd);
+    private Event booking = new Booking(bookingStart, bookingEnd);;
     private Event lesson = new Lesson(lessonStart, lessonEnd, Level.BEGINNER);
     private Event tournament = new Tournament(tournamentStart, tournamentEnd, "Wimbledon",10, 10000);
 
+    private User author = new User();
 
     @BeforeEach
     public void setup(){
+        author.setUsername("author");
+        em.persist(author);
+
+        ((Booking)booking).setAuthor(author);
+
         em.persist(eventCourt);
         em.persist(bookingCourt);
         em.persist(lessonCourt);
@@ -109,6 +115,7 @@ public class EventDaoTest {
     public void testBookingCreationOK(){
         Event booking = new Booking(bookingStart, bookingEnd);
         booking.setCourt(bookingCourt);
+        ((Booking)booking).setAuthor(author);
         eventDao.create(booking);
 
         // test that the created instance is in the database
@@ -545,6 +552,7 @@ public class EventDaoTest {
     public void findBookingsByCourtOfWhichThereAreTwoSharingTheSameCourt(){
         Event otherBooking = new Booking(otherStart, otherEnd);
         otherBooking.setCourt(bookingCourt);
+        ((Booking)otherBooking).setAuthor(author);
         em.persist(otherBooking);
 
         List<Event> foundEvents = eventDao.findByCourt(bookingCourt);
@@ -557,6 +565,7 @@ public class EventDaoTest {
     public void findBookingsByCourtOfWhichThereAreTwoNotSharingTheSameCourt(){
         Event otherBooking = new Booking(bookingStart, bookingEnd);
         otherBooking.setCourt(otherCourt);
+        ((Booking)otherBooking).setAuthor(author);
         em.persist(otherBooking);
 
         List<Event> foundEvents = eventDao.findByCourt(bookingCourt);
@@ -641,6 +650,7 @@ public class EventDaoTest {
     public void findBookingsByStartTimeOfWhichThereAreTwoSharingTheSameStartTime(){
         Event otherBooking = new Booking(bookingStart, bookingEnd);
         otherBooking.setCourt(otherCourt);
+        ((Booking)otherBooking).setAuthor(author);
         em.persist(otherBooking);
 
         List<Event> foundEvents = eventDao.findByStartTime(bookingStart);
@@ -653,6 +663,7 @@ public class EventDaoTest {
     public void findBookingsByStartTimeOfWhichThereAreTwoNotSharingTheSameStartTime(){
         Event otherBooking = new Booking(otherStart, otherEnd);
         otherBooking.setCourt(bookingCourt);
+        ((Booking)otherBooking).setAuthor(author);
         em.persist(otherBooking);
 
         List<Event> foundEvents = eventDao.findByStartTime(bookingStart);
@@ -737,6 +748,7 @@ public class EventDaoTest {
     public void findBookingsByEndTimeOfWhichThereAreTwoSharingTheSameEndTime(){
         Event otherBooking = new Booking(bookingStart, bookingEnd);
         otherBooking.setCourt(otherCourt);
+        ((Booking)otherBooking).setAuthor(author);
         em.persist(otherBooking);
 
         List<Event> foundEvents = eventDao.findByEndTime(bookingEnd);
@@ -749,6 +761,7 @@ public class EventDaoTest {
     public void findBookingsByEndTimeOfWhichThereAreTwoNotSharingTheSameEndTime(){
         Event otherBooking = new Booking(otherStart, otherEnd);
         otherBooking.setCourt(bookingCourt);
+        ((Booking)otherBooking).setAuthor(author);
         em.persist(otherBooking);
 
         List<Event> foundEvents = eventDao.findByEndTime(bookingEnd);
@@ -888,6 +901,7 @@ public class EventDaoTest {
     public void findBookingByTimeIntervalStartTimeIsEqualToTo(){
         Event otherBooking = new Booking(bookingEnd, bookingEnd);
         otherBooking.setCourt(otherCourt);
+        ((Booking)otherBooking).setAuthor(author);
         em.persist(otherBooking);
 
         List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
@@ -900,6 +914,7 @@ public class EventDaoTest {
     public void findBookingByTimeIntervalStartTimeIsBiggerThanTo(){
         Event otherBooking = new Booking(tomorrow(bookingEnd), tomorrow(bookingEnd));
         otherBooking.setCourt(otherCourt);
+        ((Booking)otherBooking).setAuthor(author);
         em.persist(otherBooking);
 
         List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
@@ -912,6 +927,7 @@ public class EventDaoTest {
     public void findBookingByTimeIntervalEndTimeIsEqualToFrom(){
         Event otherBooking = new Booking(bookingStart, bookingStart);
         otherBooking.setCourt(otherCourt);
+        ((Booking)otherBooking).setAuthor(author);
         em.persist(otherBooking);
 
         List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
@@ -924,6 +940,7 @@ public class EventDaoTest {
     public void findBookingByTimeIntervalEndTimeIsSmallerThanFrom(){
         Event otherBooking = new Booking(yesterday(bookingStart), yesterday(bookingStart));
         otherBooking.setCourt(otherCourt);
+        ((Booking)otherBooking).setAuthor(author);
         em.persist(otherBooking);
 
         List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
@@ -936,6 +953,7 @@ public class EventDaoTest {
     public void findBookingByTimeIntervalBothTimesAreOK(){
         Event otherBooking = new Booking(bookingStart, bookingEnd);
         otherBooking.setCourt(otherCourt);
+        ((Booking)otherBooking).setAuthor(author);
         em.persist(otherBooking);
 
         List<Event> foundEvents = eventDao.findByTimeInterval(bookingStart, bookingEnd);
