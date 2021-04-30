@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface UserFacade {
 
-    void register(UserAuthDTO userAuthDTO, String plainTextPassword);
+    void register(UserAuthDTO userAuthDTO);
 
-    boolean authenticate(UserAuthDTO userAuthDTO, String plainTextPassword);
+    boolean authenticate(UserAuthDTO userAuthDTO);
 
     boolean hasRights(UserDTO userDTO, Role role);
 

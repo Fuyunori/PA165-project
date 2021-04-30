@@ -29,18 +29,15 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public void register(UserAuthDTO userAuthDTO, String plainTextPassword) {
+    public void register(UserAuthDTO userAuthDTO) {
         User user = mapper.map(userAuthDTO, User.class);
-        userService.register(user, plainTextPassword);
-        //TODO now there is no hash in the user entity :/
-        //either userService.register will return the user (or ID), or there will be userService.find*
-        //consider adding plainTextPassword to DTO
+        userService.register(user, userAuthDTO.getPassword());
     }
 
     @Override
-    public boolean authenticate(UserAuthDTO userAuthDTO, String plainTextPassword) {
+    public boolean authenticate(UserAuthDTO userAuthDTO) {
         User user = mapper.map(userAuthDTO, User.class);
-        return userService.authenticate(user, plainTextPassword);
+        return userService.authenticate(user, userAuthDTO.getPassword());
     }
 
     @Override
