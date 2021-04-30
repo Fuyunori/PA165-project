@@ -28,5 +28,5 @@ public interface TournamentService {
     List<Ranking> findRankingByPlayer(User player);
     void enrollPlayer(Tournament tournament, User player);
     void withdrawPlayer(Tournament tournament, User player);
-    Ranking rankPlayer(Ranking ranking, Integer newPlacement);
+    Ranking rankPlayer(Tournament tournament, User player, Integer newPlacement);
 }

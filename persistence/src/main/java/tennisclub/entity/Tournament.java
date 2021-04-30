@@ -65,4 +65,8 @@ public class Tournament extends Event  {
         rankings.add(ranking);
         ranking.setTournament(this);
     }
+
+    public void removeRanking(Ranking ranking) {
+        rankings.remove(ranking);
+    }
 }

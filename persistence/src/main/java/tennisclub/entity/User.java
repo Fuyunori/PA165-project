@@ -124,6 +124,10 @@ public class User implements Serializable {
         rankings.add(ranking);
     }
 
+    public void removeRanking(Ranking ranking) {
+        rankings.remove(ranking);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
