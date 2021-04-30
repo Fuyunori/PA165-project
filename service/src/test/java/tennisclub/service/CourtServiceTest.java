@@ -53,15 +53,6 @@ public class CourtServiceTest {
     }
 
     @Test
-    void listByAddress() {
-        when(courtDao.findByAddress("Botanická")).thenReturn(Collections.singletonList(testCourt));
-
-        List<Court> courts = courtService.listByAddress("Botanická");
-        assertThat(courts).hasSize(1);
-        assertThat(courts).contains(testCourt);
-    }
-
-    @Test
     void getById() {
         when(courtDao.findById(42L)).thenReturn(testCourt);
 
@@ -80,6 +71,15 @@ public class CourtServiceTest {
         List<Court> found = courtService.listAll();
         assertThat(found).contains(testCourt, testCourt2, testCourt3, testCourt4);
         assertThat(found).hasSize(4);
+    }
+
+    @Test
+    void listByAddress() {
+        when(courtDao.findByAddress("Botanická")).thenReturn(Collections.singletonList(testCourt));
+
+        List<Court> courts = courtService.listByAddress("Botanická");
+        assertThat(courts).hasSize(1);
+        assertThat(courts).contains(testCourt);
     }
 
     @Test
