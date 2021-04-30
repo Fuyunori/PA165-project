@@ -129,7 +129,7 @@ public class LessonServiceImpl implements LessonService{
 
     private void hasLessonConcluded(Lesson lesson) {
         final LocalDateTime CURRENT_TIME = timeService.getCurrentDateTime();
-        if (CURRENT_TIME.isAfter(lesson.getEndTime())) {
+        if (CURRENT_TIME.isAfter(lesson.getStartTime())) {
             throw new ServiceLayerException("Can't enroll/withdraw user from a lesson that has already concluded!");
         }
     }
