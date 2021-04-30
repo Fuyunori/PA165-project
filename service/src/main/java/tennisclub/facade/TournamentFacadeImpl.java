@@ -1,6 +1,6 @@
 package tennisclub.facade;
 
-import org.dozer.Mapper;
+import com.github.dozermapper.core.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tennisclub.dto.tournament.TournamentCreateDTO;
@@ -10,7 +10,6 @@ import tennisclub.entity.Tournament;
 import tennisclub.entity.User;
 import tennisclub.entity.ranking.Ranking;
 import tennisclub.service.CourtService;
-import tennisclub.service.RankingService;
 import tennisclub.service.TournamentService;
 import tennisclub.service.UserService;
 
@@ -25,19 +24,16 @@ import java.util.stream.Collectors;
 public class TournamentFacadeImpl implements TournamentFacade {
     private final Mapper mapper;
     private final TournamentService tournamentService;
-    private final RankingService rankingService;
     private final UserService userService;
     private final CourtService courtService;
 
     @Autowired
     public TournamentFacadeImpl(Mapper mapper,
                                 TournamentService tournamentService,
-                                RankingService rankingService,
                                 UserService userService,
                                 CourtService courtService){
         this.mapper = mapper;
         this.tournamentService = tournamentService;
-        this.rankingService = rankingService;
         this.userService = userService;
         this.courtService = courtService;
     }
@@ -66,7 +62,7 @@ public class TournamentFacadeImpl implements TournamentFacade {
         User player = userService.findUserById(playerId);
 
         Ranking ranking = new Ranking(tournament, player);
-        rankingService.create(ranking);
+        //rankingService.create(ranking);
     }
 
     @Override
@@ -74,8 +70,8 @@ public class TournamentFacadeImpl implements TournamentFacade {
         Tournament tournament = tournamentService.findById(tournamentId);
         User player = userService.findUserById(playerId);
 
-        Ranking ranking = rankingService.find(tournament, player);
-        rankingService.remove(ranking);
+        //Ranking ranking = rankingService.find(tournament, player);
+        //rankingService.remove(ranking);
     }
 
     @Override
@@ -83,8 +79,8 @@ public class TournamentFacadeImpl implements TournamentFacade {
         Tournament tournament = tournamentService.findById(tournamentId);
         User player = userService.findUserById(playerId);
 
-        Ranking ranking = rankingService.find(tournament, player);
-        rankingService.updatePlacement(ranking, placement);
+        //Ranking ranking = rankingService.find(tournament, player);
+        //rankingService.updatePlacement(ranking, placement);
     }
 
     @Override
