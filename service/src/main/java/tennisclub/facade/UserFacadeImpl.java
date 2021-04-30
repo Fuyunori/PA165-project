@@ -1,6 +1,6 @@
 package tennisclub.facade;
 
-import org.dozer.Mapper;
+import com.github.dozermapper.core.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tennisclub.dto.user.UserAuthDTO;
