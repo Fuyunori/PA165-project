@@ -2,9 +2,11 @@ package tennisclub.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tennisclub.dao.RankingDao;
 import tennisclub.dao.TournamentDao;
 import tennisclub.entity.Court;
 import tennisclub.entity.Tournament;
+import tennisclub.entity.User;
 import tennisclub.entity.ranking.Ranking;
 import tennisclub.exceptions.ServiceLayerException;
 
@@ -13,11 +15,15 @@ import java.util.List;
 
 @Service
 public class TournamentServiceImpl implements TournamentService {
+    private final RankingDao rankingDao;
     private final TournamentDao tournamentDao;
+    private final TimeService timeService;
 
     @Autowired
-    public TournamentServiceImpl(TournamentDao tournamentDao){
+    public TournamentServiceImpl(TournamentDao tournamentDao, RankingDao rankingDao, TimeService timeService){
         this.tournamentDao = tournamentDao;
+        this.rankingDao = rankingDao;
+        this.timeService = timeService;
     }
 
     @Override
@@ -69,5 +75,47 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public List<Tournament> findByCapacity(Integer capacity) {
         return tournamentDao.findByCapacity(capacity);
+    }
+
+    @Override
+    public List<Ranking> findRanking(Tournament tournament, User player) {
+        return rankingDao.findByTournament(tournament);
+    }
+
+    @Override
+    public List<Ranking> findRankingByTournament(Tournament tournament) {
+        return rankingDao.findByTournament(tournament);
+    }
+
+    @Override
+    public List<Ranking> findRankingByPlayer(User player) {
+        return rankingDao.findByUser(player);
+    }
+
+    @Override
+    public void enrollPlayer(Tournament tournament, User player) {
+        if(rankingDao.find(tournament, player) != null){
+            throw new ServiceLayerException("Can't enroll a player into a tournament in which he/she already participates!");
+        }
+
+        checkEnrollment(tournament);
+
+        Ranking ranking = new Ranking(tournament, player);
+        rankingDao.create(ranking);
+    }
+
+    @Override
+    public Ranking rankPlayer(Ranking ranking, Integer newPlacement) {
+        checkEnrollment(ranking.getTournament());
+
+        ranking.setPlayerPlacement(newPlacement);
+        return rankingDao.update(ranking);
+    }
+
+    private void checkEnrollment(Tournament tournament) {
+        final LocalDateTime CURRENT_DATE_TIME = timeService.getCurrentDateTime();
+        if (CURRENT_DATE_TIME.isAfter(tournament.getStartTime())) {
+            throw new ServiceLayerException("Can't enroll/withdraw user from a tournament has already started!");
+        }
     }
 }
