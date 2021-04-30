@@ -23,14 +23,19 @@ public class UserFacadeTest {
     @Autowired
     private UserFacade userFacade;
 
+    private String username;
+    private String password;
     private UserAuthDTO authDto;
     private User authEntity;
 
     @BeforeEach
     void init() {
+        username = "us3rn4m3";
+        password = "p4ssw0rd";
+
         authDto = new UserAuthDTO();
-        authDto.setUsername("us3rn4m3");
-        authDto.setPassword("p4ssw0rd");
+        authDto.setUsername(username);
+        authDto.setPassword(password);
 
         authEntity = new User();
         authEntity.setUsername(authDto.getUsername());
@@ -38,9 +43,6 @@ public class UserFacadeTest {
 
     @Test
     void register() {
-        String username = authDto.getUsername();
-        String password = authDto.getPassword();
-
         ArgumentCaptor<User> passedEntity = ArgumentCaptor.forClass(User.class);
         ArgumentCaptor<String> passedPassword = ArgumentCaptor.forClass(String.class);
 
@@ -52,7 +54,20 @@ public class UserFacadeTest {
 
     @Test
     void authenticate() {
-        // TODO
+        when(userService.authenticate(authEntity, password)).thenReturn(true);
+        ArgumentCaptor<User> passedEntity = ArgumentCaptor.forClass(User.class);
+        ArgumentCaptor<String> passedPassword = ArgumentCaptor.forClass(String.class);
+
+        assertThat(userFacade.authenticate(authDto)).isTrue();
+        verify(userService).authenticate(passedEntity.capture(), passedPassword.capture());
+        assertThat(passedEntity.getValue().getUsername()).isEqualTo(username);
+        assertThat(passedPassword.getValue()).isEqualTo(password);
+    }
+
+    @Test
+    void forwardAuthFailure() {
+        when(userService.authenticate(authEntity, password)).thenReturn(false);
+        assertThat(userFacade.authenticate(authDto)).isFalse();
     }
 
     @Test
