@@ -16,13 +16,13 @@ public class RankingWithPlayerDTO {
     private UserDTO player;
 
     @Min(1)
-    private int playerPlacement;
+    private Integer playerPlacement;
 
-    public int getPlayerPlacement() {
+    public Integer getPlayerPlacement() {
         return playerPlacement;
     }
 
-    public void setPlayerPlacement(int playerPlacement) {
+    public void setPlayerPlacement(Integer playerPlacement) {
         this.playerPlacement = playerPlacement;
     }
 
