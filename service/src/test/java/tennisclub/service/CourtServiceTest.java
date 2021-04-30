@@ -53,12 +53,11 @@ public class CourtServiceTest {
 
     @Test
     void listByAddress() {
-        Court court = new Court();
-        when(courtDao.findByAddress("Botanická")).thenReturn(Collections.singletonList(court));
+        when(courtDao.findByAddress("Botanická")).thenReturn(Collections.singletonList(testCourt));
 
         List<Court> courts = courtService.listByAddress("Botanická");
         assertThat(courts).hasSize(1);
-        assertThat(courts).contains(court);
+        assertThat(courts).contains(testCourt);
     }
 
     @Test
