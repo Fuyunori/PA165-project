@@ -8,6 +8,10 @@ import tennisclub.enums.Role;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * User DTO fully describing the user including its relations
+ * @author Ondrej Holub
+ */
 public class UserFullDTO {
 
     private Long id;

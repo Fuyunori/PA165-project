@@ -3,6 +3,10 @@ package tennisclub.dto.user;
 import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotBlank;
 
+/**
+ * User DTO containing authentication data
+ * @author Ondrej Holub
+ */
 public class UserAuthDTO {
 
     @NotBlank

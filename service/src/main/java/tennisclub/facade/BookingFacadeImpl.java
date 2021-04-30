@@ -1,6 +1,5 @@
 package tennisclub.facade;
 
-
 import com.github.dozermapper.core.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,7 @@ import tennisclub.dto.user.UserDTO;
 import tennisclub.entity.Booking;
 import tennisclub.entity.Court;
 import tennisclub.entity.User;
+import tennisclub.exceptions.FacadeLayerException;
 import tennisclub.exceptions.ServiceLayerException;
 import tennisclub.service.BookingService;
 import tennisclub.service.CourtService;
@@ -53,21 +53,14 @@ public class BookingFacadeImpl implements BookingFacade {
         Booking booking = mapper.map(createDTO, Booking.class);
 
         if (!courtService.isFree(booking.getCourt(), booking.getStartTime(), booking.getEndTime())) {
-            throw new SecurityException("Can't make a booking. Court is not free at this time.");
+            throw new FacadeLayerException("Can't make a booking. Court is not free at this time.");
         }
 
         Duration totalTime = bookingService.getTotalReservedHoursToday(booking.getAuthor())
                 .plus(Duration.between(booking.getStartTime(), booking.getEndTime()));
         if (totalTime.compareTo(Duration.ofHours(2)) > 0) {
-            throw new ServiceLayerException("Maximum number of reserved hours per day exceeded.");
+            throw new FacadeLayerException("Maximum number of reserved hours per day exceeded.");
         }
-        /*
-        for (User user : booking.getUsers()) {
-            if (!userService.isFree(user, booking.getStartTime(), booking.getEndTime())) {
-                throw new SecurityException("Can't make a booking. User is busy at this time.");
-            }
-        }
-        */
 
         Booking newBooking = bookingService.create(booking);
 
