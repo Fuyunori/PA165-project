@@ -12,8 +12,7 @@ import tennisclub.enums.Role;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Pavel Tobiáš
@@ -127,5 +126,18 @@ public class UserServiceTest {
         verify(userDao).findByName("Karel");
         assertThat(users).hasSize(2);
         assertThat(users).contains(user, manager);
+    }
+
+    @Test
+    void findUserByUsername() {
+        String username = user.getUsername();
+        String nonexUsername = "someUsernameThatDoesNotExist";
+        when(userDao.findByUsername(username)).thenReturn(user);
+
+        assertThat(userService.findUserByUsername(username)).isEqualTo(user);
+        verify(userDao).findByUsername(username);
+
+        assertThat(userService.findUserByUsername(nonexUsername)).isNull();
+        verify(userDao).findByUsername(nonexUsername);
     }
 }
