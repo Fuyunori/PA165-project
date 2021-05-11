@@ -8,7 +8,8 @@
 		<module>persistence</module>
 		<module>api</module>
 		<module>service</module>
-    </modules>
+		<module>rest</module>
+	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
