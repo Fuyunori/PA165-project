@@ -6,6 +6,9 @@ import tennisclub.dto.ranking.RankingWithPlayerDTO;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author Xuan Linh Phamová
+ */
 public class TournamentFullDTO extends EventWithCourtDTO {
     private String name;
     private Integer capacity;

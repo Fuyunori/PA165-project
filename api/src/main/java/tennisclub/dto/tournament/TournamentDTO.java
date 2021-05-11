@@ -2,6 +2,9 @@ package tennisclub.dto.tournament;
 
 import tennisclub.dto.event.EventDTO;
 
+/**
+ * @author Xuan Linh Phamová
+ */
 public class TournamentDTO extends EventDTO {
     private String name;
     private Integer capacity;

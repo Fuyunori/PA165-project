@@ -7,6 +7,9 @@ import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * @author Xuan Linh Phamová
+ */
 public class TournamentCreateDTO extends EventCreateDTO {
     @NotBlank
     private String name;
