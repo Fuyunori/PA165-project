@@ -9,6 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
+    <groupId>cz.muni.fi.pa165.tennisclub</groupId>
     <artifactId>persistence</artifactId>
     <name>Persistence</name>
     <packaging>jar</packaging>
@@ -19,11 +20,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>cz.muni.fi.pa165</groupId>
-            <artifactId>common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
