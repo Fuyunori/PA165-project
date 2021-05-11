@@ -10,7 +10,7 @@ import tennisclub.entity.User;
 import tennisclub.enums.Role;
 import tennisclub.service.UserService;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,6 +49,7 @@ public class UserFacadeImpl implements UserFacade {
         return userService.hasRights(user, role);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<UserFullDTO> findAllUsers() {
         List<User> foundUsers = userService.getAllUsers();
@@ -57,12 +58,14 @@ public class UserFacadeImpl implements UserFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserFullDTO findUserById(Long userId) {
         User foundUser = userService.findUserById(userId);
         return mapper.map(foundUser, UserFullDTO.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<UserFullDTO> findUsersByName(String name) {
         List<User> foundUsers = userService.findUsersByName(name);
@@ -71,12 +74,14 @@ public class UserFacadeImpl implements UserFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserFullDTO findUserByUsername(String username) {
         User foundUser = userService.findUserByUsername(username);
         return mapper.map(foundUser, UserFullDTO.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<UserFullDTO> findUsersByEmail(String email) {
         List<User> foundUsers = userService.findUsersByEmail(email);

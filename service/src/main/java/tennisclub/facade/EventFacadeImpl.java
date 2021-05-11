@@ -14,7 +14,7 @@ import tennisclub.exceptions.ServiceLayerException;
 import tennisclub.service.CourtService;
 import tennisclub.service.EventService;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,12 +49,14 @@ public class EventFacadeImpl implements EventFacade {
         eventService.reschedule(event, eventRescheduleDTO.getStart(), eventRescheduleDTO.getEnd());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public EventWithCourtDTO findById(Long id) {
         Event event = eventService.findById(id);
         return map(event);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<EventWithCourtDTO> findAll() {
         List<Event> events = eventService.findAll();
@@ -63,6 +65,7 @@ public class EventFacadeImpl implements EventFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<EventWithCourtDTO> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
         List<Event> events = eventService.findByTimeInterval(from ,to);
@@ -71,6 +74,7 @@ public class EventFacadeImpl implements EventFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<EventWithCourtDTO> findByStartTime(LocalDateTime start) {
         List<Event> events = eventService.findByStartTime(start);
@@ -79,6 +83,7 @@ public class EventFacadeImpl implements EventFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<EventWithCourtDTO> findByEndTime(LocalDateTime end) {
         List<Event> events = eventService.findByEndTime(end);

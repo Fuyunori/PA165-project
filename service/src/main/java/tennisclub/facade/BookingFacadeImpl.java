@@ -89,6 +89,7 @@ public class BookingFacadeImpl implements BookingFacade {
         return mapper.map(updated, BookingFullDTO.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<BookingFullDTO> findAll() {
         List<Booking> bookings = bookingService.findAll();
@@ -97,12 +98,14 @@ public class BookingFacadeImpl implements BookingFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public BookingFullDTO findById(Long bookingId) {
         Booking booking = bookingService.findById(bookingId);
         return mapper.map(booking, BookingFullDTO.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<BookingFullDTO> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
         List<Booking> bookings = bookingService.findByTimeInterval(from ,to);

@@ -14,7 +14,7 @@ import tennisclub.service.CourtService;
 import tennisclub.service.TournamentService;
 import tennisclub.service.UserService;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -78,6 +78,7 @@ public class TournamentFacadeImpl implements TournamentFacade {
         tournamentService.rankPlayer(tournament, player, placement);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<RankingWithPlayerDTO> getRankingsOfTournament(Long tournamentId) {
         Tournament tournament = tournamentService.findById(tournamentId);
@@ -87,12 +88,14 @@ public class TournamentFacadeImpl implements TournamentFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public TournamentFullDTO getTournamentWithId(Long id) {
         Tournament tournament = tournamentService.findById(id);
         return (tournament == null) ? null : mapper.map(tournament, TournamentFullDTO.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<TournamentFullDTO> getAllTournaments() {
         List<Tournament> tournaments = tournamentService.findAll();
@@ -101,6 +104,7 @@ public class TournamentFacadeImpl implements TournamentFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<TournamentFullDTO> getTournamentsByStartTime(LocalDateTime startTime) {
         List<Tournament> tournaments = tournamentService.findByStartTime(startTime);
@@ -109,6 +113,7 @@ public class TournamentFacadeImpl implements TournamentFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<TournamentFullDTO> getTournamentsByEndTime(LocalDateTime endTime) {
         List<Tournament> tournaments = tournamentService.findByEndTime(endTime);

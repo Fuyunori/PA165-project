@@ -88,12 +88,14 @@ public class LessonFacadeImpl implements LessonFacade {
         lessonService.removeTeacher(lesson, teacher);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public LessonFullDTO getLessonWithId(Long id) {
         Lesson lesson = lessonService.findById(id);
         return (lesson == null) ? null : mapper.map(lesson, LessonFullDTO.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<LessonFullDTO> getAllLessons() {
         List<Lesson> lessons = lessonService.findAll();
@@ -102,6 +104,7 @@ public class LessonFacadeImpl implements LessonFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<LessonFullDTO> getLessonsByCourt(Long courtId) {
         Court court = courtService.getById(courtId);
@@ -111,6 +114,7 @@ public class LessonFacadeImpl implements LessonFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<LessonFullDTO> getLessonsByStartTime(LocalDateTime startTime) {
         List<Lesson> lessons = lessonService.findByStartTime(startTime);
@@ -119,6 +123,7 @@ public class LessonFacadeImpl implements LessonFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<LessonFullDTO> getLessonsByEndTime(LocalDateTime endTime) {
         List<Lesson> lessons = lessonService.findByEndTime(endTime);
@@ -127,6 +132,7 @@ public class LessonFacadeImpl implements LessonFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<LessonFullDTO> getLessonsByLevel(Level level) {
         List<Lesson> lessons = lessonService.findByLevel(level);

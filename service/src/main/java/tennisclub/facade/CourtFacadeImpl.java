@@ -48,12 +48,14 @@ public class CourtFacadeImpl implements CourtFacade {
         courtService.delete(entity);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public CourtDto getById(Long id) {
         Court entity = courtService.getById(id);
         return mapper.map(entity, CourtDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<CourtDto> listByAddress(String address) {
         List<Court> entities = courtService.listByAddress(address);
@@ -62,6 +64,7 @@ public class CourtFacadeImpl implements CourtFacade {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<CourtDto> listByType(CourtType type) {
         List<Court> entities = courtService.listByType(type);
