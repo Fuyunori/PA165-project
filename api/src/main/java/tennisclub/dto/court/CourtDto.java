@@ -2,6 +2,9 @@ package tennisclub.dto.court;
 
 import tennisclub.enums.CourtType;
 
+/**
+ * @author Pavel Tobiáš
+ */
 public class CourtDto {
     private Long id;
     private String name;

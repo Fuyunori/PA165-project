@@ -4,6 +4,9 @@ import tennisclub.enums.CourtType;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * @author Pavel Tobiáš
+ */
 public class CourtCreateDto {
     @NotBlank
     private String name;
