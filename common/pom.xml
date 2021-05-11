@@ -30,6 +30,16 @@
             <artifactId>rest</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cz.muni.fi.pa165.tennisclub</groupId>
+            <artifactId>service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cz.muni.fi.pa165.tennisclub</groupId>
+            <artifactId>api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
