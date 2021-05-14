@@ -2,6 +2,7 @@ package tennisclub.facade;
 
 import tennisclub.dto.court.CourtCreateDto;
 import tennisclub.dto.court.CourtDto;
+import tennisclub.dto.court.CourtUpdateDto;
 import tennisclub.enums.CourtType;
 import java.util.List;
 
@@ -18,16 +19,17 @@ public interface CourtFacade {
 
     /**
      * Updates court information
-     * @param court the court to update
+     * @param id the id of the court to update
+     * @param updateDto a DTO carrying the values to update the court's attributes with
      * @return the updated court
      */
-    CourtDto update(CourtDto court);
+    CourtDto update(Long id, CourtUpdateDto updateDto);
 
     /**
      * Deletes a court
-     * @param court the court to delete
+     * @param id the id of the court to delete
      */
-    void delete(CourtDto court);
+    void delete(Long id);
 
     /**
      * Retrieve a court with a given id
@@ -35,6 +37,12 @@ public interface CourtFacade {
      * @return the retrieved court
      */
     CourtDto getById(Long id);
+
+    /**
+     * Lists all courts
+     * @return a list of all matching courts
+     */
+    List<CourtDto> listAll();
 
     /**
      * Lists all courts such that {@code address} is a substring of their addresses

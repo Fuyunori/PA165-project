@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import tennisclub.dto.court.CourtCreateDto;
 import tennisclub.dto.court.CourtDto;
+import tennisclub.dto.court.CourtUpdateDto;
 import tennisclub.entity.Court;
 import tennisclub.enums.CourtType;
 import tennisclub.service.CourtService;
@@ -14,7 +15,6 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -49,23 +49,29 @@ public class CourtFacadeTest {
 
     @Test
     void update() {
-        CourtDto passedDto = createSampleCourtDto();
         Court expectedEntity = createSampleCourtEntity();
+        CourtDto expectedDto = createSampleCourtDto();
+
+        CourtUpdateDto passedDto = createSampleCourtUpdateDto();
+        Long passedId = expectedEntity.getId();
 
         when(courtService.update(expectedEntity)).thenReturn(expectedEntity);
 
-        CourtDto result = courtFacade.update(passedDto);
+        CourtDto result = courtFacade.update(passedId, passedDto);
         verify(courtService).update(refEq(expectedEntity));
-        assertThat(result).isEqualTo(passedDto);
+        assertThat(result).isEqualTo(expectedDto);
     }
 
     @Test
     void delete() {
-        CourtDto passedDto = createSampleCourtDto();
-        Court expectedEntity = createSampleCourtEntity();
+        Long passedId = 42L;
+        Court deletedEntity = createSampleCourtEntity();
 
-        courtFacade.delete(passedDto);
-        verify(courtService).delete(refEq(expectedEntity));
+        when(courtService.getById(passedId)).thenReturn(deletedEntity);
+
+        courtFacade.delete(passedId);
+        verify(courtService).getById(passedId);
+        verify(courtService).delete(deletedEntity);
     }
 
     @Test
@@ -141,6 +147,15 @@ public class CourtFacadeTest {
     private CourtDto createSampleCourtDto() {
         CourtDto sample = new CourtDto();
         sample.setId(42L);
+        sample.setName("Hello");
+        sample.setPreviewImageUrl("http://localhost/image.png");
+        sample.setType(CourtType.TURF);
+        sample.setAddress("Abbey Road");
+        return sample;
+    }
+
+    private CourtUpdateDto createSampleCourtUpdateDto() {
+        CourtUpdateDto sample = new CourtUpdateDto();
         sample.setName("Hello");
         sample.setPreviewImageUrl("http://localhost/image.png");
         sample.setType(CourtType.TURF);
