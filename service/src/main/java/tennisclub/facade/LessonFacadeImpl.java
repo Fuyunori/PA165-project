@@ -43,7 +43,7 @@ public class LessonFacadeImpl implements LessonFacade {
     }
 
     @Override
-    public Long createLesson(LessonCreateDTO lessonDTO) {
+    public LessonFullDTO createLesson(LessonCreateDTO lessonDTO) {
         Lesson lesson = mapper.map(lessonDTO, Lesson.class);
 
         if (!courtService.isFree(lesson.getCourt(), lesson.getStartTime(), lesson.getEndTime())) {
@@ -51,7 +51,7 @@ public class LessonFacadeImpl implements LessonFacade {
         }
 
         Lesson newLesson = lessonService.create(lesson);
-        return newLesson.getId();
+        return mapper.map(newLesson, LessonFullDTO.class);
     }
 
     @Override
@@ -61,31 +61,39 @@ public class LessonFacadeImpl implements LessonFacade {
     }
 
     @Override
-    public void enrollStudent(Long lessonId, Long studentId) {
+    public LessonFullDTO enrollStudent(Long lessonId, Long studentId) {
         Lesson lesson = lessonService.findById(lessonId);
         User student = userService.findUserById(studentId);
-        lessonService.enrollStudent(lesson, student);
+        Lesson updated = lessonService.enrollStudent(lesson, student);
+
+        return mapper.map(updated, LessonFullDTO.class);
     }
 
     @Override
-    public void addTeacher(Long lessonId, Long teacherId) {
+    public LessonFullDTO addTeacher(Long lessonId, Long teacherId) {
         Lesson lesson = lessonService.findById(lessonId);
         User teacher = userService.findUserById(teacherId);
-        lessonService.addTeacher(lesson, teacher);
+        Lesson updated = lessonService.addTeacher(lesson, teacher);
+
+        return mapper.map(updated, LessonFullDTO.class);
     }
 
     @Override
-    public void withdrawStudent(Long lessonId, Long studentId) {
+    public LessonFullDTO withdrawStudent(Long lessonId, Long studentId) {
         Lesson lesson = lessonService.findById(lessonId);
         User student = userService.findUserById(studentId);
-        lessonService.withdrawStudent(lesson, student);
+        Lesson updated = lessonService.withdrawStudent(lesson, student);
+
+        return mapper.map(updated, LessonFullDTO.class);
     }
 
     @Override
-    public void removeTeacher(Long lessonId, Long teacherId) {
+    public LessonFullDTO removeTeacher(Long lessonId, Long teacherId) {
         Lesson lesson = lessonService.findById(lessonId);
         User teacher = userService.findUserById(teacherId);
-        lessonService.removeTeacher(lesson, teacher);
+        Lesson updated = lessonService.removeTeacher(lesson, teacher);
+
+        return mapper.map(updated, LessonFullDTO.class);
     }
 
     @Override
