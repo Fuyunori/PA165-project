@@ -58,6 +58,14 @@ public class CourtFacadeImpl implements CourtFacade {
     }
 
     @Override
+    public List<CourtDto> listAll() {
+        List<Court> entities = courtService.listAll();
+        return entities.stream()
+                .map(e -> mapper.map(e, CourtDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<CourtDto> listByAddress(String address) {
         List<Court> entities = courtService.listByAddress(address);
         return entities.stream()

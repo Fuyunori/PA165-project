@@ -39,6 +39,12 @@ public interface CourtFacade {
     CourtDto getById(Long id);
 
     /**
+     * Lists all courts
+     * @return a list of all matching courts
+     */
+    List<CourtDto> listAll();
+
+    /**
      * Lists all courts such that {@code address} is a substring of their addresses
      * @param address address substring to match
      * @return a list of all matching courts
