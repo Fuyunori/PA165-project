@@ -31,6 +31,7 @@ public interface LessonFacade {
      * Enrolls a student into a lesson
      * @param lessonId of the lesson
      * @param studentId of the student
+     * @return full lesson dto
      */
     LessonFullDTO enrollStudent(Long lessonId, Long studentId);
 
@@ -38,6 +39,7 @@ public interface LessonFacade {
      * Adds a teacher to a lesson
      * @param lessonId of the lesson
      * @param teacherId of the teacher
+     * @return full lesson dto
      */
     LessonFullDTO addTeacher(Long lessonId, Long teacherId);
 
@@ -45,6 +47,7 @@ public interface LessonFacade {
      * Removes a student from a lesson
      * @param lessonId of the lesson
      * @param studentId of the student
+     * @return full lesson dto
      */
     LessonFullDTO withdrawStudent(Long lessonId, Long studentId);
 
@@ -52,6 +55,7 @@ public interface LessonFacade {
      * Removes a teacher from a lesson
      * @param lessonId of the lesson
      * @param teacherId of the teacher
+     * @return full lesson dto
      */
     LessonFullDTO removeTeacher(Long lessonId, Long teacherId);
 
