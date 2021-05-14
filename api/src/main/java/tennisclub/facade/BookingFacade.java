@@ -17,9 +17,9 @@ public interface BookingFacade {
      * Create a new booking.
      *
      * @param createDTO the data for the new booking
-     * @return id of the new booking
+     * @return full bookingDTO
      */
-    Long makeBooking(BookingCreateDTO createDTO);
+    BookingFullDTO makeBooking(BookingCreateDTO createDTO);
 
     /**
      * Cancel a booking.
