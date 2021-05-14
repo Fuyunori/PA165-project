@@ -16,6 +16,7 @@ public interface EventFacade {
      *
      * @param id of the event to be updated
      * @param eventRescheduleDTO the information about which event to reschedule and the new time
+     * @return full event dto
      */
     EventWithCourtDTO reschedule(Long id, EventRescheduleDTO eventRescheduleDTO);
 
