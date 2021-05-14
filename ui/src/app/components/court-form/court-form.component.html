@@ -1,0 +1,13 @@
+<form [formGroup]="courtForm" (ngSubmit)="submit()">
+  <div class="field-list">
+    <mat-form-field appearance="fill" class="field">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="field">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address" />
+    </mat-form-field>
+  </div>
+  <button mat-button color="primary">Submit</button>
+</form>

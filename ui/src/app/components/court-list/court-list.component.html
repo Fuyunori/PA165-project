@@ -1,0 +1,7 @@
+<div class="cards">
+  <tc-court-card
+    *ngFor="let court of courts$ | async"
+    [court]="court"
+  ></tc-court-card>
+</div>
+<button mat-button (click)="addCourt()">Add court</button>

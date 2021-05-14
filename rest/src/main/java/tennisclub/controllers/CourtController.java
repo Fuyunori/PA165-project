@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * @author Pavel Tobiáš
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/courts")
 public class CourtController {

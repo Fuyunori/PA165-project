@@ -12,6 +12,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MainComponent } from './views/main/main.component';
 import { DashboardComponent } from './views/main/dashboard/dashboard.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { CourtCardComponent } from './components/court-card/court-card.component';
+import { CourtListComponent } from './components/court-list/court-list.component';
+import { CourtFormComponent } from './components/court-form/court-form.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -19,17 +24,22 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     LandingComponent,
     MainComponent,
     DashboardComponent,
+    CourtCardComponent,
+    CourtListComponent,
+    CourtFormComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatToolbarModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
