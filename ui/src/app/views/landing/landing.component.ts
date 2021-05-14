@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class LandingComponent implements OnInit, OnDestroy {
   constructor(
     private readonly fb: FormBuilder,
     private readonly auth: AuthService,
+    private readonly router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -31,6 +33,15 @@ export class LandingComponent implements OnInit, OnDestroy {
         Object.values(this.loginForm.controls).forEach(control => {
           control.setErrors(loginFailed ? { loginFailed } : null);
         });
+      });
+
+    this.auth.loggedIn$
+      .pipe(
+        filter(loggedIn => loggedIn),
+        take(1),
+      )
+      .subscribe(() => {
+        this.router.navigateByUrl('/main');
       });
   }
 
