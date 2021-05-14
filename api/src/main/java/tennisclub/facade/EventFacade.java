@@ -14,9 +14,10 @@ public interface EventFacade {
     /**
      * Reschedule the given event to a new time.
      *
+     * @param id of the event to be updated
      * @param eventRescheduleDTO the information about which event to reschedule and the new time
      */
-    void reschedule(EventRescheduleDTO eventRescheduleDTO);
+    EventWithCourtDTO reschedule(Long id, EventRescheduleDTO eventRescheduleDTO);
 
     /**
      * Find the event with the specified id.
