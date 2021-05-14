@@ -28,6 +28,11 @@ public class CourtController {
         return courtFacade.listAll();
     }
 
+    @GetMapping("/{id}")
+    public CourtDto getCourtById(@PathVariable Long id) {
+        return courtFacade.getById(id);
+    }
+
     @PostMapping
     public CourtDto getCourts(@RequestBody CourtCreateDto dto) {
         return courtFacade.create(dto);

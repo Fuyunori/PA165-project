@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent } from './views/landing/landing.component';
+import { CourtDetailComponent } from './views/main/court-detail/court-detail.component';
 import { DashboardComponent } from './views/main/dashboard/dashboard.component';
 import { MainComponent } from './views/main/main.component';
 
@@ -11,6 +12,7 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       { path: 'dashboard', component: DashboardComponent },
+      { path: 'court/:id', component: CourtDetailComponent },
       { path: '**', redirectTo: 'dashboard' },
     ],
   },

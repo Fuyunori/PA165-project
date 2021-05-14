@@ -17,6 +17,7 @@ import { CourtListComponent } from './components/court-list/court-list.component
 import { CourtFormComponent } from './components/court-form/court-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CourtDetailComponent } from './views/main/court-detail/court-detail.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     CourtCardComponent,
     CourtListComponent,
     CourtFormComponent,
+    CourtDetailComponent,
   ],
   imports: [
     BrowserModule,

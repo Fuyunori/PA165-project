@@ -1,6 +1,6 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Court } from 'src/app/models/court.model';
+import { UnknownCourt } from 'src/app/models/court.model';
 
 @Component({
   selector: 'tc-court-form',
@@ -8,7 +8,15 @@ import { Court } from 'src/app/models/court.model';
   styleUrls: ['./court-form.component.scss'],
 })
 export class CourtFormComponent {
-  readonly courtChange = new EventEmitter<Court>();
+  @Output() readonly courtChange = new EventEmitter<UnknownCourt>();
+
+  @Input()
+  set court(court: UnknownCourt) {
+    this.courtForm.setValue({
+      name: court.name,
+      address: court.address,
+    });
+  }
 
   readonly courtForm = this.fb.group({
     name: '',
@@ -20,7 +28,7 @@ export class CourtFormComponent {
   submit(): void {
     const { value } = this.courtForm;
 
-    const court: Court = {
+    const court: UnknownCourt = {
       name: value.name ?? '',
       address: value.address ?? '',
     };

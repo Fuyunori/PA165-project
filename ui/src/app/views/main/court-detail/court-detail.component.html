@@ -1,0 +1,3 @@
+<mat-card *ngIf="displayedCourt$ | async as displayedCourt">
+  <tc-court-form [court]="displayedCourt"></tc-court-form>
+</mat-card>

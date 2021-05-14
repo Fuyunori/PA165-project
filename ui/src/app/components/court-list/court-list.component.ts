@@ -10,7 +10,7 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./court-list.component.scss'],
 })
 export class CourtListComponent implements OnInit {
-  readonly courts$ = this.courtService.courts$;
+  readonly courts$ = this.courtService.orderedCourts$;
 
   constructor(
     private readonly courtService: CourtService,

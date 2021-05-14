@@ -8,4 +8,5 @@ import { Court } from 'src/app/models/court.model';
 })
 export class CourtCardComponent {
   @Input() court?: Court;
+  @Input() courtDetailLink?: string;
 }
