@@ -166,7 +166,7 @@ public class EventFacadeTest {
 
         when(eventService.findById(BOOKING_ID)).thenReturn(booking);
         when(eventService.reschedule(booking, OTHER_START, OTHER_END)).thenReturn(expected);
-        //when(mapper.map(expected, EventWithCourtDTO.class)).thenReturn(expectedDTO);
+        when(mapper.map(expected, EventWithCourtDTO.class)).thenReturn(expectedDTO);
         when(courtService.isFree(booking.getCourt(), OTHER_START, OTHER_END)).thenReturn(true);
 
         EventWithCourtDTO actualDTO = eventFacade.reschedule(BOOKING_ID, event);
@@ -191,7 +191,7 @@ public class EventFacadeTest {
 
         when(eventService.findById(LESSON_ID)).thenReturn(lesson);
         when(eventService.reschedule(lesson, OTHER_START, OTHER_END)).thenReturn(expected);
-        //when(mapper.map(expected, EventWithCourtDTO.class)).thenReturn(expectedDTO);
+        when(mapper.map(expected, EventWithCourtDTO.class)).thenReturn(expectedDTO);
         when(courtService.isFree(lesson.getCourt(), OTHER_START, OTHER_END)).thenReturn(true);
 
         EventWithCourtDTO actualDTO = eventFacade.reschedule(LESSON_ID, event);
@@ -216,7 +216,7 @@ public class EventFacadeTest {
 
         when(eventService.findById(TOURNAMENT_ID)).thenReturn(tournament);
         when(eventService.reschedule(tournament, OTHER_START, OTHER_END)).thenReturn(expected);
-        //when(mapper.map(expected, EventWithCourtDTO.class)).thenReturn(expectedDTO);
+        when(mapper.map(expected, EventWithCourtDTO.class)).thenReturn(expectedDTO);
         when(courtService.isFree(tournament.getCourt(), OTHER_START, OTHER_END)).thenReturn(true);
 
         EventWithCourtDTO actualDTO =eventFacade.reschedule(TOURNAMENT_ID,event);
