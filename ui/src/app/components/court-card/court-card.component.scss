@@ -9,4 +9,6 @@
 .preview-image {
   height: 200px;
   object-fit: cover;
+  background: #eeeeee url('/assets/no-image.svg') center center no-repeat;
+  background-size: contain;
 }
