@@ -49,7 +49,7 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public Long makeBooking(BookingCreateDTO createDTO) {
+    public BookingFullDTO makeBooking(BookingCreateDTO createDTO) {
         Booking booking = mapper.map(createDTO, Booking.class);
 
         if (!courtService.isFree(booking.getCourt(), booking.getStartTime(), booking.getEndTime())) {
@@ -64,7 +64,7 @@ public class BookingFacadeImpl implements BookingFacade {
 
         Booking newBooking = bookingService.create(booking);
 
-        return newBooking.getId();
+        return mapper.map(newBooking, BookingFullDTO.class);
     }
 
     @Override
