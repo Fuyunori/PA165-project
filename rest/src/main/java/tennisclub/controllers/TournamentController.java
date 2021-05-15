@@ -53,4 +53,9 @@ public class TournamentController {
     public RankingWithPlayerDTO rankPlayer(@PathVariable Long tournamentId, @RequestParam Long playerId, @RequestParam Integer playerPlacement){
         return tournamentFacade.rankPlayer(tournamentId, playerId, playerPlacement);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteTournament(@PathVariable Long id){
+        tournamentFacade.deleteTournament(id);
+    }
 }
