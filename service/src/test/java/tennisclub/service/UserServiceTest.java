@@ -61,9 +61,10 @@ public class UserServiceTest {
 
     @Test
     void register() {
-        userService.register(user, password);
+        User newUser = userService.register(user, password);
         verify(userDao).create(user);
         assertThat(user.getPasswordHash()).isNotBlank();
+        assertThat(newUser).isEqualTo(user);
     }
 
     @Test

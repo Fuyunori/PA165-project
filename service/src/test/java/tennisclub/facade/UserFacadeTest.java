@@ -57,6 +57,7 @@ public class UserFacadeTest {
         dto.setUsername("someUsername");
         fullDto = new UserFullDTO();
         fullDto.setUsername(dto.getUsername());
+        fullDto.setPasswordHash(password);
         entity = new User();
         entity.setUsername(dto.getUsername());
 
@@ -72,6 +73,8 @@ public class UserFacadeTest {
     void register() {
         ArgumentCaptor<User> passedEntity = ArgumentCaptor.forClass(User.class);
         ArgumentCaptor<String> passedPassword = ArgumentCaptor.forClass(String.class);
+
+        when(userService.register(passedEntity.capture(),passedPassword.capture())).thenReturn(authEntity);
 
         userFacade.register(authDto);
         verify(userService).register(passedEntity.capture(), passedPassword.capture());
