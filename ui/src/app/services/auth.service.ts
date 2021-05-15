@@ -39,4 +39,8 @@ export class AuthService {
       );
     }, 1000);
   }
+
+  logOut(): void {
+    this.state$.next({ status: 'loggedOut' });
+  }
 }

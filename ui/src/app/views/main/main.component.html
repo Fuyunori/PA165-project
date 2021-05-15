@@ -1,6 +1,15 @@
 <div class="main">
   <mat-toolbar color="primary" class="header">
-    <span>Tennis Club</span>
+    <div class="header-start">
+      <span>Tennis Club</span>
+      <div class="navigation">
+        <a mat-button routerLink="/main/dashboard">Dashboard</a>
+        <a mat-button routerLink="/main/about">About</a>
+      </div>
+    </div>
+    <div class="header-start">
+      <button mat-flat-button (click)="logOut()">Log out</button>
+    </div>
   </mat-toolbar>
   <div class="body">
     <div class="scrollable-wrapper">

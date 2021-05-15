@@ -6,6 +6,17 @@
 
 .header {
   flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-start,
+.header-end {
+  display: flex;
+}
+
+.navigation {
+  margin-left: 20px;
 }
 
 .body {
