@@ -23,6 +23,7 @@
 	<description>Tennis Club Project</description>
 	<properties>
 		<java.version>11</java.version>
+		<start-class>tennisclub.TennisClubApplication</start-class>
 	</properties>
 	<dependencies>
 		<dependency>
