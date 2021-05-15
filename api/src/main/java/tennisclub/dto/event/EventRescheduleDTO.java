@@ -13,8 +13,6 @@ import java.util.Objects;
  */
 @IsEndTimeAfterStartTime(start = "start", end = "end")
 public class EventRescheduleDTO {
-    private Long id;
-
     @NotNull
     @FutureOrPresent
     private LocalDateTime start;
@@ -23,18 +21,9 @@ public class EventRescheduleDTO {
     @Future
     private LocalDateTime end;
 
-    public EventRescheduleDTO(Long id, @NotNull @FutureOrPresent LocalDateTime start, @NotNull @Future LocalDateTime end) {
-        this.id = id;
+    public EventRescheduleDTO(@NotNull @FutureOrPresent LocalDateTime start, @NotNull @Future LocalDateTime end) {
         this.start = start;
         this.end = end;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public LocalDateTime getStart() {

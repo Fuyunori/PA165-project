@@ -34,7 +34,7 @@ public class CourtController {
     }
 
     @PostMapping
-    public CourtDto getCourts(@RequestBody CourtCreateDto dto) {
+    public CourtDto postCourt(@RequestBody CourtCreateDto dto) {
         return courtFacade.create(dto);
     }
 

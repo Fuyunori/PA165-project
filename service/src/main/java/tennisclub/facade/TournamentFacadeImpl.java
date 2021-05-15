@@ -40,7 +40,7 @@ public class TournamentFacadeImpl implements TournamentFacade {
     }
 
     @Override
-    public Long createTournament(TournamentCreateDTO tournamentDTO) {
+    public TournamentFullDTO createTournament(TournamentCreateDTO tournamentDTO) {
         Tournament tournament = mapper.map(tournamentDTO, Tournament.class);
 
         if (!courtService.isFree(tournament.getCourt(), tournament.getStartTime(), tournament.getEndTime())) {
@@ -48,7 +48,7 @@ public class TournamentFacadeImpl implements TournamentFacade {
         }
 
         Tournament newTournament = tournamentService.create(tournament);
-        return newTournament.getId();
+        return mapper.map(newTournament, TournamentFullDTO.class);
     }
 
     @Override
@@ -58,10 +58,12 @@ public class TournamentFacadeImpl implements TournamentFacade {
     }
 
     @Override
-    public void enrollPlayer(Long tournamentId, Long playerId) {
+    public RankingWithPlayerDTO enrollPlayer(Long tournamentId, Long playerId) {
         Tournament tournament = tournamentService.findById(tournamentId);
         User player = userService.findUserById(playerId);
-        tournamentService.enrollPlayer(tournament, player);
+        Ranking ranking = tournamentService.enrollPlayer(tournament, player);
+
+        return mapper.map(ranking, RankingWithPlayerDTO.class);
     }
 
     @Override
@@ -72,10 +74,12 @@ public class TournamentFacadeImpl implements TournamentFacade {
     }
 
     @Override
-    public void rankPlayer(Long tournamentId, Long playerId, int placement) {
+    public RankingWithPlayerDTO rankPlayer(Long tournamentId, Long playerId, int placement) {
         Tournament tournament = tournamentService.findById(tournamentId);
         User player = userService.findUserById(playerId);
-        tournamentService.rankPlayer(tournament, player, placement);
+        Ranking ranking = tournamentService.rankPlayer(tournament, player, placement);
+
+        return mapper.map(ranking, RankingWithPlayerDTO.class);
     }
 
     @Override

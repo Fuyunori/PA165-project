@@ -93,7 +93,7 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public void enrollPlayer(Tournament tournament, User player) {
+    public Ranking enrollPlayer(Tournament tournament, User player) {
         if(rankingDao.find(tournament, player) != null){
             throw new ServiceLayerException("Can't enroll a player into a tournament in which he/she already participates!");
         }
@@ -102,6 +102,7 @@ public class TournamentServiceImpl implements TournamentService {
 
         Ranking ranking = new Ranking(tournament, player);
         rankingDao.create(ranking);
+        return ranking;
     }
 
     @Override
