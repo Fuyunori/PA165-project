@@ -110,7 +110,7 @@ public interface TournamentService {
      * @param tournament to be enrolled in
      * @param player to be enrolled in
      */
-    void enrollPlayer(Tournament tournament, User player);
+    Ranking enrollPlayer(Tournament tournament, User player);
 
     /**
      * Withdraws a player from a tournament.

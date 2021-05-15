@@ -103,11 +103,11 @@ public class TournamentFacadeTest {
         when(courtService.isFree(court, tournament.getStartTime(), tournament.getEndTime())).thenReturn(true);
         when(tournamentService.create(tournament)).thenReturn(tournament);
 
-        Long id = tournamentFacade.createTournament(createDTO);
+        TournamentFullDTO tournamentDTO = tournamentFacade.createTournament(createDTO);
 
         verify(courtService).isFree(court, tournament.getStartTime(), tournament.getEndTime());
         verify(tournamentService).create(tournament);
-        assertThat(id).isEqualTo(tournament.getId());
+        assertThat(tournamentDTO).isEqualTo(this.tournamentDTO);
     }
 
     @Test
@@ -140,13 +140,16 @@ public class TournamentFacadeTest {
     @Test
     public void enrollPlayerTest() {
         when(tournamentService.findById(tournament.getId())).thenReturn(tournament);
+        when(tournamentService.enrollPlayer(tournament, user)).thenReturn(ranking);
         when(userService.findUserById(user.getId())).thenReturn(user);
 
-        tournamentFacade.enrollPlayer(tournament.getId(), user.getId());
+        RankingWithPlayerDTO rankingDTO = tournamentFacade.enrollPlayer(tournament.getId(), user.getId());
 
         verify(tournamentService).findById(tournament.getId());
         verify(userService).findUserById(user.getId());
         verify(tournamentService).enrollPlayer(tournament, user);
+        assertThat(rankingDTO).isEqualTo(this.rankingDTO);
+        assertThat(rankingDTO.getPlayerPlacement()).isNull();
     }
 
     @Test
@@ -163,14 +166,22 @@ public class TournamentFacadeTest {
 
     @Test
     public void rankPlayerTest() {
+        Ranking expected = ranking;
+        expected.setPlayerPlacement(2);
+
+        RankingWithPlayerDTO expectedDTO = rankingDTO;
+        expectedDTO.setPlayerPlacement(2);
+
         when(tournamentService.findById(tournament.getId())).thenReturn(tournament);
+        when(tournamentService.rankPlayer(tournament, user, 2)).thenReturn(expected);
         when(userService.findUserById(user.getId())).thenReturn(user);
 
-        tournamentFacade.rankPlayer(tournament.getId(), user.getId(), 2);
+        RankingWithPlayerDTO rankingDTO = tournamentFacade.rankPlayer(tournament.getId(), user.getId(), 2);
 
         verify(tournamentService).findById(tournament.getId());
         verify(userService).findUserById(user.getId());
         verify(tournamentService).rankPlayer(tournament, user, 2);
+        assertThat(rankingDTO).isEqualTo(expectedDTO);
     }
 
     @Test

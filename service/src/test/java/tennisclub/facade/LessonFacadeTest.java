@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import tennisclub.dto.court.CourtDto;
 import tennisclub.dto.lesson.LessonCreateDTO;
 import tennisclub.dto.lesson.LessonFullDTO;
+import tennisclub.dto.user.UserDTO;
 import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
 import tennisclub.entity.User;
@@ -19,7 +20,9 @@ import tennisclub.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -47,6 +50,7 @@ public class LessonFacadeTest {
     private User user;
     private Lesson lesson;
     private LessonFullDTO lessonDTO;
+    private UserDTO userDTO;
 
     @BeforeEach
     public void setup() {
@@ -67,6 +71,14 @@ public class LessonFacadeTest {
         lessonDTO.setEndTime(lesson.getEndTime());
         lessonDTO.setCourt(courtDto);
         lessonDTO.setId(lesson.getId());
+        lessonDTO.setStudents(new HashSet<>());
+        lessonDTO.setTeachers(new HashSet<>());
+
+        userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setName(user.getName());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setEmail(user.getEmail());
     }
 
 
@@ -82,11 +94,11 @@ public class LessonFacadeTest {
                 .thenReturn(true);
         when(lessonService.create(lesson)).thenReturn(lesson);
 
-        Long id = lessonFacade.createLesson(lessonCreateDTO);
+        LessonFullDTO lessonDTO = lessonFacade.createLesson(lessonCreateDTO);
 
         verify(courtService).isFree(court, lessonCreateDTO.getStartTime(), lessonCreateDTO.getEndTime());
         verify(lessonService).create(lesson);
-        assertThat(id).isEqualTo(lesson.getId());
+        assertThat(lessonDTO).isEqualTo(this.lessonDTO);
     }
 
     @Test
@@ -117,50 +129,90 @@ public class LessonFacadeTest {
 
     @Test
     public void enrollStudentTest() {
+        Lesson expected = lesson;
+        expected.addStudent(user);
+
+        LessonFullDTO expectedDto = lessonDTO;
+        Set<UserDTO> students = expectedDto.getStudents();
+        students.add(userDTO);
+        expectedDto.setStudents(students);
+
         when(lessonService.findById(lesson.getId())).thenReturn(lesson);
+        when(lessonService.enrollStudent(lesson, user)).thenReturn(expected);
         when(userService.findUserById(user.getId())).thenReturn(user);
 
-        lessonFacade.enrollStudent(lesson.getId(), user.getId());
+        LessonFullDTO actual = lessonFacade.enrollStudent(lesson.getId(), user.getId());
 
         verify(lessonService).findById(lesson.getId());
         verify(userService).findUserById(user.getId());
         verify(lessonService).enrollStudent(lesson, user);
+        assertThat(actual).isEqualTo(expectedDto);
     }
 
     @Test
     public void addTeacherTest() {
+        Lesson expected = lesson;
+        expected.addTeacher(user);
+
+        LessonFullDTO expectedDto = lessonDTO;
+        Set<UserDTO> teachers = expectedDto.getTeachers();
+        teachers.add(userDTO);
+        expectedDto.setTeachers(teachers);
+
         when(lessonService.findById(lesson.getId())).thenReturn(lesson);
+        when(lessonService.addTeacher(lesson, user)).thenReturn(expected);
         when(userService.findUserById(user.getId())).thenReturn(user);
 
-        lessonFacade.addTeacher(lesson.getId(), user.getId());
+        LessonFullDTO actual = lessonFacade.addTeacher(lesson.getId(), user.getId());
 
         verify(lessonService).findById(lesson.getId());
         verify(userService).findUserById(user.getId());
         verify(lessonService).addTeacher(lesson, user);
+        assertThat(actual).isEqualTo(expectedDto);
     }
 
     @Test
     public void withdrawStudentTest() {
+        Lesson expected = lesson;
+        expected.removeStudent(user);
+
+        LessonFullDTO expectedDto = lessonDTO;
+        Set<UserDTO> students = expectedDto.getStudents();
+        students.remove(userDTO);
+        expectedDto.setStudents(students);
+
         when(lessonService.findById(lesson.getId())).thenReturn(lesson);
+        when(lessonService.withdrawStudent(lesson, user)).thenReturn(expected);
         when(userService.findUserById(user.getId())).thenReturn(user);
 
-        lessonFacade.withdrawStudent(lesson.getId(), user.getId());
+        LessonFullDTO actual = lessonFacade.withdrawStudent(lesson.getId(), user.getId());
 
         verify(lessonService).findById(lesson.getId());
         verify(userService).findUserById(user.getId());
         verify(lessonService).withdrawStudent(lesson, user);
+        assertThat(actual).isEqualTo(expectedDto);
     }
 
     @Test
     public void removeTeacherTest() {
+        Lesson expected = lesson;
+        expected.removeTeacher(user);
+
+        LessonFullDTO expectedDto = lessonDTO;
+        Set<UserDTO> teachers = expectedDto.getTeachers();
+        teachers.remove(userDTO);
+        expectedDto.setTeachers(teachers);
+
         when(lessonService.findById(lesson.getId())).thenReturn(lesson);
+        when(lessonService.removeTeacher(lesson, user)).thenReturn(expected);
         when(userService.findUserById(user.getId())).thenReturn(user);
 
-        lessonFacade.removeTeacher(lesson.getId(), user.getId());
+        LessonFullDTO actual = lessonFacade.removeTeacher(lesson.getId(), user.getId());
 
         verify(lessonService).findById(lesson.getId());
         verify(userService).findUserById(user.getId());
         verify(lessonService).removeTeacher(lesson, user);
+        assertThat(actual).isEqualTo(expectedDto);
     }
 
     @Test

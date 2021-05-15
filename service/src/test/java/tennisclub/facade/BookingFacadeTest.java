@@ -70,6 +70,8 @@ public class BookingFacadeTest {
     private final Long PARTICIPANT_ID = 1L;
     private User participant = new User();
 
+    private BookingFullDTO bookingFullDTO;
+
     @BeforeEach
     public void setup(){
         booking = new Booking(BOOKING_START, BOOKING_END);
@@ -81,6 +83,12 @@ public class BookingFacadeTest {
 
         participant.setUsername("unavený student pa165");
         participant.setId(PARTICIPANT_ID);
+
+        bookingFullDTO = new BookingFullDTO();
+        bookingFullDTO.setId(BOOKING_ID);
+        bookingFullDTO.setStartTime(BOOKING_START);
+        bookingFullDTO.setEndTime(BOOKING_END);
+        bookingFullDTO.setCourt(courtDto);
     }
 
 
@@ -130,9 +138,10 @@ public class BookingFacadeTest {
 
         when(mapper.map(bookingCreateDTO, Booking.class)).thenReturn(booking);
 
-        bookingFacade.makeBooking(bookingCreateDTO);
+        BookingFullDTO bookingDTO = bookingFacade.makeBooking(bookingCreateDTO);
 
         verify(bookingService).create(booking);
+        assertThat(bookingDTO).isEqualTo(bookingFullDTO);
     }
 
     @Test

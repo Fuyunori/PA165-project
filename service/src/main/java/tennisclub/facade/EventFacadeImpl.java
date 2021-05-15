@@ -38,15 +38,16 @@ public class EventFacadeImpl implements EventFacade {
     }
 
     @Override
-    public void reschedule(EventRescheduleDTO eventRescheduleDTO) {
-        Event event = eventService.findById(eventRescheduleDTO.getId());
+    public EventWithCourtDTO reschedule(Long id, EventRescheduleDTO eventRescheduleDTO) {
+        Event event = eventService.findById(id);
         Court court = event.getCourt();
 
         if (!courtService.isFree(court, eventRescheduleDTO.getStart(), eventRescheduleDTO.getEnd())) {
             throw new FacadeLayerException("Can't reschedule the event. The court is not free at the new time.");
         }
 
-        eventService.reschedule(event, eventRescheduleDTO.getStart(), eventRescheduleDTO.getEnd());
+        Event updated = eventService.reschedule(event, eventRescheduleDTO.getStart(), eventRescheduleDTO.getEnd());
+        return map(updated);
     }
 
     @Override

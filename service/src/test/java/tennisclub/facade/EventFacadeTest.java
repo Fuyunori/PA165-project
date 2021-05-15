@@ -38,12 +38,16 @@ public class EventFacadeTest {
     @Autowired
     private EventFacade eventFacade;
 
-    @Autowired
+    @MockBean
     private Mapper mapper;
 
     private Event booking;
     private Event lesson;
     private Event tournament;
+
+    private EventWithCourtDTO bookingDTO;
+    private EventWithCourtDTO lessonDTO;
+    private EventWithCourtDTO tournamentDTO;
 
     private final LocalDate START_DAY = LocalDate.of(2048, 4,1);
 
@@ -89,11 +93,27 @@ public class EventFacadeTest {
         tournament = new Tournament(TOURNAMENT_START, TOURNAMENT_END, "Wimbledon", 10, 10);
         tournament.setId(TOURNAMENT_ID);
         tournament.setCourt(COURT_3);
+
+        bookingDTO = new EventWithCourtDTO();
+        bookingDTO.setId(BOOKING_ID);
+        bookingDTO.setStartTime(BOOKING_START);
+        bookingDTO.setEndTime(BOOKING_END);
+
+        lessonDTO = new EventWithCourtDTO();
+        lessonDTO.setId(LESSON_ID);
+        lessonDTO.setStartTime(LESSON_START);
+        lessonDTO.setEndTime(LESSON_END);
+
+        tournamentDTO = new EventWithCourtDTO();
+        tournamentDTO.setId(TOURNAMENT_ID);
+        tournamentDTO.setStartTime(TOURNAMENT_START);
+        tournamentDTO.setEndTime(TOURNAMENT_END);
+
     }
 
     @Test
     public void testRescheduleCourtIsNotFreeBooking(){
-        EventRescheduleDTO event = new EventRescheduleDTO(BOOKING_ID, BOOKING_START, BOOKING_END);
+        EventRescheduleDTO event = new EventRescheduleDTO(BOOKING_START, BOOKING_END);
         event.setStart(OTHER_START);
         event.setEnd(OTHER_END);
 
@@ -101,12 +121,12 @@ public class EventFacadeTest {
         when(courtService.isFree(booking.getCourt(), OTHER_START, OTHER_END)).thenReturn(false);
 
         verify(eventService, never()).reschedule(booking, OTHER_START, OTHER_END);
-        assertThatThrownBy(() -> eventFacade.reschedule(event));
+        assertThatThrownBy(() -> eventFacade.reschedule(BOOKING_ID, event));
     }
 
     @Test
     public void testRescheduleCourtIsNotFreeLesson(){
-        EventRescheduleDTO event = new EventRescheduleDTO(LESSON_ID, LESSON_START, LESSON_END);
+        EventRescheduleDTO event = new EventRescheduleDTO(LESSON_START, LESSON_END);
         event.setStart(OTHER_START);
         event.setEnd(OTHER_END);
 
@@ -114,12 +134,12 @@ public class EventFacadeTest {
         when(courtService.isFree(lesson.getCourt(), OTHER_START, OTHER_END)).thenReturn(false);
 
         verify(eventService, never()).reschedule(lesson, OTHER_START, OTHER_END);
-        assertThatThrownBy(() -> eventFacade.reschedule(event));
+        assertThatThrownBy(() -> eventFacade.reschedule(LESSON_ID, event));
     }
 
     @Test
     public void testRescheduleCourtIsNotFreeTournament(){
-        EventRescheduleDTO event = new EventRescheduleDTO(TOURNAMENT_ID, TOURNAMENT_START, TOURNAMENT_END);
+        EventRescheduleDTO event = new EventRescheduleDTO(TOURNAMENT_START, TOURNAMENT_END);
         event.setStart(OTHER_START);
         event.setEnd(OTHER_END);
 
@@ -127,49 +147,82 @@ public class EventFacadeTest {
         when(courtService.isFree(tournament.getCourt(), OTHER_START, OTHER_END)).thenReturn(false);
 
         verify(eventService, never()).reschedule(tournament, OTHER_START, OTHER_END);
-        assertThatThrownBy(() -> eventFacade.reschedule(event));
+        assertThatThrownBy(() -> eventFacade.reschedule(TOURNAMENT_ID, event));
     }
 
     @Test
     public void testRescheduleCourtIsFreeBooking(){
-        EventRescheduleDTO event = new EventRescheduleDTO(BOOKING_ID, BOOKING_START, BOOKING_END);
+        EventRescheduleDTO event = new EventRescheduleDTO(BOOKING_START, BOOKING_END);
         event.setStart(OTHER_START);
         event.setEnd(OTHER_END);
 
+        Event expected = booking;
+        expected.setStartTime(OTHER_START);
+        expected.setStartTime(OTHER_END);
+
+        EventWithCourtDTO expectedDTO = bookingDTO;
+        expectedDTO.setStartTime(OTHER_START);
+        expectedDTO.setStartTime(OTHER_END);
+
         when(eventService.findById(BOOKING_ID)).thenReturn(booking);
+        when(eventService.reschedule(booking, OTHER_START, OTHER_END)).thenReturn(expected);
+        when(mapper.map(expected, EventWithCourtDTO.class)).thenReturn(expectedDTO);
         when(courtService.isFree(booking.getCourt(), OTHER_START, OTHER_END)).thenReturn(true);
 
-        eventFacade.reschedule(event);
+        EventWithCourtDTO actualDTO = eventFacade.reschedule(BOOKING_ID, event);
 
         verify(eventService).reschedule(booking, OTHER_START, OTHER_END);
+        assertThat(actualDTO).isEqualTo(expectedDTO);
     }
 
     @Test
     public void testRescheduleCourtIsFreeLesson(){
-        EventRescheduleDTO event = new EventRescheduleDTO(LESSON_ID, LESSON_START, LESSON_END);
+        EventRescheduleDTO event = new EventRescheduleDTO(LESSON_START, LESSON_END);
         event.setStart(OTHER_START);
         event.setEnd(OTHER_END);
 
+        Event expected = lesson;
+        expected.setStartTime(OTHER_START);
+        expected.setStartTime(OTHER_END);
+
+        EventWithCourtDTO expectedDTO = lessonDTO;
+        expectedDTO.setStartTime(OTHER_START);
+        expectedDTO.setStartTime(OTHER_END);
+
         when(eventService.findById(LESSON_ID)).thenReturn(lesson);
+        when(eventService.reschedule(lesson, OTHER_START, OTHER_END)).thenReturn(expected);
+        when(mapper.map(expected, EventWithCourtDTO.class)).thenReturn(expectedDTO);
         when(courtService.isFree(lesson.getCourt(), OTHER_START, OTHER_END)).thenReturn(true);
 
-        eventFacade.reschedule(event);
+        EventWithCourtDTO actualDTO = eventFacade.reschedule(LESSON_ID, event);
 
         verify(eventService).reschedule(lesson, OTHER_START, OTHER_END);
+        assertThat(actualDTO).isEqualTo(expectedDTO);
     }
 
     @Test
     public void testRescheduleCourtIsFreeTournament(){
-        EventRescheduleDTO event = new EventRescheduleDTO(TOURNAMENT_ID, TOURNAMENT_START, TOURNAMENT_END);
+        EventRescheduleDTO event = new EventRescheduleDTO(TOURNAMENT_START, TOURNAMENT_END);
         event.setStart(OTHER_START);
         event.setEnd(OTHER_END);
 
+        Event expected = tournament;
+        expected.setStartTime(OTHER_START);
+        expected.setStartTime(OTHER_END);
+
+        EventWithCourtDTO expectedDTO = tournamentDTO;
+        expectedDTO.setStartTime(OTHER_START);
+        expectedDTO.setStartTime(OTHER_END);
+
         when(eventService.findById(TOURNAMENT_ID)).thenReturn(tournament);
+        when(eventService.reschedule(tournament, OTHER_START, OTHER_END)).thenReturn(expected);
+        when(mapper.map(expected, EventWithCourtDTO.class)).thenReturn(expectedDTO);
         when(courtService.isFree(tournament.getCourt(), OTHER_START, OTHER_END)).thenReturn(true);
 
-        eventFacade.reschedule(event);
+        EventWithCourtDTO actualDTO =eventFacade.reschedule(TOURNAMENT_ID,event);
 
         verify(eventService).reschedule(tournament, OTHER_START, OTHER_END);
+        assertThat(actualDTO).isEqualTo(expectedDTO);
     }
 
     @Test
