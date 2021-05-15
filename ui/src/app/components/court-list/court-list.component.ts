@@ -22,7 +22,8 @@ export class CourtListComponent implements OnInit {
   }
 
   addCourt(): void {
-    const dialog = this.dialog.open(CourtFormComponent);
+    const dialog = this.dialog.open(CourtFormComponent, {});
+    dialog.componentInstance.submitButtonText = 'Add court';
 
     dialog.componentInstance.courtChange.pipe(take(1)).subscribe(court => {
       this.courtService.postCourt(court);

@@ -27,6 +27,8 @@ export class CourtFormComponent {
     });
   }
 
+  @Input() submitButtonText = 'Submit';
+
   readonly CourtFormKey = CourtFormKey;
   readonly CourtType = CourtType;
 
@@ -49,6 +51,7 @@ export class CourtFormComponent {
       previewImageUrl: value[CourtFormKey.ImageUrl],
     };
 
+    this.courtForm.markAsPristine();
     this.courtChange.emit(court);
   }
 }

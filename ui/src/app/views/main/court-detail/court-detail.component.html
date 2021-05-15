@@ -1,3 +1,7 @@
 <mat-card *ngIf="displayedCourt$ | async as displayedCourt">
-  <tc-court-form [court]="displayedCourt"></tc-court-form>
+  <tc-court-form
+    submitButtonText="Update court"
+    [court]="displayedCourt"
+    (courtChange)="updateCourt($event)"
+  ></tc-court-form>
 </mat-card>

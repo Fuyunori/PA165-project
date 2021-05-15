@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Court } from 'src/app/models/court.model';
+import { filter, take, takeUntil } from 'rxjs/operators';
+import { Court, UnknownCourt } from 'src/app/models/court.model';
 import { CourtService } from 'src/app/services/court.service';
 
 @Component({
@@ -30,5 +30,16 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  updateCourt(updatedCourt: UnknownCourt): void {
+    this.displayedCourt$
+      .pipe(
+        take(1),
+        filter((court): court is Court => court != null),
+      )
+      .subscribe(displayedCourt => {
+        this.courtService.putCourt(displayedCourt.id, updatedCourt);
+      });
   }
 }

@@ -57,16 +57,14 @@ export class CourtService {
     });
   }
 
-  putCourt(court: Court): void {
-    this.http
-      .put<Court>(`${RESOURCE_URL}/${court.id}`, court)
-      .subscribe(resCourt => {
-        const { entities, orderedIds } = this.state$.value;
-        this.state$.next({
-          entities: { ...entities, [resCourt.id]: resCourt },
-          orderedIds,
-        });
+  putCourt(id: string, court: UnknownCourt): void {
+    this.http.put<Court>(`${RESOURCE_URL}/${id}`, court).subscribe(resCourt => {
+      const { entities, orderedIds } = this.state$.value;
+      this.state$.next({
+        entities: { ...entities, [resCourt.id]: resCourt },
+        orderedIds,
       });
+    });
   }
 
   deleteCourt(court: Court): void {

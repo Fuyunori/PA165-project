@@ -1,6 +1,9 @@
 <form class="court-form" [formGroup]="courtForm" (ngSubmit)="submit()">
   <div class="form-content">
-    <img class="preview-image mat-elevation-z2" [src]="courtForm.value[CourtFormKey.ImageUrl]" />
+    <img
+      class="preview-image mat-elevation-z2"
+      [src]="courtForm.value[CourtFormKey.ImageUrl]"
+    />
     <div class="field-list">
       <mat-form-field appearance="fill" class="field">
         <mat-label>Name</mat-label>
@@ -25,8 +28,12 @@
     </div>
   </div>
   <div class="form-actions">
-    <button mat-flat-button color="primary" [disabled]="courtForm.invalid">
-      Submit
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="courtForm.invalid || courtForm.pristine"
+    >
+      {{ submitButtonText }}
     </button>
   </div>
 </form>
