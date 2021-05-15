@@ -17,9 +17,9 @@ public interface LessonFacade {
     /**
      * Creates a new lesson
      * @param lessonDTO containing data for lesson creation
-     * @return id of the lesson
+     * @return full lesson dto
      */
-    Long createLesson(LessonCreateDTO lessonDTO);
+    LessonFullDTO createLesson(LessonCreateDTO lessonDTO);
 
     /**
      * Deletes a lesson
@@ -31,29 +31,33 @@ public interface LessonFacade {
      * Enrolls a student into a lesson
      * @param lessonId of the lesson
      * @param studentId of the student
+     * @return full lesson dto
      */
-    void enrollStudent(Long lessonId, Long studentId);
+    LessonFullDTO enrollStudent(Long lessonId, Long studentId);
 
     /**
      * Adds a teacher to a lesson
      * @param lessonId of the lesson
      * @param teacherId of the teacher
+     * @return full lesson dto
      */
-    void addTeacher(Long lessonId, Long teacherId);
+    LessonFullDTO addTeacher(Long lessonId, Long teacherId);
 
     /**
      * Removes a student from a lesson
      * @param lessonId of the lesson
      * @param studentId of the student
+     * @return full lesson dto
      */
-    void withdrawStudent(Long lessonId, Long studentId);
+    LessonFullDTO withdrawStudent(Long lessonId, Long studentId);
 
     /**
      * Removes a teacher from a lesson
      * @param lessonId of the lesson
      * @param teacherId of the teacher
+     * @return full lesson dto
      */
-    void removeTeacher(Long lessonId, Long teacherId);
+    LessonFullDTO removeTeacher(Long lessonId, Long teacherId);
 
     /**
      * Finds a lesson based on the id
