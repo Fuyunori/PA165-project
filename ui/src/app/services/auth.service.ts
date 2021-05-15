@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 type AuthState =
@@ -27,6 +27,9 @@ export class AuthService {
   readonly loginFailed$: Observable<boolean> = this.state$.pipe(
     map(({ status }) => status === 'loginFailed'),
   );
+
+  // TODO mocked for now
+  readonly userIsManager$: Observable<boolean> = of(true);
 
   logIn(username: string, password: string): void {
     // TODO the authentication endpoint will be called here, now mocked

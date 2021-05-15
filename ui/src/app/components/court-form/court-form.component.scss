@@ -27,6 +27,14 @@
   width: 100%;
 }
 
+.readonly-select {
+  pointer-events: none;
+
+  ::ng-deep .mat-select-arrow {
+    visibility: hidden;
+  }
+}
+
 .form-actions {
   padding-top: 20px;
   display: flex;

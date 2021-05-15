@@ -5,7 +5,7 @@
     routerLink="/main/court/{{ court.id }}"
   ></tc-court-card>
 </div>
-<div class="actions">
+<div class="actions" *ngIf="userIsManager$ | async">
   <button mat-raised-button color="primary" (click)="addCourt()">
     Add court
   </button>

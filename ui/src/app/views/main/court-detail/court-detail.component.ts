@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Court, UnknownCourt } from 'src/app/models/court.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { CourtService } from 'src/app/services/court.service';
 
 @Component({
@@ -13,11 +14,14 @@ import { CourtService } from 'src/app/services/court.service';
 export class CourtDetailComponent implements OnInit, OnDestroy {
   displayedCourt$: Observable<Court | null> = of(null);
 
+  readonly userIsManager$ = this.auth.userIsManager$;
+
   private readonly unsubscribe$ = new Subject<void>();
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
+    private readonly auth: AuthService,
     private readonly courtService: CourtService,
   ) {}
 

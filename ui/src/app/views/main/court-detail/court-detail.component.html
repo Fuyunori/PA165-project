@@ -2,6 +2,7 @@
   <tc-court-form
     submitButtonText="Update court"
     cancelButtonText="Delete court"
+    [readOnly]="!(userIsManager$ | async)"
     [court]="displayedCourt"
     (courtChange)="updateCourt(displayedCourt, $event)"
     (cancelClick)="deleteCourt(displayedCourt)"

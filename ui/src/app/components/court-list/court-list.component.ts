@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CourtService } from 'src/app/services/court.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CourtFormComponent } from '../court-form/court-form.component';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'tc-court-list',
@@ -11,11 +12,13 @@ import { Subject } from 'rxjs';
   styleUrls: ['./court-list.component.scss'],
 })
 export class CourtListComponent implements OnInit, OnDestroy {
+  readonly userIsManager$ = this.auth.userIsManager$;
   readonly courts$ = this.courtService.orderedCourts$;
 
   private readonly unsubscribe$ = new Subject<void>();
 
   constructor(
+    private readonly auth: AuthService,
     private readonly courtService: CourtService,
     private readonly dialog: MatDialog,
   ) {}

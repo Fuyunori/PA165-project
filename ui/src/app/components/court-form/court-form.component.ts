@@ -28,6 +28,7 @@ export class CourtFormComponent {
     });
   }
 
+  @Input() readOnly = false;
   @Input() submitButtonText = 'Submit';
   @Input() cancelButtonText = 'Cancel';
 
