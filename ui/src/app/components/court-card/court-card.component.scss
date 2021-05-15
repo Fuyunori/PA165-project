@@ -1,4 +1,12 @@
 .court-card {
-  width: 300px;
-  height: 300px;
+  cursor: pointer;
+}
+
+.header {
+  padding-bottom: 10px;
+}
+
+.preview-image {
+  height: 200px;
+  object-fit: cover;
 }

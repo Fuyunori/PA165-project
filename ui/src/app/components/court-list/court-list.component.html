@@ -2,7 +2,11 @@
   <tc-court-card
     *ngFor="let court of courts$ | async"
     [court]="court"
-    courtDetailLink="/main/court/{{ court.id }}"
+    routerLink="/main/court/{{ court.id }}"
   ></tc-court-card>
 </div>
-<button mat-button (click)="addCourt()">Add court</button>
+<div class="actions">
+  <button mat-raised-button color="primary" (click)="addCourt()">
+    Add court
+  </button>
+</div>
