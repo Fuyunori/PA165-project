@@ -37,23 +37,23 @@ public class LessonController {
         return lessonFacade.createLesson(lessonDTO);
     }
 
-    @PutMapping("/enroll-student")
-    public LessonFullDTO enrollStudent(@RequestParam Long lessonId, @RequestParam Long studentId){
+    @PutMapping("/{lessonId}/enroll-student")
+    public LessonFullDTO enrollStudent(@PathVariable Long lessonId, @RequestParam Long studentId){
         return lessonFacade.enrollStudent(lessonId, studentId);
     }
 
-    @PutMapping("/add-teacher")
-    public LessonFullDTO addTeacher(@RequestParam Long lessonId, @RequestParam Long teacherId){
+    @PutMapping("/{lessonId}/add-teacher")
+    public LessonFullDTO addTeacher(@PathVariable Long lessonId, @RequestParam Long teacherId){
         return lessonFacade.addTeacher(lessonId, teacherId);
     }
 
-    @PutMapping("/withdraw-student")
-    public LessonFullDTO withdrawStudent(@RequestParam Long lessonId, @RequestParam Long studentId){
+    @PutMapping("/{lessonId}/withdraw-student")
+    public LessonFullDTO withdrawStudent(@PathVariable Long lessonId, @RequestParam Long studentId){
         return lessonFacade.withdrawStudent(lessonId, studentId);
     }
 
-    @PutMapping("/remove-teacher")
-    public LessonFullDTO removeTeacher(@RequestParam Long lessonId, @RequestParam Long teacherId){
+    @PutMapping("/{lessonId}/remove-teacher")
+    public LessonFullDTO removeTeacher(@PathVariable Long lessonId, @RequestParam Long teacherId){
         return lessonFacade.removeTeacher(lessonId, teacherId);
     }
 
