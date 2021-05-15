@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Court, UnknownCourt } from 'src/app/models/court.model';
 import { CourtService } from 'src/app/services/court.service';
 
@@ -17,6 +17,7 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly route: ActivatedRoute,
+    private readonly router: Router,
     private readonly courtService: CourtService,
   ) {}
 
@@ -32,14 +33,14 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  updateCourt(updatedCourt: UnknownCourt): void {
-    this.displayedCourt$
-      .pipe(
-        take(1),
-        filter((court): court is Court => court != null),
-      )
-      .subscribe(displayedCourt => {
-        this.courtService.putCourt(displayedCourt.id, updatedCourt);
-      });
+  updateCourt(displayedCourt: Court, updatedCourt: UnknownCourt): void {
+    this.courtService.putCourt(displayedCourt.id, updatedCourt);
+  }
+
+  deleteCourt(displayedCourt: Court): void {
+    if (confirm(`Permanently delete court ${displayedCourt.name}?`)) {
+      this.courtService.deleteCourt(displayedCourt.id);
+      this.router.navigateByUrl('/main/dashboard');
+    }
   }
 }

@@ -67,14 +67,14 @@ export class CourtService {
     });
   }
 
-  deleteCourt(court: Court): void {
-    this.http.delete(`${RESOURCE_URL}/${court.id}`).subscribe(() => {
+  deleteCourt(id: string): void {
+    this.http.delete(`${RESOURCE_URL}/${id}`).subscribe(() => {
       const { entities, orderedIds } = this.state$.value;
       this.state$.next({
         entities: Object.values(entities)
-          .filter(({ id }) => id !== court.id)
+          .filter(c => c.id !== id)
           .reduce((acc, c) => ({ ...acc, [c.id]: c }), {}),
-        orderedIds: orderedIds.filter(id => id !== court.id),
+        orderedIds: orderedIds.filter(ordId => ordId !== id),
       });
     });
   }

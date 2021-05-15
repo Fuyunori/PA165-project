@@ -15,6 +15,7 @@ enum CourtFormKey {
   styleUrls: ['./court-form.component.scss'],
 })
 export class CourtFormComponent {
+  @Output() readonly cancelClick = new EventEmitter<void>();
   @Output() readonly courtChange = new EventEmitter<UnknownCourt>();
 
   @Input()
@@ -28,6 +29,7 @@ export class CourtFormComponent {
   }
 
   @Input() submitButtonText = 'Submit';
+  @Input() cancelButtonText = 'Cancel';
 
   readonly CourtFormKey = CourtFormKey;
   readonly CourtType = CourtType;
@@ -53,5 +55,9 @@ export class CourtFormComponent {
 
     this.courtForm.markAsPristine();
     this.courtChange.emit(court);
+  }
+
+  cancel(): void {
+    this.cancelClick.emit();
   }
 }
