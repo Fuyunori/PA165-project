@@ -19,9 +19,9 @@ public interface TournamentFacade {
      * Creates a tournament. The method is successful if the court if free in the given time interval.
      * Otherwise throws a FacadeLayerException.
      * @param tournamentDTO DTO that is mapped to the entity
-     * @return id of the newly created tournament
+     * @return full tournament dto
      */
-    Long createTournament(TournamentCreateDTO tournamentDTO);
+    TournamentFullDTO createTournament(TournamentCreateDTO tournamentDTO);
 
     /**
      * Deletes a tournament.
@@ -35,8 +35,9 @@ public interface TournamentFacade {
      * Otherwise an exception from the service layer is thrown.
      * @param tournamentId of the tournament
      * @param playerId of the player
+     * @return ranking with player dto
      */
-    void enrollPlayer(Long tournamentId, Long playerId);
+    RankingWithPlayerDTO enrollPlayer(Long tournamentId, Long playerId);
 
     /**
      * Withdraws player from a tournament. It is possible only in the enrollment period
@@ -54,8 +55,9 @@ public interface TournamentFacade {
      * @param tournamentId of the tournament
      * @param playerId of the user.
      * @param placement of the user.
+     * @return ranking with player dto
      */
-    void rankPlayer(Long tournamentId, Long playerId, int placement);
+    RankingWithPlayerDTO rankPlayer(Long tournamentId, Long playerId, int placement);
 
     /**
      * Get rankings of a tournament.
