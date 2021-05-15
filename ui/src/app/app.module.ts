@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CourtDetailComponent } from './views/main/court-detail/court-detail.component';
 import { AboutComponent } from './views/main/about/about.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,9 @@ import { AboutComponent } from './views/main/about/about.component';
     MatButtonModule,
     MatToolbarModule,
     MatDialogModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-center',
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

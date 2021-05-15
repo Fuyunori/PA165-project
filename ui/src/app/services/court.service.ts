@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Court, UnknownCourt } from '../models/court.model';
 import { map } from 'rxjs/operators';
+import { NotificationService } from './notification.service';
 
 const RESOURCE_URL = `${environment.apiBaseUrl}/courts`;
 
@@ -26,7 +27,10 @@ export class CourtService {
   readonly singleCourt$ = (id: string): Observable<Court | null> =>
     this.state$.pipe(map(({ entities }) => entities[id] ?? null));
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly notification: NotificationService,
+  ) {}
 
   getCourts(): void {
     this.http.get<Court[]>(RESOURCE_URL).subscribe(courts => {
@@ -48,13 +52,16 @@ export class CourtService {
   }
 
   postCourt(court: UnknownCourt): void {
-    this.http.post<Court>(RESOURCE_URL, court).subscribe(resCourt => {
-      const { entities, orderedIds } = this.state$.value;
-      this.state$.next({
-        entities: { ...entities, [resCourt.id]: resCourt },
-        orderedIds: [...orderedIds, resCourt.id],
+    this.http
+      .post<Court>(RESOURCE_URL, court)
+      .pipe(this.notification.onError('Could not add court!'))
+      .subscribe(resCourt => {
+        const { entities, orderedIds } = this.state$.value;
+        this.state$.next({
+          entities: { ...entities, [resCourt.id]: resCourt },
+          orderedIds: [...orderedIds, resCourt.id],
+        });
       });
-    });
   }
 
   putCourt(id: string, court: UnknownCourt): void {
