@@ -1,27 +1,32 @@
-<form [formGroup]="courtForm" (ngSubmit)="submit()">
-  <div class="field-list">
-    <mat-form-field appearance="fill" class="field">
-      <mat-label>Name</mat-label>
-      <input matInput [formControlName]="CourtFormKey.Name" />
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="field">
-      <mat-label>Address</mat-label>
-      <input matInput [formControlName]="CourtFormKey.Address" />
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="field">
-      <mat-label>Type</mat-label>
-      <mat-select [formControlName]="CourtFormKey.Type">
-        <mat-option [value]="CourtType.Clay">Clay</mat-option>
-        <mat-option [value]="CourtType.Grass">Grass</mat-option>
-        <mat-option [value]="CourtType.Turf">Turf</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="field">
-      <mat-label>Image URL</mat-label>
-      <input matInput [formControlName]="CourtFormKey.ImageUrl" />
-    </mat-form-field>
+<form class="court-form" [formGroup]="courtForm" (ngSubmit)="submit()">
+  <div class="form-content">
+    <img class="preview-image" [src]="courtForm.value[CourtFormKey.ImageUrl]" />
+    <div class="field-list">
+      <mat-form-field appearance="fill" class="field">
+        <mat-label>Name</mat-label>
+        <input matInput [formControlName]="CourtFormKey.Name" />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field">
+        <mat-label>Address</mat-label>
+        <input matInput [formControlName]="CourtFormKey.Address" />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field">
+        <mat-label>Type</mat-label>
+        <mat-select [formControlName]="CourtFormKey.Type">
+          <mat-option [value]="CourtType.Clay">Clay</mat-option>
+          <mat-option [value]="CourtType.Grass">Grass</mat-option>
+          <mat-option [value]="CourtType.Turf">Turf</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field">
+        <mat-label>Image URL</mat-label>
+        <input matInput [formControlName]="CourtFormKey.ImageUrl" />
+      </mat-form-field>
+    </div>
   </div>
-  <button mat-button color="primary" [disabled]="courtForm.invalid">
-    Submit
-  </button>
+  <div class="form-actions">
+    <button mat-flat-button color="primary" [disabled]="courtForm.invalid">
+      Submit
+    </button>
+  </div>
 </form>
