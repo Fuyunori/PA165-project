@@ -1,0 +1,10 @@
+<mat-card *ngIf="displayedCourt$ | async as displayedCourt">
+  <tc-court-form
+    submitButtonText="Update court"
+    cancelButtonText="Delete court"
+    [readOnly]="!(userIsManager$ | async)"
+    [court]="displayedCourt"
+    (courtChange)="updateCourt(displayedCourt, $event)"
+    (cancelClick)="deleteCourt(displayedCourt)"
+  ></tc-court-form>
+</mat-card>

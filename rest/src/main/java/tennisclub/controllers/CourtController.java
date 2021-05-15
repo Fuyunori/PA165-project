@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * @author Pavel Tobiáš
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/courts")
 public class CourtController {
@@ -25,6 +26,11 @@ public class CourtController {
     @GetMapping
     public List<CourtDto> getCourts() {
         return courtFacade.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public CourtDto getCourtById(@PathVariable Long id) {
+        return courtFacade.getById(id);
     }
 
     @PostMapping

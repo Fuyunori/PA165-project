@@ -1,0 +1,14 @@
+<mat-card class="court-card">
+  <mat-card-header class="header">
+    <mat-card-title>{{ court?.name }}</mat-card-title>
+    <mat-card-subtitle>{{ court?.address }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-container *ngIf="court?.previewImageUrl as url; else placeholder">
+      <img mat-card-image class="preview-image" [src]="url" />
+    </ng-container>
+    <ng-template #placeholder>
+      <div mat-card-image class="preview-image"></div>
+    </ng-template>
+  </mat-card-content>
+</mat-card>
