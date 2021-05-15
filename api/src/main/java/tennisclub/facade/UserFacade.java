@@ -16,8 +16,9 @@ public interface UserFacade {
     /**
      * Registers a new user
      * @param userAuthDTO containing the user authentication data
+     * @return full user dto
      */
-    void register(UserAuthDTO userAuthDTO);
+    UserFullDTO register(UserAuthDTO userAuthDTO);
 
     /**
      * Authenticates user
