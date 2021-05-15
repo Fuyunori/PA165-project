@@ -47,7 +47,7 @@ public class EventFacadeImpl implements EventFacade {
         }
 
         Event updated = eventService.reschedule(event, eventRescheduleDTO.getStart(), eventRescheduleDTO.getEnd());
-        return mapper.map(updated, EventWithCourtDTO.class);
+        return map(updated);
     }
 
     @Override
