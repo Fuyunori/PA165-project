@@ -1,6 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { UnknownCourt } from 'src/app/models/court.model';
+import { FormBuilder, Validators } from '@angular/forms';
+import { CourtType, UnknownCourt } from 'src/app/models/court.model';
+
+enum CourtFormKey {
+  Name = 'Name',
+  Address = 'Address',
+  Type = 'Type',
+  ImageUrl = 'ImageUrl',
+}
 
 @Component({
   selector: 'tc-court-form',
@@ -13,14 +20,21 @@ export class CourtFormComponent {
   @Input()
   set court(court: UnknownCourt) {
     this.courtForm.setValue({
-      name: court.name,
-      address: court.address,
+      [CourtFormKey.Name]: court.name,
+      [CourtFormKey.Address]: court.address,
+      [CourtFormKey.Type]: court.type,
+      [CourtFormKey.ImageUrl]: court.previewImageUrl,
     });
   }
 
+  readonly CourtFormKey = CourtFormKey;
+  readonly CourtType = CourtType;
+
   readonly courtForm = this.fb.group({
-    name: '',
-    address: '',
+    [CourtFormKey.Name]: ['', Validators.required],
+    [CourtFormKey.Address]: ['', Validators.required],
+    [CourtFormKey.Type]: ['', Validators.required],
+    [CourtFormKey.ImageUrl]: '',
   });
 
   constructor(private readonly fb: FormBuilder) {}
@@ -29,8 +43,10 @@ export class CourtFormComponent {
     const { value } = this.courtForm;
 
     const court: UnknownCourt = {
-      name: value.name ?? '',
-      address: value.address ?? '',
+      name: value[CourtFormKey.Name],
+      address: value[CourtFormKey.Address],
+      type: value[CourtFormKey.Type],
+      previewImageUrl: value[CourtFormKey.ImageUrl],
     };
 
     this.courtChange.emit(court);

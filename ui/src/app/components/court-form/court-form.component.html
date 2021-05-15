@@ -2,12 +2,26 @@
   <div class="field-list">
     <mat-form-field appearance="fill" class="field">
       <mat-label>Name</mat-label>
-      <input matInput formControlName="name" />
+      <input matInput [formControlName]="CourtFormKey.Name" />
     </mat-form-field>
     <mat-form-field appearance="fill" class="field">
       <mat-label>Address</mat-label>
-      <input matInput formControlName="address" />
+      <input matInput [formControlName]="CourtFormKey.Address" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="field">
+      <mat-label>Type</mat-label>
+      <mat-select [formControlName]="CourtFormKey.Type">
+        <mat-option [value]="CourtType.Clay">Clay</mat-option>
+        <mat-option [value]="CourtType.Grass">Grass</mat-option>
+        <mat-option [value]="CourtType.Turf">Turf</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="field">
+      <mat-label>Image URL</mat-label>
+      <input matInput [formControlName]="CourtFormKey.ImageUrl" />
     </mat-form-field>
   </div>
-  <button mat-button color="primary">Submit</button>
+  <button mat-button color="primary" [disabled]="courtForm.invalid">
+    Submit
+  </button>
 </form>
