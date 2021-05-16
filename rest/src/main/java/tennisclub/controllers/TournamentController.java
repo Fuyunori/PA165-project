@@ -35,7 +35,7 @@ public class TournamentController {
     }
 
     @PostMapping
-    public TournamentDTO createTournament(@RequestBody TournamentCreateDTO tournamentDTO){
+    public TournamentFullDTO createTournament(@RequestBody TournamentCreateDTO tournamentDTO){
         return tournamentFacade.createTournament(tournamentDTO);
     }
 
