@@ -13,3 +13,5 @@ export type Lesson = Event & {
     teachers: Set<User>;
     students: Set<User>;
 }
+
+export type UnknownLesson = Omit<Lesson, 'id'>;
