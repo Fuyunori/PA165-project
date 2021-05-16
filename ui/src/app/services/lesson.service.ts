@@ -114,4 +114,19 @@ export class LessonService {
         });
   }
 
+  deleteLesson(id: number): void {
+    this.http.delete(`${RESOURCE_URL}/${id}`)
+        .subscribe(() => {
+          const { entities, orderedIds } = this.state$.value;
+          this.state$.next({
+            entities: Object.values(entities)
+                .filter((lesson: Lesson) => lesson.id !== id)
+                .reduce((acc, lesson) => ({
+                  ...acc, [lesson.id]: lesson
+                }), {}),
+            orderedIds: orderedIds.filter((orderedId: number) => orderedId !== id),
+          });
+        });
+  }
+
 }
