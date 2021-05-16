@@ -64,7 +64,7 @@ export class CourtService {
       });
   }
 
-  putCourt(id: string, court: UnknownCourt): void {
+  putCourt(id: number, court: UnknownCourt): void {
     this.http.put<Court>(`${RESOURCE_URL}/${id}`, court).subscribe(resCourt => {
       const { entities, orderedIds } = this.state$.value;
       this.state$.next({
