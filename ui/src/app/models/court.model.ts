@@ -5,7 +5,7 @@ export enum CourtType {
 }
 
 export type Court = {
-  id: string;
+  id: number;
   name: string;
   address: string;
   type: CourtType;
