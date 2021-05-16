@@ -9,8 +9,8 @@ import { NotificationService } from './notification.service';
 const RESOURCE_URL = `${environment.apiBaseUrl}/courts`;
 
 type CourtsState = {
-  entities: Record<string, Court>;
-  orderedIds: string[];
+  entities: Record<number, Court>;
+  orderedIds: number[];
 };
 
 @Injectable({ providedIn: 'root' })
@@ -24,7 +24,7 @@ export class CourtService {
     map(({ entities, orderedIds }) => orderedIds.map(id => entities[id])),
   );
 
-  readonly singleCourt$ = (id: string): Observable<Court | null> =>
+  readonly singleCourt$ = (id: number): Observable<Court | null> =>
     this.state$.pipe(map(({ entities }) => entities[id] ?? null));
 
   constructor(
@@ -41,7 +41,7 @@ export class CourtService {
     });
   }
 
-  getCourtById(id: string) {
+  getCourtById(id: number) {
     this.http.get<Court>(`${RESOURCE_URL}/${id}`).subscribe(court => {
       const { entities, orderedIds } = this.state$.value;
       this.state$.next({
@@ -74,7 +74,7 @@ export class CourtService {
     });
   }
 
-  deleteCourt(id: string): void {
+  deleteCourt(id: number): void {
     this.http.delete(`${RESOURCE_URL}/${id}`).subscribe(() => {
       const { entities, orderedIds } = this.state$.value;
       this.state$.next({
