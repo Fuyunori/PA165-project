@@ -5,6 +5,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {NotificationService} from "./notification.service";
+import {User} from "../models/user.model";
 
 const RESOURCE_URL = `${environment.apiBaseUrl}/lesson`
 
@@ -66,9 +67,8 @@ export class LessonService {
         });
   }
 
-  enrollStudent(lessonId: number, studentId: number): void {
-    let queryParams: HttpParams = new HttpParams().set('studentId', studentId.toString());
-    this.http.put<Lesson>(`${RESOURCE_URL}/${lessonId}/enroll-student`, { params: queryParams} )
+  enrollStudent(lessonId: number, user: User): void {
+    this.http.put<Lesson>(`${RESOURCE_URL}/${lessonId}/users`, user)
         .subscribe((resLesson: Lesson) => {
           const { entities, orderedIds } = this.state$.value;
           this.state$.next({
@@ -78,9 +78,8 @@ export class LessonService {
         });
   }
 
-  addTeacher(lessonId: number, teacherId: number): void {
-    let queryParams: HttpParams = new HttpParams().set('teacherId', teacherId.toString());
-    this.http.put<Lesson>(`${RESOURCE_URL}/${lessonId}/add-teacher`, { params: queryParams} )
+  addTeacher(lessonId: number, user: User): void {
+    this.http.put<Lesson>(`${RESOURCE_URL}/${lessonId}/users`, user)
         .subscribe((resLesson: Lesson) => {
           const { entities, orderedIds } = this.state$.value;
           this.state$.next({
@@ -90,9 +89,8 @@ export class LessonService {
         });
   }
 
-  withdrawStudent(lessonId: number, studentId: number): void {
-    let queryParams: HttpParams = new HttpParams().set('studentId', studentId.toString());
-    this.http.put<Lesson>(`${RESOURCE_URL}/${lessonId}/withdraw-student`, { params: queryParams} )
+  withdrawStudent(lessonId: number, user: User): void {
+    this.http.put<Lesson>(`${RESOURCE_URL}/${lessonId}/users`, user)
         .subscribe((resLesson: Lesson) => {
           const { entities, orderedIds } = this.state$.value;
           this.state$.next({
@@ -102,9 +100,8 @@ export class LessonService {
         });
   }
 
-  removeTeacher(lessonId: number, teacherId: number): void {
-    let queryParams: HttpParams = new HttpParams().set('teacherId', teacherId.toString());
-    this.http.put<Lesson>(`${RESOURCE_URL}/${lessonId}/remove-teacher`, { params: queryParams} )
+  removeTeacher(lessonId: number, user: User): void {
+    this.http.put<Lesson>(`${RESOURCE_URL}/${lessonId}/users`,  user)
         .subscribe((resLesson: Lesson) => {
           const { entities, orderedIds } = this.state$.value;
           this.state$.next({
