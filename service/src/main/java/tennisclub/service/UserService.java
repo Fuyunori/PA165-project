@@ -17,8 +17,9 @@ public interface UserService {
      * Registers a new user
      * @param user to be registered
      * @param plainTextPassword of the user
+     * @return newly created user
      */
-    void register(User user, String plainTextPassword);
+    User register(User user, String plainTextPassword);
 
     /**
      * Finds all users in the system

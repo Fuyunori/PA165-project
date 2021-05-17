@@ -32,9 +32,10 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public void register(UserAuthDTO userAuthDTO) {
+    public UserFullDTO register(UserAuthDTO userAuthDTO) {
         User user = mapper.map(userAuthDTO, User.class);
-        userService.register(user, userAuthDTO.getPassword());
+        User newUser = userService.register(user, userAuthDTO.getPassword());
+        return mapper.map(newUser, UserFullDTO.class);
     }
 
     @Override
