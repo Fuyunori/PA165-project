@@ -39,22 +39,22 @@ public class LessonController {
         return lessonFacade.createLesson(lessonDTO);
     }
 
-    @PostMapping("/{lessonId}/users")
+    @PostMapping("/{lessonId}/students")
     public LessonFullDTO enrollStudent(@PathVariable Long lessonId, @RequestBody UserFullDTO player){
         return lessonFacade.enrollStudent(lessonId, player.getId());
     }
 
-    @PostMapping("/{lessonId}/users")
+    @PostMapping("/{lessonId}/teachers")
     public LessonFullDTO addTeacher(@PathVariable Long lessonId, @RequestBody UserFullDTO teacher){
         return lessonFacade.addTeacher(lessonId, teacher.getId());
     }
 
-    @DeleteMapping("/{lessonId}/users/{studentId}")
+    @DeleteMapping("/{lessonId}/students/{studentId}")
     public LessonFullDTO withdrawStudent(@PathVariable Long lessonId, @PathVariable Long studentId){
         return lessonFacade.withdrawStudent(lessonId, studentId);
     }
 
-    @DeleteMapping("/{lessonId}/users/{teacherId}")
+    @DeleteMapping("/{lessonId}/teachers/{teacherId}")
     public LessonFullDTO removeTeacher(@PathVariable Long lessonId, @PathVariable Long teacherId){
         return lessonFacade.removeTeacher(lessonId, teacherId);
     }
