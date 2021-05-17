@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tennisclub.dto.user.UserAuthDTO;
 import tennisclub.dto.user.UserFullDTO;
+import tennisclub.dto.user.UserUpdateDTO;
 import tennisclub.entity.User;
 import tennisclub.facade.UserFacade;
 
@@ -46,9 +47,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public final UserFullDTO updateUser(@PathVariable Long id, @RequestBody UserFullDTO userFullDTO) {
-        userFullDTO.setId(id);
-        return userFacade.updateUser(userFullDTO);
+    public final UserFullDTO updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDTO) {
+        return userFacade.updateUser(id, userUpdateDTO);
     }
 
     @DeleteMapping("/{id}")

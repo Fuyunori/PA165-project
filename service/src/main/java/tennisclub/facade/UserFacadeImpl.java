@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import tennisclub.dto.user.UserAuthDTO;
 import tennisclub.dto.user.UserDTO;
 import tennisclub.dto.user.UserFullDTO;
+import tennisclub.dto.user.UserUpdateDTO;
 import tennisclub.entity.User;
 import tennisclub.enums.Role;
 import tennisclub.service.UserService;
@@ -87,8 +88,9 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public UserFullDTO updateUser(UserFullDTO userFullDTO) {
-        User user = mapper.map(userFullDTO, User.class);
+    public UserFullDTO updateUser(Long id, UserUpdateDTO userUpdateDTO) {
+        User user = mapper.map(userUpdateDTO, User.class);
+        user.setId(id);
         user = userService.updateUserData(user);
         return mapper.map(user, UserFullDTO.class);
     }

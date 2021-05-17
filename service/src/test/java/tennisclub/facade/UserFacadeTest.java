@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import tennisclub.dto.user.UserAuthDTO;
 import tennisclub.dto.user.UserDTO;
 import tennisclub.dto.user.UserFullDTO;
+import tennisclub.dto.user.UserUpdateDTO;
 import tennisclub.entity.Court;
 import tennisclub.entity.User;
 import tennisclub.enums.Role;
@@ -44,6 +45,8 @@ public class UserFacadeTest {
     private UserFullDTO otherFullDto;
     private User otherEntity;
 
+    private UserUpdateDTO updateDto;
+
     @BeforeEach
     void init() {
         username = "us3rn4m3";
@@ -59,7 +62,6 @@ public class UserFacadeTest {
         dto.setId(1L);
         fullDto = new UserFullDTO();
         fullDto.setUsername(dto.getUsername());
-        fullDto.setPasswordHash(password);
         entity = new User();
         entity.setUsername(dto.getUsername());
         entity.setId(dto.getId());
@@ -70,6 +72,9 @@ public class UserFacadeTest {
         otherFullDto.setUsername(otherDto.getUsername());
         otherEntity = new User();
         otherEntity.setUsername(otherDto.getUsername());
+
+        updateDto = new UserUpdateDTO();
+        updateDto.setUsername(dto.getUsername());
     }
 
     @Test
@@ -169,7 +174,7 @@ public class UserFacadeTest {
         when(userService.updateUserData(entity)).thenReturn(otherEntity);
         ArgumentCaptor<User> passedEntity = ArgumentCaptor.forClass(User.class);
 
-        UserFullDTO updatedUser = userFacade.updateUser(fullDto);
+        UserFullDTO updatedUser = userFacade.updateUser(1L, updateDto);
         verify(userService).updateUserData(passedEntity.capture());
         assertThat(passedEntity.getValue()).isEqualTo(entity);
         assertThat(updatedUser).isEqualTo(otherFullDto);

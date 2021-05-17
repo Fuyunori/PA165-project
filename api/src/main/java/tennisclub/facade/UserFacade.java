@@ -3,6 +3,7 @@ package tennisclub.facade;
 import tennisclub.dto.user.UserAuthDTO;
 import tennisclub.dto.user.UserDTO;
 import tennisclub.dto.user.UserFullDTO;
+import tennisclub.dto.user.UserUpdateDTO;
 import tennisclub.enums.Role;
 
 import java.util.List;
@@ -70,10 +71,10 @@ public interface UserFacade {
 
     /**
      * Updated the data of a user
-     * @param userFullDTO containing the new user data
+     * @param userUpdateDTO containing the new user data
      * @return the updated user
      */
-    UserFullDTO updateUser(UserFullDTO userFullDTO);
+    UserFullDTO updateUser(Long id, UserUpdateDTO userUpdateDTO);
 
     /**
      * Removes a user from the system
