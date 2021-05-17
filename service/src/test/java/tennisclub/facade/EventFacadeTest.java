@@ -6,8 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import tennisclub.dto.booking.BookingFullDTO;
 import tennisclub.dto.event.EventRescheduleDTO;
 import tennisclub.dto.event.EventWithCourtDTO;
+import tennisclub.dto.lesson.LessonFullDTO;
+import tennisclub.dto.tournament.TournamentFullDTO;
 import tennisclub.entity.*;
 import tennisclub.enums.Level;
 import tennisclub.service.CourtService;
@@ -48,6 +51,10 @@ public class EventFacadeTest {
     private EventWithCourtDTO bookingDTO;
     private EventWithCourtDTO lessonDTO;
     private EventWithCourtDTO tournamentDTO;
+
+    private BookingFullDTO bookingFullDTO;
+    private LessonFullDTO lessonFullDTO;
+    private TournamentFullDTO tournamentFullDTO;
 
     private final LocalDate START_DAY = LocalDate.of(2048, 4,1);
 
@@ -109,6 +116,20 @@ public class EventFacadeTest {
         tournamentDTO.setStartTime(TOURNAMENT_START);
         tournamentDTO.setEndTime(TOURNAMENT_END);
 
+        bookingFullDTO = new BookingFullDTO();
+        bookingFullDTO.setId(BOOKING_ID);
+        bookingFullDTO.setStartTime(BOOKING_START);
+        bookingFullDTO.setEndTime(BOOKING_END);
+
+        lessonFullDTO = new LessonFullDTO();
+        lessonFullDTO.setId(LESSON_ID);
+        lessonFullDTO.setStartTime(LESSON_START);
+        lessonFullDTO.setEndTime(LESSON_END);
+
+        tournamentFullDTO = new TournamentFullDTO();
+        tournamentFullDTO.setId(TOURNAMENT_ID);
+        tournamentFullDTO.setStartTime(TOURNAMENT_START);
+        tournamentFullDTO.setEndTime(TOURNAMENT_END);
     }
 
     @Test
@@ -160,13 +181,13 @@ public class EventFacadeTest {
         expected.setStartTime(OTHER_START);
         expected.setStartTime(OTHER_END);
 
-        EventWithCourtDTO expectedDTO = bookingDTO;
+        BookingFullDTO expectedDTO = bookingFullDTO;
         expectedDTO.setStartTime(OTHER_START);
         expectedDTO.setStartTime(OTHER_END);
 
         when(eventService.findById(BOOKING_ID)).thenReturn(booking);
         when(eventService.reschedule(booking, OTHER_START, OTHER_END)).thenReturn(expected);
-        when(mapper.map(expected, EventWithCourtDTO.class)).thenReturn(expectedDTO);
+        when(mapper.map(expected, BookingFullDTO.class)).thenReturn(expectedDTO);
         when(courtService.isFree(booking.getCourt(), OTHER_START, OTHER_END)).thenReturn(true);
 
         EventWithCourtDTO actualDTO = eventFacade.reschedule(BOOKING_ID, event);
@@ -185,13 +206,13 @@ public class EventFacadeTest {
         expected.setStartTime(OTHER_START);
         expected.setStartTime(OTHER_END);
 
-        EventWithCourtDTO expectedDTO = lessonDTO;
+        LessonFullDTO expectedDTO = lessonFullDTO;
         expectedDTO.setStartTime(OTHER_START);
         expectedDTO.setStartTime(OTHER_END);
 
         when(eventService.findById(LESSON_ID)).thenReturn(lesson);
         when(eventService.reschedule(lesson, OTHER_START, OTHER_END)).thenReturn(expected);
-        when(mapper.map(expected, EventWithCourtDTO.class)).thenReturn(expectedDTO);
+        when(mapper.map(expected, LessonFullDTO.class)).thenReturn(expectedDTO);
         when(courtService.isFree(lesson.getCourt(), OTHER_START, OTHER_END)).thenReturn(true);
 
         EventWithCourtDTO actualDTO = eventFacade.reschedule(LESSON_ID, event);
@@ -210,13 +231,13 @@ public class EventFacadeTest {
         expected.setStartTime(OTHER_START);
         expected.setStartTime(OTHER_END);
 
-        EventWithCourtDTO expectedDTO = tournamentDTO;
+        TournamentFullDTO expectedDTO = tournamentFullDTO;
         expectedDTO.setStartTime(OTHER_START);
         expectedDTO.setStartTime(OTHER_END);
 
         when(eventService.findById(TOURNAMENT_ID)).thenReturn(tournament);
         when(eventService.reschedule(tournament, OTHER_START, OTHER_END)).thenReturn(expected);
-        when(mapper.map(expected, EventWithCourtDTO.class)).thenReturn(expectedDTO);
+        when(mapper.map(expected, TournamentFullDTO.class)).thenReturn(expectedDTO);
         when(courtService.isFree(tournament.getCourt(), OTHER_START, OTHER_END)).thenReturn(true);
 
         EventWithCourtDTO actualDTO =eventFacade.reschedule(TOURNAMENT_ID,event);
