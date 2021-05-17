@@ -77,7 +77,7 @@ public interface UserFacade {
 
     /**
      * Removes a user from the system
-     * @param userDTO to be removed
+     * @param id of the user to be removed
      */
-    void removeUser(UserDTO userDTO);
+    void removeUser(Long id);
 }

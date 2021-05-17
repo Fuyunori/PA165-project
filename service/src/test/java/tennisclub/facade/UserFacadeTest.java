@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import tennisclub.dto.user.UserAuthDTO;
 import tennisclub.dto.user.UserDTO;
 import tennisclub.dto.user.UserFullDTO;
+import tennisclub.entity.Court;
 import tennisclub.entity.User;
 import tennisclub.enums.Role;
 import tennisclub.service.UserService;
@@ -55,11 +56,13 @@ public class UserFacadeTest {
 
         dto = new UserDTO();
         dto.setUsername("someUsername");
+        dto.setId(1L);
         fullDto = new UserFullDTO();
         fullDto.setUsername(dto.getUsername());
         fullDto.setPasswordHash(password);
         entity = new User();
         entity.setUsername(dto.getUsername());
+        entity.setId(dto.getId());
 
         otherDto = new UserDTO();
         otherDto.setUsername("someDifferentUsername");
@@ -174,10 +177,12 @@ public class UserFacadeTest {
 
     @Test
     void removeUser() {
-        ArgumentCaptor<User> passedEntity = ArgumentCaptor.forClass(User.class);
+        Long passedId = dto.getId();
 
-        userFacade.removeUser(dto);
-        verify(userService).removeUser(passedEntity.capture());
-        assertThat(passedEntity.getValue()).isEqualTo(entity);
+        when(userService.findUserById(passedId)).thenReturn(entity);
+
+        userFacade.removeUser(passedId);
+        verify(userService).findUserById(passedId);
+        verify(userService).removeUser(entity);
     }
 }

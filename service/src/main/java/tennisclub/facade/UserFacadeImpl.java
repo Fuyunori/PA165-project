@@ -94,8 +94,8 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public void removeUser(UserDTO userDTO) {
-        User user = mapper.map(userDTO, User.class);
+    public void removeUser(Long id) {
+        User user = userService.findUserById(id);
         userService.removeUser(user);
     }
 }
