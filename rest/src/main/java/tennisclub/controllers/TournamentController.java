@@ -6,6 +6,8 @@ import tennisclub.dto.ranking.RankingWithPlayerDTO;
 import tennisclub.dto.tournament.TournamentCreateDTO;
 import tennisclub.dto.tournament.TournamentDTO;
 import tennisclub.dto.tournament.TournamentFullDTO;
+import tennisclub.dto.user.UserDTO;
+import tennisclub.dto.user.UserFullDTO;
 import tennisclub.facade.TournamentFacade;
 
 import java.util.List;
@@ -39,19 +41,19 @@ public class TournamentController {
         return tournamentFacade.createTournament(tournamentDTO);
     }
 
-    @PutMapping("/{tournamentId}/enroll-player")
-    public TournamentFullDTO enrollPlayer(@PathVariable Long tournamentId, @RequestParam Long playerId){
-        return tournamentFacade.enrollPlayer(tournamentId, playerId);
+    @PostMapping("/{tournamentId}/users")
+    public TournamentFullDTO enrollPlayer(@PathVariable Long tournamentId, @RequestBody UserFullDTO player){
+        return tournamentFacade.enrollPlayer(tournamentId, player.getId());
     }
 
-    @PutMapping("/{tournamentId}/withdraw-player")
-    public TournamentFullDTO withdrawPlayer(@PathVariable Long tournamentId, @RequestParam Long playerId){
+    @DeleteMapping("/{tournamentId}/users/{playerId}")
+    public TournamentFullDTO withdrawPlayer(@PathVariable Long tournamentId, @PathVariable Long playerId){
         return tournamentFacade.withdrawPlayer(tournamentId, playerId);
     }
 
-    @PutMapping("/{tournamentId}/rank-player")
-    public TournamentFullDTO rankPlayer(@PathVariable Long tournamentId, @RequestParam Long playerId, @RequestParam Integer playerPlacement){
-        return tournamentFacade.rankPlayer(tournamentId, playerId, playerPlacement);
+    @PutMapping("/{tournamentId}/rankings")
+    public TournamentFullDTO rankPlayer(@PathVariable Long tournamentId, @RequestBody RankingWithPlayerDTO ranking){
+        return tournamentFacade.rankPlayer(tournamentId, ranking.getPlayer().getId(), ranking.getPlayerPlacement());
     }
 
     @DeleteMapping("/{id}")
