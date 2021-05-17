@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tennisclub.dto.lesson.LessonCreateDTO;
 import tennisclub.dto.lesson.LessonFullDTO;
+import tennisclub.dto.user.UserDTO;
 import tennisclub.facade.LessonFacade;
 
 import java.util.List;
@@ -37,23 +38,23 @@ public class LessonController {
         return lessonFacade.createLesson(lessonDTO);
     }
 
-    @PutMapping("/{lessonId}/enroll-student")
-    public LessonFullDTO enrollStudent(@PathVariable Long lessonId, @RequestParam Long studentId){
-        return lessonFacade.enrollStudent(lessonId, studentId);
+    @PostMapping("/{lessonId}/users")
+    public LessonFullDTO enrollStudent(@PathVariable Long lessonId, @RequestBody UserDTO player){
+        return lessonFacade.enrollStudent(lessonId, player.getId());
     }
 
-    @PutMapping("/{lessonId}/add-teacher")
-    public LessonFullDTO addTeacher(@PathVariable Long lessonId, @RequestParam Long teacherId){
-        return lessonFacade.addTeacher(lessonId, teacherId);
+    @PostMapping("/{lessonId}/users/")
+    public LessonFullDTO addTeacher(@PathVariable Long lessonId, @RequestBody UserDTO teacher){
+        return lessonFacade.addTeacher(lessonId, teacher.getId());
     }
 
-    @PutMapping("/{lessonId}/withdraw-student")
-    public LessonFullDTO withdrawStudent(@PathVariable Long lessonId, @RequestParam Long studentId){
+    @DeleteMapping("/{lessonId}/users/{studentId}")
+    public LessonFullDTO withdrawStudent(@PathVariable Long lessonId, @PathVariable Long studentId){
         return lessonFacade.withdrawStudent(lessonId, studentId);
     }
 
-    @PutMapping("/{lessonId}/remove-teacher")
-    public LessonFullDTO removeTeacher(@PathVariable Long lessonId, @RequestParam Long teacherId){
+    @DeleteMapping("/{lessonId}/users/{teacherId}")
+    public LessonFullDTO removeTeacher(@PathVariable Long lessonId, @PathVariable Long teacherId){
         return lessonFacade.removeTeacher(lessonId, teacherId);
     }
 
