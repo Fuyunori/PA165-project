@@ -68,7 +68,7 @@ export class LessonService {
   }
 
   enrollStudent(lessonId: number, user: User): void {
-    this.http.put<Lesson>(`${RESOURCE_URL}/${lessonId}/users`, user)
+    this.http.post<Lesson>(`${RESOURCE_URL}/${lessonId}/students`, user)
         .subscribe((resLesson: Lesson) => {
           const { entities, orderedIds } = this.state$.value;
           this.state$.next({
@@ -79,7 +79,7 @@ export class LessonService {
   }
 
   addTeacher(lessonId: number, user: User): void {
-    this.http.put<Lesson>(`${RESOURCE_URL}/${lessonId}/users`, user)
+    this.http.post<Lesson>(`${RESOURCE_URL}/${lessonId}/teachers`, user)
         .subscribe((resLesson: Lesson) => {
           const { entities, orderedIds } = this.state$.value;
           this.state$.next({
@@ -89,8 +89,8 @@ export class LessonService {
         });
   }
 
-  withdrawStudent(lessonId: number, user: User): void {
-    this.http.put<Lesson>(`${RESOURCE_URL}/${lessonId}/users`, user)
+  withdrawStudent(lessonId: number, playerId: number): void {
+    this.http.delete<Lesson>(`${RESOURCE_URL}/${lessonId}/students/${playerId}`)
         .subscribe((resLesson: Lesson) => {
           const { entities, orderedIds } = this.state$.value;
           this.state$.next({
@@ -100,8 +100,8 @@ export class LessonService {
         });
   }
 
-  removeTeacher(lessonId: number, user: User): void {
-    this.http.put<Lesson>(`${RESOURCE_URL}/${lessonId}/users`,  user)
+  removeTeacher(lessonId: number, teacherId: number): void {
+    this.http.delete<Lesson>(`${RESOURCE_URL}/${lessonId}/teacher/${teacherId}`)
         .subscribe((resLesson: Lesson) => {
           const { entities, orderedIds } = this.state$.value;
           this.state$.next({
