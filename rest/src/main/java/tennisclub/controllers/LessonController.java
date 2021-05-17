@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import tennisclub.dto.lesson.LessonCreateDTO;
 import tennisclub.dto.lesson.LessonFullDTO;
 import tennisclub.dto.user.UserDTO;
+import tennisclub.dto.user.UserFullDTO;
 import tennisclub.facade.LessonFacade;
 
 import java.util.List;
@@ -39,12 +40,12 @@ public class LessonController {
     }
 
     @PostMapping("/{lessonId}/users")
-    public LessonFullDTO enrollStudent(@PathVariable Long lessonId, @RequestBody UserDTO player){
+    public LessonFullDTO enrollStudent(@PathVariable Long lessonId, @RequestBody UserFullDTO player){
         return lessonFacade.enrollStudent(lessonId, player.getId());
     }
 
-    @PostMapping("/{lessonId}/users/")
-    public LessonFullDTO addTeacher(@PathVariable Long lessonId, @RequestBody UserDTO teacher){
+    @PostMapping("/{lessonId}/users")
+    public LessonFullDTO addTeacher(@PathVariable Long lessonId, @RequestBody UserFullDTO teacher){
         return lessonFacade.addTeacher(lessonId, teacher.getId());
     }
 
