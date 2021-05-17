@@ -2,6 +2,7 @@ package tennisclub.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -395,15 +396,17 @@ public class TournamentServiceTest {
 
     @Test
     public void rankPlayerTest() {
+        ArgumentCaptor<Ranking> rankingCaptor = ArgumentCaptor.forClass(Ranking.class);
+
         when(timeService.getCurrentDateTime()).thenReturn(tournament.getStartTime().plusHours(1));
         when(rankingDao.find(tournament, player)).thenReturn(ranking);
-        when(rankingDao.update(ranking)).thenReturn(ranking);
+        when(rankingDao.update(rankingCaptor.capture())).thenReturn(ranking);
 
-        Ranking updated = tournamentService.rankPlayer(tournament, player, 5);
+        Tournament updated = tournamentService.rankPlayer(tournament, player, 5);
 
         verify(rankingDao).find(tournament, player);
         verify(rankingDao).update(ranking);
-        assertThat(updated.getPlayerPlacement()).isEqualTo(5);
+        assertThat(rankingCaptor.getValue().getPlayerPlacement()).isEqualTo(5);
     }
 
     @Test

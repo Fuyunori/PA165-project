@@ -93,7 +93,7 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public Ranking enrollPlayer(Tournament tournament, User player) {
+    public Tournament enrollPlayer(Tournament tournament, User player) {
         if(rankingDao.find(tournament, player) != null){
             throw new ServiceLayerException("Can't enroll a player into a tournament in which he/she already participates!");
         }
@@ -102,11 +102,12 @@ public class TournamentServiceImpl implements TournamentService {
 
         Ranking ranking = new Ranking(tournament, player);
         rankingDao.create(ranking);
-        return ranking;
+        tournament.addRanking(ranking);
+        return tournamentDao.update(tournament);
     }
 
     @Override
-    public void withdrawPlayer(Tournament tournament, User player) {
+    public Tournament withdrawPlayer(Tournament tournament, User player) {
         Ranking ranking = rankingDao.find(tournament, player);
 
         if(ranking == null){
@@ -118,10 +119,12 @@ public class TournamentServiceImpl implements TournamentService {
         player.removeRanking(ranking);
         tournament.removeRanking(ranking);
         rankingDao.delete(ranking);
+
+        return tournamentDao.update(tournament);
     }
 
     @Override
-    public Ranking rankPlayer(Tournament tournament, User player, Integer newPlacement) {
+    public Tournament rankPlayer(Tournament tournament, User player, Integer newPlacement) {
         Ranking ranking = rankingDao.find(tournament, player);
         if(ranking == null){
             throw new ServiceLayerException("Can't rank a player in a tournament he/she is not enrolled in!");
@@ -134,7 +137,8 @@ public class TournamentServiceImpl implements TournamentService {
         }
 
         ranking.setPlayerPlacement(newPlacement);
-        return rankingDao.update(ranking);
+        rankingDao.update(ranking);
+        return tournament;
     }
 
     private void checkEnrollmentOpen(Tournament tournament) {

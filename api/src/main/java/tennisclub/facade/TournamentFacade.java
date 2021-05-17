@@ -35,9 +35,9 @@ public interface TournamentFacade {
      * Otherwise an exception from the service layer is thrown.
      * @param tournamentId of the tournament
      * @param playerId of the player
-     * @return ranking with player dto
+     * @return full tournament dto
      */
-    RankingWithPlayerDTO enrollPlayer(Long tournamentId, Long playerId);
+    TournamentFullDTO enrollPlayer(Long tournamentId, Long playerId);
 
     /**
      * Withdraws player from a tournament. It is possible only in the enrollment period
@@ -45,8 +45,9 @@ public interface TournamentFacade {
      * Otherwise an exception from the service layer is thrown.
      * @param tournamentId of the tournament
      * @param playerId of the participant
+     * @return full tournament dto
      */
-    void withdrawPlayer(Long tournamentId, Long playerId);
+    TournamentFullDTO withdrawPlayer(Long tournamentId, Long playerId);
 
     /**
      * Assigns a rank to the player. It is possible only if the participant participates in the tournament
@@ -55,9 +56,9 @@ public interface TournamentFacade {
      * @param tournamentId of the tournament
      * @param playerId of the user.
      * @param placement of the user.
-     * @return ranking with player dto
+     * @return full tournament dto
      */
-    RankingWithPlayerDTO rankPlayer(Long tournamentId, Long playerId, int placement);
+    TournamentFullDTO rankPlayer(Long tournamentId, Long playerId, int placement);
 
     /**
      * Get rankings of a tournament.

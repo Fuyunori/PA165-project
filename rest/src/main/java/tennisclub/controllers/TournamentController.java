@@ -40,17 +40,17 @@ public class TournamentController {
     }
 
     @PutMapping("/{tournamentId}/enroll-player")
-    public RankingWithPlayerDTO enrollPlayer(@PathVariable Long tournamentId, @RequestParam Long playerId){
+    public TournamentFullDTO enrollPlayer(@PathVariable Long tournamentId, @RequestParam Long playerId){
         return tournamentFacade.enrollPlayer(tournamentId, playerId);
     }
 
     @PutMapping("/{tournamentId}/withdraw-player")
-    public void withdrawPlayer(@PathVariable Long tournamentId, @RequestParam Long playerId){
-        tournamentFacade.withdrawPlayer(tournamentId, playerId);
+    public TournamentFullDTO withdrawPlayer(@PathVariable Long tournamentId, @RequestParam Long playerId){
+        return tournamentFacade.withdrawPlayer(tournamentId, playerId);
     }
 
     @PutMapping("/{tournamentId}/rank-player")
-    public RankingWithPlayerDTO rankPlayer(@PathVariable Long tournamentId, @RequestParam Long playerId, @RequestParam Integer playerPlacement){
+    public TournamentFullDTO rankPlayer(@PathVariable Long tournamentId, @RequestParam Long playerId, @RequestParam Integer playerPlacement){
         return tournamentFacade.rankPlayer(tournamentId, playerId, playerPlacement);
     }
 

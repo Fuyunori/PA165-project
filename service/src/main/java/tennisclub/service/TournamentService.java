@@ -109,22 +109,24 @@ public interface TournamentService {
      * Enrolls a player into a tournament.
      * @param tournament to be enrolled in
      * @param player to be enrolled in
+     * @return tournament to which the player was enrolled into
      */
-    Ranking enrollPlayer(Tournament tournament, User player);
+    Tournament enrollPlayer(Tournament tournament, User player);
 
     /**
      * Withdraws a player from a tournament.
      * @param tournament to be withdrawn from
      * @param player to be withdrawn from
+     * @return tournament of which the player withdrew from
      */
-    void withdrawPlayer(Tournament tournament, User player);
+    Tournament withdrawPlayer(Tournament tournament, User player);
 
     /**
      * Ranks a player.
      * @param tournament tournament to be ranked in
      * @param player whose rank is going to change
      * @param newPlacement new placement of the player
-     * @return the ranking
+     * @return tournament of the ranking
      */
-    Ranking rankPlayer(Tournament tournament, User player, Integer newPlacement);
+    Tournament rankPlayer(Tournament tournament, User player, Integer newPlacement);
 }
