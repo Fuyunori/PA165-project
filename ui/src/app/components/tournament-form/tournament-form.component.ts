@@ -26,7 +26,7 @@ export class TournamentFormComponent {
     });
   }
 
-  @Input() readonly = false;
+  @Input() readOnly = false;
   @Input() submitButtonText = 'Submit';
   @Input() cancelButtonText = 'Cancel';
 

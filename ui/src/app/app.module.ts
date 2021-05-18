@@ -22,6 +22,7 @@ import { CourtDetailComponent } from './views/main/court-detail/court-detail.com
 import { AboutComponent } from './views/main/about/about.component';
 import { ToastrModule } from 'ngx-toastr';
 import { TournamentFormComponent } from './components/tournament-form/tournament-form.component';
+import { TournamentDetailComponent } from './views/main/tournament-detail/tournament-detail.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { TournamentFormComponent } from './components/tournament-form/tournament
     CourtDetailComponent,
     AboutComponent,
     TournamentFormComponent,
+    TournamentDetailComponent,
   ],
   imports: [
     BrowserModule,
