@@ -8,4 +8,4 @@ export type Tournament = Event & {
     rankings: Set<Ranking>,
 }
 
-export type UnknownTournament = Omit<Tournament, 'id'>;
+export type UnknownTournament = Omit<Tournament, 'id' | 'rankings'>;
