@@ -43,7 +43,7 @@ public class LessonController {
     }
 
     @PostMapping("/{lessonId}/students")
-    public ResponseEntity<LessonFullDTO> enrollStudent(@PathVariable Long lessonId, @Valid @RequestBody UserFullDTO player){
+    public ResponseEntity<LessonFullDTO> enrollStudent(@PathVariable Long lessonId, @RequestBody UserFullDTO player){
         return ResponseEntity.ok(lessonFacade.enrollStudent(lessonId, player.getId()));
     }
 
