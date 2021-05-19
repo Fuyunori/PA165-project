@@ -16,14 +16,14 @@ import java.util.Objects;
 public abstract class EventCreateDTO {
 
     @NotNull(message = "{event.time.start.notnull}")
-    @FutureOrPresent
+    @FutureOrPresent(message = "{event.time.start.futureOrPresent}")
     private LocalDateTime startTime;
 
-    @NotNull
-    @Future
+    @NotNull(message = "{event.time.end.notnull}")
+    @Future(message = "{event.time.end.future}")
     private LocalDateTime endTime;
 
-    @NotNull
+    @NotNull(message = "{event.court.notnull}")
     private CourtDto court;
 
     public LocalDateTime getStartTime() {

@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 public class LessonCreateDTO extends EventCreateDTO {
     private Integer capacity;
 
-    @NotNull
+    @NotNull(message = "{lesson.level.notNull}")
     private Level level;
 
     public Integer getCapacity() {
