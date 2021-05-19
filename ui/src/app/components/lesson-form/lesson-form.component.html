@@ -1,1 +1,38 @@
-<p>lesson-form works!</p>
+<form class="lesson-form" [formGroup]="lessonForm" (ngSubmit)="submit()">
+    <div class="form-content">
+        <div class="field-list">
+            <mat-form-field appearance="fill" class="field">
+                <mat-label>Capacity</mat-label>
+                <input type="number"
+                        matInput
+                        [formControlName]="LessonFormKey.Capacity"
+                        [readonly]="readOnly"
+                />
+            </mat-form-field>
+            <mat-form-field
+                    appearance="fill"
+                    class="field"
+                    [ngClass]="{ 'readonly-select': readOnly }"
+            >
+                <mat-label>Type</mat-label>
+                <mat-select [formControlName]="LessonFormKey.Level">
+                    <mat-option [value]="LessonLevel.Beginner">Beginner</mat-option>
+                    <mat-option [value]="LessonLevel.Advanced">Advanced</mat-option>
+                    <mat-option [value]="LessonLevel.Intermediate">Intermediate</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="form-actions" *ngIf="!readOnly">
+        <button type="button" mat-flat-button color="warn" (click)="cancel()">
+            {{ cancelButtonText }}
+        </button>
+        <button
+                mat-flat-button
+                color="primary"
+                [disabled]="lessonForm.invalid || lessonForm.pristine"
+        >
+            {{ submitButtonText }}
+        </button>
+    </div>
+</form>
