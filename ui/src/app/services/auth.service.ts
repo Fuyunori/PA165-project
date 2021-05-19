@@ -1,6 +1,14 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { AuthInfo } from '../models/auth-info.model';
+import { isJwtPayload, JwtPayload } from '../models/jwt-payload.model';
+import { UserRole } from '../models/user.model';
+import { StorageService } from './storage.service';
+
+const RESOURCE_URL = `${environment.apiBaseUrl}/users`;
 
 type AuthState =
   | {
@@ -28,22 +36,59 @@ export class AuthService {
     map(({ status }) => status === 'loginFailed'),
   );
 
-  // TODO mocked for now
-  readonly userIsManager$: Observable<boolean> = of(true);
+  readonly token$: Observable<string | null> = this.state$.pipe(
+    map(state => (state.status === 'loggedIn' ? state.token : null)),
+  );
 
-  logIn(username: string, password: string): void {
-    // TODO the authentication endpoint will be called here, now mocked
+  readonly parsedToken$: Observable<JwtPayload | null> = this.token$.pipe(
+    map(token => (token != null ? AuthService.parseToken(token) : null)),
+  );
 
-    setTimeout(() => {
-      this.state$.next(
-        username === 'root' && password === 'toor'
-          ? { status: 'loggedIn', token: 'xyz123' }
-          : { status: 'loginFailed' },
+  readonly userIsManager$: Observable<boolean> = this.parsedToken$.pipe(
+    map(parsedToken => parsedToken?.role === UserRole.Manager),
+  );
+
+  constructor(
+    private readonly http: HttpClient,
+    private readonly storage: StorageService,
+  ) {
+    const { token } = this.storage;
+    if (token != null) {
+      this.state$.next({ status: 'loggedIn', token });
+    }
+  }
+
+  logIn(authInfo: AuthInfo): void {
+    this.http
+      .post(`${RESOURCE_URL}/auth`, authInfo, { responseType: 'text' })
+      .subscribe(
+        token => {
+          this.state$.next({ status: 'loggedIn', token });
+          this.storage.token = token;
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          this.state$.next({ status: 'loginFailed' });
+        },
       );
-    }, 1000);
   }
 
   logOut(): void {
     this.state$.next({ status: 'loggedOut' });
+    this.storage.token = null;
+  }
+
+  private static parseToken(token: string): JwtPayload | null {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      if (!isJwtPayload(payload)) {
+        console.error(`Token ${token} carries invalid payload`);
+        return null;
+      }
+      return payload;
+    } catch (e) {
+      console.error(`Could not parse token ${token}`);
+      return null;
+    }
   }
 }

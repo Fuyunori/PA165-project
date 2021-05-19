@@ -7,11 +7,15 @@
     <mat-card-content>
       <mat-form-field appearance="fill" class="login-field">
         <mat-label>Username</mat-label>
-        <input matInput formControlName="username" />
+        <input matInput [formControlName]="LoginFormKey.Username" />
       </mat-form-field>
       <mat-form-field appearance="fill" class="login-field">
         <mat-label>Password</mat-label>
-        <input matInput formControlName="password" type="password" />
+        <input
+          matInput
+          type="password"
+          [formControlName]="LoginFormKey.Password"
+        />
       </mat-form-field>
       <p *ngIf="loginFailed$ | async" class="mat-error">
         Invalid username or password
