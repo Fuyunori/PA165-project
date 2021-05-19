@@ -31,7 +31,7 @@ public class UserController {
         return userFacade.register(userAuthDTO);
     }
 
-    @GetMapping("/auth")
+    @PostMapping("/auth")
     public final String authenticate(@RequestBody UserAuthDTO userAuthDTO) {
         return userFacade.authenticate(userAuthDTO);
     }
