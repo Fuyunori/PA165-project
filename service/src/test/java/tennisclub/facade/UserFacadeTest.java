@@ -13,11 +13,13 @@ import tennisclub.dto.user.UserUpdateDTO;
 import tennisclub.entity.Court;
 import tennisclub.entity.User;
 import tennisclub.enums.Role;
+import tennisclub.exceptions.UnauthorisedException;
 import tennisclub.service.UserService;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -92,35 +94,22 @@ public class UserFacadeTest {
 
     @Test
     void authenticate() {
-        when(userService.authenticate(authEntity, password)).thenReturn(true);
-        ArgumentCaptor<User> passedEntity = ArgumentCaptor.forClass(User.class);
+        when(userService.authenticateJWT(authEntity.getUsername(), password)).thenReturn("token");
+        ArgumentCaptor<String> passedUsername = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<String> passedPassword = ArgumentCaptor.forClass(String.class);
 
-        assertThat(userFacade.authenticate(authDto)).isTrue();
-        verify(userService).authenticate(passedEntity.capture(), passedPassword.capture());
-        assertThat(passedEntity.getValue().getUsername()).isEqualTo(username);
+        assertThat(userFacade.authenticate(authDto)).isEqualTo("token");
+        verify(userService).authenticateJWT(passedUsername.capture(), passedPassword.capture());
+        assertThat(passedUsername.getValue()).isEqualTo(username);
         assertThat(passedPassword.getValue()).isEqualTo(password);
     }
 
     @Test
     void forwardAuthFailure() {
-        when(userService.authenticate(authEntity, password)).thenReturn(false);
-        assertThat(userFacade.authenticate(authDto)).isFalse();
-    }
-
-    @Test
-    void hasRights() {
-        when(userService.hasRights(entity, Role.USER)).thenReturn(true);
-        assertThat(userFacade.hasRights(dto, Role.USER)).isTrue();
-
-        when(userService.hasRights(entity, Role.USER)).thenReturn(false);
-        assertThat(userFacade.hasRights(dto, Role.USER)).isFalse();
-
-        when(userService.hasRights(entity, Role.MANAGER)).thenReturn(true);
-        assertThat(userFacade.hasRights(dto, Role.MANAGER)).isTrue();
-
-        when(userService.hasRights(entity, Role.MANAGER)).thenReturn(false);
-        assertThat(userFacade.hasRights(dto, Role.MANAGER)).isFalse();
+        when(userService.authenticateJWT(authEntity.getUsername(), password)).thenThrow(new UnauthorisedException());
+        assertThatThrownBy( () ->
+            userFacade.authenticate(authDto)
+        ).isInstanceOf(UnauthorisedException.class);
     }
 
     @Test

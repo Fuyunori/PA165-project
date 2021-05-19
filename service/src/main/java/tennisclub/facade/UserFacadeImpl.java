@@ -40,15 +40,8 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public boolean authenticate(UserAuthDTO userAuthDTO) {
-        User user = mapper.map(userAuthDTO, User.class);
-        return userService.authenticate(user, userAuthDTO.getPassword());
-    }
-
-    @Override
-    public boolean hasRights(UserDTO userDTO, Role role) {
-        User user = mapper.map(userDTO, User.class);
-        return userService.hasRights(user, role);
+    public String authenticate(UserAuthDTO userAuthDTO) {
+        return userService.authenticateJWT(userAuthDTO.getUsername(), userAuthDTO.getPassword());
     }
 
     @Override

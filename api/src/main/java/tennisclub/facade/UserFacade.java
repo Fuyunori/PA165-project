@@ -22,18 +22,11 @@ public interface UserFacade {
     UserFullDTO register(UserAuthDTO userAuthDTO);
 
     /**
-     * Authenticates user
+     * Authenticates user, appropriate
      * @param userAuthDTO containing the user authentication data
+     * @return JWT
      */
-    boolean authenticate(UserAuthDTO userAuthDTO);
-
-    /**
-     * Verifies whether the user has certain rights
-     * @param userDTO containing the user data
-     * @param role the user should have
-     * @return whether the user was authorised
-     */
-    boolean hasRights(UserDTO userDTO, Role role);
+    String authenticate(UserAuthDTO userAuthDTO);
 
     /**
      * Finds all users in the system
