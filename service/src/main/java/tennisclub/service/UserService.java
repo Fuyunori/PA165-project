@@ -3,6 +3,8 @@ package tennisclub.service;
 import org.springframework.stereotype.Service;
 import tennisclub.entity.User;
 import tennisclub.enums.Role;
+import tennisclub.exceptions.ForbiddenException;
+import tennisclub.exceptions.UnauthorisedException;
 
 import java.util.List;
 
@@ -29,19 +31,39 @@ public interface UserService {
 
     /**
      * Authenticates a user with his/her password
-     * @param user to be authenticated
+     * @param username to be authenticated
      * @param plainTextPassword of the user
-     * @return whether user was authenticated
+     * @return JWT
+     * @throws UnauthorisedException if the combination of username/password is invalid
      */
-    boolean authenticate(User user, String plainTextPassword);
+    String authenticateJWT(String username, String plainTextPassword);
 
     /**
-     * Verifies whether the user has certain rights
-     * @param user to be authorised
-     * @param role the user should have
-     * @return whether the user was authorised
+     * Verifies whether the user has certain role
+     * @param jwt provided by the user
+     * @param expectedRole the user should have
+     * @throws UnauthorisedException if the jwt is invalid
+     * @throws ForbiddenException if the role of the user is not sufficient
      */
-    boolean hasRights(User user, Role role);
+    void verifyRole(String jwt, Role expectedRole);
+
+    /**
+     * Verifies whether the user is who they claim to be
+     * @param jwt provided by the user
+     * @param expectedUsername who the user should be
+     * @throws UnauthorisedException if the jwt is invalid
+     * @throws ForbiddenException if the user is not the expected user
+     */
+    void verifyUser(String jwt, String expectedUsername);
+
+    /**
+     * Verifies whether the user is who they claim to be or a manager
+     * @param jwt provided by the user
+     * @param expectedUsername who the user should be
+     * @throws UnauthorisedException if the jwt is invalid
+     * @throws ForbiddenException if the user is not the expected user
+     */
+    void verifyUserOrManager(String jwt, String expectedUsername);
 
     /**
      * Finds a user based on id

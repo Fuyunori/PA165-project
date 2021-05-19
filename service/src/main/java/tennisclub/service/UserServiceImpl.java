@@ -7,11 +7,15 @@ import org.springframework.stereotype.Service;
 import tennisclub.dao.UserDao;
 import tennisclub.entity.User;
 import tennisclub.enums.Role;
+import tennisclub.exceptions.ForbiddenException;
+import tennisclub.exceptions.UnauthorisedException;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 /**
  * Implementation of {@link UserService}
+ *
  * @author Ondrej Holub
  */
 @Service
@@ -19,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
 
-    private  final PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
+    private final PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
 
     @Autowired
     public UserServiceImpl(UserDao userDao) {
@@ -39,17 +43,51 @@ public class UserServiceImpl implements UserService {
         return userDao.findAll();
     }
 
-    @Override
-    public boolean authenticate(User user, String plainTextPassword) {
-        return passwordEncoder.matches(plainTextPassword, user.getPasswordHash());
+    public String authenticateJWT(String username, String plainTextPassword) {
+        User user = findUserOrThrowUnauthorised(username);
+
+        if (passwordEncoder.matches(plainTextPassword, user.getPasswordHash())) {
+            return JWTService.createJWT(user);
+        }
+
+        throw new UnauthorisedException();
     }
 
     @Override
-    public boolean hasRights(User user, Role role) {
-        if(role == Role.MANAGER) {
-            return user.getRole() == Role.MANAGER;
+    public void verifyRole(String jwt, Role expectedRole) {
+        Role role = getRoleOrThrowUnauthorised(jwt);
+
+        switch (expectedRole) {
+            case MANAGER:
+                if (role != Role.MANAGER) {
+                    throw new ForbiddenException();
+                }
+                break;
+
+            case USER:
+            default:
+                if (role == null) {
+                    throw new ForbiddenException();
+                }
+                break;
         }
-        return role != Role.USER || user.getRole() != null;
+    }
+
+    @Override
+    public void verifyUser(String jwt, String expectedUsername) {
+        String username = getUsernameOrThrowUnauthorised(jwt);
+        if (!username.equals(expectedUsername)) {
+            throw new ForbiddenException();
+        }
+    }
+
+    public void verifyUserOrManager(String jwt, String expectedUsername) {
+        String username = getUsernameOrThrowUnauthorised(jwt);
+        Role role = getRoleOrThrowUnauthorised(jwt);
+
+        if ( (!username.equals(expectedUsername)) && role != Role.MANAGER) {
+            throw new ForbiddenException();
+        }
     }
 
     @Override
@@ -73,10 +111,53 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserData(User user) { return userDao.update(user); }
+    public User updateUserData(User user) {
+        return userDao.update(user);
+    }
 
     @Override
     public void removeUser(User user) {
         userDao.delete(user);
+    }
+
+    private User findUserOrThrowUnauthorised(String username) {
+        User user;
+        try {
+            user = userDao.findByUsername(username);
+        } catch (NoResultException e) {
+            throw new UnauthorisedException();
+        }
+        return user;
+    }
+
+    private String getUsernameOrThrowUnauthorised(String jwt) {
+        String username;
+        try {
+            username = JWTService.decodeJWT(jwt).getSubject();
+        } catch (Exception e) {
+            throw new UnauthorisedException();
+        }
+        return username;
+    }
+
+    private Role getRoleOrThrowUnauthorised(String jwt) {
+        String stringRole;
+        try {
+            stringRole = JWTService.decodeJWT(jwt).get("role").toString();
+        } catch (Exception e) {
+            throw new UnauthorisedException();
+        }
+        Role role;
+        switch (stringRole) {
+            case "USER":
+                role = Role.USER;
+                break;
+            case "MANAGER":
+                role = Role.MANAGER;
+                break;
+            default:
+                role = null;
+        }
+        return role;
     }
 }
