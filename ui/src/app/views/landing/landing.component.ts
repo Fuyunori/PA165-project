@@ -3,7 +3,12 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../services/auth.service';
+
+enum LoginFormKey {
+  Username = 'Username',
+  Password = 'Password',
+}
 
 @Component({
   selector: 'tc-landing',
@@ -13,9 +18,10 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LandingComponent implements OnInit, OnDestroy {
   readonly loginFailed$ = this.auth.loginFailed$;
 
+  readonly LoginFormKey = LoginFormKey;
   readonly loginForm = this.fb.group({
-    username: '',
-    password: '',
+    [LoginFormKey.Username]: '',
+    [LoginFormKey.Password]: '',
   });
 
   private readonly unsubscribe$ = new Subject<void>();
@@ -51,7 +57,10 @@ export class LandingComponent implements OnInit, OnDestroy {
   }
 
   logIn(): void {
-    const { username, password } = this.loginForm.value;
-    this.auth.logIn(username, password);
+    const { value } = this.loginForm;
+    this.auth.logIn({
+      username: value[LoginFormKey.Username],
+      password: value[LoginFormKey.Password],
+    });
   }
 }
