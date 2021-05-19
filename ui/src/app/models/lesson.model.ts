@@ -7,11 +7,18 @@ export enum Level {
     Advanced = 'ADVANCED'
 }
 
-export type Lesson = Event & {
-    capacity: number;
-    level: Level;
-    teachers: Set<User>;
-    students: Set<User>;
+export class Lesson extends Event {
+
+    constructor(protected id: number,
+                protected start: Date,
+                protected end: Date,
+                private capacity: number,
+                private level: Level,
+                private teachers: Set<User>,
+                private students:Set<User>,
+                ) {
+        super(id, start, end);
+    }
 }
 
 export type UnknownLesson = Omit<Lesson, 'id' | 'teachers' | 'students'>;
