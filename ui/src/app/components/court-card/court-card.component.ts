@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Court } from 'src/app/models/court.model';
+import { Court } from '../../models/court.model';
 
 @Component({
   selector: 'tc-court-card',

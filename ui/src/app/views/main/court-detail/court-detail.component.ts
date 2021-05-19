@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Court, UnknownCourt } from 'src/app/models/court.model';
-import { AuthService } from 'src/app/services/auth.service';
-import { CourtService } from 'src/app/services/court.service';
+import { Court, UnknownCourt } from '../../../models/court.model';
+import { AuthService } from '../../../services/auth.service';
+import { CourtService } from '../../../services/court.service';
 
 @Component({
   selector: 'tc-court-detail',
