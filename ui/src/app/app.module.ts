@@ -16,11 +16,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { CourtCardComponent } from './components/court-card/court-card.component';
 import { CourtListComponent } from './components/court-list/court-list.component';
 import { CourtFormComponent } from './components/court-form/court-form.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CourtDetailComponent } from './views/main/court-detail/court-detail.component';
 import { AboutComponent } from './views/main/about/about.component';
 import { ToastrModule } from 'ngx-toastr';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,9 @@ import { ToastrModule } from 'ngx-toastr';
       positionClass: 'toast-bottom-center',
     }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
