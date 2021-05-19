@@ -17,16 +17,16 @@ public class GlobalExceptionHandler {
         if (error != null) {
             return ResponseEntity.badRequest().body(error.getDefaultMessage());
         }
-        return ResponseEntity.badRequest().body("Some error.");
+        return ResponseEntity.badRequest().body("An error has occurred when validating a field.");
     }
 
     @ExceptionHandler
     ResponseEntity<String> handleServiceLayerException(ServiceLayerException ex) {
-        return ResponseEntity.badRequest().body("Internal error.");
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
     @ExceptionHandler
     ResponseEntity<String> handleFacadeLayerException(FacadeLayerException ex) {
-        return ResponseEntity.badRequest().body("Internal error.");
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
