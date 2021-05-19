@@ -81,7 +81,9 @@ public class UserServiceTest {
         User newUser = userService.register(user, password);
         verify(userDao).create(user);
         assertThat(user.getPasswordHash()).isNotBlank();
-        assertThat(newUser).isEqualTo(user);
+        assertThat(newUser.getRole()).isEqualTo(Role.USER);
+        assertThat(newUser.getUsername()).isEqualTo(user.getUsername());
+        assertThat(newUser.getPasswordHash()).isEqualTo(user.getPasswordHash());
     }
 
     @Test

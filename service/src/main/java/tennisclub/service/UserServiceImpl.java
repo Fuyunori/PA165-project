@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User register(User user, String plainTextPassword) {
         user.setPasswordHash(passwordEncoder.encode(plainTextPassword));
+        user.setRole(Role.USER);
         userDao.create(user);
         return user;
     }
