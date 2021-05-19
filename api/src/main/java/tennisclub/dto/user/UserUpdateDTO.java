@@ -5,6 +5,7 @@ import tennisclub.dto.lesson.LessonWithCourtDTO;
 import tennisclub.dto.ranking.RankingWithTournamentDTO;
 import tennisclub.enums.Role;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.Set;
  * User DTO for updates
  * @author Ondrej Holub
  */
+@Valid
 public class UserUpdateDTO {
 
     @NotBlank
