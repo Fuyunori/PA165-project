@@ -1,6 +1,8 @@
 package tennisclub.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tennisclub.dto.ranking.RankingWithPlayerDTO;
 import tennisclub.dto.tournament.TournamentCreateDTO;
@@ -10,6 +12,7 @@ import tennisclub.dto.user.UserDTO;
 import tennisclub.dto.user.UserFullDTO;
 import tennisclub.facade.TournamentFacade;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -27,37 +30,40 @@ public class TournamentController {
     }
 
     @GetMapping
-    public List<TournamentFullDTO> getTournaments(){
-        return tournamentFacade.getAllTournaments();
+    public ResponseEntity<List<TournamentFullDTO>> getTournaments(){
+        return ResponseEntity.ok(tournamentFacade.getAllTournaments());
     }
 
     @GetMapping("/{id}")
-    public TournamentFullDTO getTournamentById(@PathVariable Long id){
-        return tournamentFacade.getTournamentWithId(id);
+    public ResponseEntity<TournamentFullDTO> getTournamentById(@PathVariable Long id){
+        return ResponseEntity.ok(tournamentFacade.getTournamentWithId(id));
     }
 
     @PostMapping
-    public TournamentFullDTO createTournament(@RequestBody TournamentCreateDTO tournamentDTO){
-        return tournamentFacade.createTournament(tournamentDTO);
+    public ResponseEntity<TournamentFullDTO> createTournament(@Valid @RequestBody TournamentCreateDTO tournamentDTO){
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(tournamentFacade.createTournament(tournamentDTO));
     }
 
     @PostMapping("/{tournamentId}/users")
-    public TournamentFullDTO enrollPlayer(@PathVariable Long tournamentId, @RequestBody UserFullDTO player){
-        return tournamentFacade.enrollPlayer(tournamentId, player.getId());
+    public ResponseEntity<TournamentFullDTO> enrollPlayer(@PathVariable Long tournamentId, @RequestBody UserFullDTO player){
+        return ResponseEntity.ok(tournamentFacade.enrollPlayer(tournamentId, player.getId()));
     }
 
     @DeleteMapping("/{tournamentId}/users/{playerId}")
-    public TournamentFullDTO withdrawPlayer(@PathVariable Long tournamentId, @PathVariable Long playerId){
-        return tournamentFacade.withdrawPlayer(tournamentId, playerId);
+    public ResponseEntity<TournamentFullDTO> withdrawPlayer(@PathVariable Long tournamentId, @PathVariable Long playerId){
+        return ResponseEntity.ok(tournamentFacade.withdrawPlayer(tournamentId, playerId));
     }
 
     @PutMapping("/{tournamentId}/rankings")
-    public TournamentFullDTO rankPlayer(@PathVariable Long tournamentId, @RequestBody RankingWithPlayerDTO ranking){
-        return tournamentFacade.rankPlayer(tournamentId, ranking.getPlayer().getId(), ranking.getPlayerPlacement());
+    public ResponseEntity<TournamentFullDTO> rankPlayer(@PathVariable Long tournamentId, @Valid @RequestBody RankingWithPlayerDTO ranking){
+        return ResponseEntity.ok(tournamentFacade.rankPlayer(tournamentId, ranking.getPlayer().getId(), ranking.getPlayerPlacement()));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTournament(@PathVariable Long id){
+    public ResponseEntity<Void> deleteTournament(@PathVariable Long id){
         tournamentFacade.deleteTournament(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
