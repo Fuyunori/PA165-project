@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { CourtType, UnknownCourt } from 'src/app/models/court.model';
+import { CourtType, UnknownCourt } from '../../models/court.model';
 
 enum CourtFormKey {
   Name = 'Name',

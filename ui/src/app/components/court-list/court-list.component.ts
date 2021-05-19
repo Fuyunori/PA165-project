@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CourtService } from 'src/app/services/court.service';
+import { CourtService } from '../../services/court.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CourtFormComponent } from '../court-form/court-form.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'tc-court-list',
