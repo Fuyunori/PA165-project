@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import tennisclub.dto.user.UserAuthDTO;
 import tennisclub.dto.user.UserFullDTO;
 import tennisclub.dto.user.UserUpdateDTO;
-import tennisclub.entity.User;
 import tennisclub.facade.UserFacade;
+import tennisclub.exceptions.ForbiddenException;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/auth")
-    public final boolean authenticate(@RequestBody UserAuthDTO userAuthDTO) {
+    public final String authenticate(@RequestBody UserAuthDTO userAuthDTO) {
         return userFacade.authenticate(userAuthDTO);
     }
 
