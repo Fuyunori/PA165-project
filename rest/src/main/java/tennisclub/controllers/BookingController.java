@@ -10,6 +10,7 @@ import tennisclub.dto.event.EventWithCourtDTO;
 import tennisclub.dto.user.UserDTO;
 import tennisclub.facade.BookingFacade;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<BookingFullDTO> createBooking(@RequestBody BookingCreateDTO createDTO) {
+    public ResponseEntity<BookingFullDTO> createBooking(@Valid @RequestBody BookingCreateDTO createDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(bookingFacade.makeBooking(createDTO));
     }
 
@@ -48,7 +49,7 @@ public class BookingController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookingFullDTO> addUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<BookingFullDTO> addUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(bookingFacade.addUser(id, userDTO.getId()));
     }
 

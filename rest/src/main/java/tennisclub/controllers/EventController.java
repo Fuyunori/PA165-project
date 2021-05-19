@@ -7,6 +7,7 @@ import tennisclub.dto.event.EventRescheduleDTO;
 import tennisclub.dto.event.EventWithCourtDTO;
 import tennisclub.facade.EventFacade;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EventWithCourtDTO> reschedule(@PathVariable Long id, @RequestBody EventRescheduleDTO rescheduleDTO) {
+    public ResponseEntity<EventWithCourtDTO> reschedule(@PathVariable Long id, @Valid @RequestBody EventRescheduleDTO rescheduleDTO) {
         return ResponseEntity.ok(eventFacade.reschedule(id, rescheduleDTO));
     }
 }
