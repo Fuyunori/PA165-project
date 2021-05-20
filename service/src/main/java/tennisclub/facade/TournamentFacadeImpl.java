@@ -58,28 +58,30 @@ public class TournamentFacadeImpl implements TournamentFacade {
     }
 
     @Override
-    public RankingWithPlayerDTO enrollPlayer(Long tournamentId, Long playerId) {
+    public TournamentFullDTO enrollPlayer(Long tournamentId, Long playerId) {
         Tournament tournament = tournamentService.findById(tournamentId);
         User player = userService.findUserById(playerId);
-        Ranking ranking = tournamentService.enrollPlayer(tournament, player);
+        Tournament updated = tournamentService.enrollPlayer(tournament, player);
 
-        return mapper.map(ranking, RankingWithPlayerDTO.class);
+        return mapper.map(updated, TournamentFullDTO.class);
     }
 
     @Override
-    public void withdrawPlayer(Long tournamentId, Long playerId) {
+    public TournamentFullDTO withdrawPlayer(Long tournamentId, Long playerId) {
         Tournament tournament = tournamentService.findById(tournamentId);
         User player = userService.findUserById(playerId);
-        tournamentService.withdrawPlayer(tournament, player);
+        Tournament updated = tournamentService.withdrawPlayer(tournament, player);
+
+        return mapper.map(updated, TournamentFullDTO.class);
     }
 
     @Override
-    public RankingWithPlayerDTO rankPlayer(Long tournamentId, Long playerId, int placement) {
+    public TournamentFullDTO rankPlayer(Long tournamentId, Long playerId, int placement) {
         Tournament tournament = tournamentService.findById(tournamentId);
         User player = userService.findUserById(playerId);
-        Ranking ranking = tournamentService.rankPlayer(tournament, player, placement);
+        Tournament updated = tournamentService.rankPlayer(tournament, player, placement);
 
-        return mapper.map(ranking, RankingWithPlayerDTO.class);
+        return mapper.map(updated, TournamentFullDTO.class);
     }
 
     @Override
