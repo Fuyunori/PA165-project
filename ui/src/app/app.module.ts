@@ -26,6 +26,8 @@ import { LessonDetailComponent } from './views/main/lesson-detail/lesson-detail.
 import { TournamentFormComponent } from './components/tournament-form/tournament-form.component';
 import { TournamentDetailComponent } from './views/main/tournament-detail/tournament-detail.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { UserFormComponent } from "./components/user-form/user-form.component";
+import { UserDetailComponent } from "./views/main/user-detail/user-detail.component";
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     LessonDetailComponent,
     TournamentFormComponent,
     TournamentDetailComponent,
+    UserFormComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,
