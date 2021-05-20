@@ -48,7 +48,7 @@ public class BookingController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/{id}/users")
     public ResponseEntity<BookingFullDTO> addUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(bookingFacade.addUser(id, userDTO.getId()));
     }
