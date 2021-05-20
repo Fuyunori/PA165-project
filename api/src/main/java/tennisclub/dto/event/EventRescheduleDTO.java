@@ -11,14 +11,14 @@ import java.util.Objects;
 /**
  * @author Miroslav Demek
  */
-@IsEndTimeAfterStartTime(start = "start", end = "end")
+@IsEndTimeAfterStartTime(start = "start", end = "end", message = "{event.time.isEndAfterStart}")
 public class EventRescheduleDTO {
-    @NotNull
-    @FutureOrPresent
+    @NotNull(message = "{event.time.start.notnull}")
+    @FutureOrPresent(message = "{event.time.start.futureOrPresent}")
     private LocalDateTime start;
 
-    @NotNull
-    @Future
+    @NotNull(message = "{event.time.end.notnull}")
+    @Future(message = "{event.time.end.future}")
     private LocalDateTime end;
 
     public EventRescheduleDTO(@NotNull @FutureOrPresent LocalDateTime start, @NotNull @Future LocalDateTime end) {

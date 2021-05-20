@@ -11,14 +11,14 @@ import java.util.Objects;
  * @author Xuan Linh Phamová
  */
 public class TournamentCreateDTO extends EventCreateDTO {
-    @NotBlank
+    @NotBlank(message = "{tournament.name.notBlank}")
     private String name;
 
-    @Min(0)
+    @Min(value = 0, message = "{tournament.capacity.min}")
     private Integer capacity;
 
-    @NotNull
-    @Min(0)
+    @NotNull(message = "{tournament.prize.notNull}")
+    @Min(value = 0, message = "{tournament.prize.min}")
     private Integer prize;
 
     public String getName() {
