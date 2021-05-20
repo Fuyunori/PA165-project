@@ -21,8 +21,8 @@ export class LessonFormComponent {
   @Input()
   set lesson(lesson: UnknownLesson) {
     this.lessonForm.setValue({
-      [LessonFormKey.Start]: lesson.start,
-      [LessonFormKey.End]: lesson.end,
+      [LessonFormKey.Start]: lesson.startTime,
+      [LessonFormKey.End]: lesson.endTime,
       [LessonFormKey.Capacity]: lesson.capacity,
       [LessonFormKey.Level]: lesson.level,
     });
@@ -48,8 +48,8 @@ export class LessonFormComponent {
     const { value } = this.lessonForm;
 
     const lesson: UnknownLesson = {
-      start: value[LessonFormKey.Start],
-      end: value[LessonFormKey.End],
+      startTime: value[LessonFormKey.Start],
+      endTime: value[LessonFormKey.End],
       capacity: value[LessonFormKey.Capacity],
       level: value[LessonFormKey.Level],
     };

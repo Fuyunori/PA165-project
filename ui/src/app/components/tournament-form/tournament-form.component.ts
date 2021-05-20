@@ -22,8 +22,8 @@ export class TournamentFormComponent {
   @Input()
   set tournament(tournament: UnknownTournament) {
     this.tournamentForm.setValue({
-      [TournamentFormKey.Start]: tournament.start,
-      [TournamentFormKey.End]: tournament.end,
+      [TournamentFormKey.Start]: tournament.startTime,
+      [TournamentFormKey.End]: tournament.endTime,
       [TournamentFormKey.Name]: tournament.name,
       [TournamentFormKey.Capacity]: tournament.capacity,
       [TournamentFormKey.Prize]: tournament.prize,
@@ -50,8 +50,8 @@ export class TournamentFormComponent {
     const { value } = this.tournamentForm;
 
     const tournament: UnknownTournament = {
-      start: value[TournamentFormKey.Start],
-      end: value[TournamentFormKey.End],
+      startTime: value[TournamentFormKey.Start],
+      endTime: value[TournamentFormKey.End],
       name: value[TournamentFormKey.Name],
       capacity: value[TournamentFormKey.Capacity],
       prize: value[TournamentFormKey.Prize],
