@@ -3,7 +3,6 @@ package tennisclub.dto.ranking;
 
 import tennisclub.dto.user.UserDTO;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -15,7 +14,6 @@ public class RankingWithPlayerDTO {
     @NotNull(message = "{ranking.player.notNull}")
     private UserDTO player;
 
-    @Min(value = 1, message = "{ranking.player.placement.min}")
     private Integer playerPlacement;
 
     public Integer getPlayerPlacement() {
@@ -40,14 +38,11 @@ public class RankingWithPlayerDTO {
 
         RankingWithPlayerDTO that = (RankingWithPlayerDTO) o;
 
-        if (getPlayerPlacement() != that.getPlayerPlacement()) return false;
-        return getPlayer() != null ? getPlayer().equals(that.getPlayer()) : that.getPlayer() == null;
+        return getPlayer().equals(that.getPlayer());
     }
 
     @Override
     public int hashCode() {
-        int result = getPlayer() != null ? getPlayer().hashCode() : 0;
-        result = 31 * result + getPlayerPlacement();
-        return result;
+        return getPlayer().hashCode();
     }
 }
