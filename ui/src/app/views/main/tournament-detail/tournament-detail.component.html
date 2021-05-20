@@ -1,0 +1,8 @@
+<mat-card *ngIf="displayedTournament$ | async as displayedTournament">
+    <tc-tournament-form
+            cancelButtonText="Delete tournament"
+            [readOnly]="true"
+            [tournament]="displayedTournament"
+            (cancelClick)="deleteTournament(displayedTournament)"
+    ></tc-tournament-form>
+</mat-card>

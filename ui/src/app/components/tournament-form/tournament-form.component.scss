@@ -1,0 +1,24 @@
+.court-form {
+  &,
+  & > * {
+    width: 100%;
+  }
+}
+
+.form-content {
+  display: flex;
+}
+
+.field-list {
+  flex-basis: 100%;
+}
+
+.field {
+  width: 100%;
+}
+
+.form-actions {
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}

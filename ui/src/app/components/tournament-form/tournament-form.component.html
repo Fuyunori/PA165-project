@@ -1,0 +1,42 @@
+<form class="tournament-form" [formGroup]="tournamentForm" (ngSubmit)="submit()">
+    <div class="form-content">
+        <div class="field-list">
+            <mat-form-field appearance="fill" class="field">
+                <mat-label>Name</mat-label>
+                <input
+                        matInput
+                        [formControlName]="TournamentFormKey.Name"
+                        [readonly]="readOnly"
+                />
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="field">
+                <mat-label>Capacity</mat-label>
+                <input type="number"
+                        matInput
+                        [formControlName]="TournamentFormKey.Capacity"
+                        [readonly]="readOnly"
+                />
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="field">
+                <mat-label>Prize</mat-label>
+                <input type="number"
+                        matInput
+                        [formControlName]="TournamentFormKey.Prize"
+                        [readonly]="readOnly"
+                />
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="form-actions" *ngIf="!readOnly">
+        <button type="button" mat-flat-button color="warn" (click)="cancel()">
+            {{ cancelButtonText }}
+        </button>
+        <button
+                mat-flat-button
+                color="primary"
+                [disabled]="tournamentForm.invalid || tournamentForm.pristine"
+        >
+            {{ submitButtonText }}
+        </button>
+    </div>
+</form>
