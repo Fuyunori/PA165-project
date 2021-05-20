@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
         next.handle(
           token != null
             ? request.clone({
-                setHeaders: { 'Authorization': `Bearer ${token}` },
+                setHeaders: { 'Authorization': token },
               })
             : request,
         ),
