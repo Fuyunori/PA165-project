@@ -7,10 +7,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { NotificationService } from './notification.service';
 import { User } from '../models/user.model';
 
-const RESOURCE_URL = `${environment.apiBaseUrl}/lesson`;
+const RESOURCE_URL = `${environment.apiBaseUrl}/lessons`;
 
 type LessonsState = {
-  entities: Record<string, Lesson>;
+  entities: Record<number, Lesson>;
   orderedIds: number[];
 };
 
@@ -27,7 +27,7 @@ export class LessonService {
     map(({ entities, orderedIds }) => orderedIds.map(id => entities[id])),
   );
 
-  readonly singleLesson$ = (id: string): Observable<Lesson | null> =>
+  readonly singleLesson$ = (id: number): Observable<Lesson | null> =>
     this.state$.pipe(map(({ entities }) => entities[id] ?? null));
 
   constructor(

@@ -27,6 +27,7 @@ export class LessonDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.unsubscribe$)).subscribe(({ id }) => {
+      this.lessonService.getLessonById(id);
       this.displayedLesson$ = this.lessonService.singleLesson$(id);
     });
   }
