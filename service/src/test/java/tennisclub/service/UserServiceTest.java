@@ -1,18 +1,21 @@
 package tennisclub.service;
 
-import com.sun.xml.bind.v2.runtime.reflect.opt.Const;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import tennisclub.dao.UserDao;
 import tennisclub.entity.User;
 import tennisclub.enums.Role;
+import tennisclub.exceptions.ForbiddenException;
+import tennisclub.exceptions.UnauthorisedException;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -27,8 +30,10 @@ public class UserServiceTest {
     private UserService userService;
 
     private User user;
+    private User userWithHash;
     private User otherUser;
     private User manager;
+    private User managerWithHash;
     private String password;
     private String otherPassword;
 
@@ -40,6 +45,7 @@ public class UserServiceTest {
         user.setRole(Role.USER);
         user.setName("Karel");
         user.setEmail("destroyer@localhost");
+
 
         otherUser = new User();
         otherUser.setId(2L);
@@ -57,6 +63,17 @@ public class UserServiceTest {
 
         password = "Never.gonna_give-You up!";
         otherPassword = "my L17713 pony";
+
+        PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
+        userWithHash = new User();
+        userWithHash.setUsername(user.getUsername());
+        userWithHash.setPasswordHash(passwordEncoder.encode(password));
+        userWithHash.setRole(Role.USER);
+
+        managerWithHash = new User();
+        managerWithHash.setUsername(manager.getUsername());
+        managerWithHash.setPasswordHash(passwordEncoder.encode(otherPassword));
+        managerWithHash.setRole(Role.MANAGER);
     }
 
     @Test
@@ -64,27 +81,75 @@ public class UserServiceTest {
         User newUser = userService.register(user, password);
         verify(userDao).create(user);
         assertThat(user.getPasswordHash()).isNotBlank();
-        assertThat(newUser).isEqualTo(user);
+        assertThat(newUser.getRole()).isEqualTo(Role.USER);
+        assertThat(newUser.getUsername()).isEqualTo(user.getUsername());
+        assertThat(newUser.getPasswordHash()).isEqualTo(user.getPasswordHash());
     }
 
     @Test
     void authenticate() {
+        when(userDao.findByUsername(user.getUsername())).thenReturn(userWithHash);
         userService.register(user, password);
-        assertThat(userService.authenticate(user, password)).isTrue();
+        assertThat(userService.authenticateJWT(user.getUsername(), password)).isNotNull();
     }
 
     @Test
     void authenticateWithWrongPassword() {
+        when(userDao.findByUsername(user.getUsername())).thenReturn(userWithHash);
         userService.register(user, password);
-        assertThat(userService.authenticate(user, otherPassword)).isFalse();
+        assertThatThrownBy(() ->
+            userService.authenticateJWT(user.getUsername(), otherPassword)
+        ).isInstanceOf(UnauthorisedException.class);
     }
 
     @Test
-    void hasRights() {
-        assertThat(userService.hasRights(user, Role.USER)).isTrue();
-        assertThat(userService.hasRights(user, Role.MANAGER)).isFalse();
-        assertThat(userService.hasRights(manager, Role.USER)).isTrue();
-        assertThat(userService.hasRights(manager, Role.MANAGER)).isTrue();
+    void verifyRoleUser() {
+        when(userDao.findByUsername(user.getUsername())).thenReturn(userWithHash);
+        String userJWT = userService.authenticateJWT(user.getUsername(), password);
+        assertThatNoException().isThrownBy( () -> userService.verifyRole(userJWT, Role.USER));
+        assertThatThrownBy( () ->
+            userService.verifyRole(userJWT, Role.MANAGER)
+        ).isInstanceOf(ForbiddenException.class);
+    }
+
+    @Test
+    void verifyRoleManager() {
+        when(userDao.findByUsername(manager.getUsername())).thenReturn(managerWithHash);
+        String managerJWT = userService.authenticateJWT(manager.getUsername(), otherPassword);
+        assertThatNoException().isThrownBy( () -> userService.verifyRole(managerJWT, Role.USER));
+        assertThatNoException().isThrownBy( () -> userService.verifyRole(managerJWT, Role.MANAGER));
+    }
+
+    @Test
+    void verifyUser() {
+        when(userDao.findByUsername(user.getUsername())).thenReturn(userWithHash);
+        String userJWT = userService.authenticateJWT(user.getUsername(), password);
+        assertThatNoException().isThrownBy( () -> userService.verifyUser(userJWT, user.getUsername()));
+    }
+
+    @Test
+    void verifyInvalidUser() {
+        when(userDao.findByUsername(user.getUsername())).thenReturn(userWithHash);
+        String userJWT = userService.authenticateJWT(user.getUsername(), password);
+
+        assertThatThrownBy( () ->
+            userService.verifyUser(userJWT, otherUser.getUsername())
+        ).isInstanceOf(ForbiddenException.class);
+    }
+
+    @Test
+    void verifyUserOrManager() {
+        when(userDao.findByUsername(user.getUsername())).thenReturn(userWithHash);
+        when(userDao.findByUsername(manager.getUsername())).thenReturn(managerWithHash);
+
+        String managerJWT = userService.authenticateJWT(manager.getUsername(), otherPassword);
+        String userJWT = userService.authenticateJWT(user.getUsername(), password);
+
+        assertThatNoException().isThrownBy( () -> userService.verifyUserOrManager(managerJWT, user.getUsername()));
+        assertThatNoException().isThrownBy( () -> userService.verifyUserOrManager(userJWT, user.getUsername()));
+        assertThatThrownBy( () ->
+                userService.verifyUserOrManager(userJWT, otherUser.getUsername())
+        ).isInstanceOf(ForbiddenException.class);
     }
 
     @Test
@@ -163,6 +228,7 @@ public class UserServiceTest {
 
     @Test
     void updateUserData() {
+        when(userDao.findById(user.getId())).thenReturn(user);
         when(userDao.update(user)).thenReturn(otherUser);
         assertThat(userService.updateUserData(user)).isEqualTo(otherUser); // return value propagates correctly
         verify(userDao).update(user);

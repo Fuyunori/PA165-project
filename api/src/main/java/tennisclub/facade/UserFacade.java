@@ -3,6 +3,7 @@ package tennisclub.facade;
 import tennisclub.dto.user.UserAuthDTO;
 import tennisclub.dto.user.UserDTO;
 import tennisclub.dto.user.UserFullDTO;
+import tennisclub.dto.user.UserUpdateDTO;
 import tennisclub.enums.Role;
 
 import java.util.List;
@@ -21,18 +22,11 @@ public interface UserFacade {
     UserFullDTO register(UserAuthDTO userAuthDTO);
 
     /**
-     * Authenticates user
+     * Authenticates user, appropriate
      * @param userAuthDTO containing the user authentication data
+     * @return JWT
      */
-    boolean authenticate(UserAuthDTO userAuthDTO);
-
-    /**
-     * Verifies whether the user has certain rights
-     * @param userDTO containing the user data
-     * @param role the user should have
-     * @return whether the user was authorised
-     */
-    boolean hasRights(UserDTO userDTO, Role role);
+    String authenticate(UserAuthDTO userAuthDTO);
 
     /**
      * Finds all users in the system
@@ -70,14 +64,14 @@ public interface UserFacade {
 
     /**
      * Updated the data of a user
-     * @param userFullDTO containing the new user data
+     * @param userUpdateDTO containing the new user data
      * @return the updated user
      */
-    UserFullDTO updateUser(UserFullDTO userFullDTO);
+    UserFullDTO updateUser(Long id, UserUpdateDTO userUpdateDTO);
 
     /**
      * Removes a user from the system
-     * @param userDTO to be removed
+     * @param id of the user to be removed
      */
-    void removeUser(UserDTO userDTO);
+    void removeUser(Long id);
 }

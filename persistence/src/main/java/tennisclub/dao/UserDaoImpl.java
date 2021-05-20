@@ -67,6 +67,7 @@ public class UserDaoImpl implements UserDao {
             user = em.merge(user);
         }
         em.remove(user);
+
     }
 
 }

@@ -5,20 +5,22 @@ import tennisclub.dto.lesson.LessonWithCourtDTO;
 import tennisclub.dto.ranking.RankingWithTournamentDTO;
 import tennisclub.enums.Role;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * User DTO fully describing the user including its relations
+ * User DTO for updates
  * @author Ondrej Holub
  */
-public class UserFullDTO {
+@Valid
+public class UserUpdateDTO {
 
-    private Long id;
+    @NotBlank
+    private String username;
 
     private String name;
-
-    private String username;
 
     private String email;
 
@@ -31,10 +33,6 @@ public class UserFullDTO {
     private Set<BookingWithCourtDTO> bookings = new HashSet<>();
 
     private Set<RankingWithTournamentDTO> rankings = new HashSet<>();
-
-    public Long getId() { return id; }
-
-    public void setId(Long id) { this.id = id; }
 
     public String getName() { return name; }
 
@@ -87,11 +85,11 @@ public class UserFullDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserFullDTO)) return false;
+        if (!(o instanceof UserUpdateDTO)) return false;
 
-        UserFullDTO userFullDTO = (UserFullDTO) o;
+        UserUpdateDTO userUpdateDTO = (UserUpdateDTO) o;
 
-        return getUsername() != null ? getUsername().equals(userFullDTO.getUsername()) : userFullDTO.getUsername() == null;
+        return getUsername() != null ? getUsername().equals(userUpdateDTO.getUsername()) : userUpdateDTO.getUsername() == null;
     }
 
     @Override

@@ -9,13 +9,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import tennisclub.dto.user.UserAuthDTO;
 import tennisclub.dto.user.UserDTO;
 import tennisclub.dto.user.UserFullDTO;
+import tennisclub.dto.user.UserUpdateDTO;
+import tennisclub.entity.Court;
 import tennisclub.entity.User;
 import tennisclub.enums.Role;
+import tennisclub.exceptions.UnauthorisedException;
 import tennisclub.service.UserService;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -43,6 +47,8 @@ public class UserFacadeTest {
     private UserFullDTO otherFullDto;
     private User otherEntity;
 
+    private UserUpdateDTO updateDto;
+
     @BeforeEach
     void init() {
         username = "us3rn4m3";
@@ -55,11 +61,12 @@ public class UserFacadeTest {
 
         dto = new UserDTO();
         dto.setUsername("someUsername");
+        dto.setId(1L);
         fullDto = new UserFullDTO();
         fullDto.setUsername(dto.getUsername());
-        fullDto.setPasswordHash(password);
         entity = new User();
         entity.setUsername(dto.getUsername());
+        entity.setId(dto.getId());
 
         otherDto = new UserDTO();
         otherDto.setUsername("someDifferentUsername");
@@ -67,6 +74,9 @@ public class UserFacadeTest {
         otherFullDto.setUsername(otherDto.getUsername());
         otherEntity = new User();
         otherEntity.setUsername(otherDto.getUsername());
+
+        updateDto = new UserUpdateDTO();
+        updateDto.setUsername(dto.getUsername());
     }
 
     @Test
@@ -84,35 +94,22 @@ public class UserFacadeTest {
 
     @Test
     void authenticate() {
-        when(userService.authenticate(authEntity, password)).thenReturn(true);
-        ArgumentCaptor<User> passedEntity = ArgumentCaptor.forClass(User.class);
+        when(userService.authenticateJWT(authEntity.getUsername(), password)).thenReturn("token");
+        ArgumentCaptor<String> passedUsername = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<String> passedPassword = ArgumentCaptor.forClass(String.class);
 
-        assertThat(userFacade.authenticate(authDto)).isTrue();
-        verify(userService).authenticate(passedEntity.capture(), passedPassword.capture());
-        assertThat(passedEntity.getValue().getUsername()).isEqualTo(username);
+        assertThat(userFacade.authenticate(authDto)).isEqualTo("token");
+        verify(userService).authenticateJWT(passedUsername.capture(), passedPassword.capture());
+        assertThat(passedUsername.getValue()).isEqualTo(username);
         assertThat(passedPassword.getValue()).isEqualTo(password);
     }
 
     @Test
     void forwardAuthFailure() {
-        when(userService.authenticate(authEntity, password)).thenReturn(false);
-        assertThat(userFacade.authenticate(authDto)).isFalse();
-    }
-
-    @Test
-    void hasRights() {
-        when(userService.hasRights(entity, Role.USER)).thenReturn(true);
-        assertThat(userFacade.hasRights(dto, Role.USER)).isTrue();
-
-        when(userService.hasRights(entity, Role.USER)).thenReturn(false);
-        assertThat(userFacade.hasRights(dto, Role.USER)).isFalse();
-
-        when(userService.hasRights(entity, Role.MANAGER)).thenReturn(true);
-        assertThat(userFacade.hasRights(dto, Role.MANAGER)).isTrue();
-
-        when(userService.hasRights(entity, Role.MANAGER)).thenReturn(false);
-        assertThat(userFacade.hasRights(dto, Role.MANAGER)).isFalse();
+        when(userService.authenticateJWT(authEntity.getUsername(), password)).thenThrow(new UnauthorisedException());
+        assertThatThrownBy( () ->
+            userFacade.authenticate(authDto)
+        ).isInstanceOf(UnauthorisedException.class);
     }
 
     @Test
@@ -166,7 +163,7 @@ public class UserFacadeTest {
         when(userService.updateUserData(entity)).thenReturn(otherEntity);
         ArgumentCaptor<User> passedEntity = ArgumentCaptor.forClass(User.class);
 
-        UserFullDTO updatedUser = userFacade.updateUser(fullDto);
+        UserFullDTO updatedUser = userFacade.updateUser(1L, updateDto);
         verify(userService).updateUserData(passedEntity.capture());
         assertThat(passedEntity.getValue()).isEqualTo(entity);
         assertThat(updatedUser).isEqualTo(otherFullDto);
@@ -174,10 +171,12 @@ public class UserFacadeTest {
 
     @Test
     void removeUser() {
-        ArgumentCaptor<User> passedEntity = ArgumentCaptor.forClass(User.class);
+        Long passedId = dto.getId();
 
-        userFacade.removeUser(dto);
-        verify(userService).removeUser(passedEntity.capture());
-        assertThat(passedEntity.getValue()).isEqualTo(entity);
+        when(userService.findUserById(passedId)).thenReturn(entity);
+
+        userFacade.removeUser(passedId);
+        verify(userService).findUserById(passedId);
+        verify(userService).removeUser(entity);
     }
 }
