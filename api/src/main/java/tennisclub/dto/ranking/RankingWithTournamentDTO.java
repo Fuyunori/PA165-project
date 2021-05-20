@@ -5,6 +5,7 @@ import tennisclub.dto.tournament.TournamentDTO;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 /**
  * Ranking DTO describing the ranking from the perspective of a player
@@ -41,14 +42,14 @@ public class RankingWithTournamentDTO {
 
         RankingWithTournamentDTO that = (RankingWithTournamentDTO) o;
 
-        if (getPlayerPlacement() != that.getPlayerPlacement()) return false;
-        return getTournament() != null ? getTournament().equals(that.getTournament()) : that.getTournament() == null;
+        return Objects.equals(getPlayerPlacement(), that.getPlayerPlacement()) &&
+                Objects.equals(getTournament(), that.getTournament());
     }
 
     @Override
     public int hashCode() {
         int result = getTournament() != null ? getTournament().hashCode() : 0;
-        result = 31 * result + getPlayerPlacement();
+        result = 31 * result + (getPlayerPlacement() != null ? getPlayerPlacement() : 0);
         return result;
     }
 }
