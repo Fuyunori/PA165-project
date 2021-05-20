@@ -9,7 +9,6 @@ import javax.validation.constraints.NotBlank;
  * User DTO containing authentication data
  * @author Ondrej Holub
  */
-@Valid
 public class UserAuthDTO {
 
     @NotBlank

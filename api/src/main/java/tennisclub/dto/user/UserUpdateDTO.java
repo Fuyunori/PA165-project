@@ -14,7 +14,6 @@ import java.util.Set;
  * User DTO for updates
  * @author Ondrej Holub
  */
-@Valid
 public class UserUpdateDTO {
 
     @NotBlank
