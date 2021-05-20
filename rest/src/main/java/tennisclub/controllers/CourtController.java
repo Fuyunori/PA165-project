@@ -1,12 +1,14 @@
 package tennisclub.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tennisclub.dto.court.CourtCreateDto;
 import tennisclub.dto.court.CourtDto;
 import tennisclub.dto.court.CourtUpdateDto;
 import tennisclub.facade.CourtFacade;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -24,27 +26,32 @@ public class CourtController {
     }
 
     @GetMapping
-    public List<CourtDto> getCourts() {
-        return courtFacade.listAll();
+    public ResponseEntity<List<CourtDto>> getCourts() {
+        List<CourtDto> courts = courtFacade.listAll();
+        return ResponseEntity.status(200).body(courts);
     }
 
     @GetMapping("/{id}")
-    public CourtDto getCourtById(@PathVariable Long id) {
-        return courtFacade.getById(id);
+    public ResponseEntity<CourtDto> getCourtById(@PathVariable Long id) {
+        CourtDto court = courtFacade.getById(id);
+        return ResponseEntity.status(200).body(court);
     }
 
     @PostMapping
-    public CourtDto postCourt(@RequestBody CourtCreateDto dto) {
-        return courtFacade.create(dto);
+    public ResponseEntity<CourtDto> postCourt(@Valid @RequestBody CourtCreateDto dto) {
+        CourtDto court = courtFacade.create(dto);
+        return ResponseEntity.status(201).body(court);
     }
 
     @PutMapping("/{id}")
-    public CourtDto putCourt(@PathVariable Long id, @RequestBody CourtUpdateDto dto) {
-        return courtFacade.update(id, dto);
+    public ResponseEntity<CourtDto> putCourt(@PathVariable Long id, @Valid @RequestBody CourtUpdateDto dto) {
+        CourtDto court = courtFacade.update(id, dto);
+        return ResponseEntity.status(200).body(court);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCourt(@PathVariable Long id) {
+    public ResponseEntity<?> deleteCourt(@PathVariable Long id) {
         courtFacade.delete(id);
+        return ResponseEntity.status(204).build();
     }
 }
