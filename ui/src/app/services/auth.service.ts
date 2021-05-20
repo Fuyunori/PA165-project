@@ -60,7 +60,7 @@ export class AuthService {
 
   logIn(authInfo: AuthInfo): void {
     this.http
-      .post(`${RESOURCE_URL}/auth`, authInfo, { responseType: 'text' })
+      .post(`${RESOURCE_URL}/login`, authInfo, { responseType: 'text' })
       .subscribe(
         token => {
           this.state$.next({ status: 'loggedIn', token });
