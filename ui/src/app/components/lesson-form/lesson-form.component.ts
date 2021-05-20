@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import { Level, UnknownLesson} from "../../models/lesson.model";
-import {FormBuilder, Validators} from "@angular/forms";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Level, UnknownLesson } from '../../models/lesson.model';
+import { FormBuilder, Validators } from '@angular/forms';
 
 enum LessonFormKey {
   Start = 'Start',
@@ -12,14 +12,14 @@ enum LessonFormKey {
 @Component({
   selector: 'tc-lesson-form',
   templateUrl: './lesson-form.component.html',
-  styleUrls: ['./lesson-form.component.scss']
+  styleUrls: ['./lesson-form.component.scss'],
 })
 export class LessonFormComponent {
   @Output() readonly cancelClick = new EventEmitter<void>();
   @Output() readonly lessonChange = new EventEmitter<UnknownLesson>();
 
   @Input()
-  set lesson(lesson: UnknownLesson){
+  set lesson(lesson: UnknownLesson) {
     this.lessonForm.setValue({
       [LessonFormKey.Start]: lesson.start,
       [LessonFormKey.End]: lesson.end,
@@ -39,10 +39,10 @@ export class LessonFormComponent {
     [LessonFormKey.Start]: ['', Validators.required],
     [LessonFormKey.End]: ['', Validators.required],
     [LessonFormKey.Capacity]: '',
-    [LessonFormKey.Level]: ['', Validators.required]
+    [LessonFormKey.Level]: ['', Validators.required],
   });
 
-  constructor(private readonly fb: FormBuilder) { }
+  constructor(private readonly fb: FormBuilder) {}
 
   submit(): void {
     const { value } = this.lessonForm;
@@ -61,5 +61,4 @@ export class LessonFormComponent {
   cancel(): void {
     this.cancelClick.emit();
   }
-
 }

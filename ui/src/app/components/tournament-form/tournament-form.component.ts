@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {UnknownTournament} from "../../models/tournament.model";
-import {FormBuilder, Validators} from "@angular/forms";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { UnknownTournament } from '../../models/tournament.model';
+import { FormBuilder, Validators } from '@angular/forms';
 
 enum TournamentFormKey {
   Start = 'Start',
@@ -13,14 +13,14 @@ enum TournamentFormKey {
 @Component({
   selector: 'tc-tournament-form',
   templateUrl: './tournament-form.component.html',
-  styleUrls: ['./tournament-form.component.scss']
+  styleUrls: ['./tournament-form.component.scss'],
 })
 export class TournamentFormComponent {
   @Output() readonly cancelClick = new EventEmitter<void>();
   @Output() readonly tournamentChange = new EventEmitter<UnknownTournament>();
 
   @Input()
-  set tournament(tournament: UnknownTournament){
+  set tournament(tournament: UnknownTournament) {
     this.tournamentForm.setValue({
       [TournamentFormKey.Start]: tournament.start,
       [TournamentFormKey.End]: tournament.end,
@@ -41,10 +41,10 @@ export class TournamentFormComponent {
     [TournamentFormKey.End]: ['', Validators.required],
     [TournamentFormKey.Name]: ['', Validators.required],
     [TournamentFormKey.Capacity]: '',
-    [TournamentFormKey.Prize]: ['', Validators.required]
+    [TournamentFormKey.Prize]: ['', Validators.required],
   });
 
-  constructor(private readonly fb: FormBuilder) { }
+  constructor(private readonly fb: FormBuilder) {}
 
   submit(): void {
     const { value } = this.tournamentForm;
