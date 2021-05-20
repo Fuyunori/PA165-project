@@ -1,11 +1,13 @@
 package tennisclub.dao;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 import tennisclub.entity.ranking.Ranking;
 import tennisclub.entity.Tournament;
 import tennisclub.entity.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -25,10 +27,14 @@ public class RankingDaoImpl implements RankingDao {
 
     @Override
     public Ranking find(Tournament tournament, User player) {
-        return em.createQuery("SELECT r FROM Ranking r WHERE r.tournament = :t AND r.player = :p", Ranking.class)
-                .setParameter("t", tournament)
-                .setParameter("p", player)
-                .getSingleResult();
+        try {
+            return em.createQuery("SELECT r FROM Ranking r WHERE r.tournament = :t AND r.player = :p", Ranking.class)
+                    .setParameter("t", tournament)
+                    .setParameter("p", player)
+                    .getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override

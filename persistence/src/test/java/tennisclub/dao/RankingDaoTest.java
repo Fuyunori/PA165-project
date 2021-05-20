@@ -98,7 +98,7 @@ class RankingDaoTest {
         assertThat(rankingDao.find(tournament, user)).isEqualTo(ranking1);
         assertThat(rankingDao.find(otherTournament, user)).isEqualTo(ranking2);
         assertThat(rankingDao.find(tournament, otherUser)).isEqualTo(ranking3);
-        assertThrows(EmptyResultDataAccessException.class, () -> rankingDao.find(otherTournament, otherUser));
+        assertThat(rankingDao.find(otherTournament, otherUser)).isNull();
     }
 
     @Test
