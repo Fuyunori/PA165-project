@@ -22,18 +22,18 @@ public class GlobalExceptionHandler {
     ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
         FieldError error = ex.getFieldError();
         if (error != null) {
-            return ResponseEntity.badRequest().body(error.getDefaultMessage());
+            return new ResponseEntity<>(error.getDefaultMessage(), HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.badRequest().body("An error has occurred when validating a field.");
+        return new ResponseEntity<>("An error has occurred when validating a field.", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     ResponseEntity<String> handleServiceLayerException(ServiceLayerException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     ResponseEntity<String> handleFacadeLayerException(FacadeLayerException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
