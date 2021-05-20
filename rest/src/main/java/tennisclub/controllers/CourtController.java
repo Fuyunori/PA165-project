@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import tennisclub.dto.court.CourtCreateDto;
 import tennisclub.dto.court.CourtDto;
 import tennisclub.dto.court.CourtUpdateDto;
+import tennisclub.dto.event.EventDTO;
 import tennisclub.enums.Role;
 import tennisclub.facade.CourtFacade;
 import tennisclub.service.UserService;
@@ -46,6 +47,16 @@ public class CourtController {
         userService.verifyRole(jwt, Role.USER);
         CourtDto court = courtFacade.getById(id);
         return ResponseEntity.status(200).body(court);
+    }
+
+    @GetMapping("/{id}/events")
+    public ResponseEntity<List<EventDTO>> getCourtEvents(
+            @PathVariable Long id,
+            @RequestHeader("Authorization") String jwt
+    ) {
+        userService.verifyRole(jwt, Role.USER);
+        List<EventDTO> events = courtFacade.listCourtEvents(id);
+        return ResponseEntity.status(200).body(events);
     }
 
     @PostMapping
