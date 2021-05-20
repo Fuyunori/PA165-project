@@ -3,13 +3,13 @@ import {Ranking} from "./ranking.model";
 
 export class Tournament extends Event {
     constructor(public id: number,
-                public startDate: Date,
-                public endDate: Date,
+                public start: Date,
+                public end: Date,
                 public name: string,
                 public capacity: number,
                 public prize: number,
                 public rankings: Set<Ranking>) {
-        super(id, startDate, endDate);
+        super(id, start, end);
     }
 }
 
