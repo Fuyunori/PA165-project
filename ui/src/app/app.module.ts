@@ -22,6 +22,7 @@ import { CourtDetailComponent } from './views/main/court-detail/court-detail.com
 import { AboutComponent } from './views/main/about/about.component';
 import { ToastrModule } from 'ngx-toastr';
 import { LessonFormComponent } from './components/lesson-form/lesson-form.component';
+import { LessonDetailComponent } from './views/main/lesson-detail/lesson-detail.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { LessonFormComponent } from './components/lesson-form/lesson-form.compon
     CourtDetailComponent,
     AboutComponent,
     LessonFormComponent,
+    LessonDetailComponent,
   ],
   imports: [
     BrowserModule,
