@@ -228,6 +228,7 @@ public class UserServiceTest {
 
     @Test
     void updateUserData() {
+        when(userDao.findById(user.getId())).thenReturn(user);
         when(userDao.update(user)).thenReturn(otherUser);
         assertThat(userService.updateUserData(user)).isEqualTo(otherUser); // return value propagates correctly
         verify(userDao).update(user);

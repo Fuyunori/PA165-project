@@ -113,7 +113,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUserData(User user) {
-        return userDao.update(user);
+        User originalUser = findUserById(user.getId());
+        originalUser.setName(user.getName());
+        originalUser.setEmail(user.getEmail());
+        return userDao.update(originalUser);
     }
 
     @Override
