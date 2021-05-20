@@ -22,12 +22,14 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
+    private final JWTService jwtService;
 
     private final PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
 
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao, JWTService jwtService) {
         this.userDao = userDao;
+        this.jwtService = jwtService;
     }
 
 
@@ -48,7 +50,7 @@ public class UserServiceImpl implements UserService {
         User user = findUserOrThrowUnauthorised(username);
 
         if (passwordEncoder.matches(plainTextPassword, user.getPasswordHash())) {
-            return JWTService.createJWT(user);
+            return jwtService.createJWT(user);
         }
 
         throw new UnauthorisedException();
@@ -137,7 +139,7 @@ public class UserServiceImpl implements UserService {
     private String getUsernameOrThrowUnauthorised(String jwt) {
         String username;
         try {
-            username = JWTService.decodeJWT(jwt).getSubject();
+            username = jwtService.decodeJWT(jwt).getSubject();
         } catch (Exception e) {
             throw new UnauthorisedException();
         }
@@ -147,7 +149,7 @@ public class UserServiceImpl implements UserService {
     private Role getRoleOrThrowUnauthorised(String jwt) {
         String stringRole;
         try {
-            stringRole = JWTService.decodeJWT(jwt).get("role").toString();
+            stringRole = jwtService.decodeJWT(jwt).get("role").toString();
         } catch (Exception e) {
             throw new UnauthorisedException();
         }
