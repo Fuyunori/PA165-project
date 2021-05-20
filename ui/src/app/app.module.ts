@@ -21,6 +21,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CourtDetailComponent } from './views/main/court-detail/court-detail.component';
 import { AboutComponent } from './views/main/about/about.component';
 import { ToastrModule } from 'ngx-toastr';
+import { TournamentFormComponent } from './components/tournament-form/tournament-form.component';
+import { TournamentDetailComponent } from './views/main/tournament-detail/tournament-detail.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { ToastrModule } from 'ngx-toastr';
     CourtFormComponent,
     CourtDetailComponent,
     AboutComponent,
+    TournamentFormComponent,
+    TournamentDetailComponent,
   ],
   imports: [
     BrowserModule,
