@@ -84,6 +84,21 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public void verifyUser(String jwt, Long expectedUserId) {
+        String username = getUsernameOrThrowUnauthorised(jwt);
+
+        User user;
+        try{
+            user = findUserByUsername(username);
+        }catch (Exception e) {
+            throw new ForbiddenException();
+        }
+
+        if (!user.getId().equals(expectedUserId)) {
+            throw new ForbiddenException();
+        }
+    }
+
     public void verifyUserOrManager(String jwt, String expectedUsername) {
         String username = getUsernameOrThrowUnauthorised(jwt);
         Role role = getRoleOrThrowUnauthorised(jwt);
