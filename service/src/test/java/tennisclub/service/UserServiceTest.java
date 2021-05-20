@@ -66,11 +66,13 @@ public class UserServiceTest {
 
         PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
         userWithHash = new User();
+        userWithHash.setId(user.getId());
         userWithHash.setUsername(user.getUsername());
         userWithHash.setPasswordHash(passwordEncoder.encode(password));
         userWithHash.setRole(Role.USER);
 
         managerWithHash = new User();
+        managerWithHash.setId(manager.getId());
         managerWithHash.setUsername(manager.getUsername());
         managerWithHash.setPasswordHash(passwordEncoder.encode(otherPassword));
         managerWithHash.setRole(Role.MANAGER);
@@ -121,19 +123,36 @@ public class UserServiceTest {
     }
 
     @Test
-    void verifyUser() {
+    void verifyUserUsername() {
         when(userDao.findByUsername(user.getUsername())).thenReturn(userWithHash);
         String userJWT = userService.authenticateJWT(user.getUsername(), password);
         assertThatNoException().isThrownBy( () -> userService.verifyUser(userJWT, user.getUsername()));
     }
 
     @Test
-    void verifyInvalidUser() {
+    void verifyInvalidUserUsername() {
         when(userDao.findByUsername(user.getUsername())).thenReturn(userWithHash);
         String userJWT = userService.authenticateJWT(user.getUsername(), password);
 
         assertThatThrownBy( () ->
             userService.verifyUser(userJWT, otherUser.getUsername())
+        ).isInstanceOf(ForbiddenException.class);
+    }
+
+    @Test
+    void verifyUserId() {
+        when(userDao.findByUsername(user.getUsername())).thenReturn(userWithHash);
+        String userJWT = userService.authenticateJWT(user.getUsername(), password);
+        assertThatNoException().isThrownBy( () -> userService.verifyUser(userJWT, user.getId()));
+    }
+
+    @Test
+    void verifyInvalidUserId() {
+        when(userDao.findByUsername(user.getUsername())).thenReturn(userWithHash);
+        String userJWT = userService.authenticateJWT(user.getUsername(), password);
+
+        assertThatThrownBy( () ->
+                userService.verifyUser(userJWT, otherUser.getId())
         ).isInstanceOf(ForbiddenException.class);
     }
 
