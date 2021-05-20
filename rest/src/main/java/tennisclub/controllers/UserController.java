@@ -6,7 +6,6 @@ import tennisclub.dto.user.UserAuthDTO;
 import tennisclub.dto.user.UserFullDTO;
 import tennisclub.dto.user.UserUpdateDTO;
 import tennisclub.facade.UserFacade;
-import tennisclub.exceptions.ForbiddenException;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class UserController {
         return userFacade.register(userAuthDTO);
     }
 
-    @PostMapping("/auth")
+    @PostMapping("/login")
     public final String authenticate(@RequestBody UserAuthDTO userAuthDTO) {
         return userFacade.authenticate(userAuthDTO);
     }
