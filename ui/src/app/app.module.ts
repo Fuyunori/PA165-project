@@ -26,6 +26,8 @@ import { LessonDetailComponent } from './views/main/lesson-detail/lesson-detail.
 import { TournamentFormComponent } from './components/tournament-form/tournament-form.component';
 import { TournamentDetailComponent } from './views/main/tournament-detail/tournament-detail.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     MatButtonModule,
     MatToolbarModule,
     MatDialogModule,
+    MatTableModule,
+    MatIconModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
     }),
