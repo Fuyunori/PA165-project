@@ -21,6 +21,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CourtDetailComponent } from './views/main/court-detail/court-detail.component';
 import { AboutComponent } from './views/main/about/about.component';
 import { ToastrModule } from 'ngx-toastr';
+import { LessonFormComponent } from './components/lesson-form/lesson-form.component';
+import { LessonDetailComponent } from './views/main/lesson-detail/lesson-detail.component';
 import { TournamentFormComponent } from './components/tournament-form/tournament-form.component';
 import { TournamentDetailComponent } from './views/main/tournament-detail/tournament-detail.component';
 
@@ -35,6 +37,8 @@ import { TournamentDetailComponent } from './views/main/tournament-detail/tourna
     CourtFormComponent,
     CourtDetailComponent,
     AboutComponent,
+    LessonFormComponent,
+    LessonDetailComponent,
     TournamentFormComponent,
     TournamentDetailComponent,
   ],

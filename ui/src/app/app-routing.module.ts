@@ -5,6 +5,7 @@ import { AboutComponent } from './views/main/about/about.component';
 import { CourtDetailComponent } from './views/main/court-detail/court-detail.component';
 import { DashboardComponent } from './views/main/dashboard/dashboard.component';
 import { MainComponent } from './views/main/main.component';
+import {LessonDetailComponent} from "./views/main/lesson-detail/lesson-detail.component";
 import {TournamentDetailComponent} from "./views/main/tournament-detail/tournament-detail.component";
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'about', component: AboutComponent },
       { path: 'court/:id', component: CourtDetailComponent },
+      { path: 'lesson/:id', component: LessonDetailComponent },
       { path: 'tournament/:id', component: TournamentDetailComponent},
       { path: '**', redirectTo: 'dashboard' },
     ],
