@@ -2,13 +2,13 @@ import {Event} from "./event.model";
 import {Ranking} from "./ranking.model";
 
 export class Tournament extends Event {
-    constructor(protected id: number,
-                protected startDate: Date,
-                protected endDate: Date,
-                private name: string,
-                private capacity: number,
-                private prize: number,
-                private rankings: Set<Ranking>) {
+    constructor(public id: number,
+                public startDate: Date,
+                public endDate: Date,
+                public name: string,
+                public capacity: number,
+                public prize: number,
+                public rankings: Set<Ranking>) {
         super(id, startDate, endDate);
     }
 }
