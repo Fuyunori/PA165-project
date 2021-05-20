@@ -12,10 +12,10 @@ import javax.validation.constraints.NotNull;
  */
 public class RankingWithTournamentDTO {
 
-    @NotNull
+    @NotNull(message = "{ranking.tournament.notNull}")
     private TournamentDTO tournament;
 
-    @Min(1)
+    @Min(value = 1, message = "{ranking.player.placement.min}")
     private Integer playerPlacement;
 
     public TournamentDTO getTournament() {

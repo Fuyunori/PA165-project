@@ -12,18 +12,18 @@ import java.util.Objects;
 /**
  * @author Miroslav Demek
  */
-@IsEndTimeAfterStartTime(start = "startTime", end = "endTime")
+@IsEndTimeAfterStartTime(start = "startTime", end = "endTime", message = "{event.time.isEndAfterStart}")
 public abstract class EventCreateDTO {
 
-    @NotNull
-    @FutureOrPresent
+    @NotNull(message = "{event.time.start.notnull}")
+    @FutureOrPresent(message = "{event.time.start.futureOrPresent}")
     private LocalDateTime startTime;
 
-    @NotNull
-    @Future
+    @NotNull(message = "{event.time.end.notnull}")
+    @Future(message = "{event.time.end.future}")
     private LocalDateTime endTime;
 
-    @NotNull
+    @NotNull(message = "{event.court.notnull}")
     private CourtDto court;
 
     public LocalDateTime getStartTime() {

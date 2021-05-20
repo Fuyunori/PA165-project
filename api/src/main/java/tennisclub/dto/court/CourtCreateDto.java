@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
  * @author Pavel Tobiáš
  */
 public class CourtCreateDto {
-    @NotBlank
+    @NotBlank(message = "{court.name.notBlank}")
     private String name;
 
     private String address;
