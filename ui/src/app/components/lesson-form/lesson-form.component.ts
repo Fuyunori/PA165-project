@@ -3,6 +3,8 @@ import { Level, UnknownLesson} from "../../models/lesson.model";
 import {FormBuilder, Validators} from "@angular/forms";
 
 enum LessonFormKey {
+  Start = 'Start',
+  End = 'End',
   Capacity = 'Capacity',
   Level = 'Level',
 }
@@ -19,6 +21,8 @@ export class LessonFormComponent {
   @Input()
   set lesson(lesson: UnknownLesson){
     this.lessonForm.setValue({
+      [LessonFormKey.Start]: lesson.start,
+      [LessonFormKey.End]: lesson.end,
       [LessonFormKey.Capacity]: lesson.capacity,
       [LessonFormKey.Level]: lesson.level,
     });
@@ -32,6 +36,8 @@ export class LessonFormComponent {
   readonly LessonLevel = Level;
 
   readonly lessonForm = this.fb.group({
+    [LessonFormKey.Start]: ['', Validators.required],
+    [LessonFormKey.End]: ['', Validators.required],
     [LessonFormKey.Capacity]: '',
     [LessonFormKey.Level]: ['', Validators.required]
   });
@@ -42,6 +48,8 @@ export class LessonFormComponent {
     const { value } = this.lessonForm;
 
     const lesson: UnknownLesson = {
+      start: value[LessonFormKey.Start],
+      end: value[LessonFormKey.End],
       capacity: value[LessonFormKey.Capacity],
       level: value[LessonFormKey.Level],
     };

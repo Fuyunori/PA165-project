@@ -2,6 +2,20 @@
     <div class="form-content">
         <div class="field-list">
             <mat-form-field appearance="fill" class="field">
+                <mat-label>Start</mat-label>
+                <input type="datetime-local"
+                       matInput
+                       [formControlName]="LessonFormKey.Start"
+                       [readonly]="readOnly"
+                />
+                <mat-label>End</mat-label>
+                <input type="datetime-local"
+                       matInput
+                       [formControlName]="LessonFormKey.End"
+                       [readonly]="readOnly"
+                />
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="field">
                 <mat-label>Capacity</mat-label>
                 <input type="number"
                         matInput

@@ -2,6 +2,20 @@
     <div class="form-content">
         <div class="field-list">
             <mat-form-field appearance="fill" class="field">
+                <mat-label>Start</mat-label>
+                <input type="datetime-local"
+                       matInput
+                       [formControlName]="TournamentFormKey.Start"
+                       [readonly]="readOnly"
+                />
+                <mat-label>End</mat-label>
+                <input type="datetime-local"
+                       matInput
+                       [formControlName]="TournamentFormKey.End"
+                       [readonly]="readOnly"
+                />
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="field">
                 <mat-label>Name</mat-label>
                 <input
                         matInput
