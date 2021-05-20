@@ -136,7 +136,9 @@ public class BookingFacadeTest {
         bookingCreateDTO.setEndTime(BOOKING_END);
         bookingCreateDTO.setCourt(courtDto);
 
+
         when(mapper.map(bookingCreateDTO, Booking.class)).thenReturn(booking);
+        when(mapper.map(booking, BookingFullDTO.class)).thenReturn(bookingFullDTO);
 
         BookingFullDTO bookingDTO = bookingFacade.makeBooking(bookingCreateDTO);
 
