@@ -48,6 +48,7 @@ class JWTService {
                 .setIssuedAt(now)
                 .setIssuer("TennisClubApp")
                 .setSubject(user.getUsername())
+                .claim("userId", user.getId())
                 .claim("role", user.getRole())
                 .signWith(signatureAlgorithm, signingKey);
 
