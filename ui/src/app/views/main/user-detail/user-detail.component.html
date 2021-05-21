@@ -1,0 +1,7 @@
+<mat-card *ngIf="displayedUser$ | async as displayedUser">
+  <tc-user-form
+    submitButtonText="Update user"
+    [user]="displayedUser"
+    (userChange)="updateUser(displayedUser, $event)"
+  ></tc-user-form>
+</mat-card>

@@ -26,6 +26,10 @@ import { LessonDetailComponent } from './views/main/lesson-detail/lesson-detail.
 import { TournamentFormComponent } from './components/tournament-form/tournament-form.component';
 import { TournamentDetailComponent } from './views/main/tournament-detail/tournament-detail.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { UserFormComponent } from './components/user-form/user-form.component';
+import { UserDetailComponent } from './views/main/user-detail/user-detail.component';
+import { UsersOverviewComponent } from './views/main/users-overview/users-overview.component';
+import { UsersTableComponent } from './components/users-table/users-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -44,6 +48,10 @@ import { MatIconModule } from '@angular/material/icon';
     LessonDetailComponent,
     TournamentFormComponent,
     TournamentDetailComponent,
+    UserFormComponent,
+    UserDetailComponent,
+    UsersOverviewComponent,
+    UsersTableComponent,
   ],
   imports: [
     BrowserModule,
