@@ -10,8 +10,8 @@ export enum Level {
 export type Lesson = Event & {
   capacity: number,
   level: Level,
-  teachers: Set<User>,
-  students: Set<User>,
+  teachers: User[],
+  students: User[],
 }
 
 export type UnknownLesson = Omit<Lesson, 'id' | 'teachers' | 'students'>;

@@ -6,6 +6,7 @@
         <input
           type="datetime-local"
           matInput
+          [min]="currentTime"
           [formControlName]="LessonFormKey.Start"
           [readonly]="readOnly"
         />
@@ -16,6 +17,14 @@
           [formControlName]="LessonFormKey.End"
           [readonly]="readOnly"
         />
+        <mat-icon matSuffix class="end-date">schedule</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field">
+        <mat-label>Court</mat-label>
+        <mat-select [formControlName]="LessonFormKey.Court">
+          <mat-option *ngFor="let court of courts$ | async" [value]="court">{{court.name}}</mat-option>
+        </mat-select>
+        <mat-icon matSuffix>people</mat-icon>
       </mat-form-field>
       <mat-form-field appearance="fill" class="field">
         <mat-label>Capacity</mat-label>
@@ -25,6 +34,7 @@
           [formControlName]="LessonFormKey.Capacity"
           [readonly]="readOnly"
         />
+        <mat-icon matSuffix>people</mat-icon>
       </mat-form-field>
       <mat-form-field
         appearance="fill"

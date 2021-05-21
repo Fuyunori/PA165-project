@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { LandingComponent } from './views/landing/landing.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -26,6 +27,8 @@ import { LessonDetailComponent } from './views/main/lesson-detail/lesson-detail.
 import { TournamentFormComponent } from './components/tournament-form/tournament-form.component';
 import { TournamentDetailComponent } from './views/main/tournament-detail/tournament-detail.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { LessonStudentsComponent } from './components/lesson-students-list/lesson-students-list.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     LessonDetailComponent,
     TournamentFormComponent,
     TournamentDetailComponent,
+    LessonStudentsComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +60,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     MatButtonModule,
     MatToolbarModule,
     MatDialogModule,
+    MatIconModule,
+    MatExpansionModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
     }),
