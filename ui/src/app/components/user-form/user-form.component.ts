@@ -15,7 +15,6 @@ enum UserFormKey {
   styleUrls: ['./user-form.component.scss'],
 })
 export class UserFormComponent {
-  @Output() readonly cancelClick = new EventEmitter<void>();
   @Output() readonly userChange = new EventEmitter<UnknownUser>();
 
   @Input()
@@ -55,9 +54,5 @@ export class UserFormComponent {
 
     this.userForm.markAsPristine();
     this.userChange.emit(user);
-  }
-
-  cancel(): void {
-    this.cancelClick.emit();
   }
 }
