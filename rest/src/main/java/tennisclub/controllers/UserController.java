@@ -41,20 +41,20 @@ public class UserController {
     }
 
     @GetMapping
-    public final List<UserFullDTO> findAllUsers(@RequestHeader("Authorization") String jwt) {
+    public final List<UserFullDTO> findAllUsers(@RequestHeader(value = "Authorization", required = false) String jwt) {
         userService.verifyRole(jwt, Role.MANAGER);
         return userFacade.findAllUsers();
     }
 
     @GetMapping("/{id}")
-    public final UserFullDTO findUserById(@RequestHeader("Authorization") String jwt, @PathVariable Long id) {
+    public final UserFullDTO findUserById(@RequestHeader(value = "Authorization", required = false) String jwt, @PathVariable Long id) {
         userService.verifyUserOrManager(jwt, id);
         return userFacade.findUserById(id);
     }
 
     @PutMapping("/{id}")
     public final UserFullDTO updateUser(
-            @RequestHeader("Authorization") String jwt,
+            @RequestHeader(value = "Authorization", required = false) String jwt,
             @PathVariable Long id,
             @Valid @RequestBody UserUpdateDTO userUpdateDTO
     ) {
@@ -63,7 +63,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public final void removeUser(@RequestHeader("Authorization") String jwt, @PathVariable Long id) {
+    public final void removeUser(@RequestHeader(value = "Authorization", required = false) String jwt, @PathVariable Long id) {
         userService.verifyUserOrManager(jwt, id);
         userFacade.removeUser(id);
     }
