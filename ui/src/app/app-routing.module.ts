@@ -8,8 +8,8 @@ import { DashboardComponent } from './views/main/dashboard/dashboard.component';
 import { MainComponent } from './views/main/main.component';
 import { LessonDetailComponent } from './views/main/lesson-detail/lesson-detail.component';
 import { TournamentDetailComponent } from './views/main/tournament-detail/tournament-detail.component';
-import { UserDetailComponent } from "./views/main/user-detail/user-detail.component";
-import { UsersOverviewComponent } from "./views/main/users-overview/users-overview.component";
+import { UserDetailComponent } from './views/main/user-detail/user-detail.component';
+import { UsersOverviewComponent } from './views/main/users-overview/users-overview.component';
 
 const routes: Routes = [
   {
