@@ -32,6 +32,7 @@ import { UsersOverviewComponent } from './views/main/users-overview/users-overvi
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { BookingFormComponent } from './components/booking-form/booking-form.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { MatIconModule } from '@angular/material/icon';
     UserDetailComponent,
     UsersOverviewComponent,
     UsersTableComponent,
+    BookingFormComponent,
   ],
   imports: [
     BrowserModule,

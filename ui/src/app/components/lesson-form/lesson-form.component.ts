@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Level, UnknownLesson } from '../../models/lesson.model';
-import { FormBuilder, Validators } from '@angular/forms';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Level, UnknownLesson} from '../../models/lesson.model';
+import {FormBuilder, Validators} from '@angular/forms';
+import {EventType} from "../../models/event.model";
 
 enum LessonFormKey {
   Start = 'Start',
@@ -48,6 +49,7 @@ export class LessonFormComponent {
     const { value } = this.lessonForm;
 
     const lesson: UnknownLesson = {
+      type: EventType.Lesson,
       startTime: value[LessonFormKey.Start],
       endTime: value[LessonFormKey.End],
       capacity: value[LessonFormKey.Capacity],

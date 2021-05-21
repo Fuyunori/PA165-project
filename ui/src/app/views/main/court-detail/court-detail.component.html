@@ -16,6 +16,10 @@
   </mat-card-header>
   <mat-card-content>
     <table mat-table [dataSource]="displayedEvents$" class="events-table">
+      <ng-container [matColumnDef]="EventTableColumn.Type">
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let event">{{ typeNames[asEventType(event.type)] }}</td>
+      </ng-container>
       <ng-container [matColumnDef]="EventTableColumn.StartTime">
         <th mat-header-cell *matHeaderCellDef>Starts</th>
         <td mat-cell *matCellDef="let event">{{ event.startTime }}</td>

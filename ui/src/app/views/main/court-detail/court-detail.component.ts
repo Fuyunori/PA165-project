@@ -6,9 +6,10 @@ import { Court, UnknownCourt } from '../../../models/court.model';
 import { AuthService } from '../../../services/auth.service';
 import { CourtService } from '../../../services/court.service';
 import { EventService } from '../../../services/event.service';
-import { Event } from '../../../models/event.model';
+import {Event, EventType} from '../../../models/event.model';
 
 enum EventTableColumn {
+  Type = 'Type',
   StartTime = 'StartTime',
   EndTime = 'EndTime',
 }
@@ -26,9 +27,16 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
 
   readonly EventTableColumn = EventTableColumn;
   readonly eventColumns: EventTableColumn[] = [
+      EventTableColumn.Type,
     EventTableColumn.StartTime,
     EventTableColumn.EndTime,
   ];
+
+  readonly typeNames: Record<EventType, string> = {
+    LESSON: 'Lesson',
+    BOOKING: 'Booking',
+    TOURNAMENT: 'Tournament',
+  }
 
   private readonly unsubscribe$ = new Subject<void>();
 
@@ -64,5 +72,9 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
       this.courtService.deleteCourt(displayedCourt.id);
       this.router.navigateByUrl('/main/dashboard');
     }
+  }
+
+  asEventType(type: any): EventType {
+    return type;
   }
 }

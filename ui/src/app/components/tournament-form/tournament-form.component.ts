@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UnknownTournament } from '../../models/tournament.model';
-import { FormBuilder, Validators } from '@angular/forms';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {UnknownTournament} from '../../models/tournament.model';
+import {FormBuilder, Validators} from '@angular/forms';
+import {EventType} from "../../models/event.model";
 
 enum TournamentFormKey {
   Start = 'Start',
@@ -50,6 +51,7 @@ export class TournamentFormComponent {
     const { value } = this.tournamentForm;
 
     const tournament: UnknownTournament = {
+      type: EventType.Tournament,
       startTime: value[TournamentFormKey.Start],
       endTime: value[TournamentFormKey.End],
       name: value[TournamentFormKey.Name],
