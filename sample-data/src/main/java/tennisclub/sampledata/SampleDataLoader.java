@@ -52,12 +52,12 @@ public class SampleDataLoader implements ApplicationRunner {
     }
 
     public void loadData() {
-        User user1 = persistUser("Bob Smith", "Bobby123", "password", "bob@gmail.com", Role.USER);
-        User user2 = persistUser("Mark Tennisy", "TennisDevil666", "password", "mark@gmail.com", Role.USER);
-        User user3 = persistUser("Lucy Fast", "lussy", "passwod", "lucy@gmail.com", Role.USER);
         User admin = persistUser("Admin Adminy", "admin", "admin", "admin@gmail.com", Role.MANAGER);
         admin.setRole(Role.MANAGER);
         userDao.update(admin);
+        User user1 = persistUser("Bob Smith", "Bobby123", "password", "bob@gmail.com", Role.USER);
+        User user2 = persistUser("Mark Tennisy", "TennisDevil666", "password", "mark@gmail.com", Role.USER);
+        User user3 = persistUser("Lucy Fast", "lussy", "passwod", "lucy@gmail.com", Role.USER);
 
         Court court1 = persistCourt("Pretty nice court", "Brno, Czech Republic", CourtType.GRASS);
         Court court2 = persistCourt("Courty court", "Prague, Czech Republic", CourtType.TURF);
