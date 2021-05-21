@@ -25,6 +25,7 @@ export class LessonFormComponent implements OnInit {
     this.lessonForm.setValue({
       [LessonFormKey.Start]: lesson.startTime,
       [LessonFormKey.End]: lesson.endTime,
+      [LessonFormKey.Court]: lesson.court,
       [LessonFormKey.Capacity]: lesson.capacity,
       [LessonFormKey.Level]: lesson.level,
     });
