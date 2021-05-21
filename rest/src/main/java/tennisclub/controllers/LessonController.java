@@ -18,7 +18,7 @@ import java.util.List;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/lessons")
+@RequestMapping("/rest/lessons")
 public class LessonController {
     private final LessonFacade lessonFacade;
 

@@ -20,7 +20,7 @@ import java.util.List;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/tournaments")
+@RequestMapping("/rest/tournaments")
 public class TournamentController {
     private final TournamentFacade tournamentFacade;
 

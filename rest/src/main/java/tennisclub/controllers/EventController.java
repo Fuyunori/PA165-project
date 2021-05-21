@@ -15,7 +15,7 @@ import java.util.List;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/events")
+@RequestMapping("/rest/events")
 public class EventController {
 
     private final EventFacade eventFacade;

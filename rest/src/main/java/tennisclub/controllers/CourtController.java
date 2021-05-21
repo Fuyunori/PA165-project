@@ -20,7 +20,7 @@ import java.util.List;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/courts")
+@RequestMapping("/rest/courts")
 public class CourtController {
     private final CourtFacade courtFacade;
     private final UserService userService;
