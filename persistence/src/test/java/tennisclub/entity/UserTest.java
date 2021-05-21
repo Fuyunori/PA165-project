@@ -2,10 +2,13 @@ package tennisclub.entity;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import tennisclub.PersistenceTestsConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@ContextConfiguration(classes = PersistenceTestsConfiguration.class)
 public class UserTest {
     @Test
     void equalityBasics() {

@@ -24,7 +24,7 @@
         <dependency>
             <groupId>cz.muni.fi.pa165.tennisclub</groupId>
             <artifactId>api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

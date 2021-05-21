@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ContextConfiguration;
+import tennisclub.PersistenceTestsConfiguration;
 import tennisclub.entity.User;
 import tennisclub.enums.Role;
 
@@ -22,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author Pavel Tobiáš
  */
 @SpringBootTest
+@ContextConfiguration(classes = PersistenceTestsConfiguration.class)
 class UserDaoTest {
     @PersistenceContext
     EntityManager manager;

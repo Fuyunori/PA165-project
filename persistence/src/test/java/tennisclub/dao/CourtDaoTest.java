@@ -3,6 +3,8 @@ package tennisclub.dao;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import tennisclub.PersistenceTestsConfiguration;
 import tennisclub.entity.Court;
 import tennisclub.enums.CourtType;
 
@@ -20,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @author Ondřej Holub
  */
 @SpringBootTest
+@ContextConfiguration(classes = PersistenceTestsConfiguration.class)
 @Transactional
 class CourtDaoTest {
 

@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import tennisclub.ServiceTestsConfiguration;
 import tennisclub.dao.EventDao;
 import tennisclub.entity.*;
 import tennisclub.enums.Level;
@@ -26,6 +28,7 @@ import static org.mockito.Mockito.when;
  * @author Xuan Linh Phamová
  */
 @SpringBootTest
+@ContextConfiguration(classes = ServiceTestsConfiguration.class)
 public class EventServiceTest {
     @MockBean
     private EventDao eventDao;
