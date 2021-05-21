@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import tennisclub.ServiceTestsConfiguration;
 import tennisclub.dao.LessonDao;
 import tennisclub.entity.Court;
 import tennisclub.entity.Lesson;
@@ -27,6 +29,7 @@ import static org.mockito.Mockito.when;
  * @author Xuan Linh Phamová
  */
 @SpringBootTest
+@ContextConfiguration(classes = ServiceTestsConfiguration.class)
 public class LessonServiceTest {
 
     @MockBean

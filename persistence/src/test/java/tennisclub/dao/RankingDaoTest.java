@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.context.ContextConfiguration;
+import tennisclub.PersistenceTestsConfiguration;
 import tennisclub.entity.Court;
 import tennisclub.entity.Tournament;
 import tennisclub.entity.User;
@@ -26,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author Pavel Tobiáš
  */
 @Transactional
+@ContextConfiguration(classes = PersistenceTestsConfiguration.class)
 @SpringBootTest
 class RankingDaoTest {
     private Tournament tournament;

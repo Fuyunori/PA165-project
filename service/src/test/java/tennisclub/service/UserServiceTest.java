@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ContextConfiguration;
+import tennisclub.ServiceTestsConfiguration;
 import tennisclub.dao.UserDao;
 import tennisclub.entity.User;
 import tennisclub.enums.Role;
@@ -22,6 +24,7 @@ import static org.mockito.Mockito.*;
  * @author Pavel Tobiáš
  */
 @SpringBootTest
+@ContextConfiguration(classes = ServiceTestsConfiguration.class)
 public class UserServiceTest {
     @MockBean
     private UserDao userDao;

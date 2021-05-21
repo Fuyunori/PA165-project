@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import tennisclub.ServiceTestsConfiguration;
 import tennisclub.dto.booking.BookingCreateDTO;
 import tennisclub.dto.booking.BookingFullDTO;
 import tennisclub.dto.court.CourtDto;
@@ -31,6 +33,7 @@ import static org.mockito.Mockito.*;
  * @author Xuan Linh Phamová
  */
 @SpringBootTest
+@ContextConfiguration(classes = ServiceTestsConfiguration.class)
 public class BookingFacadeTest {
     @MockBean
     private BookingService bookingService;

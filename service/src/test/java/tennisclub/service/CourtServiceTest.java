@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import tennisclub.ServiceTestsConfiguration;
 import tennisclub.dao.CourtDao;
 import tennisclub.dao.EventDao;
 import tennisclub.entity.Court;
@@ -12,7 +14,6 @@ import tennisclub.enums.CourtType;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -23,6 +24,7 @@ import static org.mockito.Mockito.*;
  * @author Ondrej Holub
  */
 @SpringBootTest
+@ContextConfiguration(classes = ServiceTestsConfiguration.class)
 public class CourtServiceTest {
     @MockBean
     private CourtDao courtDao;
