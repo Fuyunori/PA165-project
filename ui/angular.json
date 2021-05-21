@@ -42,13 +42,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/tennisclub",
+            "outputPath": "../rest/src/main/resources/static",
+            "baseHref": "/pa165/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": ["src/favicon.ico"],
             "styles": [
               "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/ngx-toastr/toastr.css",

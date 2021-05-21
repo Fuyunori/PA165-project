@@ -18,7 +18,7 @@ import java.util.List;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/rest/users")
 public class UserController {
 
     private final UserFacade userFacade;
