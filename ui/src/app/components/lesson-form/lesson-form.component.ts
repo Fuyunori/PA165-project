@@ -2,6 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Level, UnknownLesson } from '../../models/lesson.model';
 import { FormBuilder, Validators } from '@angular/forms';
 import {CourtService} from "../../services/court.service";
+import {filter, take} from "rxjs/operators";
+import {Court} from "../../models/court.model";
 
 enum LessonFormKey {
   Start = 'Start',
@@ -44,7 +46,7 @@ export class LessonFormComponent implements OnInit {
   readonly lessonForm = this.fb.group({
     [LessonFormKey.Start]: ['', Validators.required],
     [LessonFormKey.End]: ['', Validators.required],
-    [LessonFormKey.Court]: [undefined, Validators.required],
+    [LessonFormKey.Court]: [null, Validators.required],
     [LessonFormKey.Capacity]: '',
     [LessonFormKey.Level]: ['', Validators.required],
   });
@@ -59,16 +61,20 @@ export class LessonFormComponent implements OnInit {
   submit(): void {
     const { value } = this.lessonForm;
 
-    const lesson: UnknownLesson = {
-      startTime: value[LessonFormKey.Start],
-      endTime: value[LessonFormKey.End],
-      court: value[LessonFormKey.Court],
-      capacity: value[LessonFormKey.Capacity],
-      level: value[LessonFormKey.Level],
-    };
+    this.courtService.singleCourt$(value[LessonFormKey.Court])
+        .pipe(take(1), filter((court):court is Court => court != null))
+        .subscribe(court => {
+          const lesson: UnknownLesson = {
+            startTime: value[LessonFormKey.Start],
+            endTime: value[LessonFormKey.End],
+            court,
+            capacity: value[LessonFormKey.Capacity],
+            level: value[LessonFormKey.Level],
+          };
 
-    this.lessonForm.markAsPristine();
-    this.lessonChange.emit(lesson);
+          this.lessonForm.markAsPristine();
+          this.lessonChange.emit(lesson);
+        });
   }
 
   cancel(): void {
