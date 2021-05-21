@@ -6,6 +6,8 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import tennisclub.ServiceTestsConfiguration;
 import tennisclub.dao.RankingDao;
 import tennisclub.dao.TournamentDao;
 import tennisclub.entity.Court;
@@ -30,6 +32,7 @@ import static org.mockito.Mockito.when;
  * @author Miroslav Demek
  */
 @SpringBootTest
+@ContextConfiguration(classes = ServiceTestsConfiguration.class)
 public class TournamentServiceTest {
 
     @MockBean

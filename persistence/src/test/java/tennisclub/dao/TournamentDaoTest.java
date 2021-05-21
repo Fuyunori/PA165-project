@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ContextConfiguration;
+import tennisclub.PersistenceTestsConfiguration;
 import tennisclub.entity.Court;
 import tennisclub.entity.Tournament;
 
@@ -21,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @author Miroslav Demek
  */
 @SpringBootTest
+@ContextConfiguration(classes = PersistenceTestsConfiguration.class)
 @Transactional
 public class TournamentDaoTest {
 
