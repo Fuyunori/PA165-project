@@ -30,7 +30,6 @@ export class UserFormComponent {
 
     @Input() readOnly = false;
     @Input() submitButtonText = 'Submit';
-    @Input() cancelButtonText = 'Cancel';
 
     readonly UserFormKey = UserFormKey;
     readonly UserRole = UserRole;

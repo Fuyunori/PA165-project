@@ -1,12 +1,8 @@
 <mat-card *ngIf="displayedUser$ | async as displayedUser">
     <tc-user-form
             submitButtonText="Update user"
-            cancelButtonText="Delete user"
 
             [user]="displayedUser"
             (userChange)="updateUser(displayedUser, $event)"
-            (cancelClick)="deleteUser(displayedUser)"
     ></tc-user-form>
-    <!-- Line5 -->
-    <!-- [readOnly]="!(userIsUser$ | async)" -->
 </mat-card>

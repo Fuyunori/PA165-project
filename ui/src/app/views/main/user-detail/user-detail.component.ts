@@ -14,8 +14,6 @@ import { UserService } from '../../../services/user.service';
 export class UserDetailComponent implements OnInit, OnDestroy {
     displayedUser$: Observable<User | null> = of(null);
 
-    // readonly userIsUser$ = this.auth.userIsUser$;
-
     private readonly unsubscribe$ = new Subject<void>();
 
     constructor(
@@ -39,12 +37,5 @@ export class UserDetailComponent implements OnInit, OnDestroy {
 
     updateUser(displayedUser: User, updatedUser: UnknownUser): void {
         this.userService.putUser(displayedUser.id, updatedUser);
-    }
-
-    deleteUser(displayedUser: User): void {
-        if (confirm(`Permanently delete user ${displayedUser.name}?`)) {
-            this.userService.deleteUser(displayedUser.id);
-            this.router.navigateByUrl('/main/dashboard');
-        }
     }
 }
