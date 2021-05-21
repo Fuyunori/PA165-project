@@ -14,7 +14,7 @@ import io.jsonwebtoken.Claims;
 import tennisclub.entity.User;
 
 /**
- * Service for manipulation with JWTs used by the UserService
+ * Service for manipulation with JWTs used only by the UserService
  * @author Ondrej Holub
  */
 @Service
