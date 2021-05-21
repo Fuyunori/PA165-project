@@ -29,6 +29,7 @@ import { TournamentDetailComponent } from './views/main/tournament-detail/tourna
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LessonStudentsComponent } from './components/lesson-students-list/lesson-students-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatDialogModule,
     MatIconModule,
     MatExpansionModule,
+    MatTableModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
     }),

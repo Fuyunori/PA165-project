@@ -10,32 +10,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cz.muni.fi.pa165.tennisclub</groupId>
-    <artifactId>rest</artifactId>
+    <artifactId>sample-data</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
+
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cz.muni.fi.pa165.tennisclub</groupId>
-            <artifactId>api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>cz.muni.fi.pa165.tennisclub</groupId>
             <artifactId>service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cz.muni.fi.pa165.tennisclub</groupId>
-            <artifactId>sample-data</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

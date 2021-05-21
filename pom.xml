@@ -9,7 +9,8 @@
 		<module>api</module>
 		<module>service</module>
 		<module>rest</module>
-	</modules>
+        <module>sample-data</module>
+    </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
