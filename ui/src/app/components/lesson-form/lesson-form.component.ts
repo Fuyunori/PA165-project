@@ -1,4 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output
+} from '@angular/core';
 import { Level, UnknownLesson } from '../../models/lesson.model';
 import { FormBuilder, Validators } from '@angular/forms';
 import {CourtService} from "../../services/court.service";
@@ -27,7 +36,7 @@ export class LessonFormComponent implements OnInit {
     this.lessonForm.setValue({
       [LessonFormKey.Start]: lesson.startTime,
       [LessonFormKey.End]: lesson.endTime,
-      [LessonFormKey.Court]: lesson.court,
+      [LessonFormKey.Court]: lesson.court.id,
       [LessonFormKey.Capacity]: lesson.capacity,
       [LessonFormKey.Level]: lesson.level,
     });

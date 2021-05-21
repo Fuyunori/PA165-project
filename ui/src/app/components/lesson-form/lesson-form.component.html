@@ -30,7 +30,7 @@
         <mat-label>Court</mat-label>
         <mat-select [formControlName]="LessonFormKey.Court">
           <mat-option *ngFor="let court of courts$ | async"
-                      [value]="court"
+                      [value]="court.id"
                       [disabled]="readOnly"
           >{{court.name}}</mat-option>
         </mat-select>

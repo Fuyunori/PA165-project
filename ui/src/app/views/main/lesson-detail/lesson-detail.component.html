@@ -5,4 +5,11 @@
     [lesson]="displayedLesson"
     (cancelClick)="deleteLesson(displayedLesson)"
   ></tc-lesson-form>
+  <tc-lesson-students-list
+    [canAddStudent]="(userIsManager$ | async)"
+    [canWithdrawStudent]="(userIsManager$ | async)"
+    [students]="displayedLesson.students"
+  >
+
+  </tc-lesson-students-list>
 </mat-card>
