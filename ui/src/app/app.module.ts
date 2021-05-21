@@ -28,6 +28,9 @@ import { TournamentDetailComponent } from './views/main/tournament-detail/tourna
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { UserFormComponent } from "./components/user-form/user-form.component";
 import { UserDetailComponent } from "./views/main/user-detail/user-detail.component";
+import { UsersOverviewComponent } from "./views/main/users-overview/users-overview.component";
+import { UsersTableComponent } from "./components/users-table/users-table.component";
+import { MatTableModule } from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -45,7 +48,9 @@ import { UserDetailComponent } from "./views/main/user-detail/user-detail.compon
     TournamentFormComponent,
     TournamentDetailComponent,
     UserFormComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    UsersOverviewComponent,
+    UsersTableComponent
   ],
   imports: [
     BrowserModule,
@@ -60,6 +65,7 @@ import { UserDetailComponent } from "./views/main/user-detail/user-detail.compon
     MatButtonModule,
     MatToolbarModule,
     MatDialogModule,
+    MatTableModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
     }),
