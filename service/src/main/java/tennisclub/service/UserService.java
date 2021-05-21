@@ -75,6 +75,15 @@ public interface UserService {
     void verifyUserOrManager(String jwt, String expectedUsername);
 
     /**
+     * Verifies whether the user is who they claim to be or a manager
+     * @param jwt provided by the user
+     * @param expectedUserId who the user should be
+     * @throws UnauthorisedException if the jwt is invalid
+     * @throws ForbiddenException if the user is not the expected user
+     */
+    void verifyUserOrManager(String jwt, Long expectedUserId);
+
+    /**
      * Finds a user based on id
      * @param id of the user
      * @return the user
