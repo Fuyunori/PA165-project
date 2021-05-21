@@ -1,0 +1,50 @@
+<form class="user-form" [formGroup]="userForm" (ngSubmit)="submit()">
+  <div class="form-content">
+    <div class="field-list">
+      <mat-form-field appearance="fill" class="field">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          [formControlName]="UserFormKey.Name"
+          [readonly]="readOnly"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          [formControlName]="UserFormKey.Email"
+          [readonly]="readOnly"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field mat-form-field-disabled">
+        <mat-label>Username</mat-label>
+        <input
+          matInput
+          [formControlName]="UserFormKey.Username"
+          [readonly]="true"
+        />
+      </mat-form-field>
+      <mat-form-field
+        appearance="fill"
+        class="field mat-form-field-disabled"
+        [ngClass]="{ 'readonly-select': true }"
+      >
+        <mat-label>Type</mat-label>
+        <mat-select [formControlName]="UserFormKey.Role">
+          <mat-option [value]="UserRole.User">USER</mat-option>
+          <mat-option [value]="UserRole.Manager">MANAGER</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="form-actions" *ngIf="!readOnly">
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="userForm.invalid || userForm.pristine"
+    >
+      {{ submitButtonText }}
+    </button>
+  </div>
+</form>
