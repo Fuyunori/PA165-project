@@ -2,16 +2,12 @@ package tennisclub.facade;
 
 import com.github.dozermapper.core.Mapper;
 import org.springframework.stereotype.Service;
-import tennisclub.dto.booking.BookingFullDTO;
 import tennisclub.dto.event.EventRescheduleDTO;
 import tennisclub.dto.event.EventWithCourtDTO;
-import tennisclub.dto.lesson.LessonFullDTO;
-import tennisclub.dto.lesson.LessonWithCourtDTO;
-import tennisclub.dto.tournament.TournamentFullDTO;
 import tennisclub.entity.*;
 import tennisclub.exceptions.FacadeLayerException;
-import tennisclub.exceptions.ServiceLayerException;
 import tennisclub.service.CourtService;
+import tennisclub.service.EventMappingService;
 import tennisclub.service.EventService;
 
 import javax.transaction.Transactional;
@@ -29,12 +25,14 @@ public class EventFacadeImpl implements EventFacade {
     private final EventService eventService;
     private final CourtService courtService;
 
-    private final Mapper mapper;
+    private final EventMappingService eventMapper;
 
-    public EventFacadeImpl(EventService eventService, CourtService courtService, Mapper mapper) {
+    public EventFacadeImpl(EventService eventService,
+                           CourtService courtService,
+                           EventMappingService eventMapper) {
         this.eventService = eventService;
         this.courtService = courtService;
-        this.mapper = mapper;
+        this.eventMapper = eventMapper;
     }
 
     @Override
@@ -47,20 +45,20 @@ public class EventFacadeImpl implements EventFacade {
         }
 
         Event updated = eventService.reschedule(event, eventRescheduleDTO.getStart(), eventRescheduleDTO.getEnd());
-        return map(updated);
+        return eventMapper.map(updated);
     }
 
     @Override
     public EventWithCourtDTO findById(Long id) {
         Event event = eventService.findById(id);
-        return map(event);
+        return eventMapper.map(event);
     }
 
     @Override
     public List<EventWithCourtDTO> findAll() {
         List<Event> events = eventService.findAll();
         return events.stream()
-                .map(this::map)
+                .map(eventMapper::map)
                 .collect(Collectors.toList());
     }
 
@@ -68,7 +66,7 @@ public class EventFacadeImpl implements EventFacade {
     public List<EventWithCourtDTO> findByTimeInterval(LocalDateTime from, LocalDateTime to) {
         List<Event> events = eventService.findByTimeInterval(from ,to);
         return events.stream()
-                .map(this::map)
+                .map(eventMapper::map)
                 .collect(Collectors.toList());
     }
 
@@ -76,7 +74,7 @@ public class EventFacadeImpl implements EventFacade {
     public List<EventWithCourtDTO> findByStartTime(LocalDateTime start) {
         List<Event> events = eventService.findByStartTime(start);
         return events.stream()
-                .map(this::map)
+                .map(eventMapper::map)
                 .collect(Collectors.toList());
     }
 
@@ -84,21 +82,8 @@ public class EventFacadeImpl implements EventFacade {
     public List<EventWithCourtDTO> findByEndTime(LocalDateTime end) {
         List<Event> events = eventService.findByEndTime(end);
         return events.stream()
-                .map(this::map)
+                .map(eventMapper::map)
                 .collect(Collectors.toList());
     }
 
-    
-    private EventWithCourtDTO map(Event event) {
-        if (event instanceof Booking) {
-            return mapper.map(event, BookingFullDTO.class);
-        }
-        if (event instanceof Lesson) {
-            return mapper.map(event, LessonFullDTO.class);
-        }
-        if (event instanceof Tournament) {
-            return mapper.map(event, TournamentFullDTO.class);
-        }
-        throw new FacadeLayerException("Trying to map invalid event.");
-    }
 }

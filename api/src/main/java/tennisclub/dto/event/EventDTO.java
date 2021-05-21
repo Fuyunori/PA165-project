@@ -1,5 +1,7 @@
 package tennisclub.dto.event;
 
+import tennisclub.enums.EventType;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -8,9 +10,16 @@ import java.util.Objects;
  */
 public class EventDTO {
 
+    private EventType type;
     private Long id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+
+    public EventDTO() { }
+
+    public EventDTO(EventType type) {
+        this.type = type;
+    }
 
     public Long getId() {
         return id;
@@ -36,17 +45,26 @@ public class EventDTO {
         this.endTime = endTime;
     }
 
+    public EventType getType() {
+        return type;
+    }
+
+    public void setType(EventType type) {
+        this.type = type;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof EventDTO)) return false;
         EventDTO eventDTO = (EventDTO) o;
         return Objects.equals(startTime, eventDTO.startTime) &&
-                Objects.equals(endTime, eventDTO.endTime);
+                Objects.equals(endTime, eventDTO.endTime) &&
+                type.equals(eventDTO.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(startTime, endTime);
+        return Objects.hash(startTime, endTime, type);
     }
 }

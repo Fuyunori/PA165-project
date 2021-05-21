@@ -2,6 +2,7 @@ package tennisclub.dto.tournament;
 
 import tennisclub.dto.event.EventWithCourtDTO;
 import tennisclub.dto.ranking.RankingWithPlayerDTO;
+import tennisclub.enums.EventType;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +14,10 @@ public class TournamentFullDTO extends EventWithCourtDTO {
     private String name;
     private Integer capacity;
     private Integer prize;
+
+    public TournamentFullDTO() {
+        super(EventType.TOURNAMENT);
+    }
 
     private Set<RankingWithPlayerDTO> playerPlacements = new HashSet<>();
 

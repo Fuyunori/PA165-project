@@ -7,6 +7,7 @@ import tennisclub.dto.court.CourtCreateDto;
 import tennisclub.dto.court.CourtDto;
 import tennisclub.dto.court.CourtUpdateDto;
 import tennisclub.dto.event.EventDTO;
+import tennisclub.dto.event.EventWithCourtDTO;
 import tennisclub.enums.Role;
 import tennisclub.facade.CourtFacade;
 import tennisclub.service.UserService;
@@ -50,12 +51,12 @@ public class CourtController {
     }
 
     @GetMapping("/{id}/events")
-    public ResponseEntity<List<EventDTO>> getCourtEvents(
+    public ResponseEntity<List<EventWithCourtDTO>> getCourtEvents(
             @PathVariable Long id,
             @RequestHeader("Authorization") String jwt
     ) {
         userService.verifyRole(jwt, Role.USER);
-        List<EventDTO> events = courtFacade.listCourtEvents(id);
+        List<EventWithCourtDTO> events = courtFacade.listCourtEvents(id);
         return ResponseEntity.status(200).body(events);
     }
 

@@ -2,6 +2,7 @@ package tennisclub.dto.booking;
 
 import tennisclub.dto.event.EventCreateDTO;
 import tennisclub.dto.user.UserDTO;
+import tennisclub.enums.EventType;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,10 @@ public class BookingCreateDTO extends EventCreateDTO {
 
     @NotNull(message = "{booking.users.notnull}")
     private UserDTO author;
+
+    public BookingCreateDTO() {
+        super(EventType.BOOKING);
+    }
 
     public Set<UserDTO> getUsers() {
         return users;

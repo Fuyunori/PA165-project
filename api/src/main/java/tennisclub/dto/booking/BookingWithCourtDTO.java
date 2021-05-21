@@ -1,6 +1,7 @@
 package tennisclub.dto.booking;
 
 import tennisclub.dto.event.EventWithCourtDTO;
+import tennisclub.enums.EventType;
 
 /**
  * Booking DTO containing a reference to its court but *not* the users which made it.
@@ -12,4 +13,7 @@ import tennisclub.dto.event.EventWithCourtDTO;
  */
 public class BookingWithCourtDTO extends EventWithCourtDTO  {
 
+    public BookingWithCourtDTO() {
+        super(EventType.BOOKING);
+    }
 }

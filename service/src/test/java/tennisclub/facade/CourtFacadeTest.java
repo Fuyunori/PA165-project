@@ -6,10 +6,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import tennisclub.ServiceTestsConfiguration;
+import tennisclub.dto.booking.BookingFullDTO;
 import tennisclub.dto.court.CourtCreateDto;
 import tennisclub.dto.court.CourtDto;
 import tennisclub.dto.court.CourtUpdateDto;
 import tennisclub.dto.event.EventDTO;
+import tennisclub.dto.event.EventWithCourtDTO;
+import tennisclub.entity.Booking;
 import tennisclub.entity.Court;
 import tennisclub.entity.Event;
 import tennisclub.enums.CourtType;
@@ -154,15 +157,15 @@ public class CourtFacadeTest {
     void listCourtEvents() {
         LocalDateTime startTime1 = LocalDateTime.parse("2021-04-30T16:00");
         LocalDateTime endTime1 = LocalDateTime.parse("2021-04-30T17:00");
-        Event event1 = new Event(startTime1, endTime1);
-        EventDTO eventDto1 = new EventDTO();
+        Event event1 = new Booking(startTime1, endTime1);
+        BookingFullDTO eventDto1 = new BookingFullDTO();
         eventDto1.setStartTime(startTime1);
         eventDto1.setEndTime(endTime1);
 
         LocalDateTime startTime2 = LocalDateTime.parse("2021-05-01T12:00");
         LocalDateTime endTime2 = LocalDateTime.parse("2021-05-01T14:00");
-        Event event2 = new Event(startTime2, endTime2);
-        EventDTO eventDto2 = new EventDTO();
+        Event event2 = new Booking(startTime2, endTime2);
+        BookingFullDTO eventDto2 = new BookingFullDTO();
         eventDto2.setStartTime(startTime2);
         eventDto2.setEndTime(endTime2);
 

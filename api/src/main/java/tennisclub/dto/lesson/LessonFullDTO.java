@@ -2,6 +2,7 @@ package tennisclub.dto.lesson;
 
 import tennisclub.dto.event.EventWithCourtDTO;
 import tennisclub.dto.user.UserDTO;
+import tennisclub.enums.EventType;
 import tennisclub.enums.Level;
 
 import java.util.Set;
@@ -15,6 +16,10 @@ public class LessonFullDTO extends EventWithCourtDTO {
     private Level level;
     private Set<UserDTO> teachers;
     private Set<UserDTO> students;
+
+    public LessonFullDTO() {
+        super(EventType.LESSON);
+    }
 
     public Integer getCapacity() {
         return capacity;
