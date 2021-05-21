@@ -8,3 +8,24 @@
     (cancelClick)="deleteCourt(displayedCourt)"
   ></tc-court-form>
 </mat-card>
+
+<mat-card class="events-card">
+  <mat-card-header>
+    <mat-icon mat-card-avatar color="primary">event</mat-icon>
+    <mat-card-title>Events</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="displayedEvents$" class="events-table">
+      <ng-container [matColumnDef]="EventTableColumn.StartTime">
+        <th mat-header-cell *matHeaderCellDef>Starts</th>
+        <td mat-cell *matCellDef="let event">{{ event.startTime }}</td>
+      </ng-container>
+      <ng-container [matColumnDef]="EventTableColumn.EndTime">
+        <th mat-header-cell *matHeaderCellDef>Ends</th>
+        <td mat-cell *matCellDef="let event">{{ event.endTime }}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="eventColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: eventColumns"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

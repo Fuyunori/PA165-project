@@ -14,7 +14,7 @@ import io.jsonwebtoken.Claims;
 import tennisclub.entity.User;
 
 /**
- * Service for manipulation with JWTs used by the UserService
+ * Service for manipulation with JWTs used only by the UserService
  * @author Ondrej Holub
  */
 @Service
@@ -66,6 +66,7 @@ class JWTService {
      * @return Claims
      */
     public Claims decodeJWT(String jwt) {
+        jwt = jwt.replaceFirst("^Bearer ", "");
 
         //This line will throw an exception if it is not a signed JWS (as expected)
         Claims claims = Jwts.parser()

@@ -7,17 +7,20 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import tennisclub.dto.court.CourtCreateDto;
 import tennisclub.dto.court.CourtDto;
 import tennisclub.dto.court.CourtUpdateDto;
+import tennisclub.dto.event.EventDTO;
 import tennisclub.entity.Court;
+import tennisclub.entity.Event;
 import tennisclub.enums.CourtType;
 import tennisclub.service.CourtService;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.refEq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Ondrej Holub
@@ -142,6 +145,31 @@ public class CourtFacadeTest {
 
         assertThat(obtained).contains(expected1, expected2);
         assertThat(obtained).hasSize(2);
+    }
+
+    @Test
+    void listCourtEvents() {
+        LocalDateTime startTime1 = LocalDateTime.parse("2021-04-30T16:00");
+        LocalDateTime endTime1 = LocalDateTime.parse("2021-04-30T17:00");
+        Event event1 = new Event(startTime1, endTime1);
+        EventDTO eventDto1 = new EventDTO();
+        eventDto1.setStartTime(startTime1);
+        eventDto1.setEndTime(endTime1);
+
+        LocalDateTime startTime2 = LocalDateTime.parse("2021-05-01T12:00");
+        LocalDateTime endTime2 = LocalDateTime.parse("2021-05-01T14:00");
+        Event event2 = new Event(startTime2, endTime2);
+        EventDTO eventDto2 = new EventDTO();
+        eventDto2.setStartTime(startTime2);
+        eventDto2.setEndTime(endTime2);
+
+        Court court = mock(Court.class);
+        when(court.getEvents()).thenReturn(Set.of(event1, event2));
+        when(courtService.getById(42L)).thenReturn(court);
+
+        assertThat(courtFacade.listCourtEvents(42L)).hasSize(2).contains(eventDto1, eventDto2);
+        verify(courtService).getById(42L);
+        verify(court).getEvents();
     }
 
     private CourtDto createSampleCourtDto() {

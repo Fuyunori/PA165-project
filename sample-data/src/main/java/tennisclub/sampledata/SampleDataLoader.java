@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import tennisclub.dao.UserDao;
 import tennisclub.entity.*;
 import tennisclub.enums.CourtType;
 import tennisclub.enums.Level;
@@ -19,6 +20,7 @@ import java.util.List;
 @Component
 public class SampleDataLoader implements ApplicationRunner {
     private final UserService userService;
+    private final UserDao userDao;
     private final CourtService courtService;
     private final BookingService bookingService;
     private final LessonService lessonService;
@@ -28,12 +30,14 @@ public class SampleDataLoader implements ApplicationRunner {
 
     @Autowired
     public SampleDataLoader(UserService userService,
+                            UserDao userDao,
                             CourtService courtService,
                             BookingService bookingService,
                             LessonService lessonService,
                             TournamentService tournamentService,
                             TimeService timeService) {
         this.userService = userService;
+        this.userDao = userDao;
         this.courtService = courtService;
         this.bookingService = bookingService;
         this.lessonService = lessonService;
@@ -48,10 +52,12 @@ public class SampleDataLoader implements ApplicationRunner {
     }
 
     public void loadData() {
+        User admin = persistUser("Admin Adminy", "admin", "admin", "admin@gmail.com", Role.MANAGER);
+        admin.setRole(Role.MANAGER);
+        userDao.update(admin);
         User user1 = persistUser("Bob Smith", "Bobby123", "password", "bob@gmail.com", Role.USER);
         User user2 = persistUser("Mark Tennisy", "TennisDevil666", "password", "mark@gmail.com", Role.USER);
         User user3 = persistUser("Lucy Fast", "lussy", "passwod", "lucy@gmail.com", Role.USER);
-        User admin = persistUser("Admin Adminy", "admin", "admin", "admin@gmail.com", Role.MANAGER);
 
         Court court1 = persistCourt("Pretty nice court", "Brno, Czech Republic", CourtType.GRASS);
         Court court2 = persistCourt("Courty court", "Prague, Czech Republic", CourtType.TURF);

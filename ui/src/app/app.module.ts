@@ -31,6 +31,7 @@ import { UserDetailComponent } from './views/main/user-detail/user-detail.compon
 import { UsersOverviewComponent } from './views/main/users-overview/users-overview.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { MatTableModule } from '@angular/material/table';
     MatToolbarModule,
     MatDialogModule,
     MatTableModule,
+    MatIconModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
     }),
