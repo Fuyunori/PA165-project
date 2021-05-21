@@ -66,6 +66,7 @@ class JWTService {
      * @return Claims
      */
     public Claims decodeJWT(String jwt) {
+        jwt = jwt.replaceFirst("^Bearer ", "");
 
         //This line will throw an exception if it is not a signed JWS (as expected)
         Claims claims = Jwts.parser()
