@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User, UnknownUser } from '../models/user.model';
@@ -47,6 +47,16 @@ export class UserService {
       this.state$.next({
         entities: { ...entities, [user.id]: user },
         orderedIds,
+      });
+    });
+  }
+
+  getUsersByUsername(username: string){
+    let queryParams: HttpParams = new HttpParams().set("username", username);
+    this.http.get<User[]>(`${RESOURCE_URL}/`, {params: queryParams}).subscribe(users => {
+      this.state$.next({
+        entities: users.reduce((acc, c) => ({ ...acc, [c.id]: c }), {}),
+        orderedIds: users.map(({ id }) => id),
       });
     });
   }
