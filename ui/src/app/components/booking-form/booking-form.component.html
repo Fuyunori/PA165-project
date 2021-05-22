@@ -2,12 +2,17 @@
     <div class="form-content">
         <div class="field-list">
 
-            <mat-form-field *ngIf="readOnly"  appearance="fill" class="field">
+            <mat-form-field *ngIf="authorUsername"  appearance="fill" class="field">
                 <mat-label>Author</mat-label>
-                <input matInput type="text" [value]="author" readonly>
+                <input matInput type="text" [value]="authorUsername" readonly>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="field">
+            <mat-form-field *ngIf="courtName"  appearance="fill" class="field">
+                <mat-label>Court</mat-label>
+                <input matInput type="text" [value]="courtName" readonly>
+            </mat-form-field>
+
+            <!--<mat-form-field appearance="fill" class="field">
                 <mat-label>Court</mat-label>
                 <mat-select [formControlName]="BookingFormKey.Court">
                     <mat-option
@@ -18,7 +23,7 @@
                         {{court.name}}
                     </mat-option>
                 </mat-select>
-            </mat-form-field>
+            </mat-form-field>-->
 
             <div class="date-container">
                 <mat-form-field appearance="fill" class="date-input date-input-left">

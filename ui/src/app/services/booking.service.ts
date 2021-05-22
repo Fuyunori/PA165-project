@@ -6,6 +6,7 @@ import {Lesson} from "../models/lesson.model";
 import {map} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {NotificationService} from "./notification.service";
+import {EventService} from "./event.service";
 
 const RESOURCE_URL = `${environment.apiBaseUrl}/bookings`;
 
@@ -29,6 +30,7 @@ export class BookingService {
   constructor(
       private readonly http: HttpClient,
       private readonly notification: NotificationService,
+      private readonly eventService: EventService,
   ) {}
 
   getBookingById(id: number): void {
@@ -42,4 +44,18 @@ export class BookingService {
           });
         });
   }
+
+    deleteBooking(booking: Booking): void {
+      let id = booking.id;
+        this.http.delete(`${RESOURCE_URL}/${id}`).subscribe(() => {
+            const { entities, orderedIds } = this.state$.value;
+            this.state$.next({
+                entities: Object.values(entities)
+                    .filter(booking => booking.id !== id)
+                    .reduce((acc, b) => ({ ...acc, [b.id]: b }), {}),
+                orderedIds: orderedIds.filter(ordId => ordId !== id),
+            });
+            this.eventService.getCourtEvents(booking.court.id);
+        });
+    }
 }

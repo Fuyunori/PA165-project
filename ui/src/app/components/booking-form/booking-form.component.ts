@@ -24,7 +24,7 @@ enum BookingFormKey {
 })
 export class BookingFormComponent implements OnInit {
   @Output() readonly cancelClick = new EventEmitter<void>();
-  @Output() readonly courtChange = new EventEmitter<UnknownCourt>();
+  @Output() readonly submitClick = new EventEmitter<UnknownCourt>();
 
   @Input() readOnly = false;
   @Input() submitButtonText = 'Submit';
@@ -46,11 +46,13 @@ export class BookingFormComponent implements OnInit {
       [BookingFormKey.User]: '',
       [BookingFormKey.Author]: booking.author.username,
     });
-    this.author = booking.author.username;
+    this.authorUsername = booking.author.username;
+    this.courtName = booking.court.name;
     this.selectedUsers = booking.users.map(u => u.username);
   }
 
-  author: string = '';
+  authorUsername: string = '';
+  courtName: string = '';
   readonly courts$: Observable<Court[]> = this.courtService.orderedCourts$;
   readonly users$: Observable<User[]> = this.userService.orderedUsers$;
   selectedUsers: string[] = [];

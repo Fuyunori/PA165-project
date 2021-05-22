@@ -1,6 +1,10 @@
 <mat-card *ngIf="displayedBooking$ | async as displayedBooking">
     <tc-booking-form
             [booking]="displayedBooking"
-            [readOnly]="true"
+            [readOnly]="!(userIsAuthor$ | async)"
+            cancelButtonText='Delete booking'
+            submitButtonText="update"
+            (cancelClick)="deleteBooking(displayedBooking)"
+            (submitClick)="updateBooking()"
     ></tc-booking-form>
 </mat-card>
