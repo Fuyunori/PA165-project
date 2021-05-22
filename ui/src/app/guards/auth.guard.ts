@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 
 type ValidationResult =
@@ -26,10 +20,7 @@ export class AuthGuard implements CanActivate {
     private readonly router: Router,
   ) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ): Observable<boolean> {
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     return this.auth.loggedIn$.pipe(
       map((loggedIn): ValidationResult => {
         if (loggedIn && route.url[0].path === 'landing') {
@@ -48,6 +39,7 @@ export class AuthGuard implements CanActivate {
         }
       }),
       map(({ canActivate }) => canActivate),
+      take(1),
     );
   }
 }

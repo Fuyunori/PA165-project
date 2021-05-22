@@ -4,10 +4,16 @@
       <span>Tennis Club</span>
       <div class="navigation">
         <a mat-button routerLink="/main/dashboard">Dashboard</a>
+        <a mat-button routerLink="/main/users" *ngIf="userIsManager$ | async">
+          Users
+        </a>
         <a mat-button routerLink="/main/about">About</a>
       </div>
     </div>
-    <div class="header-start">
+    <div class="header-end">
+      <a mat-button routerLink="/main/user/{{ userId$ | async }}">
+        My Profile
+      </a>
       <button mat-flat-button (click)="logOut()">Log out</button>
     </div>
   </mat-toolbar>

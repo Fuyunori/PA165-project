@@ -31,3 +31,5 @@ For more convenient UI development (auto-rebuild+reload on file changes):
 
 - build and serve the back-end in the same way as described above;
 - run Angular's dev-server by executing `npm start` in the `ui` directory.
+
+The UI will be served at `http://localhost:4200/pa165`.

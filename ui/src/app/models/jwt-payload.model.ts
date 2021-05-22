@@ -1,6 +1,7 @@
 import { UserRole } from './user.model';
 
 export type JwtPayload = {
+  userId: number;
   role: UserRole;
 };
 
