@@ -12,8 +12,7 @@ import java.util.Set;
  * @author Miroslav Demek
  */
 public class BookingCreateDTO extends EventCreateDTO {
-
-    @NotEmpty(message = "{booking.users.nonempty}")
+    
     private Set<UserDTO> users;
 
     @NotNull(message = "{booking.author.notnull}")
