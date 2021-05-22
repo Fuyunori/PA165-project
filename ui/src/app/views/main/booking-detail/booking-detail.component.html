@@ -5,6 +5,6 @@
             cancelButtonText='Delete booking'
             submitButtonText="update"
             (cancelClick)="deleteBooking(displayedBooking)"
-            (submitClick)="updateBooking()"
+            (submitClick)="updateBooking(displayedBooking, $event)"
     ></tc-booking-form>
 </mat-card>

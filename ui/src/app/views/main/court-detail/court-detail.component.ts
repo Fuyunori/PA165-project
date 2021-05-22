@@ -1,15 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Court, UnknownCourt } from '../../../models/court.model';
-import { AuthService } from '../../../services/auth.service';
-import { CourtService } from '../../../services/court.service';
-import { EventService } from '../../../services/event.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable, of, Subject} from 'rxjs';
+import {filter, take, takeUntil} from 'rxjs/operators';
+import {Court, UnknownCourt} from '../../../models/court.model';
+import {AuthService} from '../../../services/auth.service';
+import {CourtService} from '../../../services/court.service';
+import {EventService} from '../../../services/event.service';
 import {Event, EventType} from '../../../models/event.model';
 import {MatDialog} from "@angular/material/dialog";
-import {CourtFormComponent} from "../../../components/court-form/court-form.component";
 import {BookingFormComponent} from "../../../components/booking-form/booking-form.component";
+import {Booking, UnknownBooking} from "../../../models/booking.model";
+import {UserService} from "../../../services/user.service";
+import {User} from "../../../models/user.model";
+import {BookingService} from "../../../services/booking.service";
 
 enum EventTableColumn {
   Type = 'Type',
@@ -49,6 +52,8 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
     private readonly auth: AuthService,
     private readonly courtService: CourtService,
     private readonly eventService: EventService,
+    private readonly userService: UserService,
+    private readonly bookingService: BookingService,
     private readonly dialog: MatDialog,
   ) {}
 
@@ -87,12 +92,35 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
     dialog.componentInstance.submitButtonText = 'Make booking';
     dialog.componentInstance.court = court;
 
-    /*dialog.componentInstance.courtChange
+    dialog.componentInstance.submitClick
         .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(court => {
-          this.courtService.postCourt(court);
-          dialog.close();
-        });*/
+        .subscribe(formBooking => {
+          this.auth.userId$.pipe(
+              filter((id): id is number => id != null),
+              take(1),
+          ).subscribe(
+              userId => {
+                this.userService.getUserById(userId);
+                this.userService.singleUser$(userId).pipe(
+                    filter((u): u is User => u != null),
+                    take(1),
+                ).subscribe(
+                   user => {
+                     let booking: UnknownBooking = {
+                       type: EventType.Booking,
+                       court: court,
+                       startTime: formBooking.startTime,
+                       endTime: formBooking.endTime,
+                       author: user,
+                       users: formBooking.users,
+                     }
+                     this.bookingService.postBooking(booking);
+                     dialog.close();
+                   }
+                )
+              }
+          )
+        });
 
     dialog.componentInstance.cancelClick
         .pipe(takeUntil(this.unsubscribe$))

@@ -1,10 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, of, Subject, zip} from "rxjs";
-import {Booking} from "../../../models/booking.model";
+import {Booking, FormBooking, UnknownBooking} from "../../../models/booking.model";
 import {BookingService} from "../../../services/booking.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
 import {filter, map, take, takeUntil} from "rxjs/operators";
+import {Court} from "../../../models/court.model";
+import {UserService} from "../../../services/user.service";
 
 @Component({
   selector: 'tc-booking-detail',
@@ -18,6 +20,7 @@ export class BookingDetailComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$ = new Subject<void>();
 
   constructor(private readonly bookingService: BookingService,
+              private readonly userService: UserService,
               private readonly route: ActivatedRoute,
               private readonly router: Router,
               private readonly auth: AuthService,) {
@@ -47,7 +50,7 @@ export class BookingDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateBooking(): void {
+  updateBooking(displayedBooking: Booking, booking: FormBooking): void {
 
   }
 }

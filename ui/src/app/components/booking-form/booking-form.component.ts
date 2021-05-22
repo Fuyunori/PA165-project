@@ -3,7 +3,7 @@ import {Court, UnknownCourt} from "../../models/court.model";
 import {FormBuilder, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
 import {CourtService} from "../../services/court.service";
-import {Booking, UnknownBooking} from "../../models/booking.model";
+import {Booking, FormBooking, UnknownBooking} from "../../models/booking.model";
 import {filter, take} from "rxjs/operators";
 import {EventType} from "../../models/event.model";
 import {UserService} from "../../services/user.service";
@@ -24,7 +24,7 @@ enum BookingFormKey {
 })
 export class BookingFormComponent implements OnInit {
   @Output() readonly cancelClick = new EventEmitter<void>();
-  @Output() readonly submitClick = new EventEmitter<UnknownCourt>();
+  @Output() readonly submitClick = new EventEmitter<FormBooking>();
 
   @Input() readOnly = false;
   @Input() submitButtonText = 'Submit';
@@ -48,22 +48,18 @@ export class BookingFormComponent implements OnInit {
     });
     this.authorUsername = booking.author.username;
     this.courtName = booking.court.name;
-    this.selectedUsers = booking.users.map(u => u.username);
+    this.selectedUsers = booking.users;
   }
 
   authorUsername: string = '';
   courtName: string = '';
-  readonly courts$: Observable<Court[]> = this.courtService.orderedCourts$;
-  readonly users$: Observable<User[]> = this.userService.orderedUsers$;
-  selectedUsers: string[] = [];
+  selectedUsers: User[] = [];
 
 
   readonly bookingForm = this.fb.group({
-    [BookingFormKey.Court]: ['', Validators.required],
     [BookingFormKey.Start]: ['', Validators.required],
     [BookingFormKey.End]: ['', Validators.required],
     [BookingFormKey.User]: '',
-    [BookingFormKey.Author]: ['', Validators.required],
   });
 
   readonly BookingFormKey = BookingFormKey;
@@ -75,56 +71,46 @@ export class BookingFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.courtService.getCourts();
-    this.userService.getUsers();
   }
 
   addUser(): void {
     let username = this.bookingForm.value[BookingFormKey.User];
-    if (!username || this.selectedUsers.includes(username)) {
+    if (!username || this.selectedUsers.map(u => u.username).includes(username)) {
       return;
     }
-    this.selectedUsers.push(username);
-    /*let id: number = this.bookingForm.value[BookingFormKey.User];
-    if (this.selectedUsers.map(u => u.id).includes(id)) {
-      return;
-    }
-    if (id && !this.selectedUsers.map(user => user.id).includes(id)) {
-      this.userService.getUserById(id);
-      this.userService.singleUser$(id).pipe(
-          take(1),
-          filter((user):user is User => user != null),
-      ).subscribe(user => {
+    this.userService.getUserByUsername(username).subscribe(
+        (user) => {
+          if (!user) {
+            console.log("Error")
+            return;
+          }
         this.selectedUsers.push(user);
-      });
-    }*/
+          this.bookingForm.patchValue({
+            [BookingFormKey.User]: '',
+          })
+      },
+        (err) => {
+          console.log("Error")
+        },
+    );
   }
 
   deleteUserItem(username: string) {
-    this.selectedUsers = this.selectedUsers.filter(u => u != username);
-    //this.selectedUsers = this.selectedUsers.filter(u => u.id != id);
+    this.selectedUsers = this.selectedUsers.filter(u => u.username != username);
   }
 
   submit(): void {
     const { value } = this.bookingForm;
 
-    this.courtService.getCourtById(value[BookingFormKey.Court]);
-    this.courtService.singleCourt$(value[BookingFormKey.Court]).pipe(
-      take(1),
-      filter((court):court is Court => court != null),
-    ).subscribe(court => {
-           /* const booking: UnknownBooking = {
-              type: EventType.Booking,
-              court,
-              startTime: value[BookingFormKey.Start],
-              endTime: value[BookingFormKey.End],
-              author: this.author,
-              users: this.selectedUsers,
-            };
+    const booking: FormBooking = {
+      type: EventType.Booking,
+      startTime: value[BookingFormKey.Start],
+      endTime: value[BookingFormKey.End],
+      users: this.selectedUsers,
+    };
 
-          console.log(booking);*/
-    });
-
-    console.log(this.bookingForm.value[BookingFormKey.Court]?.address);
+    this.bookingForm.markAsPristine();
+    this.submitClick.emit(booking);
   }
 
   cancel(): void {

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
-import {Booking} from "../models/booking.model";
+import {Booking, UnknownBooking} from "../models/booking.model";
 import {BehaviorSubject, Observable} from "rxjs";
 import {Lesson} from "../models/lesson.model";
 import {map} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {NotificationService} from "./notification.service";
 import {EventService} from "./event.service";
+import {Court, UnknownCourt} from "../models/court.model";
 
 const RESOURCE_URL = `${environment.apiBaseUrl}/bookings`;
 
@@ -57,5 +58,19 @@ export class BookingService {
             });
             this.eventService.getCourtEvents(booking.court.id);
         });
+    }
+
+    postBooking(booking: UnknownBooking): void {
+        this.http
+            .post<Booking>(RESOURCE_URL, booking)
+            .pipe(this.notification.onError('Could not add booking!'))
+            .subscribe(resBooking => {
+                const { entities, orderedIds } = this.state$.value;
+                this.state$.next({
+                    entities: { ...entities, [resBooking.id]: resBooking },
+                    orderedIds: [...orderedIds, resBooking.id],
+                });
+                this.eventService.getCourtEvents(resBooking.court.id);
+            });
     }
 }

@@ -57,8 +57,8 @@
             <h3 class="unmarginized-heading">Users:</h3>
             <mat-list>
                 <div *ngFor="let user of selectedUsers" class="user-list-item">
-                    <mat-list-item>{{user}}</mat-list-item>
-                    <mat-icon *ngIf="!readOnly" class="cross-icon" (click)="deleteUserItem(user)">close</mat-icon>
+                    <mat-list-item>{{user.username}}</mat-list-item>
+                    <mat-icon *ngIf="!readOnly" class="cross-icon" (click)="deleteUserItem(user.username)">close</mat-icon>
                 </div>
             </mat-list>
 

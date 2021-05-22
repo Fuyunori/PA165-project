@@ -6,4 +6,5 @@ export type Booking = Event & {
     users: User[];
 };
 
-export type UnknownBooking = Omit<Event, "id">;
+export type UnknownBooking = Omit<Booking, "id">;
+export type FormBooking = Omit<Booking, "id" | "author" | "court">
