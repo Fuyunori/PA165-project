@@ -44,6 +44,10 @@ export class AuthService {
     map(token => (token != null ? AuthService.parseToken(token) : null)),
   );
 
+  readonly userId$: Observable<number | null> = this.parsedToken$.pipe(
+    map(parsedToken => parsedToken?.userId ?? null),
+  );
+
   readonly userIsManager$: Observable<boolean> = this.parsedToken$.pipe(
     map(parsedToken => parsedToken?.role === UserRole.Manager),
   );
