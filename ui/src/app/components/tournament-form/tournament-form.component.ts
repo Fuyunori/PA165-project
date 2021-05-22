@@ -5,6 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 enum TournamentFormKey {
   Start = 'Start',
   End = 'End',
+  Court = 'Court',
   Name = 'Name',
   Capacity = 'Capacity',
   Prize = 'Prize',
@@ -24,6 +25,7 @@ export class TournamentFormComponent {
     this.tournamentForm.setValue({
       [TournamentFormKey.Start]: tournament.startTime,
       [TournamentFormKey.End]: tournament.endTime,
+      [TournamentFormKey.Court]: tournament.court,
       [TournamentFormKey.Name]: tournament.name,
       [TournamentFormKey.Capacity]: tournament.capacity,
       [TournamentFormKey.Prize]: tournament.prize,
@@ -39,6 +41,7 @@ export class TournamentFormComponent {
   readonly tournamentForm = this.fb.group({
     [TournamentFormKey.Start]: ['', Validators.required],
     [TournamentFormKey.End]: ['', Validators.required],
+    [TournamentFormKey.Court]: [undefined, Validators.required],
     [TournamentFormKey.Name]: ['', Validators.required],
     [TournamentFormKey.Capacity]: '',
     [TournamentFormKey.Prize]: ['', Validators.required],
@@ -52,6 +55,7 @@ export class TournamentFormComponent {
     const tournament: UnknownTournament = {
       startTime: value[TournamentFormKey.Start],
       endTime: value[TournamentFormKey.End],
+      court: value[TournamentFormKey.Court],
       name: value[TournamentFormKey.Name],
       capacity: value[TournamentFormKey.Capacity],
       prize: value[TournamentFormKey.Prize],
