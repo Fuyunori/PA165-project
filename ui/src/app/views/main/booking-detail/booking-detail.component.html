@@ -1,0 +1,6 @@
+<mat-card *ngIf="displayedBooking$ | async as displayedBooking">
+    <tc-booking-form
+            [booking]="displayedBooking"
+            [readOnly]="true"
+    ></tc-booking-form>
+</mat-card>
