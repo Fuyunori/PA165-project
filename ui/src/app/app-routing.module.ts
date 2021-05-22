@@ -11,6 +11,8 @@ import { TournamentDetailComponent } from './views/main/tournament-detail/tourna
 import { UserDetailComponent } from './views/main/user-detail/user-detail.component';
 import { UsersOverviewComponent } from './views/main/users-overview/users-overview.component';
 import {BookingDetailComponent} from "./views/main/booking-detail/booking-detail.component";
+import { ManagerGuard } from './guards/manager.guard';
+import { UserIdGuard } from './guards/user-id.guard';
 
 const routes: Routes = [
   {
@@ -29,8 +31,16 @@ const routes: Routes = [
       { path: 'lesson/:id', component: LessonDetailComponent },
       { path: 'tournament/:id', component: TournamentDetailComponent },
       { path: 'booking/:id', component: BookingDetailComponent },
-      { path: 'user/:id', component: UserDetailComponent },
-      { path: 'users', component: UsersOverviewComponent },
+      {
+        path: 'user/:id',
+        component: UserDetailComponent,
+        canActivate: [UserIdGuard],
+      },
+      {
+        path: 'users',
+        component: UsersOverviewComponent,
+        canActivate: [ManagerGuard],
+      },
       { path: '**', redirectTo: 'dashboard' },
     ],
   },
