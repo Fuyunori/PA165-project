@@ -85,16 +85,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public void verifyUser(String jwt, Long expectedUserId) {
-        String username = getUsernameOrThrowUnauthorised(jwt);
+        Long id = getIdOrThrowUnauthorised(jwt);
 
-        User user;
-        try{
-            user = findUserByUsername(username);
-        }catch (Exception e) {
-            throw new ForbiddenException();
-        }
-
-        if (!user.getId().equals(expectedUserId)) {
+        if (!id.equals(expectedUserId)) {
             throw new ForbiddenException();
         }
     }
@@ -109,17 +102,10 @@ public class UserServiceImpl implements UserService {
     }
 
     public void verifyUserOrManager(String jwt, Long expectedUserId) {
-        String username = getUsernameOrThrowUnauthorised(jwt);
         Role role = getRoleOrThrowUnauthorised(jwt);
+        Long id = getIdOrThrowUnauthorised(jwt);
 
-        User user;
-        try{
-            user = findUserByUsername(username);
-        }catch (Exception e) {
-            throw new ForbiddenException();
-        }
-
-        if ( (!user.getId().equals(expectedUserId)) && role != Role.MANAGER) {
+        if ( (!id.equals(expectedUserId)) && role != Role.MANAGER) {
             throw new ForbiddenException();
         }
     }
@@ -175,6 +161,16 @@ public class UserServiceImpl implements UserService {
             throw new UnauthorisedException();
         }
         return username;
+    }
+
+    private Long getIdOrThrowUnauthorised(String jwt) {
+        Long id;
+        try {
+            id = jwtService.decodeJWT(jwt).get("userId", Long.class);
+        } catch (Exception e) {
+            throw new UnauthorisedException();
+        }
+        return id;
     }
 
     private Role getRoleOrThrowUnauthorised(String jwt) {
