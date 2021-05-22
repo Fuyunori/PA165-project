@@ -14,7 +14,7 @@ public class UserAuthDTO {
     @NotBlank
     private  String username;
 
-    @Length(min = 6)
+    @NotBlank
     private  String password;
 
     public String getUsername() {

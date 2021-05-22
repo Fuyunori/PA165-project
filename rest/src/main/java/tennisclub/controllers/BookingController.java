@@ -18,7 +18,7 @@ import java.util.List;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/bookings")
+@RequestMapping("/rest/bookings")
 public class BookingController {
 
     private final BookingFacade bookingFacade;

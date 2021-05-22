@@ -8,6 +8,9 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent {
+  readonly userIsManager$ = this.auth.userIsManager$;
+  readonly userId$ = this.auth.userId$;
+
   constructor(
     private readonly auth: AuthService,
     private readonly router: Router,

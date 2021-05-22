@@ -108,6 +108,22 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public void verifyUserOrManager(String jwt, Long expectedUserId) {
+        String username = getUsernameOrThrowUnauthorised(jwt);
+        Role role = getRoleOrThrowUnauthorised(jwt);
+
+        User user;
+        try{
+            user = findUserByUsername(username);
+        }catch (Exception e) {
+            throw new ForbiddenException();
+        }
+
+        if ( (!user.getId().equals(expectedUserId)) && role != Role.MANAGER) {
+            throw new ForbiddenException();
+        }
+    }
+
     @Override
     public User findUserById(Long id) {
         return userDao.findById(id);

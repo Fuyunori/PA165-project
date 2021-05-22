@@ -4,8 +4,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-size: cover;
-  background-image: linear-gradient(black, black), url('/assets/landing-bg.jpg');
+  background-image: linear-gradient(black, black),
+    url('~src/assets/landing-bg.jpg');
   background-size: cover;
   background-blend-mode: saturation;
 }

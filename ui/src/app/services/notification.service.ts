@@ -7,12 +7,16 @@ import { catchError } from 'rxjs/operators';
 export class NotificationService {
   constructor(private readonly toastr: ToastrService) {}
 
+  toastError(message: string): void {
+    this.toastr.error(message);
+  }
+
   onError<T>(message: string): OperatorFunction<T, T> {
     return $ =>
       $.pipe(
         catchError(error => {
           console.warn(error);
-          this.toastr.error(message);
+          this.toastError(message);
           return EMPTY;
         }),
       );
