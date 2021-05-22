@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {
   Tournament,
   UnknownTournament,
@@ -7,8 +7,10 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { TournamentService } from '../../../services/tournament.service';
-import { takeUntil } from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import { User } from '../../../models/user.model';
+import {UserService} from "../../../services/user.service";
+import {Ranking} from "../../../models/ranking.model";
 
 @Component({
   selector: 'tc-tournament-detail',
@@ -17,6 +19,8 @@ import { User } from '../../../models/user.model';
 })
 export class TournamentDetailComponent implements OnInit, OnDestroy {
   displayedTournament$: Observable<Tournament | null> = of(null);
+  currentlyLoggedInUser$: Observable<User | null> = of(null);
+  isUserEnrolled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   readonly userIsManager$ = this.auth.userIsManager$;
 
@@ -26,6 +30,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly auth: AuthService,
+    private readonly userService: UserService,
     private readonly tournamentService: TournamentService,
   ) {}
 
@@ -34,11 +39,44 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
       this.tournamentService.getTournamentById(id);
       this.displayedTournament$ = this.tournamentService.singleTournament$(id);
     });
+
+    this.auth.userId$.subscribe((loggedInUserId) => {
+      if(loggedInUserId != null) {
+        this.userService.getUserById(loggedInUserId);
+        this.currentlyLoggedInUser$ = this.userService.singleUser$(loggedInUserId);
+      }
+    });
+
+    this.displayedTournament$.subscribe(tournament => {
+      this.currentlyLoggedInUser$.subscribe(user => {
+        if(tournament != null && user != null){
+          let rankings = tournament.rankings;
+          if(rankings != null) {
+            let result = rankings.some(ranking => {
+              return ranking.player.id == user.id;
+            });
+            if (result) {
+              this.isUserEnrolled$.next(true);
+            } else {
+              this.isUserEnrolled$.next(false);
+            }
+          }
+        }
+      })
+    });
   }
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  addPlayer(displayedTournament: Tournament): void {
+    this.currentlyLoggedInUser$.subscribe(user => {
+      if(user != null){
+        this.tournamentService.enrollPlayer(displayedTournament.id, user);
+      }
+    });
   }
 
   deleteTournament(displayedTournament: Tournament): void {

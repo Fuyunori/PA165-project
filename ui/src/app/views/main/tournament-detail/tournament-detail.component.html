@@ -3,6 +3,8 @@
     cancelButtonText="Delete tournament"
     [readOnly]="true"
     [tournament]="displayedTournament"
+    [isEnrolledAlready]="isUserEnrolled$"
     (cancelClick)="deleteTournament(displayedTournament)"
+    (addUser)="addPlayer(displayedTournament)"
   ></tc-tournament-form>
 </mat-card>

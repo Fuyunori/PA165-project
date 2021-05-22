@@ -5,7 +5,7 @@ export type Tournament = Event & {
   name: string;
   capacity: number;
   prize: number;
-  rankings: Set<Ranking>;
+  rankings: Ranking[];
 };
 
 export type UnknownTournament = Omit<Tournament, 'id' | 'rankings'>;
