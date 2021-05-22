@@ -18,6 +18,9 @@ export class LessonStudentsComponent implements OnInit, OnDestroy {
   students: User[] = [];
 
   @Input()
+  teachers: User[] = [];
+
+  @Input()
   canAddStudent: boolean | null = false;
 
   @Input()
@@ -44,10 +47,12 @@ export class LessonStudentsComponent implements OnInit, OnDestroy {
 
   enrollStudent(): void {
     const dialog = this.dialog.open(AddUserViewComponent, { disableClose: true });
-    dialog.componentInstance.usersToExclude = this.students;
+    dialog.componentInstance.usersToExcludePrimary = this.students;
+    dialog.componentInstance.usersToExcludeSecondary = this.teachers;
     dialog.componentInstance.users$ = this.users$;
     dialog.componentInstance.actionText = "enroll";
-    dialog.componentInstance.excludedText = "enrolled already";
+    dialog.componentInstance.excludedTextPrimary = "enrolled already";
+    dialog.componentInstance.excludedTextSecondary = "teaches lesson";
 
     dialog.componentInstance.selectedUser
         .pipe(takeUntil(this.unsubscribe$))

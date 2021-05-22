@@ -10,12 +10,14 @@
     [canAddStudent]="(userIsManager$ | async)"
     [canWithdrawStudent]="(userIsManager$ | async)"
     [students]="displayedLesson.students"
+    [teachers]="displayedLesson.teachers"
     [selectedLesson]="displayedLesson"
   >
   </tc-lesson-students-list>
   <tc-lesson-teachers-list *ngIf="(userIsManager$ | async)"
     [canAddTeacher]="(userIsManager$ | async)"
     [canRemoveTeacher]="(userIsManager$ | async)"
+    [students]="displayedLesson.students"
     [teachers]="displayedLesson.teachers"
     [selectedLesson]="displayedLesson">
   </tc-lesson-teachers-list>

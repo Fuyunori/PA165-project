@@ -15,6 +15,9 @@ import {LessonService} from "../../services/lesson.service";
 })
 export class LessonTeachersListComponent implements OnInit, OnDestroy {
     @Input()
+    students: User[] = [];
+
+    @Input()
     teachers: User[] = [];
 
     @Input()
@@ -44,10 +47,12 @@ export class LessonTeachersListComponent implements OnInit, OnDestroy {
 
     addTeacher(): void {
       const dialog = this.dialog.open(AddUserViewComponent, { disableClose: true });
-      dialog.componentInstance.usersToExclude = this.teachers;
+      dialog.componentInstance.usersToExcludePrimary = this.teachers;
+      dialog.componentInstance.usersToExcludeSecondary = this.students;
       dialog.componentInstance.users$ = this.users$;
       dialog.componentInstance.actionText = "add";
-      dialog.componentInstance.excludedText = "assigned already";
+      dialog.componentInstance.excludedTextPrimary = "assigned already";
+      dialog.componentInstance.excludedTextSecondary = "enrolled already";
 
         dialog.componentInstance.selectedUser
             .pipe(takeUntil(this.unsubscribe$))

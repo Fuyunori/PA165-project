@@ -14,21 +14,33 @@ export class AddUserViewComponent {
   users$: Observable<User[]> = new Observable<User[]>();
 
   @Input()
-  usersToExclude: User[] = [];
+  usersToExcludePrimary: User[] = [];
+
+  @Input()
+  usersToExcludeSecondary: User[] = [];
 
   @Input()
   actionText: string = '';
 
   @Input()
-  excludedText: string = '';
+  excludedTextPrimary: string = '';
+
+  @Input()
+  excludedTextSecondary: string = '';
 
   @Output() readonly cancelClick = new EventEmitter<void>();
   @Output() readonly selectedUser = new EventEmitter<User>();
 
   userNameFormControl = new FormControl('');
 
-  isExcluded(user: User): boolean {
-    return this.usersToExclude.some((elem: User) => {
+  isExcludedPrimary(user: User): boolean {
+    return this.usersToExcludePrimary.some((elem: User) => {
+      return user.id === elem.id;
+    });
+  }
+
+  isExcludedSecondary(user: User): boolean {
+    return this.usersToExcludeSecondary.some((elem: User) => {
       return user.id === elem.id;
     });
   }
