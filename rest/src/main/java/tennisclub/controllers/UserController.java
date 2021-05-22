@@ -1,6 +1,7 @@
 package tennisclub.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import tennisclub.dto.user.UserAuthDTO;
 import tennisclub.dto.user.UserFullDTO;
@@ -10,6 +11,7 @@ import tennisclub.facade.UserFacade;
 import tennisclub.service.UserService;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 /**
@@ -50,6 +52,12 @@ public class UserController {
     public final UserFullDTO findUserById(@RequestHeader(value = "Authorization", required = false) String jwt, @PathVariable Long id) {
         userService.verifyUserOrManager(jwt, id);
         return userFacade.findUserById(id);
+    }
+
+    @GetMapping()
+    public final UserFullDTO findUserByUsername(@RequestHeader(value = "Authorization", required = false) String jwt, @PathParam(value = "username") String username) {
+        userService.verifyRole(jwt, Role.USER);
+        return userFacade.findUserByUsername(username);
     }
 
     @PutMapping("/{id}")
