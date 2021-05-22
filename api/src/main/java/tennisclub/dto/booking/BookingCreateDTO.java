@@ -16,7 +16,7 @@ public class BookingCreateDTO extends EventCreateDTO {
     @NotEmpty(message = "{booking.users.nonempty}")
     private Set<UserDTO> users;
 
-    @NotNull(message = "{booking.users.notnull}")
+    @NotNull(message = "{booking.author.notnull}")
     private UserDTO author;
 
     public BookingCreateDTO() {
@@ -29,5 +29,13 @@ public class BookingCreateDTO extends EventCreateDTO {
 
     public void setUsers(Set<UserDTO> users) {
         this.users = users;
+    }
+
+    public UserDTO getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(UserDTO author) {
+        this.author = author;
     }
 }

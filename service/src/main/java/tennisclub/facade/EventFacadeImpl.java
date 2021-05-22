@@ -1,6 +1,5 @@
 package tennisclub.facade;
 
-import com.github.dozermapper.core.Mapper;
 import org.springframework.stereotype.Service;
 import tennisclub.dto.event.EventRescheduleDTO;
 import tennisclub.dto.event.EventWithCourtDTO;
@@ -40,12 +39,12 @@ public class EventFacadeImpl implements EventFacade {
         Event event = eventService.findById(id);
         Court court = event.getCourt();
 
-        if (!courtService.isFree(court, eventRescheduleDTO.getStart(), eventRescheduleDTO.getEnd())) {
-            throw new FacadeLayerException("Can't reschedule the event. The court is not free at the new time.");
+        List<Event> conflicts = courtService.getConflictingEvents(court, eventRescheduleDTO.getStartTime(), eventRescheduleDTO.getEndTime());
+        if (conflicts.isEmpty() || (conflicts.size() == 1 && conflicts.get(0) == event)) {
+            Event updated = eventService.reschedule(event, eventRescheduleDTO.getStartTime(), eventRescheduleDTO.getEndTime());
+            return eventMapper.map(updated);
         }
-
-        Event updated = eventService.reschedule(event, eventRescheduleDTO.getStart(), eventRescheduleDTO.getEnd());
-        return eventMapper.map(updated);
+        throw new FacadeLayerException("Can't reschedule the event. The court is not free at the new time.");
     }
 
     @Override
