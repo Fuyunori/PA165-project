@@ -31,7 +31,7 @@ public class Booking extends Event {
     }
 
     public Set<User> getUsers() {
-        return Collections.unmodifiableSet(users);
+        return users;
     }
 
     public void addUser(User user) {
@@ -40,6 +40,10 @@ public class Booking extends Event {
 
     public void removeUser(User user) {
         users.remove(user);
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     public User getAuthor() {

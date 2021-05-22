@@ -121,9 +121,7 @@ public class BookingFacadeImpl implements BookingFacade {
     @Override
     public BookingFullDTO update(Long bookingId, BookingUpdateDTO dto) {
         Booking booking = bookingService.findById(bookingId);
-        for (User user : booking.getUsers()) {
-            booking.removeUser(user);
-        }
+        booking.getUsers().clear();
         for (UserDTO userDto : dto.getUsers()) {
             User user = userService.findUserById(userDto.getId());
             if (booking.getAuthor().equals(user)) {
