@@ -33,6 +33,8 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { BookingFormComponent } from './components/booking-form/booking-form.component';
+import { BookingDetailComponent } from './views/main/booking-detail/booking-detail.component';
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
@@ -54,6 +56,7 @@ import { BookingFormComponent } from './components/booking-form/booking-form.com
     UsersOverviewComponent,
     UsersTableComponent,
     BookingFormComponent,
+    BookingDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,6 +73,7 @@ import { BookingFormComponent } from './components/booking-form/booking-form.com
     MatDialogModule,
     MatTableModule,
     MatIconModule,
+      MatListModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
     }),

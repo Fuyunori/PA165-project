@@ -48,8 +48,9 @@ export class LessonFormComponent {
   submit(): void {
     const { value } = this.lessonForm;
 
-    const lesson: UnknownLesson = {
+    /*const lesson: UnknownLesson = {
       type: EventType.Lesson,
+      court: {},
       startTime: value[LessonFormKey.Start],
       endTime: value[LessonFormKey.End],
       capacity: value[LessonFormKey.Capacity],
@@ -57,7 +58,7 @@ export class LessonFormComponent {
     };
 
     this.lessonForm.markAsPristine();
-    this.lessonChange.emit(lesson);
+    this.lessonChange.emit(lesson);*/
   }
 
   cancel(): void {

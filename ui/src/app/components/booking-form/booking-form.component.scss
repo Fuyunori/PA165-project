@@ -1,0 +1,75 @@
+.court-form {
+  &,
+  & > * {
+    width: 100%;
+  }
+}
+
+.form-content {
+  display: flex;
+}
+
+.field-list {
+  flex-basis: 100%;
+}
+
+.field {
+  width: 100%;
+}
+
+.form-actions {
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-input {
+  width: 90%;
+}
+
+.user-add-button {
+  margin: 10px;
+}
+
+.user-input-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.user-list-item {
+  background-color: rgba(0,0,0,.04);
+  display: flex;
+  align-items: center;
+  width: 40%;
+  padding-right: 1%;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.cross-icon {
+  color: red;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cross-icon:hover {
+  background-color: #ffbdbd;
+}
+
+.date-container {
+  display: flex;
+}
+
+.date-input {
+  flex-grow: 1;
+}
+
+.date-input-left {
+  flex-grow: 1;
+  padding-right: 2%;
+}
+
+.unmarginized-heading {
+  margin-bottom: 0;
+}

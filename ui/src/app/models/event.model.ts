@@ -1,3 +1,5 @@
+import {Court} from "./court.model";
+
 export enum EventType {
   Booking = 'BOOKING',
   Tournament = 'TOURNAMENT',
@@ -5,8 +7,9 @@ export enum EventType {
 }
 
 export type Event = {
-  type: EventType,
+  type: EventType;
   id: number;
+  court: Court;
   startTime: Date;
   endTime: Date;
 };

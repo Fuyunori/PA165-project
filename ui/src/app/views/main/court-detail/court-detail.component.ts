@@ -7,6 +7,7 @@ import { AuthService } from '../../../services/auth.service';
 import { CourtService } from '../../../services/court.service';
 import { EventService } from '../../../services/event.service';
 import {Event, EventType} from '../../../models/event.model';
+import {MatDialog} from "@angular/material/dialog";
 
 enum EventTableColumn {
   Type = 'Type',
@@ -46,6 +47,7 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
     private readonly auth: AuthService,
     private readonly courtService: CourtService,
     private readonly eventService: EventService,
+    private readonly dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -76,5 +78,9 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
 
   asEventType(type: any): EventType {
     return type;
+  }
+
+  addBooking(court: Court) {
+
   }
 }

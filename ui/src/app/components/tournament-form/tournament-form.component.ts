@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {UnknownTournament} from '../../models/tournament.model';
 import {FormBuilder, Validators} from '@angular/forms';
-import {EventType} from "../../models/event.model";
 
 enum TournamentFormKey {
   Start = 'Start',
@@ -50,7 +49,7 @@ export class TournamentFormComponent {
   submit(): void {
     const { value } = this.tournamentForm;
 
-    const tournament: UnknownTournament = {
+    /*const tournament: UnknownTournament = {
       type: EventType.Tournament,
       startTime: value[TournamentFormKey.Start],
       endTime: value[TournamentFormKey.End],
@@ -60,7 +59,7 @@ export class TournamentFormComponent {
     };
 
     this.tournamentForm.markAsPristine();
-    this.tournamentChange.emit(tournament);
+    this.tournamentChange.emit(tournament);*/
   }
 
   cancel(): void {
