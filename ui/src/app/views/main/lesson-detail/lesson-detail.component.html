@@ -10,6 +10,11 @@
     [canWithdrawStudent]="(userIsManager$ | async)"
     [students]="displayedLesson.students"
   >
-
   </tc-lesson-students-list>
+  <tc-lesson-teachers-list
+  [canAddTeacher]="(userIsManager$ | async)"
+  [canRemoveTeacher]="(userIsManager$ | async)"
+  [teachers]="displayedLesson.teachers" >
+
+  </tc-lesson-teachers-list>
 </mat-card>

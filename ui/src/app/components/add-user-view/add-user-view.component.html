@@ -1,0 +1,18 @@
+<div class="dialog">
+    <mat-form-field appearance="fill" class="dialog-item">
+        <mat-label>Search for user by name:</mat-label>
+        <input placeholder="Enter the name of user" matInput [formControl]="userNameFormControl">
+    </mat-form-field>
+    <mat-list class="dialog-item">
+        <mat-list-item *ngFor="let user of users$ | searchUser:userNameFormControl.value | async">
+            <div mat-line>{{user.name}}</div>
+            <button
+                    mat-flat-button
+                    color="primary"
+                    [disabled]="isExcluded(user)"
+            > {{isExcluded(user) ? excludedText : actionText}}
+            </button>
+        </mat-list-item>
+    </mat-list>
+    <button mat-flat-button color="warn" class="cancel-button" (click)="cancel()">cancel</button>
+</div>

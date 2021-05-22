@@ -35,6 +35,9 @@ import { UsersOverviewComponent } from './views/main/users-overview/users-overvi
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
+import { AddUserViewComponent } from './components/add-user-view/add-user-view.component';
+import { SearchUserPipe } from './pipes/search-user.pipe';
+import { LessonTeachersListComponent } from './components/lesson-teachers-list/lesson-teachers-list.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +59,9 @@ import { MatListModule } from '@angular/material/list';
     UserDetailComponent,
     UsersOverviewComponent,
     UsersTableComponent,
+    AddUserViewComponent,
+    SearchUserPipe,
+    LessonTeachersListComponent,
   ],
   imports: [
     BrowserModule,

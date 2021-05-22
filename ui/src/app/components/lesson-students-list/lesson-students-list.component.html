@@ -1,0 +1,17 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Enrolled students
+        </mat-panel-title>
+        <mat-panel-description>
+            Manage enrolled students - you can either enroll or withdraw a student.
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-list role="list">
+        <mat-list-item *ngFor="let student of students">
+            <mat-icon mat-list-icon>person</mat-icon>
+            <div mat-line>{{student.name}}</div>
+        </mat-list-item>
+    </mat-list>
+    <button mat-raised-button color="primary" class="button" (click)="enrollStudent()">Enroll a student</button>
+</mat-expansion-panel>
