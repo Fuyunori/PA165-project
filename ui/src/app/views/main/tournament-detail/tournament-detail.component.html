@@ -3,8 +3,13 @@
     cancelButtonText="Delete tournament"
     [readOnly]="true"
     [tournament]="displayedTournament"
-    [isEnrolledAlready]="isUserEnrolled$"
+    [isEnrolledAlready$]="isUserEnrolled$"
     (cancelClick)="deleteTournament(displayedTournament)"
     (addUser)="addPlayer(displayedTournament)"
+    (withdrawUser)="withdrawPlayer(displayedTournament)"
   ></tc-tournament-form>
+  <tc-tournament-ranking *ngIf="userIsManager$ | async"
+    [rankings]="displayedTournament.rankings"
+    [endDate]="displayedTournament.endTime">
+  </tc-tournament-ranking>
 </mat-card>

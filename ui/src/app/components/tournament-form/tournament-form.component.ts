@@ -27,6 +27,7 @@ export class TournamentFormComponent implements OnInit {
   @Output() readonly cancelClick = new EventEmitter<void>();
   @Output() readonly tournamentChange = new EventEmitter<UnknownTournament>();
   @Output() readonly addUser = new EventEmitter<void>();
+  @Output() readonly withdrawUser = new EventEmitter<void>();
 
   @Input()
   set tournament(tournament: UnknownTournament) {
@@ -41,7 +42,7 @@ export class TournamentFormComponent implements OnInit {
   }
 
   @Input() readOnly = false;
-  @Input() isEnrolledAlready = new BehaviorSubject<boolean>(false);
+  @Input() isEnrolledAlready$ = new BehaviorSubject<boolean>(false);
   @Input() submitButtonText = 'Submit';
   @Input() cancelButtonText = 'Cancel';
 
@@ -91,6 +92,10 @@ export class TournamentFormComponent implements OnInit {
 
   addPlayer(): void {
     this.addUser.emit();
+  }
+
+  withdrawPlayer(): void {
+    this.withdrawUser.emit();
   }
 
   cancel(): void {

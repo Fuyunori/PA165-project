@@ -52,18 +52,22 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
         if(tournament != null && user != null){
           let rankings = tournament.rankings;
           if(rankings != null) {
-            let result = rankings.some(ranking => {
-              return ranking.player.id == user.id;
-            });
-            if (result) {
-              this.isUserEnrolled$.next(true);
-            } else {
-              this.isUserEnrolled$.next(false);
-            }
+            this.isParticipant(rankings, user);
           }
         }
       })
     });
+  }
+
+  private isParticipant(rankings: Ranking[], user: User) {
+    let result = rankings.some(ranking => {
+      return ranking.player.id == user.id;
+    });
+    if (result) {
+      this.isUserEnrolled$.next(true);
+    } else {
+      this.isUserEnrolled$.next(false);
+    }
   }
 
   ngOnDestroy(): void {
@@ -75,6 +79,14 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     this.currentlyLoggedInUser$.subscribe(user => {
       if(user != null){
         this.tournamentService.enrollPlayer(displayedTournament.id, user);
+      }
+    });
+  }
+
+  withdrawPlayer(displayedTournament: Tournament): void {
+    this.currentlyLoggedInUser$.subscribe(user => {
+      if(user != null){
+        this.tournamentService.withdrawPlayer(displayedTournament.id, user.id);
       }
     });
   }
