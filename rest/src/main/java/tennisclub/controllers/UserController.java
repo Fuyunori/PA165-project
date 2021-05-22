@@ -12,6 +12,8 @@ import tennisclub.service.UserService;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -43,7 +45,11 @@ public class UserController {
     }
 
     @GetMapping
-    public final List<UserFullDTO> findAllUsers(@RequestHeader(value = "Authorization", required = false) String jwt) {
+    public final List<UserFullDTO> findAllUsers(@RequestHeader(value = "Authorization", required = false) String jwt, @RequestParam(value = "username", required = false) String username) {
+        if(username != null){
+            userService.verifyRole(jwt, Role.USER);
+            return Collections.singletonList(userFacade.findUserByUsername(username));
+        }
         userService.verifyRole(jwt, Role.MANAGER);
         return userFacade.findAllUsers();
     }
@@ -52,12 +58,6 @@ public class UserController {
     public final UserFullDTO findUserById(@RequestHeader(value = "Authorization", required = false) String jwt, @PathVariable Long id) {
         userService.verifyUserOrManager(jwt, id);
         return userFacade.findUserById(id);
-    }
-
-    @GetMapping()
-    public final UserFullDTO findUserByUsername(@RequestHeader(value = "Authorization", required = false) String jwt, @PathParam(value = "username") String username) {
-        userService.verifyRole(jwt, Role.USER);
-        return userFacade.findUserByUsername(username);
     }
 
     @PutMapping("/{id}")
