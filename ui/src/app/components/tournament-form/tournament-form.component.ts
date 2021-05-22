@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {UnknownTournament} from '../../models/tournament.model';
-import {FormBuilder, Validators} from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { UnknownTournament } from '../../models/tournament.model';
+import { FormBuilder, Validators } from '@angular/forms';
 
 enum TournamentFormKey {
   Start = 'Start',

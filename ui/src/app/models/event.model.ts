@@ -1,4 +1,4 @@
-import {Court} from "./court.model";
+import { Court } from './court.model';
 
 export enum EventType {
   Booking = 'BOOKING',

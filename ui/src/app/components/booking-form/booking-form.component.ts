@@ -1,14 +1,18 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Court, UnknownCourt} from "../../models/court.model";
-import {FormBuilder, Validators} from "@angular/forms";
-import {Observable} from "rxjs";
-import {CourtService} from "../../services/court.service";
-import {Booking, FormBooking, UnknownBooking} from "../../models/booking.model";
-import {filter, take} from "rxjs/operators";
-import {EventType} from "../../models/event.model";
-import {UserService} from "../../services/user.service";
-import {User} from "../../models/user.model";
-import {NotificationService} from "../../services/notification.service";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Court, UnknownCourt } from '../../models/court.model';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { CourtService } from '../../services/court.service';
+import {
+  Booking,
+  FormBooking,
+  UnknownBooking,
+} from '../../models/booking.model';
+import { filter, take } from 'rxjs/operators';
+import { EventType } from '../../models/event.model';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user.model';
+import { NotificationService } from '../../services/notification.service';
 
 enum BookingFormKey {
   Court = 'Court',
@@ -21,7 +25,7 @@ enum BookingFormKey {
 @Component({
   selector: 'tc-booking-form',
   templateUrl: './booking-form.component.html',
-  styleUrls: ['./booking-form.component.scss']
+  styleUrls: ['./booking-form.component.scss'],
 })
 export class BookingFormComponent implements OnInit {
   @Output() readonly cancelClick = new EventEmitter<void>();
@@ -35,7 +39,7 @@ export class BookingFormComponent implements OnInit {
   set court(court: Court) {
     this.bookingForm.patchValue({
       [BookingFormKey.Court]: court.id,
-    })
+    });
   }
 
   @Input()
@@ -55,7 +59,6 @@ export class BookingFormComponent implements OnInit {
   selectedUsers: User[] = [];
   usersChanged = false;
 
-
   readonly bookingForm = this.fb.group({
     [BookingFormKey.Start]: ['', Validators.required],
     [BookingFormKey.End]: ['', Validators.required],
@@ -64,11 +67,12 @@ export class BookingFormComponent implements OnInit {
 
   readonly BookingFormKey = BookingFormKey;
 
-  constructor(private readonly fb: FormBuilder,
-              private readonly courtService: CourtService,
-              private readonly userService: UserService,
-              private readonly notification: NotificationService) {
-}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly courtService: CourtService,
+    private readonly userService: UserService,
+    private readonly notification: NotificationService,
+  ) {}
 
   ngOnInit(): void {
     this.courtService.getCourts();
@@ -76,29 +80,35 @@ export class BookingFormComponent implements OnInit {
 
   addUser(): void {
     let username = this.bookingForm.value[BookingFormKey.User];
-    if (!username || this.selectedUsers.map(u => u.username).includes(username)) {
+    if (
+      !username ||
+      this.selectedUsers.map(u => u.username).includes(username)
+    ) {
       return;
     }
     this.userService.getUserByUsername(username).subscribe(
-        (user) => {
-          if (!user) {
-            this.notification.toastError(`Could not find user: ${username}`);
-            return;
-          }
-          this.usersChanged = true;
-        this.selectedUsers.push(user);
-          this.bookingForm.patchValue({
-            [BookingFormKey.User]: '',
-          })
-      },
-        (err) => {
+      user => {
+        if (!user) {
           this.notification.toastError(`Could not find user: ${username}`);
-        },
+          return;
+        }
+        this.usersChanged = true;
+        this.selectedUsers.push(user);
+        this.bookingForm.patchValue({
+          [BookingFormKey.User]: '',
+        });
+      },
+      err => {
+        this.notification.toastError(`Could not find user: ${username}`);
+      },
     );
   }
 
   deleteUserItem(username: string) {
-    if (!username || !this.selectedUsers.map(u => u.username).includes(username)) {
+    if (
+      !username ||
+      !this.selectedUsers.map(u => u.username).includes(username)
+    ) {
       return;
     }
     this.usersChanged = true;
@@ -121,5 +131,4 @@ export class BookingFormComponent implements OnInit {
   cancel(): void {
     this.cancelClick.emit();
   }
-
 }

@@ -10,7 +10,7 @@ import { LessonDetailComponent } from './views/main/lesson-detail/lesson-detail.
 import { TournamentDetailComponent } from './views/main/tournament-detail/tournament-detail.component';
 import { UserDetailComponent } from './views/main/user-detail/user-detail.component';
 import { UsersOverviewComponent } from './views/main/users-overview/users-overview.component';
-import {BookingDetailComponent} from "./views/main/booking-detail/booking-detail.component";
+import { BookingDetailComponent } from './views/main/booking-detail/booking-detail.component';
 import { ManagerGuard } from './guards/manager.guard';
 import { UserIdGuard } from './guards/user-id.guard';
 

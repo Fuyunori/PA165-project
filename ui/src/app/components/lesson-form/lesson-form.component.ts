@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Level, UnknownLesson} from '../../models/lesson.model';
-import {FormBuilder, Validators} from '@angular/forms';
-import {EventType} from "../../models/event.model";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Level, UnknownLesson } from '../../models/lesson.model';
+import { FormBuilder, Validators } from '@angular/forms';
+import { EventType } from '../../models/event.model';
 
 enum LessonFormKey {
   Start = 'Start',

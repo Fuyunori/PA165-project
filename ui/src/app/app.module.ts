@@ -34,7 +34,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { BookingFormComponent } from './components/booking-form/booking-form.component';
 import { BookingDetailComponent } from './views/main/booking-detail/booking-detail.component';
-import {MatListModule} from "@angular/material/list";
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -73,7 +73,7 @@ import {MatListModule} from "@angular/material/list";
     MatDialogModule,
     MatTableModule,
     MatIconModule,
-      MatListModule,
+    MatListModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
     }),

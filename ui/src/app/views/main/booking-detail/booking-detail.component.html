@@ -1,23 +1,24 @@
 <div *ngIf="displayedBooking$ | async as displayedBooking">
-    <div>
-        <button
-                mat-raised-button color="primary"
-                class="back-button"
-                routerLink="/main/court/{{displayedBooking.court.id}}"
-        >
-            <mat-icon class="arrow">west</mat-icon>
-            Go back to court
-        </button>
-    </div>
+  <div>
+    <button
+      mat-raised-button
+      color="primary"
+      class="back-button"
+      routerLink="/main/court/{{ displayedBooking.court.id }}"
+    >
+      <mat-icon class="arrow">west</mat-icon>
+      Go back to court
+    </button>
+  </div>
 
-    <mat-card>
-        <tc-booking-form
-                [booking]="displayedBooking"
-                [readOnly]="!(userIsAuthor$ | async)"
-                cancelButtonText='Delete booking'
-                submitButtonText="update"
-                (cancelClick)="deleteBooking(displayedBooking)"
-                (submitClick)="updateBooking(displayedBooking, $event)"
-        ></tc-booking-form>
-    </mat-card>
+  <mat-card>
+    <tc-booking-form
+      [booking]="displayedBooking"
+      [readOnly]="!(userIsAuthor$ | async)"
+      cancelButtonText="Delete booking"
+      submitButtonText="update"
+      (cancelClick)="deleteBooking(displayedBooking)"
+      (submitClick)="updateBooking(displayedBooking, $event)"
+    ></tc-booking-form>
+  </mat-card>
 </div>

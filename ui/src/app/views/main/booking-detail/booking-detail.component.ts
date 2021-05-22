@@ -1,17 +1,17 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable, of, Subject, zip} from "rxjs";
-import {Booking, FormBooking} from "../../../models/booking.model";
-import {BookingService} from "../../../services/booking.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AuthService} from "../../../services/auth.service";
-import {filter, map, take, takeUntil} from "rxjs/operators";
-import {UserService} from "../../../services/user.service";
-import {EventType} from "../../../models/event.model";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, of, Subject, zip } from 'rxjs';
+import { Booking, FormBooking } from '../../../models/booking.model';
+import { BookingService } from '../../../services/booking.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
+import { UserService } from '../../../services/user.service';
+import { EventType } from '../../../models/event.model';
 
 @Component({
   selector: 'tc-booking-detail',
   templateUrl: './booking-detail.component.html',
-  styleUrls: ['./booking-detail.component.scss']
+  styleUrls: ['./booking-detail.component.scss'],
 })
 export class BookingDetailComponent implements OnInit, OnDestroy {
   displayedBooking$: Observable<Booking | null> = of(null);
@@ -19,21 +19,22 @@ export class BookingDetailComponent implements OnInit, OnDestroy {
 
   private readonly unsubscribe$ = new Subject<void>();
 
-  constructor(private readonly bookingService: BookingService,
-              private readonly userService: UserService,
-              private readonly route: ActivatedRoute,
-              private readonly router: Router,
-              private readonly auth: AuthService,) {
-  }
+  constructor(
+    private readonly bookingService: BookingService,
+    private readonly userService: UserService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly auth: AuthService,
+  ) {}
 
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.unsubscribe$)).subscribe(({ id }) => {
       this.bookingService.getBookingById(id);
       this.displayedBooking$ = this.bookingService.singleBooking$(id);
       this.userIsAuthor$ = zip(this.displayedBooking$, this.auth.userId$).pipe(
-          filter(([booking, id]) => booking != null && id != null),
-          take(1),
-          map(([booking, id]) => booking?.author.id === id)
+        filter(([booking, id]) => booking != null && id != null),
+        take(1),
+        map(([booking, id]) => booking?.author.id === id),
       );
     });
   }
