@@ -17,11 +17,11 @@
         <mat-form-field appearance="fill">
           <mat-label>End</mat-label>
           <input
-                  type="datetime-local"
-                  matInput
-                  [min]="LessonFormKey.Start"
-                  [formControlName]="LessonFormKey.End"
-                  [readonly]="readOnly"
+            type="datetime-local"
+            matInput
+            [min]="LessonFormKey.Start"
+            [formControlName]="LessonFormKey.End"
+            [readonly]="readOnly"
           />
           <mat-icon matSuffix class="end-date">schedule</mat-icon>
         </mat-form-field>
@@ -29,10 +29,12 @@
       <mat-form-field appearance="fill" class="field">
         <mat-label>Court</mat-label>
         <mat-select [formControlName]="LessonFormKey.Court">
-          <mat-option *ngFor="let court of courts$ | async"
-                      [value]="court.id"
-                      [disabled]="readOnly"
-          >{{court.name}}</mat-option>
+          <mat-option
+            *ngFor="let court of courts$ | async"
+            [value]="court.id"
+            [disabled]="readOnly"
+            >{{ court.name }}</mat-option
+          >
         </mat-select>
         <mat-icon matSuffix>place</mat-icon>
       </mat-form-field>
@@ -63,10 +65,7 @@
     </div>
   </div>
   <div class="form-actions" *ngIf="readOnly">
-    <button mat-flat-button
-            color="primary"
-            (click)="enroll()"
-    >
+    <button mat-flat-button color="primary" (click)="enroll()">
       enroll into the lesson
     </button>
   </div>

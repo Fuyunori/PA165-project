@@ -1,4 +1,4 @@
-import {Court} from "./court.model";
+import { Court } from './court.model';
 
 export type Event = {
   id: number;
