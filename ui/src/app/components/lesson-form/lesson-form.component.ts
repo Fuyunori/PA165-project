@@ -13,6 +13,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import {CourtService} from "../../services/court.service";
 import {filter, take} from "rxjs/operators";
 import {Court} from "../../models/court.model";
+import {LessonService} from "../../services/lesson.service";
+import {AuthService} from "../../services/auth.service";
 
 enum LessonFormKey {
   Start = 'Start',
@@ -30,6 +32,7 @@ enum LessonFormKey {
 export class LessonFormComponent implements OnInit {
   @Output() readonly cancelClick = new EventEmitter<void>();
   @Output() readonly lessonChange = new EventEmitter<UnknownLesson>();
+  @Output() readonly enrollUser = new EventEmitter<void>();
 
   @Input()
   set lesson(lesson: UnknownLesson) {
@@ -61,6 +64,8 @@ export class LessonFormComponent implements OnInit {
   });
 
   constructor(private readonly fb: FormBuilder,
+              private readonly authService: AuthService,
+              private readonly lessonService: LessonService,
               private readonly courtService: CourtService) {}
 
   ngOnInit(): void {
@@ -84,6 +89,10 @@ export class LessonFormComponent implements OnInit {
           this.lessonForm.markAsPristine();
           this.lessonChange.emit(lesson);
         });
+  }
+
+  enroll(): void {
+    this.enrollUser.emit();
   }
 
   cancel(): void {
