@@ -23,6 +23,7 @@ export class AddUserViewComponent {
   excludedText: string = '';
 
   @Output() readonly cancelClick = new EventEmitter<void>();
+  @Output() readonly selectedUser = new EventEmitter<User>();
 
   userNameFormControl = new FormControl('');
 
@@ -30,6 +31,10 @@ export class AddUserViewComponent {
     return this.usersToExclude.some((elem: User) => {
       return user.id === elem.id;
     });
+  }
+
+  submit(user: User): void {
+    this.selectedUser.emit(user);
   }
 
   cancel(): void {

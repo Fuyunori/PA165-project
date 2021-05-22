@@ -10,6 +10,7 @@
                     mat-flat-button
                     color="primary"
                     [disabled]="isExcluded(user)"
+                    (click)="submit(user)"
             > {{isExcluded(user) ? excludedText : actionText}}
             </button>
         </mat-list-item>

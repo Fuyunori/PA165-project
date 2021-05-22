@@ -5,6 +5,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {AddUserViewComponent} from "../add-user-view/add-user-view.component";
 import {Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
+import {Lesson} from "../../models/lesson.model";
+import {LessonService} from "../../services/lesson.service";
 
 @Component({
   selector: 'tc-lesson-teachers-list',
@@ -21,10 +23,14 @@ export class LessonTeachersListComponent implements OnInit, OnDestroy {
     @Input()
     canRemoveTeacher: boolean | null = false;
 
+    @Input()
+    selectedLesson: {id: number} = {id: 0};
+
     private readonly unsubscribe$ = new Subject<void>();
     readonly users$ = this.userService.orderedUsers$;
 
-    constructor(private readonly userService: UserService,
+    constructor(private readonly lessonService: LessonService,
+                private readonly userService: UserService,
                 private readonly dialog: MatDialog,) { }
 
     ngOnInit(): void {
@@ -42,6 +48,13 @@ export class LessonTeachersListComponent implements OnInit, OnDestroy {
       dialog.componentInstance.users$ = this.users$;
       dialog.componentInstance.actionText = "add";
       dialog.componentInstance.excludedText = "assigned already";
+
+        dialog.componentInstance.selectedUser
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe((user: User) => {
+                this.lessonService.addTeacher(this.selectedLesson.id, user);
+                dialog.close();
+            });
 
         dialog.componentInstance.cancelClick
             .pipe(takeUntil(this.unsubscribe$))
