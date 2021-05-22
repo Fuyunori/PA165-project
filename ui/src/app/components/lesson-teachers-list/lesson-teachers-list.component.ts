@@ -27,7 +27,7 @@ export class LessonTeachersListComponent implements OnInit, OnDestroy {
     canRemoveTeacher: boolean | null = false;
 
     @Input()
-    selectedLesson: {id: number} = {id: 0};
+    selectedLesson!: Lesson;
 
     private readonly unsubscribe$ = new Subject<void>();
     readonly users$ = this.userService.orderedUsers$;
@@ -57,8 +57,10 @@ export class LessonTeachersListComponent implements OnInit, OnDestroy {
         dialog.componentInstance.selectedUser
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((user: User) => {
-                this.lessonService.addTeacher(this.selectedLesson.id, user);
-                dialog.close();
+                if(this.selectedLesson != null) {
+                    this.lessonService.addTeacher(this.selectedLesson.id, user);
+                    dialog.close();
+                }
             });
 
         dialog.componentInstance.cancelClick

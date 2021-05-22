@@ -13,5 +13,8 @@
             <div mat-line>{{student.name}}</div>
         </mat-list-item>
     </mat-list>
-    <button mat-raised-button color="primary" class="button" (click)="enrollStudent()">Enroll a student</button>
+    <button mat-raised-button color="primary"
+            class="button"
+            (click)="enrollStudent()"
+            [disabled]="students.length >= selectedLesson!.capacity" >Enroll a student</button>
 </mat-expansion-panel>

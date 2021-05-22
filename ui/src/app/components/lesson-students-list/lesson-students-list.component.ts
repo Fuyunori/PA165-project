@@ -27,7 +27,7 @@ export class LessonStudentsComponent implements OnInit, OnDestroy {
   canWithdrawStudent: boolean | null = false;
 
   @Input()
-  selectedLesson: {id: number} = {id: 0};
+  selectedLesson!: Lesson;
 
   private readonly unsubscribe$ = new Subject<void>();
   readonly users$ = this.userService.orderedUsers$;
