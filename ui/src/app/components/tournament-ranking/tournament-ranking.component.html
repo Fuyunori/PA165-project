@@ -1,0 +1,18 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            <div *ngIf="currentDate > endDate; else hasntStartedYet">
+                Ranking of the tournament
+            </div>
+            <ng-template #hasntStartedYet>
+                List of participants
+            </ng-template>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-list role="list">
+        <mat-list-item *ngFor="let ranking of rankings">
+            <mat-icon mat-list-icon>person</mat-icon>
+            <div mat-line>{{ranking.player.name}}</div>
+        </mat-list-item>
+    </mat-list>
+</mat-expansion-panel>
