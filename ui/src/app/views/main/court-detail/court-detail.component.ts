@@ -8,6 +8,8 @@ import { CourtService } from '../../../services/court.service';
 import { EventService } from '../../../services/event.service';
 import {Event, EventType} from '../../../models/event.model';
 import {MatDialog} from "@angular/material/dialog";
+import {CourtFormComponent} from "../../../components/court-form/court-form.component";
+import {BookingFormComponent} from "../../../components/booking-form/booking-form.component";
 
 enum EventTableColumn {
   Type = 'Type',
@@ -80,7 +82,22 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
     return type;
   }
 
-  addBooking(court: Court) {
+  addBooking(court: Court): void {
+    const dialog = this.dialog.open(BookingFormComponent, { disableClose: true });
+    dialog.componentInstance.submitButtonText = 'Make booking';
+    dialog.componentInstance.court = court;
 
+    /*dialog.componentInstance.courtChange
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(court => {
+          this.courtService.postCourt(court);
+          dialog.close();
+        });*/
+
+    dialog.componentInstance.cancelClick
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(() => {
+          dialog.close();
+        });
   }
 }

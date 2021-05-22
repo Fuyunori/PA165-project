@@ -31,6 +31,13 @@ export class BookingFormComponent implements OnInit {
   @Input() cancelButtonText = 'Cancel';
 
   @Input()
+  set court(court: Court) {
+    this.bookingForm.patchValue({
+      [BookingFormKey.Court]: court.id,
+    })
+  }
+
+  @Input()
   set booking(booking: Booking) {
     this.bookingForm.setValue({
       [BookingFormKey.Court]: booking.court.id,
@@ -119,7 +126,7 @@ export class BookingFormComponent implements OnInit {
   }
 
   cancel(): void {
-
+    this.cancelClick.emit();
   }
 
 }

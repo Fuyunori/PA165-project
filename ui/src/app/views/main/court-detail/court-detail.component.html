@@ -9,6 +9,15 @@
   ></tc-court-form>
 </mat-card>
 
+<div class="booking-button-container">
+  <button *ngIf="displayedCourt$ | async as displayedCourt"
+          mat-raised-button color="primary"
+          class="booking-button"
+          (click)="addBooking(displayedCourt)">
+    Make booking
+  </button>
+</div>
+
 <mat-card class="events-card">
   <mat-card-header>
     <mat-icon mat-card-avatar color="primary">event</mat-icon>

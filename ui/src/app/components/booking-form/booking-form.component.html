@@ -13,7 +13,7 @@
                     <mat-option
                             *ngFor="let court of courts$ | async"
                             [value]="court.id"
-                            [disabled]="readOnly"
+                            [disabled]="true"
                     >
                         {{court.name}}
                     </mat-option>
