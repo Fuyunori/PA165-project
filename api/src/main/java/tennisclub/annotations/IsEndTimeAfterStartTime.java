@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface IsEndTimeAfterStartTime {
     String message() default "End date must be greater or equal to start date.";
-
+    Class<?>[] groups() default {};
     String start();
 
     String end();
