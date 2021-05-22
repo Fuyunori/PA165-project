@@ -13,6 +13,7 @@ import {Booking, UnknownBooking} from "../../../models/booking.model";
 import {UserService} from "../../../services/user.service";
 import {User} from "../../../models/user.model";
 import {BookingService} from "../../../services/booking.service";
+import {NotificationService} from "../../../services/notification.service";
 
 enum EventTableColumn {
   Type = 'Type',
@@ -88,7 +89,10 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
   }
 
   addBooking(court: Court): void {
-    const dialog = this.dialog.open(BookingFormComponent, { disableClose: true });
+    const dialog = this.dialog.open(BookingFormComponent, {
+        disableClose: true ,
+        width: '50%',
+    });
     dialog.componentInstance.submitButtonText = 'Make booking';
     dialog.componentInstance.court = court;
 
@@ -111,8 +115,14 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
                        court: court,
                        startTime: formBooking.startTime,
                        endTime: formBooking.endTime,
-                       author: user,
                        users: formBooking.users,
+                         author: {
+                           id: user.id,
+                             name: user.name,
+                             email: user.email,
+                             username: user.username,
+                             role: user.role,
+                         },
                      }
                      this.bookingService.postBooking(booking);
                      dialog.close();

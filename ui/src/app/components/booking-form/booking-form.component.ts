@@ -8,6 +8,7 @@ import {filter, take} from "rxjs/operators";
 import {EventType} from "../../models/event.model";
 import {UserService} from "../../services/user.service";
 import {User} from "../../models/user.model";
+import {NotificationService} from "../../services/notification.service";
 
 enum BookingFormKey {
   Court = 'Court',
@@ -40,11 +41,9 @@ export class BookingFormComponent implements OnInit {
   @Input()
   set booking(booking: Booking) {
     this.bookingForm.setValue({
-      [BookingFormKey.Court]: booking.court.id,
       [BookingFormKey.Start]: booking.startTime,
       [BookingFormKey.End]: booking.endTime,
       [BookingFormKey.User]: '',
-      [BookingFormKey.Author]: booking.author.username,
     });
     this.authorUsername = booking.author.username;
     this.courtName = booking.court.name;
@@ -54,6 +53,7 @@ export class BookingFormComponent implements OnInit {
   authorUsername: string = '';
   courtName: string = '';
   selectedUsers: User[] = [];
+  usersChanged = false;
 
 
   readonly bookingForm = this.fb.group({
@@ -66,7 +66,8 @@ export class BookingFormComponent implements OnInit {
 
   constructor(private readonly fb: FormBuilder,
               private readonly courtService: CourtService,
-              private readonly userService: UserService) {
+              private readonly userService: UserService,
+              private readonly notification: NotificationService) {
 }
 
   ngOnInit(): void {
@@ -81,21 +82,26 @@ export class BookingFormComponent implements OnInit {
     this.userService.getUserByUsername(username).subscribe(
         (user) => {
           if (!user) {
-            console.log("Error")
+            this.notification.toastError(`Could not find user: ${username}`);
             return;
           }
+          this.usersChanged = true;
         this.selectedUsers.push(user);
           this.bookingForm.patchValue({
             [BookingFormKey.User]: '',
           })
       },
         (err) => {
-          console.log("Error")
+          this.notification.toastError(`Could not find user: ${username}`);
         },
     );
   }
 
   deleteUserItem(username: string) {
+    if (!username || !this.selectedUsers.map(u => u.username).includes(username)) {
+      return;
+    }
+    this.usersChanged = true;
     this.selectedUsers = this.selectedUsers.filter(u => u.username != username);
   }
 
@@ -109,7 +115,6 @@ export class BookingFormComponent implements OnInit {
       users: this.selectedUsers,
     };
 
-    this.bookingForm.markAsPristine();
     this.submitClick.emit(booking);
   }
 

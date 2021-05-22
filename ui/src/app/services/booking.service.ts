@@ -63,14 +63,35 @@ export class BookingService {
     postBooking(booking: UnknownBooking): void {
         this.http
             .post<Booking>(RESOURCE_URL, booking)
-            .pipe(this.notification.onError('Could not add booking!'))
+            .subscribe(
+                resBooking => {
+                    const { entities, orderedIds } = this.state$.value;
+                    this.state$.next({
+                        entities: { ...entities, [resBooking.id]: resBooking },
+                        orderedIds: [...orderedIds, resBooking.id],
+                    });
+                    this.eventService.getCourtEvents(resBooking.court.id);
+                    this.notification.toastSuccess("Booking created!");
+                },
+                err => {
+                    if (err.status !== 0) {
+                        this.notification.toastError(err.error);
+                    }
+                }
+            );
+    }
+
+    putBooking(booking: Booking): void {
+        this.http.put<Booking>(`${RESOURCE_URL}/${booking.id}`, booking)
+            .pipe(this.notification.onError('Could not update booking!'))
             .subscribe(resBooking => {
                 const { entities, orderedIds } = this.state$.value;
                 this.state$.next({
                     entities: { ...entities, [resBooking.id]: resBooking },
-                    orderedIds: [...orderedIds, resBooking.id],
+                    orderedIds,
                 });
-                this.eventService.getCourtEvents(resBooking.court.id);
-            });
+                this.eventService.getCourtEvents(booking.court.id);
+                this.notification.toastSuccess("Booking updated!");
+        });
     }
 }

@@ -11,6 +11,10 @@ export class NotificationService {
     this.toastr.error(message);
   }
 
+    toastSuccess(message: string): void {
+        this.toastr.success(message);
+    }
+
   onError<T>(message: string): OperatorFunction<T, T> {
     return $ =>
       $.pipe(

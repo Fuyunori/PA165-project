@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, of, Subject, zip} from "rxjs";
-import {Booking, FormBooking, UnknownBooking} from "../../../models/booking.model";
+import {Booking, FormBooking} from "../../../models/booking.model";
 import {BookingService} from "../../../services/booking.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
 import {filter, map, take, takeUntil} from "rxjs/operators";
-import {Court} from "../../../models/court.model";
 import {UserService} from "../../../services/user.service";
+import {EventType} from "../../../models/event.model";
 
 @Component({
   selector: 'tc-booking-detail',
@@ -51,6 +51,14 @@ export class BookingDetailComponent implements OnInit, OnDestroy {
   }
 
   updateBooking(displayedBooking: Booking, booking: FormBooking): void {
-
+    this.bookingService.putBooking({
+      id: displayedBooking.id,
+      type: EventType.Booking,
+      startTime: booking.startTime,
+      endTime: booking.endTime,
+      author: displayedBooking.author,
+      users: booking.users,
+      court: displayedBooking.court,
+    });
   }
 }

@@ -73,7 +73,7 @@
         <button
                 mat-flat-button
                 color="primary"
-                [disabled]="bookingForm.invalid || bookingForm.pristine"
+                [disabled]="(bookingForm.invalid || bookingForm.pristine) && !usersChanged"
         >
             {{submitButtonText}}
         </button>
