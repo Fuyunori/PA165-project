@@ -52,6 +52,7 @@ public class LessonServiceImpl implements LessonService{
 
         checkEnrollmentOpen(lesson);
         checkCapacityLimit(lesson);
+        checkWhetherUserTeaches(lesson, student);
 
         student.addLessonToAttend(lesson);
         return lessonDao.update(lesson);
@@ -73,6 +74,7 @@ public class LessonServiceImpl implements LessonService{
     public Lesson addTeacher(Lesson lesson, User teacher) {
         checkIsNotTeacher(lesson, teacher);
         checkEnrollmentOpen(lesson);
+        checkWhetherUserIsAStudent(lesson, teacher);
 
         teacher.addLessonToTeach(lesson);
         return lessonDao.update(lesson);
@@ -172,6 +174,18 @@ public class LessonServiceImpl implements LessonService{
         final int numberOfTeachers = lesson.getTeachers().size();
         if(numberOfTeachers == 1){
             throw new ServiceLayerException("The lesson must have at least one teacher!");
+        }
+    }
+
+    private void checkWhetherUserTeaches(Lesson lesson, User student) {
+        if(lesson.getTeachers().contains(student)){
+            throw new ServiceLayerException("Can't enroll a teacher!");
+        }
+    }
+
+    private void checkWhetherUserIsAStudent(Lesson lesson, User teacher) {
+        if(lesson.getStudents().contains(teacher)){
+            throw new ServiceLayerException("Can't assign a student!");
         }
     }
 }
