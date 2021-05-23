@@ -30,3 +30,16 @@
 .end-date {
   color: red;
 }
+.date-container {
+  display: flex;
+  width: 100%;
+}
+
+.date-input {
+  flex-grow: 1;
+}
+
+.date-input-left {
+  flex-grow: 1;
+  padding-right: 2%;
+}

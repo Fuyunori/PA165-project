@@ -39,3 +39,16 @@
 .end-date {
   color: red;
 }
+
+.date-container {
+  display: flex;
+}
+
+.date-input {
+  flex-grow: 1;
+}
+
+.date-input-left {
+  flex-grow: 1;
+  padding-right: 2%;
+}
