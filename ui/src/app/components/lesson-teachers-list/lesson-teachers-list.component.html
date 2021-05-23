@@ -9,6 +9,14 @@
     <mat-list-item *ngFor="let teacher of teachers">
       <mat-icon mat-list-icon>person</mat-icon>
       <div mat-line>{{ teacher.name }}</div>
+      <button
+              mat-raised-button
+              *ngIf="hasStarted() && (userIsManager$ | async)"
+              color="warn"
+              (click)="removeTeacher(teacher)"
+      >
+        withdraw
+      </button>
     </mat-list-item>
   </mat-list>
   <button

@@ -44,6 +44,7 @@ import { TournamentRankingComponent } from './components/tournament-ranking/tour
 import { UserStatisticsComponent } from './components/user-statistics/user-statistics.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import { EventListComponent } from './components/event-list/event-list.component';
+import { SortRankingsPipe } from './pipes/sort-rankings.pipe';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { EventListComponent } from './components/event-list/event-list.component
     TournamentRankingComponent,
     UserStatisticsComponent,
     EventListComponent,
+    SortRankingsPipe,
   ],
   imports: [
     BrowserModule,
