@@ -38,6 +38,7 @@ import { MatListModule } from '@angular/material/list';
 import { AddUserViewComponent } from './components/add-user-view/add-user-view.component';
 import { SearchUserPipe } from './pipes/search-user.pipe';
 import { LessonTeachersListComponent } from './components/lesson-teachers-list/lesson-teachers-list.component';
+import { TournamentRankingComponent } from './components/tournament-ranking/tournament-ranking.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { LessonTeachersListComponent } from './components/lesson-teachers-list/l
     AddUserViewComponent,
     SearchUserPipe,
     LessonTeachersListComponent,
+    TournamentRankingComponent,
   ],
   imports: [
     BrowserModule,

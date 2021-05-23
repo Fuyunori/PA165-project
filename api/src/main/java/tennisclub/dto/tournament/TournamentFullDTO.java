@@ -14,7 +14,7 @@ public class TournamentFullDTO extends EventWithCourtDTO {
     private Integer capacity;
     private Integer prize;
 
-    private Set<RankingWithPlayerDTO> playerPlacements = new HashSet<>();
+    private Set<RankingWithPlayerDTO> rankings = new HashSet<>();
 
     public String getName() {
         return name;
@@ -40,7 +40,7 @@ public class TournamentFullDTO extends EventWithCourtDTO {
         this.prize = prize;
     }
 
-    public Set<RankingWithPlayerDTO> getPlayerPlacements() { return playerPlacements; }
+    public Set<RankingWithPlayerDTO> getRankings() { return rankings; }
 
-    public void setPlayerPlacements(Set<RankingWithPlayerDTO> playerPlacements) { this.playerPlacements = playerPlacements; }
+    public void setRankings(Set<RankingWithPlayerDTO> rankings) { this.rankings = rankings; }
 }

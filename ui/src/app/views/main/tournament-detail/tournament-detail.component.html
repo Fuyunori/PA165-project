@@ -3,6 +3,18 @@
     cancelButtonText="Delete tournament"
     [readOnly]="true"
     [tournament]="displayedTournament"
+    [isEnrolledAlready$]="isUserEnrolled$"
     (cancelClick)="deleteTournament(displayedTournament)"
+    (addUser)="addPlayer(displayedTournament)"
+    (withdrawUser)="withdrawLoggedInPlayer(displayedTournament)"
   ></tc-tournament-form>
+  <tc-tournament-ranking *ngIf="(currentTime > displayedTournament.endTime) || (userIsManager$ | async)"
+    [rankings]="displayedTournament.rankings"
+    [startDate]="convertToDate(displayedTournament.startTime)"
+    [endDate]="convertToDate(displayedTournament.endTime)"
+    [userIsManager$]="userIsManager$"
+    [selectedTournament]="displayedTournament"
+    (withdraw)="withdrawPlayer(displayedTournament, $event)"
+  >
+  </tc-tournament-ranking>
 </mat-card>

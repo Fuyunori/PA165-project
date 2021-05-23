@@ -46,12 +46,12 @@ public class TournamentController {
                 .body(tournamentFacade.createTournament(tournamentDTO));
     }
 
-    @PostMapping("/{tournamentId}/users")
+    @PostMapping("/{tournamentId}/players")
     public ResponseEntity<TournamentFullDTO> enrollPlayer(@PathVariable Long tournamentId, @RequestBody UserFullDTO player){
         return ResponseEntity.ok(tournamentFacade.enrollPlayer(tournamentId, player.getId()));
     }
 
-    @DeleteMapping("/{tournamentId}/users/{playerId}")
+    @DeleteMapping("/{tournamentId}/players/{playerId}")
     public ResponseEntity<TournamentFullDTO> withdrawPlayer(@PathVariable Long tournamentId, @PathVariable Long playerId){
         return ResponseEntity.ok(tournamentFacade.withdrawPlayer(tournamentId, playerId));
     }
