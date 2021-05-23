@@ -84,6 +84,12 @@ public interface UserService {
     void verifyUserOrManager(String jwt, Long expectedUserId);
 
     /**
+     * Obtain the id of the user authenticated with the provided token
+     * @return the id of the user
+     */
+    Long getUserIdFromToken(String jwt);
+
+    /**
      * Finds a user based on id
      * @param id of the user
      * @return the user
