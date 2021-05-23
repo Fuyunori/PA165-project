@@ -12,8 +12,7 @@ public class IsEndAfterStartValidator implements ConstraintValidator<IsEndTimeAf
     private String secondFieldName;
 
     @Override
-    public void initialize(final IsEndTimeAfterStartTime constraintAnnotation)
-    {
+    public void initialize(final IsEndTimeAfterStartTime constraintAnnotation) {
         firstFieldName = constraintAnnotation.start();
         secondFieldName = constraintAnnotation.end();
     }
