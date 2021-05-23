@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { LessonService } from '../../../services/lesson.service';
 import { filter, finalize, take, takeUntil, takeWhile } from 'rxjs/operators';
-import { Lesson } from '../../../models/lesson.model';
+import {Lesson, UnknownLesson} from '../../../models/lesson.model';
 import { User } from '../../../models/user.model';
 import { UserService } from '../../../services/user.service';
 import { Ranking } from '../../../models/ranking.model';
@@ -106,6 +106,10 @@ export class LessonDetailComponent implements OnInit, OnDestroy {
         this.lessonService.withdrawStudent(displayedLesson.id, user.id);
       }
     });
+  }
+
+  rescheduleLesson(lesson: Lesson, rescheduledLesson: UnknownLesson): void {
+    this.lessonService.rescheduleLesson(lesson.id, rescheduledLesson);
   }
 
   deleteLesson(displayedLesson: Lesson): void {

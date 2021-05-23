@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tennisclub.dto.event.EventRescheduleDTO;
 import tennisclub.dto.lesson.LessonCreateDTO;
 import tennisclub.dto.lesson.LessonFullDTO;
 import tennisclub.dto.user.UserDTO;
 import tennisclub.dto.user.UserFullDTO;
+import tennisclub.facade.EventFacade;
 import tennisclub.facade.LessonFacade;
 
 import javax.validation.Valid;
@@ -21,10 +23,12 @@ import java.util.List;
 @RequestMapping("/rest/lessons")
 public class LessonController {
     private final LessonFacade lessonFacade;
+    private final EventFacade eventFacade;
 
     @Autowired
-    public LessonController(LessonFacade lessonFacade){
+    public LessonController(LessonFacade lessonFacade, EventFacade eventFacade){
         this.lessonFacade = lessonFacade;
+        this.eventFacade = eventFacade;
     }
 
     @GetMapping
@@ -50,6 +54,12 @@ public class LessonController {
     @PostMapping("/{lessonId}/teachers")
     public ResponseEntity<LessonFullDTO> addTeacher(@PathVariable Long lessonId, @RequestBody UserFullDTO teacher){
         return ResponseEntity.ok(lessonFacade.addTeacher(lessonId, teacher.getId()));
+    }
+
+    @PutMapping("/{lessonId}")
+    public ResponseEntity<LessonFullDTO> rescheduleLesson(@PathVariable Long lessonId, @Valid @RequestBody EventRescheduleDTO dto){
+        eventFacade.reschedule(lessonId, dto);
+        return ResponseEntity.ok(lessonFacade.getLessonWithId(lessonId));
     }
 
     @DeleteMapping("/{lessonId}/students/{studentId}")

@@ -32,7 +32,7 @@
           <mat-option
             *ngFor="let court of courts$ | async"
             [value]="court.id"
-            [disabled]="readOnly || court != null"
+            [disabled]="(readOnly && court != null)"
             >{{ court.name }}</mat-option
           >
         </mat-select>
@@ -44,7 +44,7 @@
           type="number"
           matInput
           [formControlName]="LessonFormKey.Capacity"
-          [readonly]="readOnly"
+          [readonly]="(readOnly || reschedule)"
         />
         <mat-icon matSuffix>people</mat-icon>
       </mat-form-field>
@@ -54,12 +54,12 @@
         [ngClass]="{ 'readonly-select': readOnly }"
       >
         <mat-label>Type</mat-label>
-        <mat-select [formControlName]="LessonFormKey.Level">
+        <mat-select [formControlName]="LessonFormKey.Level"
+                    [disabled]="(readOnly || reschedule)"
+        >
           <mat-option [value]="LessonLevel.Beginner">Beginner</mat-option>
           <mat-option [value]="LessonLevel.Advanced">Advanced</mat-option>
-          <mat-option [value]="LessonLevel.Intermediate"
-            >Intermediate</mat-option
-          >
+          <mat-option [value]="LessonLevel.Intermediate">Intermediate</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
