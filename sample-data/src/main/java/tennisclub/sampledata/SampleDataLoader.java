@@ -113,7 +113,7 @@ public class SampleDataLoader implements ApplicationRunner {
                 4, Level.ADVANCED, List.of(user1), List.of(admin));
         persistLesson(court2, addTime(tomorrow, 8, 0), addTime(tomorrow, 10, 0),
                 2, Level.ADVANCED, List.of(user3), List.of(admin, user1));
-        persistLesson(court3, addTime(yesterday, 7, 25), addTime(tomorrow, 8, 30),
+        persistLesson(court3, addTime(yesterday, 7, 25), addTime(yesterday, 8, 30),
                 2, Level.ADVANCED, List.of(user8), List.of(user3, user4));
 
         persistTournament(court1, addTime(tomorrow, 16, 0), addTime(tomorrow, 20, 0),
