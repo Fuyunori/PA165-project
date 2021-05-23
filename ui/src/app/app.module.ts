@@ -46,6 +46,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import { EventListComponent } from './components/event-list/event-list.component';
 import { SortRankingsPipe } from './pipes/sort-rankings.pipe';
 import { SortEventsPipe } from './pipes/sort-events.pipe';
+import { RankPlayerDialogComponent } from './components/rank-player-dialog/rank-player-dialog.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { SortEventsPipe } from './pipes/sort-events.pipe';
     EventListComponent,
     SortRankingsPipe,
     SortEventsPipe,
+    RankPlayerDialogComponent,
   ],
   imports: [
     BrowserModule,

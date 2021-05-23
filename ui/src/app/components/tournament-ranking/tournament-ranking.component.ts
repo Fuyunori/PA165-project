@@ -14,6 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Lesson } from '../../models/lesson.model';
 import { Tournament } from '../../models/tournament.model';
 import { TournamentService } from '../../services/tournament.service';
+import {RankPlayerDialogComponent} from "../rank-player-dialog/rank-player-dialog.component";
 
 @Component({
   selector: 'tc-tournament-ranking',
@@ -23,6 +24,9 @@ import { TournamentService } from '../../services/tournament.service';
 export class TournamentRankingComponent implements OnDestroy {
   @Output()
   withdraw: EventEmitter<User> = new EventEmitter<User>();
+
+  @Output()
+  rank: EventEmitter<User> = new EventEmitter<User>();
 
   @Input()
   rankings: Ranking[] = [];
@@ -54,7 +58,7 @@ export class TournamentRankingComponent implements OnDestroy {
 
   hasStarted(): boolean {
     let startDate: Date = new Date(this.startDate);
-    return this.currentDate < startDate;
+    return this.currentDate >= startDate;
   }
 
   hasEnded(): boolean {
@@ -90,5 +94,27 @@ export class TournamentRankingComponent implements OnDestroy {
 
   withdrawPlayer(player: User): void {
     this.withdraw.emit(player);
+  }
+
+  rankPlayer(ranking: Ranking): void {
+    const dialog = this.dialog.open(RankPlayerDialogComponent, {
+      disableClose: true,
+    });
+    dialog.componentInstance.numberOfPlayers = this.rankings.length;
+
+    dialog.componentInstance.playerRank
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((rank: number) => {
+          let unknownRanking: Ranking = {...ranking};
+          unknownRanking.playerPlacement = rank;
+          this.tournamentService.rankPlayer(this.selectedTournament.id, unknownRanking);
+          dialog.close();
+        });
+
+    dialog.componentInstance.cancelClick
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(() => {
+          dialog.close();
+        });
   }
 }

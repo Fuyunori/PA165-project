@@ -56,7 +56,7 @@ export class LessonTeachersListComponent implements OnDestroy {
 
   hasStarted(): boolean {
     let startDate: Date = new Date(this.startDate);
-    return this.currentDate < startDate;
+    return this.currentDate >= startDate;
   }
 
   addTeacher(): void {

@@ -12,12 +12,20 @@
       <div mat-line> {{ ranking.playerPlacement }}</div>
       <div mat-line> {{ ranking.player.name }}</div>
       <button
-        mat-raised-button
-        *ngIf="hasStarted() && (userIsManager$ | async)"
-        color="warn"
-        (click)="withdrawPlayer(ranking.player)"
+              mat-raised-button
+              *ngIf="!hasStarted() && (userIsManager$ | async)"
+              color="warn"
+              (click)="withdrawPlayer(ranking.player)"
       >
         withdraw
+      </button>
+      <button
+        mat-raised-button
+        *ngIf="hasEnded() && (userIsManager$ | async)"
+        color="primary"
+        (click)="rankPlayer(ranking)"
+      >
+        rank
       </button>
     </mat-list-item>
   </mat-list>
