@@ -3,6 +3,7 @@
     submitButtonText="Reschedule lesson"
     cancelButtonText="Delete lesson"
     [readOnly]="!(userIsManager$ | async)"
+    [adding]="false"
     [reschedule]="!!(userIsManager$ | async)"
     [lesson]="displayedLesson"
     [isStudent$]="isUserStudent$"
@@ -25,17 +26,19 @@
     (withdraw)="withdrawStudent(displayedLesson, $event)"
   >
   </tc-lesson-students-list>
-  <tc-lesson-teachers-list
-    *ngIf="userIsManager$ | async"
-    [startDate]="displayedLesson.startTime"
-    [endDate]="displayedLesson.endTime"
-    [userIsManager$]="userIsManager$"
-    [canAddTeacher]="userIsManager$ | async"
-    [canRemoveTeacher]="userIsManager$ | async"
-    [students]="displayedLesson.students"
-    [teachers]="displayedLesson.teachers"
-    [selectedLesson]="displayedLesson"
-    (withdraw)="withdrawTeacher(displayedLesson, $event)"
-  >
-  </tc-lesson-teachers-list>
+  <div style="margin-top: 20px">
+    <tc-lesson-teachers-list
+            *ngIf="userIsManager$ | async"
+            [startDate]="displayedLesson.startTime"
+            [endDate]="displayedLesson.endTime"
+            [userIsManager$]="userIsManager$"
+            [canAddTeacher]="userIsManager$ | async"
+            [canRemoveTeacher]="userIsManager$ | async"
+            [students]="displayedLesson.students"
+            [teachers]="displayedLesson.teachers"
+            [selectedLesson]="displayedLesson"
+            (withdraw)="withdrawTeacher(displayedLesson, $event)"
+    >
+    </tc-lesson-teachers-list>
+  </div>
 </mat-card>

@@ -40,7 +40,7 @@
           <mat-icon matSuffix class="end-date">schedule</mat-icon>
         </mat-form-field>
       </div>
-      <mat-form-field appearance="fill" class="field">
+      <mat-form-field *ngIf="!adding" appearance="fill" class="field">
         <mat-label>Court</mat-label>
         <mat-select [formControlName]="TournamentFormKey.Court">
           <mat-option

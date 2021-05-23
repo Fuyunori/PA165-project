@@ -139,6 +139,7 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
       width: '50%',
     });
     dialog.componentInstance.submitButtonText = 'Create lesson';
+    dialog.componentInstance.adding = true;
     dialog.componentInstance.court$ = court$;
 
     dialog.componentInstance.lessonChange
@@ -161,6 +162,7 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
       width: '50%',
     });
     dialog.componentInstance.submitButtonText = 'Create tournament';
+    dialog.componentInstance.adding = true;
     dialog.componentInstance.court$ = court$;
 
     dialog.componentInstance.tournamentChange

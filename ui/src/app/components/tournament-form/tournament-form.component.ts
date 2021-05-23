@@ -43,6 +43,7 @@ export class TournamentFormComponent implements OnInit {
   }
 
   @Input() readOnly = false;
+  @Input() adding = false;
   @Input() reschedule = false;
   @Input() court$ = new Observable<Court | null>();
   @Input() isEnrolledAlready$ = new BehaviorSubject<boolean>(false);

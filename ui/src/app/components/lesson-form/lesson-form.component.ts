@@ -46,6 +46,7 @@ export class LessonFormComponent implements OnInit {
   }
 
   @Input() readOnly = false;
+  @Input() adding = false;
   @Input() reschedule = false;
   @Input() court$ = new Observable<Court | null>();
   @Input() isStudent$ = new BehaviorSubject<boolean>(false);
