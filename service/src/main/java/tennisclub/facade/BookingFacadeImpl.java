@@ -31,7 +31,7 @@ public class BookingFacadeImpl implements BookingFacade {
     private final CourtService courtService;
     private final UserService userService;
 
-    final private Mapper mapper;
+    private final Mapper mapper;
 
     @Autowired
     public BookingFacadeImpl(BookingService bookingService,
