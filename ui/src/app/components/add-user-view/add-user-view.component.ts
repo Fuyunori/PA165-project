@@ -7,8 +7,9 @@ import {UserService} from "../../services/user.service";
 @Component({
   selector: 'tc-enroll-student-view',
   templateUrl: './add-user-view.component.html',
-  styleUrls: ['./add-user-view.component.scss']
+  styleUrls: ['./add-user-view.component.scss'],
 })
+
 export class AddUserViewComponent implements OnInit {
   @Input()
   usersToExcludePrimary: User[] = [];

@@ -13,12 +13,12 @@ import javax.validation.constraints.NotNull;
 public class LessonCreateDTO extends EventCreateDTO {
     private Integer capacity;
 
+    @NotNull(message = "{lesson.level.notNull}")
+    private Level level;
+
     public LessonCreateDTO() {
         super(EventType.LESSON);
     }
-
-    @NotNull(message = "{lesson.level.notNull}")
-    private Level level;
 
     public Integer getCapacity() {
         return capacity;
@@ -26,5 +26,13 @@ public class LessonCreateDTO extends EventCreateDTO {
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
     }
 }

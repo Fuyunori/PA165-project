@@ -1,17 +1,22 @@
 <mat-expansion-panel>
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-            Assigned teachers
-        </mat-panel-title>
-        <mat-panel-description>
-            Manage assigned teachers - you can either add or remove a teacher.
-        </mat-panel-description>
-    </mat-expansion-panel-header>
-    <mat-list role="list">
-        <mat-list-item *ngFor="let teacher of teachers">
-            <mat-icon mat-list-icon>person</mat-icon>
-            <div mat-line>{{teacher.name}}</div>
-        </mat-list-item>
-    </mat-list>
-    <button mat-raised-button color="primary" class="button" (click)="addTeacher()">Add a teacher</button>
+  <mat-expansion-panel-header>
+    <mat-panel-title> Assigned teachers </mat-panel-title>
+    <mat-panel-description>
+      Manage assigned teachers - you can either add or remove a teacher.
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-list role="list">
+    <mat-list-item *ngFor="let teacher of teachers">
+      <mat-icon mat-list-icon>person</mat-icon>
+      <div mat-line>{{ teacher.name }}</div>
+    </mat-list-item>
+  </mat-list>
+  <button
+    mat-raised-button
+    color="primary"
+    class="button"
+    (click)="addTeacher()"
+  >
+    Add a teacher
+  </button>
 </mat-expansion-panel>

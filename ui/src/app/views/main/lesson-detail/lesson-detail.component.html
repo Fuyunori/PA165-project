@@ -3,22 +3,28 @@
     cancelButtonText="Delete lesson"
     [readOnly]="!(userIsManager$ | async)"
     [lesson]="displayedLesson"
+    [isStudent$]="isUserStudent$"
+    [isTeacher$]="isUserTeacher$"
     (cancelClick)="deleteLesson(displayedLesson)"
     (enrollUser)="enrollUser(displayedLesson)"
+    (withdrawUser)="withdrawUser(displayedLesson)"
   ></tc-lesson-form>
-  <tc-lesson-students-list *ngIf="(userIsManager$ | async)"
-    [canAddStudent]="(userIsManager$ | async)"
-    [canWithdrawStudent]="(userIsManager$ | async)"
+  <tc-lesson-students-list
+    *ngIf="(isUserTeacher$ | async) || (userIsManager$ | async)"
+    [canAddStudent]="userIsManager$ | async"
+    [canWithdrawStudent]="userIsManager$ | async"
     [students]="displayedLesson.students"
     [teachers]="displayedLesson.teachers"
     [selectedLesson]="displayedLesson"
   >
   </tc-lesson-students-list>
-  <tc-lesson-teachers-list *ngIf="(userIsManager$ | async)"
-    [canAddTeacher]="(userIsManager$ | async)"
-    [canRemoveTeacher]="(userIsManager$ | async)"
+  <tc-lesson-teachers-list
+    *ngIf="userIsManager$ | async"
+    [canAddTeacher]="userIsManager$ | async"
+    [canRemoveTeacher]="userIsManager$ | async"
     [students]="displayedLesson.students"
     [teachers]="displayedLesson.teachers"
-    [selectedLesson]="displayedLesson">
+    [selectedLesson]="displayedLesson"
+  >
   </tc-lesson-teachers-list>
 </mat-card>

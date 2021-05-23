@@ -11,19 +11,6 @@
         <input matInput type="text" [value]="courtName" readonly />
       </mat-form-field>
 
-      <!--<mat-form-field appearance="fill" class="field">
-                <mat-label>Court</mat-label>
-                <mat-select [formControlName]="BookingFormKey.Court">
-                    <mat-option
-                            *ngFor="let court of courts$ | async"
-                            [value]="court.id"
-                            [disabled]="true"
-                    >
-                        {{court.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>-->
-
       <div class="date-container">
         <mat-form-field appearance="fill" class="date-input date-input-left">
           <mat-label>From</mat-label>
@@ -49,14 +36,6 @@
         <mat-form-field appearance="fill" class="user-input">
           <mat-label>User</mat-label>
           <input matInput type="text" [formControlName]="BookingFormKey.User" />
-          <!--<mat-select [formControlName]="BookingFormKey.User" >
-                        <mat-option
-                                *ngFor="let user of users$ | async"
-                                [value]="user.id"
-                        >
-                            {{user.username}}
-                        </mat-option>
-                    </mat-select>-->
         </mat-form-field>
         <button
           type="button"
@@ -72,7 +51,10 @@
       <h3 class="unmarginized-heading">Users:</h3>
       <mat-list>
         <div *ngFor="let user of selectedUsers" class="user-list-item">
-          <mat-list-item>{{ user.username }}</mat-list-item>
+          <mat-list-item>
+            <mat-icon mat-list-icon>person</mat-icon>
+            <div mat-line>{{ user.username }}</div>
+          </mat-list-item>
           <mat-icon
             *ngIf="!readOnly"
             class="cross-icon"

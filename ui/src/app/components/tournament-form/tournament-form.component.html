@@ -35,7 +35,7 @@
         <mat-select [formControlName]="TournamentFormKey.Court">
           <mat-option *ngFor="let court of courts$ | async"
                       [value]="court.id"
-                      [disabled]="readOnly"
+                      [disabled]="readOnly || court != null"
           >{{court.name}}</mat-option>
         </mat-select>
         <mat-icon matSuffix>place</mat-icon>
