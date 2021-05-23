@@ -14,7 +14,7 @@ enum EventTableColumn {
   styleUrls: ['./event-list.component.scss']
 })
 export class EventListComponent implements OnInit {
-  @Input() displayedEvents$: Observable<Event[]> = of([]);
+  @Input() displayedEvents$: Event[] = [];
 
   readonly EventTableColumn = EventTableColumn;
   readonly eventColumns: EventTableColumn[] = [

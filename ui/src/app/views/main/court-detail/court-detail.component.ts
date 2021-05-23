@@ -27,6 +27,7 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
   displayedCourt$: Observable<Court | null> = of(null);
   displayedEventsAll$: Observable<Event[]> = of([]);
   displayedEventsFuture$: Observable<Event[]> = of([]);
+  displayedEventsToday$: Observable<Event[]> = of([]);
 
   readonly userIsManager$ = this.auth.userIsManager$;
 
@@ -56,6 +57,11 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
       this.displayedEventsFuture$ = this.eventService.courtEvents$(id).pipe(
           map(events => events.filter(event => new Date(event.endTime) >= today))
       );
+      this.displayedEventsToday$ = this.eventService.courtEvents$(id).pipe(
+          map(events => events.filter(event =>
+            today.getDate() === new Date(event.startTime).getDate()
+          ))
+      )
     });
   }
 

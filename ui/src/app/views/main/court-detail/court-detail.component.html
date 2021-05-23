@@ -40,12 +40,13 @@
   </div>
 </div>
 <mat-tab-group mat-align-tabs="start">
-  <mat-tab label="Upcoming events">
-    <tc-event-list [displayedEvents$]="displayedEventsFuture$"></tc-event-list>
+  <mat-tab *ngIf="displayedEventsToday$ | async as todayEvents" label="Today">
+    <tc-event-list [displayedEvents$]="todayEvents"></tc-event-list>
   </mat-tab>
-  <mat-tab label="All events">
-    <div class="event-tab">
-    <tc-event-list [displayedEvents$]="displayedEventsAll$"></tc-event-list>
-    </div>
+  <mat-tab *ngIf="displayedEventsFuture$ | async as futureEvents" label="Upcoming events">
+    <tc-event-list [displayedEvents$]="futureEvents"></tc-event-list>
+  </mat-tab>
+  <mat-tab *ngIf="displayedEventsAll$ | async as allEvents" label="All events">
+    <tc-event-list [displayedEvents$]="allEvents"></tc-event-list>
   </mat-tab>
 </mat-tab-group>
