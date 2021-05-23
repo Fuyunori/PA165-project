@@ -9,6 +9,7 @@ import { Court } from '../../models/court.model';
 import { User } from '../../models/user.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { EventType } from '../../models/event.model';
+import {UnknownLesson} from "../../models/lesson.model";
 
 enum TournamentFormKey {
   Start = 'Start',
@@ -26,6 +27,7 @@ enum TournamentFormKey {
 })
 export class TournamentFormComponent implements OnInit {
   @Output() readonly cancelClick = new EventEmitter<void>();
+  @Output() readonly tournamentReschedule = new EventEmitter<UnknownTournament>();
   @Output() readonly tournamentChange = new EventEmitter<UnknownTournament>();
   @Output() readonly addUser = new EventEmitter<void>();
   @Output() readonly withdrawUser = new EventEmitter<void>();
@@ -158,8 +160,16 @@ export class TournamentFormComponent implements OnInit {
         };
 
         this.tournamentForm.markAsPristine();
-        this.tournamentChange.emit(tournament);
+        if(!this.reschedule.valueOf()) {
+          this.tournamentChange.emit(tournament);
+        } else {
+          this.rescheduleTournament(tournament);
+        }
       });
+  }
+
+  rescheduleTournament(tournament: UnknownTournament): void {
+    this.tournamentReschedule.emit(tournament);
   }
 
   addPlayer(): void {

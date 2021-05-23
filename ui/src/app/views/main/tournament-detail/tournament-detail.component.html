@@ -2,7 +2,7 @@
   <tc-tournament-form
     submitButtonText="Reschedule tournament"
     cancelButtonText="Delete tournament"
-    (tournamentChange)="rescheduleTournament(displayedTournament, $event)"
+    (tournamentReschedule)="rescheduleTournament(displayedTournament, $event)"
     [adding]="false"
     [readOnly]="!(userIsManager$ | async)"
     [reschedule]="!!(userIsManager$ | async)"

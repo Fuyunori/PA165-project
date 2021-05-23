@@ -86,7 +86,6 @@ export class LessonService {
           entities: { ...entities, [resLesson.id]: resLesson },
           orderedIds,
         });
-        this.eventService.getCourtEvents(resLesson.court.id);
       });
   }
 
@@ -100,7 +99,6 @@ export class LessonService {
           entities: { ...entities, [resLesson.id]: resLesson },
           orderedIds,
         });
-        this.eventService.getCourtEvents(resLesson.court.id);
       });
   }
 
@@ -114,7 +112,6 @@ export class LessonService {
           entities: { ...entities, [resLesson.id]: resLesson },
           orderedIds,
         });
-        this.eventService.getCourtEvents(resLesson.court.id);
       });
   }
 
@@ -128,7 +125,6 @@ export class LessonService {
           entities: { ...entities, [resLesson.id]: resLesson },
           orderedIds,
         });
-        this.eventService.getCourtEvents(resLesson.court.id);
       });
   }
 
@@ -142,7 +138,6 @@ export class LessonService {
           entities: { ...entities, [resLesson.id]: resLesson },
           orderedIds,
         });
-        this.eventService.getCourtEvents(resLesson.court.id);
       });
   }
 

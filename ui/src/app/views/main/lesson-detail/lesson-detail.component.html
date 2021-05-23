@@ -8,7 +8,7 @@
     [lesson]="displayedLesson"
     [isStudent$]="isUserStudent$"
     [isTeacher$]="isUserTeacher$"
-    (lessonChange)="rescheduleLesson(displayedLesson, $event)"
+    (lessonReschedule)="rescheduleLesson(displayedLesson, $event)"
     (cancelClick)="deleteLesson(displayedLesson)"
     (enrollUser)="enrollUser(displayedLesson)"
     (withdrawUser)="withdrawUser(displayedLesson)"

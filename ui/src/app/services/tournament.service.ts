@@ -83,7 +83,6 @@ export class TournamentService {
           entities: { ...entities, [resTournament.id]: resTournament },
           orderedIds,
         });
-        this.eventService.getCourtEvents(resTournament.court.id);
       });
   }
 
@@ -97,7 +96,6 @@ export class TournamentService {
           entities: { ...entities, [resTournament.id]: resTournament },
           orderedIds,
         });
-        this.eventService.getCourtEvents(resTournament.court.id);
       });
   }
 
@@ -110,7 +108,6 @@ export class TournamentService {
           entities: { ...entities, [resTournament.id]: resTournament },
           orderedIds,
         });
-        this.eventService.getCourtEvents(resTournament.court.id);
       });
   }
 
@@ -124,7 +121,6 @@ export class TournamentService {
           entities: { ...entities, [resTournament.id]: resTournament },
           orderedIds,
         });
-        this.eventService.getCourtEvents(resTournament.court.id);
       });
   }
 

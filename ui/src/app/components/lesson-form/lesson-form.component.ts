@@ -25,6 +25,7 @@ enum LessonFormKey {
 export class LessonFormComponent implements OnInit {
   @Output() readonly cancelClick = new EventEmitter<void>();
   @Output() readonly lessonChange = new EventEmitter<UnknownLesson>();
+  @Output() readonly lessonReschedule = new EventEmitter<UnknownLesson>();
   @Output() readonly enrollUser = new EventEmitter<void>();
   @Output() readonly withdrawUser = new EventEmitter<void>();
 
@@ -150,8 +151,16 @@ export class LessonFormComponent implements OnInit {
         };
 
         this.lessonForm.markAsPristine();
-        this.lessonChange.emit(lesson);
+        if(!this.reschedule.valueOf()){
+          this.lessonChange.emit(lesson);
+        } else {
+          this.rescheduleLesson(lesson);
+        }
       });
+  }
+
+  rescheduleLesson(lesson: UnknownLesson): void {
+    this.lessonReschedule.emit(lesson);
   }
 
   enroll(): void {
