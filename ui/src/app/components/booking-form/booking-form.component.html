@@ -51,7 +51,10 @@
       <h3 class="unmarginized-heading">Users:</h3>
       <mat-list>
         <div *ngFor="let user of selectedUsers" class="user-list-item">
-          <mat-list-item>{{ user.username }}</mat-list-item>
+          <mat-list-item>
+            <mat-icon mat-list-icon>person</mat-icon>
+            <div mat-line>{{ user.username }}</div>
+          </mat-list-item>
           <mat-icon
             *ngIf="!readOnly"
             class="cross-icon"
