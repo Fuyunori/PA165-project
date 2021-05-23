@@ -16,7 +16,7 @@ import {filter, take} from "rxjs/operators";
 import {Court} from "../../models/court.model";
 import {LessonService} from "../../services/lesson.service";
 import {AuthService} from "../../services/auth.service";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 
 enum LessonFormKey {
   Start = 'Start',
@@ -49,6 +49,7 @@ export class LessonFormComponent implements OnInit {
   }
 
   @Input() readOnly = false;
+  @Input() court$ = new Observable<Court | null>();
   @Input() isStudent$ = new BehaviorSubject<boolean>(false);
   @Input() isTeacher$ = new BehaviorSubject<boolean>(false);
   @Input() submitButtonText = 'Submit';
@@ -77,6 +78,11 @@ export class LessonFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.courtService.getCourts();
+    this.court$.subscribe(court => {
+      if(court != null) {
+        this.lessonForm.get(LessonFormKey.Court)?.setValue(court.id);
+      }
+    });
   }
 
   submit(): void {

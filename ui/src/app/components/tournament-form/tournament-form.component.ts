@@ -7,7 +7,7 @@ import {CourtService} from "../../services/court.service";
 import {filter, take} from "rxjs/operators";
 import {Court} from "../../models/court.model";
 import {User} from "../../models/user.model";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {EventType} from "../../models/event.model";
 
 enum TournamentFormKey {
@@ -43,6 +43,7 @@ export class TournamentFormComponent implements OnInit {
   }
 
   @Input() readOnly = false;
+  @Input() court$ = new Observable<Court | null>();
   @Input() isEnrolledAlready$ = new BehaviorSubject<boolean>(false);
   @Input() submitButtonText = 'Submit';
   @Input() cancelButtonText = 'Cancel';
@@ -68,6 +69,11 @@ export class TournamentFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.courtService.getCourts();
+    this.court$.subscribe(court => {
+      if(court != null) {
+        this.tournamentForm.get(TournamentFormKey.Court)?.setValue(court.id);
+      }
+    });
   }
 
   submit(): void {
