@@ -6,7 +6,7 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 import { Level, UnknownLesson } from '../../models/lesson.model';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -16,6 +16,7 @@ import {filter, take} from "rxjs/operators";
 import {Court} from "../../models/court.model";
 import {LessonService} from "../../services/lesson.service";
 import {AuthService} from "../../services/auth.service";
+import {BehaviorSubject, Observable} from "rxjs";
 
 enum LessonFormKey {
   Start = 'Start',
@@ -34,6 +35,7 @@ export class LessonFormComponent implements OnInit {
   @Output() readonly cancelClick = new EventEmitter<void>();
   @Output() readonly lessonChange = new EventEmitter<UnknownLesson>();
   @Output() readonly enrollUser = new EventEmitter<void>();
+  @Output() readonly withdrawUser = new EventEmitter<void>();
 
   @Input()
   set lesson(lesson: UnknownLesson) {
@@ -47,6 +49,9 @@ export class LessonFormComponent implements OnInit {
   }
 
   @Input() readOnly = false;
+  @Input() court$ = new Observable<Court | null>();
+  @Input() isStudent$ = new BehaviorSubject<boolean>(false);
+  @Input() isTeacher$ = new BehaviorSubject<boolean>(false);
   @Input() submitButtonText = 'Submit';
   @Input() cancelButtonText = 'Cancel';
 
@@ -64,13 +69,20 @@ export class LessonFormComponent implements OnInit {
     [LessonFormKey.Level]: ['', Validators.required],
   });
 
-  constructor(private readonly fb: FormBuilder,
-              private readonly authService: AuthService,
-              private readonly lessonService: LessonService,
-              private readonly courtService: CourtService) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly lessonService: LessonService,
+    private readonly courtService: CourtService,
+  ) {}
 
   ngOnInit(): void {
     this.courtService.getCourts();
+    this.court$.subscribe(court => {
+      if(court != null) {
+        this.lessonForm.get(LessonFormKey.Court)?.setValue(court.id);
+      }
+    });
   }
 
   submit(): void {
@@ -88,13 +100,17 @@ export class LessonFormComponent implements OnInit {
             level: value[LessonFormKey.Level],
           };
 
-          this.lessonForm.markAsPristine();
-          this.lessonChange.emit(lesson);
-        });
+        this.lessonForm.markAsPristine();
+        this.lessonChange.emit(lesson);
+      });
   }
 
   enroll(): void {
     this.enrollUser.emit();
+  }
+
+  withdraw(): void {
+    this.withdrawUser.emit();
   }
 
   cancel(): void {

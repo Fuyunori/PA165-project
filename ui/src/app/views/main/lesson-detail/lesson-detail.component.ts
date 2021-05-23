@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {async, Observable, of, Subject} from 'rxjs';
+import {async, BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { LessonService } from '../../../services/lesson.service';
-import {filter, finalize, take, takeUntil, takeWhile} from 'rxjs/operators';
+import { filter, finalize, take, takeUntil, takeWhile } from 'rxjs/operators';
 import { Lesson } from '../../../models/lesson.model';
-import {User} from "../../../models/user.model";
-import {UserService} from "../../../services/user.service";
+import { User } from '../../../models/user.model';
+import { UserService } from '../../../services/user.service';
+import {Ranking} from "../../../models/ranking.model";
 
 @Component({
   selector: 'tc-lesson-detail',
@@ -15,11 +16,13 @@ import {UserService} from "../../../services/user.service";
 })
 export class LessonDetailComponent implements OnInit, OnDestroy {
   displayedLesson$: Observable<Lesson | null> = of(null);
+  currentlyLoggedInUser$: Observable<User | null> = of(null);
+  isUserTeacher$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isUserStudent$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   readonly userIsManager$ = this.auth.userIsManager$;
 
   private readonly unsubscribe$ = new Subject<void>();
-  private currentlyLoggedInUserId: number | null = null;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -34,12 +37,49 @@ export class LessonDetailComponent implements OnInit, OnDestroy {
       this.lessonService.getLessonById(id);
       this.displayedLesson$ = this.lessonService.singleLesson$(id);
     });
-    this.auth.userId$.subscribe((loggedInUserId) => {
-      if(loggedInUserId != null) {
+    this.auth.userId$.subscribe(loggedInUserId => {
+      if (loggedInUserId != null) {
         this.userService.getUserById(loggedInUserId);
-        this.currentlyLoggedInUserId = loggedInUserId;
+        this.currentlyLoggedInUser$ = this.userService.singleUser$(loggedInUserId);
       }
     });
+    this.displayedLesson$.subscribe(lesson => {
+      this.currentlyLoggedInUser$.subscribe(user => {
+        if(lesson != null && user != null){
+          let teachers = lesson.teachers;
+          if(teachers != null) {
+            this.isTeacher(teachers, user);
+          }
+
+          let students = lesson.students;
+          if(students != null) {
+            this.isStudent(students, user);
+          }
+        }
+      })
+    });
+  }
+
+  private isTeacher(teachers: User[], user: User) {
+    let result = teachers.some(teacher => {
+      return teacher.id === user.id;
+    });
+    if (result) {
+      this.isUserTeacher$.next(true);
+    } else {
+      this.isUserTeacher$.next(false);
+    }
+  }
+
+  private isStudent(students: User[], user: User) {
+    let result = students.some(student => {
+      return student.id === user.id;
+    });
+    if (result) {
+      this.isUserStudent$.next(true);
+    } else {
+      this.isUserStudent$.next(false);
+    }
   }
 
   ngOnDestroy(): void {
@@ -48,13 +88,19 @@ export class LessonDetailComponent implements OnInit, OnDestroy {
   }
 
   enrollUser(displayedLesson: Lesson): void {
-    if(this.currentlyLoggedInUserId) {
-      this.userService.singleUser$(this.currentlyLoggedInUserId)
-          .pipe(take(1), filter((user): user is User => user != null))
-          .subscribe(user => {
-            this.lessonService.enrollStudent(displayedLesson.id, user);
-          });
-    }
+    this.currentlyLoggedInUser$.subscribe(user => {
+      if(user != null){
+        this.lessonService.enrollStudent(displayedLesson.id, user);
+      }
+    });
+  }
+
+  withdrawUser(displayedLesson: Lesson): void {
+    this.currentlyLoggedInUser$.subscribe(user => {
+      if(user != null){
+        this.lessonService.withdrawStudent(displayedLesson.id, user.id);
+      }
+    });
   }
 
   deleteLesson(displayedLesson: Lesson): void {

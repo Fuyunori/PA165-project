@@ -12,5 +12,4 @@ export type Event = {
   court: Court;
   startTime: Date;
   endTime: Date;
-  court: Court;
 };
