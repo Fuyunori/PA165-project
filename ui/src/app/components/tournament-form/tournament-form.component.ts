@@ -1,14 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UnknownTournament } from '../../models/tournament.model';
 import { FormBuilder, Validators } from '@angular/forms';
-import {AuthService} from "../../services/auth.service";
-import {TournamentService} from "../../services/tournament.service";
-import {CourtService} from "../../services/court.service";
-import {filter, take} from "rxjs/operators";
-import {Court} from "../../models/court.model";
-import {User} from "../../models/user.model";
-import {BehaviorSubject, Observable} from "rxjs";
-import {EventType} from "../../models/event.model";
+import { AuthService } from '../../services/auth.service';
+import { TournamentService } from '../../services/tournament.service';
+import { CourtService } from '../../services/court.service';
+import { filter, take } from 'rxjs/operators';
+import { Court } from '../../models/court.model';
+import { User } from '../../models/user.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { EventType } from '../../models/event.model';
 
 enum TournamentFormKey {
   Start = 'Start',
@@ -62,15 +62,17 @@ export class TournamentFormComponent implements OnInit {
     [TournamentFormKey.Prize]: ['', Validators.required],
   });
 
-  constructor(private readonly fb: FormBuilder,
-              private readonly authService: AuthService,
-              private readonly tournamentService: TournamentService,
-              private readonly courtService: CourtService) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly tournamentService: TournamentService,
+    private readonly courtService: CourtService,
+  ) {}
 
   ngOnInit(): void {
     this.courtService.getCourts();
     this.court$.subscribe(court => {
-      if(court != null) {
+      if (court != null) {
         this.tournamentForm.get(TournamentFormKey.Court)?.setValue(court.id);
       }
     });
@@ -79,23 +81,26 @@ export class TournamentFormComponent implements OnInit {
   submit(): void {
     const { value } = this.tournamentForm;
 
-    this.courtService.singleCourt$(value[TournamentFormKey.Court])
-        .pipe(take(1), filter((court):court is Court => court != null))
-        .subscribe(court => {
-            const tournament: UnknownTournament = {
-              type: EventType.Tournament,
-              startTime: value[TournamentFormKey.Start],
-              endTime: value[TournamentFormKey.End],
-              court,
-              name: value[TournamentFormKey.Name],
-              capacity: value[TournamentFormKey.Capacity],
-              prize: value[TournamentFormKey.Prize],
-            };
+    this.courtService
+      .singleCourt$(value[TournamentFormKey.Court])
+      .pipe(
+        take(1),
+        filter((court): court is Court => court != null),
+      )
+      .subscribe(court => {
+        const tournament: UnknownTournament = {
+          type: EventType.Tournament,
+          startTime: value[TournamentFormKey.Start],
+          endTime: value[TournamentFormKey.End],
+          court,
+          name: value[TournamentFormKey.Name],
+          capacity: value[TournamentFormKey.Capacity],
+          prize: value[TournamentFormKey.Prize],
+        };
 
-            this.tournamentForm.markAsPristine();
-            this.tournamentChange.emit(tournament);
-
-        });
+        this.tournamentForm.markAsPristine();
+        this.tournamentChange.emit(tournament);
+      });
   }
 
   addPlayer(): void {

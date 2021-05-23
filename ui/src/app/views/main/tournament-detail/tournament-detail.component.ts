@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import {
   Tournament,
   UnknownTournament,
@@ -7,10 +7,10 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { TournamentService } from '../../../services/tournament.service';
-import {filter, take, takeUntil} from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { User } from '../../../models/user.model';
-import {UserService} from "../../../services/user.service";
-import {Ranking} from "../../../models/ranking.model";
+import { UserService } from '../../../services/user.service';
+import { Ranking } from '../../../models/ranking.model';
 
 @Component({
   selector: 'tc-tournament-detail',
@@ -20,7 +20,9 @@ import {Ranking} from "../../../models/ranking.model";
 export class TournamentDetailComponent implements OnInit, OnDestroy {
   displayedTournament$: Observable<Tournament | null> = of(null);
   currentlyLoggedInUser$: Observable<User | null> = of(null);
-  isUserEnrolled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isUserEnrolled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false,
+  );
 
   readonly userIsManager$ = this.auth.userIsManager$;
   readonly currentTime: Date = new Date();
@@ -41,22 +43,23 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
       this.displayedTournament$ = this.tournamentService.singleTournament$(id);
     });
 
-    this.auth.userId$.subscribe((loggedInUserId) => {
-      if(loggedInUserId != null) {
+    this.auth.userId$.subscribe(loggedInUserId => {
+      if (loggedInUserId != null) {
         this.userService.getUserById(loggedInUserId);
-        this.currentlyLoggedInUser$ = this.userService.singleUser$(loggedInUserId);
+        this.currentlyLoggedInUser$ =
+          this.userService.singleUser$(loggedInUserId);
       }
     });
 
     this.displayedTournament$.subscribe(tournament => {
       this.currentlyLoggedInUser$.subscribe(user => {
-        if(tournament != null && user != null){
+        if (tournament != null && user != null) {
           let rankings = tournament.rankings;
-          if(rankings != null) {
+          if (rankings != null) {
             this.isParticipant(rankings, user);
           }
         }
-      })
+      });
     });
   }
 
@@ -78,7 +81,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
 
   addPlayer(displayedTournament: Tournament): void {
     this.currentlyLoggedInUser$.subscribe(user => {
-      if(user != null){
+      if (user != null) {
         this.tournamentService.enrollPlayer(displayedTournament.id, user);
       }
     });
@@ -86,7 +89,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
 
   withdrawLoggedInPlayer(displayedTournament: Tournament): void {
     this.currentlyLoggedInUser$.subscribe(user => {
-      if(user != null){
+      if (user != null) {
         this.tournamentService.withdrawPlayer(displayedTournament.id, user.id);
       }
     });

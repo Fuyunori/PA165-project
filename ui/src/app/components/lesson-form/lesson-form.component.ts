@@ -11,12 +11,12 @@ import {
 import { Level, UnknownLesson } from '../../models/lesson.model';
 import { FormBuilder, Validators } from '@angular/forms';
 import { EventType } from '../../models/event.model';
-import {CourtService} from "../../services/court.service";
-import {filter, take} from "rxjs/operators";
-import {Court} from "../../models/court.model";
-import {LessonService} from "../../services/lesson.service";
-import {AuthService} from "../../services/auth.service";
-import {BehaviorSubject, Observable} from "rxjs";
+import { CourtService } from '../../services/court.service';
+import { filter, take } from 'rxjs/operators';
+import { Court } from '../../models/court.model';
+import { LessonService } from '../../services/lesson.service';
+import { AuthService } from '../../services/auth.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 enum LessonFormKey {
   Start = 'Start',
@@ -79,7 +79,7 @@ export class LessonFormComponent implements OnInit {
   ngOnInit(): void {
     this.courtService.getCourts();
     this.court$.subscribe(court => {
-      if(court != null) {
+      if (court != null) {
         this.lessonForm.get(LessonFormKey.Court)?.setValue(court.id);
       }
     });
@@ -88,17 +88,21 @@ export class LessonFormComponent implements OnInit {
   submit(): void {
     const { value } = this.lessonForm;
 
-    this.courtService.singleCourt$(value[LessonFormKey.Court])
-        .pipe(take(1), filter((court):court is Court => court != null))
-        .subscribe(court => {
-          const lesson: UnknownLesson = {
-            type: EventType.Lesson,
-            startTime: value[LessonFormKey.Start],
-            endTime: value[LessonFormKey.End],
-            court,
-            capacity: value[LessonFormKey.Capacity],
-            level: value[LessonFormKey.Level],
-          };
+    this.courtService
+      .singleCourt$(value[LessonFormKey.Court])
+      .pipe(
+        take(1),
+        filter((court): court is Court => court != null),
+      )
+      .subscribe(court => {
+        const lesson: UnknownLesson = {
+          type: EventType.Lesson,
+          startTime: value[LessonFormKey.Start],
+          endTime: value[LessonFormKey.End],
+          court,
+          capacity: value[LessonFormKey.Capacity],
+          level: value[LessonFormKey.Level],
+        };
 
         this.lessonForm.markAsPristine();
         this.lessonChange.emit(lesson);
