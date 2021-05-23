@@ -10,7 +10,7 @@
     (withdrawUser)="withdrawUser(displayedLesson)"
   ></tc-lesson-form>
   <tc-lesson-students-list
-    *ngIf="userIsManager$ | async"
+    *ngIf="(isUserTeacher$ | async) || (userIsManager$ | async)"
     [canAddStudent]="userIsManager$ | async"
     [canWithdrawStudent]="userIsManager$ | async"
     [students]="displayedLesson.students"
