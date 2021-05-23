@@ -4,12 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tennisclub.dto.event.EventRescheduleDTO;
+import tennisclub.dto.lesson.LessonFullDTO;
 import tennisclub.dto.ranking.RankingWithPlayerDTO;
 import tennisclub.dto.tournament.TournamentCreateDTO;
 import tennisclub.dto.tournament.TournamentDTO;
 import tennisclub.dto.tournament.TournamentFullDTO;
 import tennisclub.dto.user.UserDTO;
 import tennisclub.dto.user.UserFullDTO;
+import tennisclub.facade.EventFacade;
 import tennisclub.facade.TournamentFacade;
 
 import javax.validation.Valid;
@@ -23,10 +26,13 @@ import java.util.List;
 @RequestMapping("/rest/tournaments")
 public class TournamentController {
     private final TournamentFacade tournamentFacade;
+    private final EventFacade eventFacade;
 
     @Autowired
-    public TournamentController(TournamentFacade tournamentFacade){
+    public TournamentController(TournamentFacade tournamentFacade,
+                                EventFacade eventFacade){
         this.tournamentFacade = tournamentFacade;
+        this.eventFacade = eventFacade;
     }
 
     @GetMapping
@@ -59,6 +65,12 @@ public class TournamentController {
     @PutMapping("/{tournamentId}/rankings")
     public ResponseEntity<TournamentFullDTO> rankPlayer(@PathVariable Long tournamentId, @Valid @RequestBody RankingWithPlayerDTO ranking){
         return ResponseEntity.ok(tournamentFacade.rankPlayer(tournamentId, ranking.getPlayer().getId(), ranking.getPlayerPlacement()));
+    }
+
+    @PutMapping("/{tournamentId}")
+    public ResponseEntity<TournamentFullDTO> rescheduleLesson(@PathVariable Long tournamentId, @Valid @RequestBody EventRescheduleDTO dto){
+        eventFacade.reschedule(tournamentId, dto);
+        return ResponseEntity.ok(tournamentFacade.getTournamentWithId(tournamentId));
     }
 
     @DeleteMapping("/{id}")

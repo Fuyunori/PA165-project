@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { NotificationService } from './notification.service';
 import { Ranking } from '../models/ranking.model';
 import { User } from '../models/user.model';
+import {UnknownEvent} from "../models/event.model";
 
 const RESOURCE_URL = `${environment.apiBaseUrl}/tournaments`;
 
@@ -17,13 +18,13 @@ type TournamentState = {
 
 @Injectable({ providedIn: 'root' })
 export class TournamentService {
-  private readonly tournamentService = new BehaviorSubject<TournamentState>({
+  private readonly state$ = new BehaviorSubject<TournamentState>({
     entities: {},
     orderedIds: [],
   });
 
   readonly singleTournament$ = (id: number): Observable<Tournament | null> =>
-    this.tournamentService.pipe(map(({ entities }) => entities[id] ?? null));
+    this.state$.pipe(map(({ entities }) => entities[id] ?? null));
 
   constructor(
     private readonly http: HttpClient,
@@ -34,7 +35,7 @@ export class TournamentService {
     this.http
       .get<Tournament[]>(RESOURCE_URL)
       .subscribe((tournaments: Tournament[]) => {
-        this.tournamentService.next({
+        this.state$.next({
           entities: tournaments.reduce(
             (acc, tournament) => ({ ...acc, [tournament.id]: tournament }),
             {},
@@ -48,8 +49,8 @@ export class TournamentService {
     this.http
       .get<Tournament>(`${RESOURCE_URL}/${id}`)
       .subscribe((tournament: Tournament) => {
-        const { entities, orderedIds } = this.tournamentService.value;
-        this.tournamentService.next({
+        const { entities, orderedIds } = this.state$.value;
+        this.state$.next({
           entities: { ...entities, [tournament.id]: tournament },
           orderedIds,
         });
@@ -61,8 +62,8 @@ export class TournamentService {
       .post<Tournament>(RESOURCE_URL, tournament)
       .pipe(this.notification.onError('Could not create a tournament!'))
       .subscribe((resTournament: Tournament) => {
-        const { entities, orderedIds } = this.tournamentService.value;
-        this.tournamentService.next({
+        const { entities, orderedIds } = this.state$.value;
+        this.state$.next({
           entities: { ...entities, [resTournament.id]: resTournament },
           orderedIds: [...orderedIds, resTournament.id],
         });
@@ -73,8 +74,8 @@ export class TournamentService {
     this.http
       .post<Tournament>(`${RESOURCE_URL}/${tournamentId}/players`, user)
       .subscribe((resTournament: Tournament) => {
-        const { entities, orderedIds } = this.tournamentService.value;
-        this.tournamentService.next({
+        const { entities, orderedIds } = this.state$.value;
+        this.state$.next({
           entities: { ...entities, [resTournament.id]: resTournament },
           orderedIds,
         });
@@ -85,8 +86,8 @@ export class TournamentService {
     this.http
       .delete<Tournament>(`${RESOURCE_URL}/${tournamentId}/players/${playerId}`)
       .subscribe((resTournament: Tournament) => {
-        const { entities, orderedIds } = this.tournamentService.value;
-        this.tournamentService.next({
+        const { entities, orderedIds } = this.state$.value;
+        this.state$.next({
           entities: { ...entities, [resTournament.id]: resTournament },
           orderedIds,
         });
@@ -97,18 +98,30 @@ export class TournamentService {
     this.http
       .put<Tournament>(`${RESOURCE_URL}/${tournamentId}/rankings`, ranking)
       .subscribe((resTournament: Tournament) => {
-        const { entities, orderedIds } = this.tournamentService.value;
-        this.tournamentService.next({
+        const { entities, orderedIds } = this.state$.value;
+        this.state$.next({
           entities: { ...entities, [resTournament.id]: resTournament },
           orderedIds,
         });
       });
   }
 
+  rescheduleTournament(tournamentId: number, event: UnknownEvent): void {
+    this.http
+        .put<Tournament>(`${RESOURCE_URL}/${tournamentId}`, event)
+        .subscribe((resTournament: Tournament) => {
+            const { entities, orderedIds } = this.state$.value;
+            this.state$.next({
+                entities: { ...entities, [resTournament.id]: resTournament },
+                orderedIds,
+            });
+        });
+  }
+
   deleteTournament(id: number): void {
     this.http.delete(`${RESOURCE_URL}/${id}`).subscribe(() => {
-      const { entities, orderedIds } = this.tournamentService.value;
-      this.tournamentService.next({
+      const { entities, orderedIds } = this.state$.value;
+      this.state$.next({
         entities: Object.values(entities)
           .filter((tournament: Tournament) => tournament.id !== id)
           .reduce(
