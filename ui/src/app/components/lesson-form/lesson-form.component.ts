@@ -1,15 +1,9 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Level, UnknownLesson } from '../../models/lesson.model';
-import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { EventType } from '../../models/event.model';
 import { CourtService } from '../../services/court.service';
-import {filter, map, take} from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { Court } from '../../models/court.model';
 import { LessonService } from '../../services/lesson.service';
 import { AuthService } from '../../services/auth.service';
@@ -82,12 +76,20 @@ export class LessonFormComponent implements OnInit {
         this.lessonForm.get(LessonFormKey.Court)?.setValue(court.id);
       }
     });
-    this.lessonForm.controls[LessonFormKey.Start].setValidators([this.isLessThanCurrentTimeValidation, this.isGreaterThanEndTimeValidation]);
-    this.lessonForm.controls[LessonFormKey.End].setValidators([this.isLessThanCurrentTimeValidation, this.isSmallerThanStartTimeValidation]);
+    this.lessonForm.controls[LessonFormKey.Start].setValidators([
+      this.isLessThanCurrentTimeValidation,
+      this.isGreaterThanEndTimeValidation,
+    ]);
+    this.lessonForm.controls[LessonFormKey.End].setValidators([
+      this.isLessThanCurrentTimeValidation,
+      this.isSmallerThanStartTimeValidation,
+    ]);
   }
   hasStarted(): boolean {
     let currentTime: Date = new Date();
-    let startDate: Date = new Date(this.lessonForm.get(LessonFormKey.Start)?.value);
+    let startDate: Date = new Date(
+      this.lessonForm.get(LessonFormKey.Start)?.value,
+    );
     return currentTime > startDate;
   }
 
@@ -100,31 +102,33 @@ export class LessonFormComponent implements OnInit {
   isLessThanCurrentTimeValidation = (form: AbstractControl) => {
     let formDate = new Date(form.value);
 
-    if(formDate < this.currentTime){
-      return { error: "The date must at least in the present time."};
+    if (formDate < this.currentTime) {
+      return { error: 'The date must at least in the present time.' };
     }
     return null;
-  }
+  };
 
   isGreaterThanEndTimeValidation = (form: AbstractControl) => {
     let formDate = new Date(form.value);
     let endDate = new Date(this.lessonForm.controls[LessonFormKey.End].value);
 
-    if(formDate > endDate){
-      return { error: "Start date must be before the end date."};
+    if (formDate > endDate) {
+      return { error: 'Start date must be before the end date.' };
     }
     return null;
-  }
+  };
 
   isSmallerThanStartTimeValidation = (form: AbstractControl) => {
     let formDate = new Date(form.value);
-    let startDate = new Date(this.lessonForm.controls[LessonFormKey.Start].value);
+    let startDate = new Date(
+      this.lessonForm.controls[LessonFormKey.Start].value,
+    );
 
-    if(formDate < startDate){
-      return { error: "End date must be after the start date."};
+    if (formDate < startDate) {
+      return { error: 'End date must be after the start date.' };
     }
     return null;
-  }
+  };
 
   submit(): void {
     const { value } = this.lessonForm;

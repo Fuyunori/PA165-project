@@ -103,8 +103,14 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     return new Date(date);
   }
 
-  rescheduleTournament(displayedTournament: Tournament, unknownTournament: UnknownTournament): void {
-    this.tournamentService.rescheduleTournament(displayedTournament.id, unknownTournament);
+  rescheduleTournament(
+    displayedTournament: Tournament,
+    unknownTournament: UnknownTournament,
+  ): void {
+    this.tournamentService.rescheduleTournament(
+      displayedTournament.id,
+      unknownTournament,
+    );
   }
 
   deleteTournament(displayedTournament: Tournament): void {

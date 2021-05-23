@@ -14,7 +14,9 @@
           />
           <mat-icon matSuffix class="start-date">schedule</mat-icon>
           <mat-error
-                  *ngIf="lessonForm.controls[LessonFormKey.Start].errors?.error as error"
+            *ngIf="
+              lessonForm.controls[LessonFormKey.Start].errors?.error as error
+            "
           >
             {{ error }}
           </mat-error>
@@ -26,10 +28,12 @@
             matInput
             [min]="LessonFormKey.Start"
             [formControlName]="LessonFormKey.End"
-            [readonly]="readOnly  || hasEnded()"
+            [readonly]="readOnly || hasEnded()"
           />
           <mat-error
-                  *ngIf="lessonForm.controls[LessonFormKey.End].errors?.error as error"
+            *ngIf="
+              lessonForm.controls[LessonFormKey.End].errors?.error as error
+            "
           >
             {{ error }}
           </mat-error>
@@ -54,16 +58,28 @@
           type="number"
           matInput
           [formControlName]="LessonFormKey.Capacity"
-          [readonly]="(readOnly || reschedule)"
+          [readonly]="readOnly || reschedule"
         />
         <mat-icon matSuffix>people</mat-icon>
       </mat-form-field>
       <mat-form-field appearance="fill" class="field">
         <mat-label>Type</mat-label>
         <mat-select [formControlName]="LessonFormKey.Level">
-          <mat-option [value]="LessonLevel.Beginner" [disabled]="(readOnly || reschedule) || hasEnded()">Beginner</mat-option>
-          <mat-option [value]="LessonLevel.Intermediate" [disabled]="(readOnly || reschedule) || hasEnded()">Intermediate</mat-option>
-          <mat-option [value]="LessonLevel.Advanced" [disabled]="(readOnly || reschedule) || hasEnded()">Advanced</mat-option>
+          <mat-option
+            [value]="LessonLevel.Beginner"
+            [disabled]="readOnly || reschedule || hasEnded()"
+            >Beginner</mat-option
+          >
+          <mat-option
+            [value]="LessonLevel.Intermediate"
+            [disabled]="readOnly || reschedule || hasEnded()"
+            >Intermediate</mat-option
+          >
+          <mat-option
+            [value]="LessonLevel.Advanced"
+            [disabled]="readOnly || reschedule || hasEnded()"
+            >Advanced</mat-option
+          >
         </mat-select>
       </mat-form-field>
     </div>

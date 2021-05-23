@@ -1,4 +1,11 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';

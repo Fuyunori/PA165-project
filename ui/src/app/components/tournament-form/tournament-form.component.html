@@ -17,7 +17,10 @@
             [readonly]="readOnly"
           />
           <mat-error
-                  *ngIf="tournamentForm.controls[TournamentFormKey.Start].errors?.error as error"
+            *ngIf="
+              tournamentForm.controls[TournamentFormKey.Start].errors
+                ?.error as error
+            "
           >
             {{ error }}
           </mat-error>
@@ -33,7 +36,10 @@
             [readonly]="readOnly"
           />
           <mat-error
-                  *ngIf="tournamentForm.controls[TournamentFormKey.End].errors?.error as error"
+            *ngIf="
+              tournamentForm.controls[TournamentFormKey.End].errors
+                ?.error as error
+            "
           >
             {{ error }}
           </mat-error>
@@ -57,7 +63,7 @@
         <input
           matInput
           [formControlName]="TournamentFormKey.Name"
-          [readonly]="(readOnly || reschedule) || hasEnded()"
+          [readonly]="readOnly || reschedule || hasEnded()"
         />
       </mat-form-field>
       <mat-form-field appearance="fill" class="field">
@@ -66,7 +72,7 @@
           type="number"
           matInput
           [formControlName]="TournamentFormKey.Capacity"
-          [readonly]="(readOnly || reschedule) || hasEnded()"
+          [readonly]="readOnly || reschedule || hasEnded()"
         />
       </mat-form-field>
       <mat-form-field appearance="fill" class="field">
@@ -75,7 +81,7 @@
           type="number"
           matInput
           [formControlName]="TournamentFormKey.Prize"
-          [readonly]="(readOnly || reschedule) || hasEnded()"
+          [readonly]="readOnly || reschedule || hasEnded()"
         />
       </mat-form-field>
     </div>

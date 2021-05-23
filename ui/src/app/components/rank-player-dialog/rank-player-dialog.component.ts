@@ -1,12 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl, Validators} from "@angular/forms";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'tc-rank-player-dialog',
   templateUrl: './rank-player-dialog.component.html',
-  styleUrls: ['./rank-player-dialog.component.scss']
+  styleUrls: ['./rank-player-dialog.component.scss'],
 })
-export class RankPlayerDialogComponent implements OnInit{
+export class RankPlayerDialogComponent implements OnInit {
   @Output()
   playerRank: EventEmitter<number> = new EventEmitter<number>();
 
@@ -18,7 +18,10 @@ export class RankPlayerDialogComponent implements OnInit{
   playerPlacement = new FormControl(1);
 
   ngOnInit(): void {
-    this.playerPlacement.setValidators([Validators.min(1), Validators.max(this.numberOfPlayers)]);
+    this.playerPlacement.setValidators([
+      Validators.min(1),
+      Validators.max(this.numberOfPlayers),
+    ]);
   }
 
   submit(): void {

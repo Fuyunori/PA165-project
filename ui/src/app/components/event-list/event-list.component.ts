@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable, of} from "rxjs";
-import {EventType, Event} from "../../models/event.model";
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { EventType, Event } from '../../models/event.model';
 
 enum EventTableColumn {
   Type = 'Type',
@@ -11,7 +11,7 @@ enum EventTableColumn {
 @Component({
   selector: 'tc-event-list',
   templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.scss']
+  styleUrls: ['./event-list.component.scss'],
 })
 export class EventListComponent implements OnInit {
   @Input() displayedEvents$: Event[] = [];
@@ -29,13 +29,11 @@ export class EventListComponent implements OnInit {
     TOURNAMENT: 'Tournament',
   };
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   asEventType(type: any): EventType {
     return type;
   }
-
 }

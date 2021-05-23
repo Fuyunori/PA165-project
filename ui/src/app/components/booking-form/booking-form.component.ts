@@ -1,16 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Court } from '../../models/court.model';
-import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { CourtService } from '../../services/court.service';
-import {
-  Booking,
-  FormBooking,
-} from '../../models/booking.model';
+import { Booking, FormBooking } from '../../models/booking.model';
 import { EventType } from '../../models/event.model';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { NotificationService } from '../../services/notification.service';
-import {AuthService} from "../../services/auth.service";
+import { AuthService } from '../../services/auth.service';
 
 enum BookingFormKey {
   Court = 'Court',
@@ -78,44 +75,53 @@ export class BookingFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.bookingForm.controls[BookingFormKey.Start].setValidators([this.isInFutureValidator, this.isBeforeEndValidator]);
-    this.bookingForm.controls[BookingFormKey.End].setValidators([this.isInFutureValidator, this.isAfterStartValidator]);
+    this.bookingForm.controls[BookingFormKey.Start].setValidators([
+      this.isInFutureValidator,
+      this.isBeforeEndValidator,
+    ]);
+    this.bookingForm.controls[BookingFormKey.End].setValidators([
+      this.isInFutureValidator,
+      this.isAfterStartValidator,
+    ]);
   }
 
   isReadOnly() {
     return this.readOnly || this.isOver;
   }
 
-
   isInFutureValidator = (form: AbstractControl) => {
     let formDate = new Date(form.value);
     let today = new Date();
 
-    if(!this.isReadOnly() && formDate < today){
-      return { error: "Lol, what are you doing. The date must be in the future."};
+    if (!this.isReadOnly() && formDate < today) {
+      return {
+        error: 'Lol, what are you doing. The date must be in the future.',
+      };
     }
     return null;
-  }
+  };
 
   isAfterStartValidator = (form: AbstractControl) => {
     let formDate = new Date(form.value);
-    let startDate = new Date(this.bookingForm.controls[BookingFormKey.Start].value);
+    let startDate = new Date(
+      this.bookingForm.controls[BookingFormKey.Start].value,
+    );
 
-    if(!this.isReadOnly() && formDate < startDate){
-      return { error: "Bro, the end date must be after the start date."};
+    if (!this.isReadOnly() && formDate < startDate) {
+      return { error: 'Bro, the end date must be after the start date.' };
     }
     return null;
-  }
+  };
 
   isBeforeEndValidator = (form: AbstractControl) => {
     let formDate = new Date(form.value);
     let endDate = new Date(this.bookingForm.controls[BookingFormKey.End].value);
 
-    if(!this.isReadOnly() && formDate > endDate){
-      return { error: "Start date must be before the end date."};
+    if (!this.isReadOnly() && formDate > endDate) {
+      return { error: 'Start date must be before the end date.' };
     }
     return null;
-  }
+  };
 
   addUser(): void {
     let username = this.bookingForm.value[BookingFormKey.User];

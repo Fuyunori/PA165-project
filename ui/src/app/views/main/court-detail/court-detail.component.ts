@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
-import {filter, map, take, takeUntil} from 'rxjs/operators';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { Court, UnknownCourt } from '../../../models/court.model';
 import { AuthService } from '../../../services/auth.service';
 import { CourtService } from '../../../services/court.service';
@@ -13,10 +13,10 @@ import { UnknownBooking } from '../../../models/booking.model';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user.model';
 import { BookingService } from '../../../services/booking.service';
-import {LessonFormComponent} from "../../../components/lesson-form/lesson-form.component";
-import {LessonService} from "../../../services/lesson.service";
-import {TournamentFormComponent} from "../../../components/tournament-form/tournament-form.component";
-import {TournamentService} from "../../../services/tournament.service";
+import { LessonFormComponent } from '../../../components/lesson-form/lesson-form.component';
+import { LessonService } from '../../../services/lesson.service';
+import { TournamentFormComponent } from '../../../components/tournament-form/tournament-form.component';
+import { TournamentService } from '../../../services/tournament.service';
 
 @Component({
   selector: 'tc-court-detail',
@@ -54,14 +54,22 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
       let today = new Date();
       this.eventService.getCourtEvents(id);
       this.displayedEventsAll$ = this.eventService.courtEvents$(id);
-      this.displayedEventsFuture$ = this.eventService.courtEvents$(id).pipe(
-          map(events => events.filter(event => new Date(event.endTime) >= today))
-      );
-      this.displayedEventsToday$ = this.eventService.courtEvents$(id).pipe(
-          map(events => events.filter(event =>
-            today.getDate() === new Date(event.startTime).getDate()
-          ))
-      )
+      this.displayedEventsFuture$ = this.eventService
+        .courtEvents$(id)
+        .pipe(
+          map(events =>
+            events.filter(event => new Date(event.endTime) >= today),
+          ),
+        );
+      this.displayedEventsToday$ = this.eventService
+        .courtEvents$(id)
+        .pipe(
+          map(events =>
+            events.filter(
+              event => today.getDate() === new Date(event.startTime).getDate(),
+            ),
+          ),
+        );
     });
   }
 
@@ -143,17 +151,17 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
     dialog.componentInstance.court$ = court$;
 
     dialog.componentInstance.lessonChange
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(lesson => {
-          this.lessonService.createLesson(lesson);
-          dialog.close();
-        });
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(lesson => {
+        this.lessonService.createLesson(lesson);
+        dialog.close();
+      });
 
     dialog.componentInstance.cancelClick
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(() => {
-          dialog.close();
-        });
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        dialog.close();
+      });
   }
 
   addTournament(court$: Observable<Court | null>): void {
@@ -166,16 +174,16 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
     dialog.componentInstance.court$ = court$;
 
     dialog.componentInstance.tournamentChange
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(tournament => {
-          this.tournamentService.createTournament(tournament);
-          dialog.close();
-        });
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(tournament => {
+        this.tournamentService.createTournament(tournament);
+        dialog.close();
+      });
 
     dialog.componentInstance.cancelClick
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(() => {
-          dialog.close();
-        });
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        dialog.close();
+      });
   }
 }

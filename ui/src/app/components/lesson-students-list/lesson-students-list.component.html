@@ -10,10 +10,10 @@
       <mat-icon mat-list-icon>person</mat-icon>
       <div mat-line>{{ student.name }}</div>
       <button
-              mat-raised-button
-              *ngIf="!hasStarted() && (userIsManager$ | async)"
-              color="warn"
-              (click)="removeStudent(student)"
+        mat-raised-button
+        *ngIf="!hasStarted() && (userIsManager$ | async)"
+        color="warn"
+        (click)="removeStudent(student)"
       >
         withdraw
       </button>

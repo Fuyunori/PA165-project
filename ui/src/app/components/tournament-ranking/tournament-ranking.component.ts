@@ -14,7 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Lesson } from '../../models/lesson.model';
 import { Tournament } from '../../models/tournament.model';
 import { TournamentService } from '../../services/tournament.service';
-import {RankPlayerDialogComponent} from "../rank-player-dialog/rank-player-dialog.component";
+import { RankPlayerDialogComponent } from '../rank-player-dialog/rank-player-dialog.component';
 
 @Component({
   selector: 'tc-tournament-ranking',
@@ -103,18 +103,21 @@ export class TournamentRankingComponent implements OnDestroy {
     dialog.componentInstance.numberOfPlayers = this.rankings.length;
 
     dialog.componentInstance.playerRank
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe((rank: number) => {
-          let unknownRanking: Ranking = {...ranking};
-          unknownRanking.playerPlacement = rank;
-          this.tournamentService.rankPlayer(this.selectedTournament.id, unknownRanking);
-          dialog.close();
-        });
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((rank: number) => {
+        let unknownRanking: Ranking = { ...ranking };
+        unknownRanking.playerPlacement = rank;
+        this.tournamentService.rankPlayer(
+          this.selectedTournament.id,
+          unknownRanking,
+        );
+        dialog.close();
+      });
 
     dialog.componentInstance.cancelClick
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(() => {
-          dialog.close();
-        });
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        dialog.close();
+      });
   }
 }

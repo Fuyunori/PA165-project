@@ -42,7 +42,7 @@ import { SearchUserPipe } from './pipes/search-user.pipe';
 import { LessonTeachersListComponent } from './components/lesson-teachers-list/lesson-teachers-list.component';
 import { TournamentRankingComponent } from './components/tournament-ranking/tournament-ranking.component';
 import { UserStatisticsComponent } from './components/user-statistics/user-statistics.component';
-import {MatTabsModule} from "@angular/material/tabs";
+import { MatTabsModule } from '@angular/material/tabs';
 import { EventListComponent } from './components/event-list/event-list.component';
 import { SortRankingsPipe } from './pipes/sort-rankings.pipe';
 import { SortEventsPipe } from './pipes/sort-events.pipe';
@@ -97,7 +97,7 @@ import { RankPlayerDialogComponent } from './components/rank-player-dialog/rank-
     MatExpansionModule,
     MatTableModule,
     MatListModule,
-      MatTabsModule,
+    MatTabsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
     }),

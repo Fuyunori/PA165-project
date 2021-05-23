@@ -12,28 +12,28 @@
 
   <div class="event-button-container">
     <button
-            *ngIf="userIsManager$ | async"
-            mat-raised-button
-            color="primary"
-            class="add-button"
-            (click)="addLesson(displayedCourt$)"
+      *ngIf="userIsManager$ | async"
+      mat-raised-button
+      color="primary"
+      class="add-button"
+      (click)="addLesson(displayedCourt$)"
     >
       Make lesson
     </button>
     <button
-            mat-raised-button
-            color="primary"
-            class="add-button"
-            (click)="addBooking(displayedCourt)"
+      mat-raised-button
+      color="primary"
+      class="add-button"
+      (click)="addBooking(displayedCourt)"
     >
       Make booking
     </button>
     <button
-            *ngIf="userIsManager$ | async"
-            mat-raised-button
-            color="primary"
-            class="add-button"
-            (click)="addTournament(displayedCourt$)"
+      *ngIf="userIsManager$ | async"
+      mat-raised-button
+      color="primary"
+      class="add-button"
+      (click)="addTournament(displayedCourt$)"
     >
       Make tournament
     </button>
@@ -43,7 +43,10 @@
   <mat-tab *ngIf="displayedEventsToday$ | async as todayEvents" label="Today">
     <tc-event-list [displayedEvents$]="todayEvents"></tc-event-list>
   </mat-tab>
-  <mat-tab *ngIf="displayedEventsFuture$ | async as futureEvents" label="Upcoming events">
+  <mat-tab
+    *ngIf="displayedEventsFuture$ | async as futureEvents"
+    label="Upcoming events"
+  >
     <tc-event-list [displayedEvents$]="futureEvents"></tc-event-list>
   </mat-tab>
   <mat-tab *ngIf="displayedEventsAll$ | async as allEvents" label="All events">

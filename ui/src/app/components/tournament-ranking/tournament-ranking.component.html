@@ -9,13 +9,13 @@
   </mat-expansion-panel-header>
   <mat-list role="list">
     <mat-list-item *ngFor="let ranking of rankings | sortRankings">
-      <div mat-line> {{ ranking.playerPlacement }}</div>
-      <div mat-line> {{ ranking.player.name }}</div>
+      <div mat-line>{{ ranking.playerPlacement }}</div>
+      <div mat-line>{{ ranking.player.name }}</div>
       <button
-              mat-raised-button
-              *ngIf="!hasStarted() && (userIsManager$ | async)"
-              color="warn"
-              (click)="withdrawPlayer(ranking.player)"
+        mat-raised-button
+        *ngIf="!hasStarted() && (userIsManager$ | async)"
+        color="warn"
+        (click)="withdrawPlayer(ranking.player)"
       >
         withdraw
       </button>

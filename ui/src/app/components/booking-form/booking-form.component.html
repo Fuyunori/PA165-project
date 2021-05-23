@@ -21,7 +21,9 @@
             [readonly]="isReadOnly()"
           />
           <mat-error
-                  *ngIf="bookingForm.controls[BookingFormKey.Start].errors?.error as error"
+            *ngIf="
+              bookingForm.controls[BookingFormKey.Start].errors?.error as error
+            "
           >
             {{ error }}
           </mat-error>
@@ -35,7 +37,9 @@
             [readonly]="isReadOnly()"
           />
           <mat-error
-                  *ngIf="bookingForm.controls[BookingFormKey.End].errors?.error as error"
+            *ngIf="
+              bookingForm.controls[BookingFormKey.End].errors?.error as error
+            "
           >
             {{ error }}
           </mat-error>
