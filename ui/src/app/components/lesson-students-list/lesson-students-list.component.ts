@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
@@ -14,11 +14,23 @@ import { Lesson } from '../../models/lesson.model';
   styleUrls: ['./lesson-students-list.component.scss'],
 })
 export class LessonStudentsComponent implements OnDestroy {
+  @Output()
+  withdraw: EventEmitter<User> = new EventEmitter<User>();
+
   @Input()
   students: User[] = [];
 
   @Input()
   teachers: User[] = [];
+
+  @Input()
+  startDate!: Date;
+
+  @Input()
+  endDate!: Date;
+
+  @Input()
+  userIsManager$: Observable<boolean> = new Observable<boolean>();
 
   @Input()
   canAddStudent: boolean | null = false;
@@ -30,6 +42,7 @@ export class LessonStudentsComponent implements OnDestroy {
   selectedLesson!: Lesson;
 
   private readonly unsubscribe$ = new Subject<void>();
+  readonly currentDate: Date = new Date();
 
   constructor(
     private readonly lessonService: LessonService,
@@ -39,6 +52,11 @@ export class LessonStudentsComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  hasStarted(): boolean {
+    let startDate: Date = new Date(this.startDate);
+    return this.currentDate < startDate;
   }
 
   enrollStudent(): void {
@@ -63,5 +81,9 @@ export class LessonStudentsComponent implements OnDestroy {
       .subscribe(() => {
         dialog.close();
       });
+  }
+
+  removeStudent(student: User): void {
+    this.withdraw.emit(student);
   }
 }

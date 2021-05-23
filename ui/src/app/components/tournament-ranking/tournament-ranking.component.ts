@@ -52,6 +52,16 @@ export class TournamentRankingComponent implements OnDestroy {
     this.unsubscribe$.complete();
   }
 
+  hasStarted(): boolean {
+    let startDate: Date = new Date(this.startDate);
+    return this.currentDate < startDate;
+  }
+
+  hasEnded(): boolean {
+    let endDate: Date = new Date(this.endDate);
+    return this.currentDate > endDate;
+  }
+
   addParticipant(): void {
     let participants: User[] = this.rankings.map((ranking: Ranking) => {
       return ranking.player;
