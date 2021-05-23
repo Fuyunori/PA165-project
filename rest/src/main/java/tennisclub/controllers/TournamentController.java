@@ -87,7 +87,7 @@ public class TournamentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTournament(@PathVariable Long id, @RequestHeader(value = "Authorization", required = false) String jwt){
-        userService.verifyRole(jwt, Role.USER);
+        userService.verifyRole(jwt, Role.MANAGER);
         tournamentFacade.deleteTournament(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
