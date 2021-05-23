@@ -16,6 +16,11 @@
             [formControlName]="TournamentFormKey.Start"
             [readonly]="readOnly"
           />
+          <mat-error
+                  *ngIf="tournamentForm.controls[TournamentFormKey.Start].errors?.error as error"
+          >
+            {{ error }}
+          </mat-error>
           <mat-icon matSuffix class="start-date">schedule</mat-icon>
         </mat-form-field>
         <mat-form-field appearance="fill">
@@ -27,6 +32,11 @@
             [formControlName]="TournamentFormKey.End"
             [readonly]="readOnly"
           />
+          <mat-error
+                  *ngIf="tournamentForm.controls[TournamentFormKey.End].errors?.error as error"
+          >
+            {{ error }}
+          </mat-error>
           <mat-icon matSuffix class="end-date">schedule</mat-icon>
         </mat-form-field>
       </div>

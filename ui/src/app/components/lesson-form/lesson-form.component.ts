@@ -82,7 +82,7 @@ export class LessonFormComponent implements OnInit {
       }
     });
     this.lessonForm.controls[LessonFormKey.Start].setValidators([this.isLessThanCurrentTimeValidation, this.isGreaterThanEndTimeValidation]);
-    this.lessonForm.controls[LessonFormKey.End].setValidators([this.isLessThanCurrentTimeValidation, this.isGreaterThanEndTimeValidation]);
+    this.lessonForm.controls[LessonFormKey.End].setValidators([this.isLessThanCurrentTimeValidation, this.isSmallerThanStartTimeValidation]);
   }
 
   isLessThanCurrentTimeValidation = (form: AbstractControl) => {
