@@ -13,6 +13,10 @@ import { UnknownBooking } from '../../../models/booking.model';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user.model';
 import { BookingService } from '../../../services/booking.service';
+import {LessonFormComponent} from "../../../components/lesson-form/lesson-form.component";
+import {LessonService} from "../../../services/lesson.service";
+import {TournamentFormComponent} from "../../../components/tournament-form/tournament-form.component";
+import {TournamentService} from "../../../services/tournament.service";
 
 @Component({
   selector: 'tc-court-detail',
@@ -36,6 +40,8 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
     private readonly eventService: EventService,
     private readonly userService: UserService,
     private readonly bookingService: BookingService,
+    private readonly lessonService: LessonService,
+    private readonly tournamentService: TournamentService,
     private readonly dialog: MatDialog,
   ) {}
 
@@ -119,5 +125,49 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         dialog.close();
       });
+  }
+
+  addLesson(court$: Observable<Court | null>): void {
+    const dialog = this.dialog.open(LessonFormComponent, {
+      disableClose: true,
+      width: '50%',
+    });
+    dialog.componentInstance.submitButtonText = 'Create lesson';
+    dialog.componentInstance.court$ = court$;
+
+    dialog.componentInstance.lessonChange
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(lesson => {
+          this.lessonService.createLesson(lesson);
+          dialog.close();
+        });
+
+    dialog.componentInstance.cancelClick
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(() => {
+          dialog.close();
+        });
+  }
+
+  addTournament(court$: Observable<Court | null>): void {
+    const dialog = this.dialog.open(TournamentFormComponent, {
+      disableClose: true,
+      width: '50%',
+    });
+    dialog.componentInstance.submitButtonText = 'Create tournament';
+    dialog.componentInstance.court$ = court$;
+
+    dialog.componentInstance.tournamentChange
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(tournament => {
+          this.tournamentService.createTournament(tournament);
+          dialog.close();
+        });
+
+    dialog.componentInstance.cancelClick
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(() => {
+          dialog.close();
+        });
   }
 }

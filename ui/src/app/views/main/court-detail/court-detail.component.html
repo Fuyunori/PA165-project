@@ -1,26 +1,44 @@
-<mat-card *ngIf="displayedCourt$ | async as displayedCourt">
-  <tc-court-form
-    submitButtonText="Update court"
-    cancelButtonText="Delete court"
-    [readOnly]="!(userIsManager$ | async)"
-    [court]="displayedCourt"
-    (courtChange)="updateCourt(displayedCourt, $event)"
-    (cancelClick)="deleteCourt(displayedCourt)"
-  ></tc-court-form>
-</mat-card>
+<div *ngIf="displayedCourt$ | async as displayedCourt">
+  <mat-card>
+    <tc-court-form
+      submitButtonText="Update court"
+      cancelButtonText="Delete court"
+      [readOnly]="!(userIsManager$ | async)"
+      [court]="displayedCourt"
+      (courtChange)="updateCourt(displayedCourt, $event)"
+      (cancelClick)="deleteCourt(displayedCourt)"
+    ></tc-court-form>
+  </mat-card>
 
-<div class="booking-button-container">
-  <button
-    *ngIf="displayedCourt$ | async as displayedCourt"
-    mat-raised-button
-    color="primary"
-    class="booking-button"
-    (click)="addBooking(displayedCourt)"
-  >
-    Make booking
-  </button>
+  <div class="event-button-container">
+    <button
+            *ngIf="userIsManager$ | async"
+            mat-raised-button
+            color="primary"
+            class="add-button"
+            (click)="addLesson(displayedCourt$)"
+    >
+      Make lesson
+    </button>
+    <button
+            mat-raised-button
+            color="primary"
+            class="add-button"
+            (click)="addBooking(displayedCourt)"
+    >
+      Make booking
+    </button>
+    <button
+            *ngIf="userIsManager$ | async"
+            mat-raised-button
+            color="primary"
+            class="add-button"
+            (click)="addTournament(displayedCourt$)"
+    >
+      Make tournament
+    </button>
+  </div>
 </div>
-
 <mat-tab-group mat-align-tabs="start">
   <mat-tab label="Upcoming events">
     <tc-event-list [displayedEvents$]="displayedEventsFuture$"></tc-event-list>
