@@ -46,7 +46,7 @@
           <mat-option
             *ngFor="let court of courts$ | async"
             [value]="court.id"
-            [disabled]="(readOnly && court != null) || reschedule"
+            [disabled]="(readOnly && court != null) || reschedule || hasEnded()"
             >{{ court.name }}</mat-option
           >
         </mat-select>
@@ -57,7 +57,7 @@
         <input
           matInput
           [formControlName]="TournamentFormKey.Name"
-          [readonly]="(readOnly || reschedule)"
+          [readonly]="(readOnly || reschedule) || hasEnded()"
         />
       </mat-form-field>
       <mat-form-field appearance="fill" class="field">
@@ -66,7 +66,7 @@
           type="number"
           matInput
           [formControlName]="TournamentFormKey.Capacity"
-          [readonly]="(readOnly || reschedule)"
+          [readonly]="(readOnly || reschedule) || hasEnded()"
         />
       </mat-form-field>
       <mat-form-field appearance="fill" class="field">
@@ -75,12 +75,12 @@
           type="number"
           matInput
           [formControlName]="TournamentFormKey.Prize"
-          [readonly]="(readOnly || reschedule)"
+          [readonly]="(readOnly || reschedule) || hasEnded()"
         />
       </mat-form-field>
     </div>
   </div>
-  <div class="form-actions" *ngIf="readOnly">
+  <div class="form-actions" *ngIf="readOnly && !hasStarted()">
     <button
       *ngIf="!(isEnrolledAlready$ | async); else enrolledAlready"
       type="button"

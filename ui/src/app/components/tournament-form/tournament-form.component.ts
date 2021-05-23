@@ -82,6 +82,18 @@ export class TournamentFormComponent implements OnInit {
     this.tournamentForm.controls[TournamentFormKey.End].setValidators([this.isLessThanCurrentTimeValidation, this.isSmallerThanStartTimeValidation]);
   }
 
+  hasStarted(): boolean {
+    let currentTime: Date = new Date();
+    let startDate: Date = new Date(this.tournamentForm.get(TournamentFormKey.Start)?.value);
+    return currentTime > startDate;
+  }
+
+  hasEnded(): boolean {
+    let currentTime: Date = new Date();
+    let endDate: Date = new Date(this.tournamentForm.get(TournamentFormKey.End)?.value);
+    return currentTime > endDate;
+  }
+
   isLessThanCurrentTimeValidation = (form: AbstractControl) => {
     let formDate = new Date(form.value);
 

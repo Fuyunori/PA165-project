@@ -10,7 +10,7 @@
             [min]="currentTime"
             [max]="LessonFormKey.End"
             [formControlName]="LessonFormKey.Start"
-            [readonly]="readOnly"
+            [readonly]="readOnly || hasEnded()"
           />
           <mat-icon matSuffix class="start-date">schedule</mat-icon>
           <mat-error
@@ -26,7 +26,7 @@
             matInput
             [min]="LessonFormKey.Start"
             [formControlName]="LessonFormKey.End"
-            [readonly]="readOnly"
+            [readonly]="readOnly  || hasEnded()"
           />
           <mat-error
                   *ngIf="lessonForm.controls[LessonFormKey.End].errors?.error as error"
@@ -42,7 +42,7 @@
           <mat-option
             *ngFor="let court of courts$ | async"
             [value]="court.id"
-            [disabled]="(readOnly && court != null) || reschedule "
+            [disabled]="(readOnly && court != null) || reschedule || hasEnded()"
             >{{ court.name }}</mat-option
           >
         </mat-select>
@@ -61,14 +61,14 @@
       <mat-form-field appearance="fill" class="field">
         <mat-label>Type</mat-label>
         <mat-select [formControlName]="LessonFormKey.Level">
-          <mat-option [value]="LessonLevel.Beginner" [disabled]="(readOnly || reschedule)">Beginner</mat-option>
-          <mat-option [value]="LessonLevel.Intermediate" [disabled]="(readOnly || reschedule)">Intermediate</mat-option>
-          <mat-option [value]="LessonLevel.Advanced" [disabled]="(readOnly || reschedule)">Advanced</mat-option>
+          <mat-option [value]="LessonLevel.Beginner" [disabled]="(readOnly || reschedule) || hasEnded()">Beginner</mat-option>
+          <mat-option [value]="LessonLevel.Intermediate" [disabled]="(readOnly || reschedule) || hasEnded()">Intermediate</mat-option>
+          <mat-option [value]="LessonLevel.Advanced" [disabled]="(readOnly || reschedule) || hasEnded()">Advanced</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
   </div>
-  <div class="form-actions" *ngIf="readOnly">
+  <div class="form-actions" *ngIf="readOnly || !hasEnded()">
     <button
       *ngIf="
         !(isStudent$ | async) && !(isTeacher$ | async);

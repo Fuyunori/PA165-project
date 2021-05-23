@@ -85,6 +85,17 @@ export class LessonFormComponent implements OnInit {
     this.lessonForm.controls[LessonFormKey.Start].setValidators([this.isLessThanCurrentTimeValidation, this.isGreaterThanEndTimeValidation]);
     this.lessonForm.controls[LessonFormKey.End].setValidators([this.isLessThanCurrentTimeValidation, this.isSmallerThanStartTimeValidation]);
   }
+  hasStarted(): boolean {
+    let currentTime: Date = new Date();
+    let startDate: Date = new Date(this.lessonForm.get(LessonFormKey.Start)?.value);
+    return currentTime > startDate;
+  }
+
+  hasEnded(): boolean {
+    let currentTime: Date = new Date();
+    let endDate: Date = new Date(this.lessonForm.get(LessonFormKey.End)?.value);
+    return currentTime > endDate;
+  }
 
   isLessThanCurrentTimeValidation = (form: AbstractControl) => {
     let formDate = new Date(form.value);
