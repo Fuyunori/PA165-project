@@ -2,6 +2,7 @@ package tennisclub.dto.tournament;
 
 import tennisclub.dto.court.CourtDto;
 import tennisclub.dto.event.EventCreateDTO;
+import tennisclub.enums.EventType;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
@@ -20,6 +21,10 @@ public class TournamentCreateDTO extends EventCreateDTO {
     @NotNull(message = "{tournament.prize.notNull}")
     @Min(value = 0, message = "{tournament.prize.min}")
     private Integer prize;
+
+    public TournamentCreateDTO() {
+        super(EventType.TOURNAMENT);
+    }
 
     public String getName() {
         return name;

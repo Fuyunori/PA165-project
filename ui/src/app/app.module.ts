@@ -34,6 +34,8 @@ import { UserDetailComponent } from './views/main/user-detail/user-detail.compon
 import { UsersOverviewComponent } from './views/main/users-overview/users-overview.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { MatTableModule } from '@angular/material/table';
+import { BookingFormComponent } from './components/booking-form/booking-form.component';
+import { BookingDetailComponent } from './views/main/booking-detail/booking-detail.component';
 import { MatListModule } from '@angular/material/list';
 import { AddUserViewComponent } from './components/add-user-view/add-user-view.component';
 import { SearchUserPipe } from './pipes/search-user.pipe';
@@ -60,6 +62,8 @@ import { TournamentRankingComponent } from './components/tournament-ranking/tour
     UserDetailComponent,
     UsersOverviewComponent,
     UsersTableComponent,
+    BookingFormComponent,
+    BookingDetailComponent,
     AddUserViewComponent,
     SearchUserPipe,
     LessonTeachersListComponent,

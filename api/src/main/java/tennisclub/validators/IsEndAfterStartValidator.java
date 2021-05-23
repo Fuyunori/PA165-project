@@ -24,6 +24,9 @@ public class IsEndAfterStartValidator implements ConstraintValidator<IsEndTimeAf
             final LocalDateTime startTime = (LocalDateTime) PropertyUtils.getProperty(annotatedObject, firstFieldName);
             final LocalDateTime endTime = (LocalDateTime) PropertyUtils.getProperty(annotatedObject, secondFieldName);
 
+            if (endTime == null) {
+                return false;
+            }
             return endTime.isEqual(startTime) || endTime.isAfter(startTime);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException("Error while reading startTime or endTime on class " + annotatedObject.getClass().getName() );

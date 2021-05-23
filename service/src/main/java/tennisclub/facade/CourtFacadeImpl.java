@@ -7,10 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import tennisclub.dto.court.CourtDto;
 import tennisclub.dto.court.CourtUpdateDto;
 import tennisclub.dto.event.EventDTO;
+import tennisclub.dto.event.EventWithCourtDTO;
 import tennisclub.entity.Court;
 import tennisclub.enums.CourtType;
 import tennisclub.service.CourtService;
 import tennisclub.dto.court.CourtCreateDto;
+import tennisclub.service.EventMappingService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,11 +25,13 @@ import java.util.stream.Collectors;
 public class CourtFacadeImpl implements CourtFacade {
     private final Mapper mapper;
     private final CourtService courtService;
+    private final EventMappingService eventMapper;
 
     @Autowired
-    public CourtFacadeImpl(Mapper mapper, CourtService courtService) {
+    public CourtFacadeImpl(Mapper mapper, CourtService courtService, EventMappingService eventMapper) {
         this.mapper = mapper;
         this.courtService = courtService;
+        this.eventMapper = eventMapper;
     }
 
     @Override
@@ -83,10 +87,10 @@ public class CourtFacadeImpl implements CourtFacade {
     }
 
     @Override
-    public List<EventDTO> listCourtEvents(Long courtId) {
+    public List<EventWithCourtDTO> listCourtEvents(Long courtId) {
         Court court = courtService.getById(courtId);
         return court.getEvents().stream()
-                .map(e -> mapper.map(e, EventDTO.class))
+                .map(eventMapper::map)
                 .collect(Collectors.toList());
     }
 }

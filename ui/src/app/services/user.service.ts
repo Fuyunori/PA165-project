@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User, UnknownUser } from '../models/user.model';
@@ -51,14 +51,18 @@ export class UserService {
     });
   }
 
-  getUsersByUsername(username: string){
-    let queryParams: HttpParams = new HttpParams().set("username", username);
-    this.http.get<User[]>(`${RESOURCE_URL}/`, {params: queryParams}).subscribe(users => {
-      this.state$.next({
-        entities: users.reduce((acc, c) => ({ ...acc, [c.id]: c }), {}),
-        orderedIds: users.map(({ id }) => id),
-      });
-    });
+  getUserByUsername(username: string): Observable<User | null> {
+    let queryParams: HttpParams = new HttpParams().set('username', username);
+    return this.http
+      .get<User[]>(`${RESOURCE_URL}/`, { params: queryParams })
+      .pipe(
+        map(users => {
+          if (!users) {
+            return null;
+          }
+          return users[0];
+        }),
+      );
   }
 
   postUser(user: UnknownUser): void {

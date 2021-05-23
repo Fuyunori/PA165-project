@@ -2,6 +2,7 @@ package tennisclub.facade;
 
 import tennisclub.dto.booking.BookingCreateDTO;
 import tennisclub.dto.booking.BookingFullDTO;
+import tennisclub.dto.booking.BookingUpdateDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -69,4 +70,13 @@ public interface BookingFacade {
      * @return the booking in the interval
      */
     List<BookingFullDTO> findByTimeInterval(LocalDateTime from, LocalDateTime to);
+
+    /**
+     * Update the specified booking.
+     *
+     * @param bookingId the id of the booking to update
+     * @param dto the new values
+     * @return the updated booking
+     */
+    BookingFullDTO update(Long bookingId, BookingUpdateDTO dto);
 }

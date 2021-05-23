@@ -76,6 +76,7 @@ export class TournamentFormComponent implements OnInit {
         .pipe(take(1), filter((court):court is Court => court != null))
         .subscribe(court => {
             const tournament: UnknownTournament = {
+              type: EventType.Tournament,
               startTime: value[TournamentFormKey.Start],
               endTime: value[TournamentFormKey.End],
               court,

@@ -138,8 +138,8 @@ public class EventFacadeTest {
     @Test
     public void testRescheduleCourtIsNotFreeBooking(){
         EventRescheduleDTO event = new EventRescheduleDTO(BOOKING_START, BOOKING_END);
-        event.setStart(OTHER_START);
-        event.setEnd(OTHER_END);
+        event.setStartTime(OTHER_START);
+        event.setEndTime(OTHER_END);
 
         when(eventService.findById(BOOKING_ID)).thenReturn(booking);
         when(courtService.isFree(booking.getCourt(), OTHER_START, OTHER_END)).thenReturn(false);
@@ -151,8 +151,8 @@ public class EventFacadeTest {
     @Test
     public void testRescheduleCourtIsNotFreeLesson(){
         EventRescheduleDTO event = new EventRescheduleDTO(LESSON_START, LESSON_END);
-        event.setStart(OTHER_START);
-        event.setEnd(OTHER_END);
+        event.setStartTime(OTHER_START);
+        event.setEndTime(OTHER_END);
 
         when(eventService.findById(LESSON_ID)).thenReturn(lesson);
         when(courtService.isFree(lesson.getCourt(), OTHER_START, OTHER_END)).thenReturn(false);
@@ -164,8 +164,8 @@ public class EventFacadeTest {
     @Test
     public void testRescheduleCourtIsNotFreeTournament(){
         EventRescheduleDTO event = new EventRescheduleDTO(TOURNAMENT_START, TOURNAMENT_END);
-        event.setStart(OTHER_START);
-        event.setEnd(OTHER_END);
+        event.setStartTime(OTHER_START);
+        event.setEndTime(OTHER_END);
 
         when(eventService.findById(TOURNAMENT_ID)).thenReturn(tournament);
         when(courtService.isFree(tournament.getCourt(), OTHER_START, OTHER_END)).thenReturn(false);
@@ -177,8 +177,8 @@ public class EventFacadeTest {
     @Test
     public void testRescheduleCourtIsFreeBooking(){
         EventRescheduleDTO event = new EventRescheduleDTO(BOOKING_START, BOOKING_END);
-        event.setStart(OTHER_START);
-        event.setEnd(OTHER_END);
+        event.setStartTime(OTHER_START);
+        event.setEndTime(OTHER_END);
 
         Event expected = booking;
         expected.setStartTime(OTHER_START);
@@ -202,8 +202,8 @@ public class EventFacadeTest {
     @Test
     public void testRescheduleCourtIsFreeLesson(){
         EventRescheduleDTO event = new EventRescheduleDTO(LESSON_START, LESSON_END);
-        event.setStart(OTHER_START);
-        event.setEnd(OTHER_END);
+        event.setStartTime(OTHER_START);
+        event.setEndTime(OTHER_END);
 
         Event expected = lesson;
         expected.setStartTime(OTHER_START);
@@ -227,8 +227,8 @@ public class EventFacadeTest {
     @Test
     public void testRescheduleCourtIsFreeTournament(){
         EventRescheduleDTO event = new EventRescheduleDTO(TOURNAMENT_START, TOURNAMENT_END);
-        event.setStart(OTHER_START);
-        event.setEnd(OTHER_END);
+        event.setStartTime(OTHER_START);
+        event.setEndTime(OTHER_END);
 
         Event expected = tournament;
         expected.setStartTime(OTHER_START);

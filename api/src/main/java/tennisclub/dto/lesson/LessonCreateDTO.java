@@ -1,6 +1,7 @@
 package tennisclub.dto.lesson;
 
 import tennisclub.dto.event.EventCreateDTO;
+import tennisclub.enums.EventType;
 import tennisclub.enums.Level;
 
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,10 @@ import javax.validation.constraints.NotNull;
  */
 public class LessonCreateDTO extends EventCreateDTO {
     private Integer capacity;
+
+    public LessonCreateDTO() {
+        super(EventType.LESSON);
+    }
 
     @NotNull(message = "{lesson.level.notNull}")
     private Level level;

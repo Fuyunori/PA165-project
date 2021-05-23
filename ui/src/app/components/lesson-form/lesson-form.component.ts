@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { Level, UnknownLesson } from '../../models/lesson.model';
 import { FormBuilder, Validators } from '@angular/forms';
+import { EventType } from '../../models/event.model';
 import {CourtService} from "../../services/court.service";
 import {filter, take} from "rxjs/operators";
 import {Court} from "../../models/court.model";
@@ -79,6 +80,7 @@ export class LessonFormComponent implements OnInit {
         .pipe(take(1), filter((court):court is Court => court != null))
         .subscribe(court => {
           const lesson: UnknownLesson = {
+            type: EventType.Lesson,
             startTime: value[LessonFormKey.Start],
             endTime: value[LessonFormKey.End],
             court,
