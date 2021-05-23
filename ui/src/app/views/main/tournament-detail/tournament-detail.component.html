@@ -1,7 +1,10 @@
 <mat-card *ngIf="displayedTournament$ | async as displayedTournament">
   <tc-tournament-form
+    submitButtonText="Reschedule tournament"
     cancelButtonText="Delete tournament"
-    [readOnly]="true"
+    (tournamentChange)="rescheduleTournament(displayedTournament, $event)"
+    [readOnly]="!(userIsManager$ | async)"
+    [reschedule]="!!(userIsManager$ | async)"
     [tournament]="displayedTournament"
     [isEnrolledAlready$]="isUserEnrolled$"
     (cancelClick)="deleteTournament(displayedTournament)"

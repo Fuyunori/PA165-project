@@ -36,7 +36,7 @@
           <mat-option
             *ngFor="let court of courts$ | async"
             [value]="court.id"
-            [disabled]="readOnly || court != null"
+            [disabled]="(readOnly && court != null) || reschedule"
             >{{ court.name }}</mat-option
           >
         </mat-select>
@@ -47,7 +47,7 @@
         <input
           matInput
           [formControlName]="TournamentFormKey.Name"
-          [readonly]="readOnly"
+          [readonly]="(readOnly || reschedule)"
         />
       </mat-form-field>
       <mat-form-field appearance="fill" class="field">
@@ -56,7 +56,7 @@
           type="number"
           matInput
           [formControlName]="TournamentFormKey.Capacity"
-          [readonly]="readOnly"
+          [readonly]="(readOnly || reschedule)"
         />
       </mat-form-field>
       <mat-form-field appearance="fill" class="field">
@@ -65,7 +65,7 @@
           type="number"
           matInput
           [formControlName]="TournamentFormKey.Prize"
-          [readonly]="readOnly"
+          [readonly]="(readOnly || reschedule)"
         />
       </mat-form-field>
     </div>

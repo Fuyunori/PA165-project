@@ -14,4 +14,4 @@ export type Event = {
   endTime: Date;
 };
 
-export type UnknownEvent = Omit<Event, 'id'>;
+export type UnknownEvent = Omit<Event, 'id' | 'court'>;
