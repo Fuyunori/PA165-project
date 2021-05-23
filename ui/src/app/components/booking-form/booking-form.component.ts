@@ -32,6 +32,8 @@ export class BookingFormComponent implements OnInit {
   @Input() submitButtonText = 'Submit';
   @Input() cancelButtonText = 'Cancel';
 
+  private isOver = false;
+
   @Input()
   set court(court: Court) {
     this.bookingForm.patchValue({
@@ -49,6 +51,9 @@ export class BookingFormComponent implements OnInit {
     this.authorUsername = booking.author.username;
     this.courtName = booking.court.name;
     this.selectedUsers = booking.users;
+    if (new Date(booking.startTime) < new Date()) {
+      this.isOver = true;
+    }
   }
 
   authorUsername: string = '';
@@ -77,11 +82,16 @@ export class BookingFormComponent implements OnInit {
     this.bookingForm.controls[BookingFormKey.End].setValidators([this.isInFutureValidator, this.isAfterStartValidator]);
   }
 
+  isReadOnly() {
+    return this.readOnly || this.isOver;
+  }
+
+
   isInFutureValidator = (form: AbstractControl) => {
     let formDate = new Date(form.value);
     let today = new Date();
 
-    if(formDate < today){
+    if(!this.isReadOnly() && formDate < today){
       return { error: "Lol, what are you doing. The date must be in the future."};
     }
     return null;
@@ -91,7 +101,7 @@ export class BookingFormComponent implements OnInit {
     let formDate = new Date(form.value);
     let startDate = new Date(this.bookingForm.controls[BookingFormKey.Start].value);
 
-    if(formDate < startDate){
+    if(!this.isReadOnly() && formDate < startDate){
       return { error: "Bro, the end date must be after the start date."};
     }
     return null;
@@ -101,7 +111,7 @@ export class BookingFormComponent implements OnInit {
     let formDate = new Date(form.value);
     let endDate = new Date(this.bookingForm.controls[BookingFormKey.End].value);
 
-    if(formDate > endDate){
+    if(!this.isReadOnly() && formDate > endDate){
       return { error: "Start date must be before the end date."};
     }
     return null;

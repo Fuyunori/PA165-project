@@ -13,8 +13,8 @@
 
   <mat-card>
     <tc-booking-form
-      [booking]="displayedBooking"
       [readOnly]="!(userIsAuthor$ | async)"
+      [booking]="displayedBooking"
       cancelButtonText="Delete booking"
       submitButtonText="update"
       (cancelClick)="deleteBooking(displayedBooking)"

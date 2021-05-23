@@ -4,8 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import tennisclub.dao.LessonDao;
+import tennisclub.dao.RankingDao;
+import tennisclub.dao.TournamentDao;
 import tennisclub.dao.UserDao;
 import tennisclub.entity.*;
+import tennisclub.entity.ranking.Ranking;
 import tennisclub.enums.CourtType;
 import tennisclub.enums.Level;
 import tennisclub.enums.Role;
@@ -24,7 +28,10 @@ public class SampleDataLoader implements ApplicationRunner {
     private final CourtService courtService;
     private final BookingService bookingService;
     private final LessonService lessonService;
+    private final LessonDao lessonDao;
     private final TournamentService tournamentService;
+    private final TournamentDao tournamentDao;
+    private final RankingDao rankingDao;
 
     private final TimeService timeService;
 
@@ -34,14 +41,17 @@ public class SampleDataLoader implements ApplicationRunner {
                             CourtService courtService,
                             BookingService bookingService,
                             LessonService lessonService,
-                            TournamentService tournamentService,
-                            TimeService timeService) {
+                            LessonDao lessonDao, TournamentService tournamentService,
+                            TournamentDao tournamentDao, RankingDao rankingDao, TimeService timeService) {
         this.userService = userService;
         this.userDao = userDao;
         this.courtService = courtService;
         this.bookingService = bookingService;
         this.lessonService = lessonService;
+        this.lessonDao = lessonDao;
         this.tournamentService = tournamentService;
+        this.tournamentDao = tournamentDao;
+        this.rankingDao = rankingDao;
         this.timeService = timeService;
     }
 
@@ -58,11 +68,22 @@ public class SampleDataLoader implements ApplicationRunner {
         User user1 = persistUser("Bob Smith", "Bobby123", "password", "bob@gmail.com", Role.USER);
         User user2 = persistUser("Mark Tennisy", "TennisDevil666", "password", "mark@gmail.com", Role.USER);
         User user3 = persistUser("Lucy Fast", "lussy", "passwod", "lucy@gmail.com", Role.USER);
+        User user4 = persistUser("User1 Smith", "user1", "123", "user1@gmail.com", Role.USER);
+        User user5 = persistUser("User2 Smith", "user2", "123", "user2@gmail.com", Role.USER);
+        User user6 = persistUser("User3 Smith", "user3", "123", "user3@gmail.com", Role.USER);
+        User user7 = persistUser("User4 Smith", "user4", "123", "user4@gmail.com", Role.USER);
+        User user8 = persistUser("Human Nocat", "notacat", "123", "hooman@gmail.com", Role.USER);
+
 
         Court court1 = persistCourt("Pretty nice court", "Brno, Czech Republic", CourtType.GRASS);
+        court1.setPreviewImageUrl("https://images.unsplash.com/photo-1567220720374-a67f33b2a6b9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2089&q=80");
         Court court2 = persistCourt("Courty court", "Prague, Czech Republic", CourtType.TURF);
+        Court court3 = persistCourt("Cat court", "Cat Nation", CourtType.GRASS);
+        court3.setPreviewImageUrl("https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80");
+
 
         LocalDate today = timeService.getCurrentDate();
+        LocalDate yesterday = today.minusDays(1);
         LocalDate tomorrow = today.plusDays(1);
         LocalDate dayAfterTomorrow = tomorrow.plusDays(2);
 
@@ -92,11 +113,23 @@ public class SampleDataLoader implements ApplicationRunner {
                 4, Level.ADVANCED, List.of(user1), List.of(admin));
         persistLesson(court2, addTime(tomorrow, 8, 0), addTime(tomorrow, 10, 0),
                 2, Level.ADVANCED, List.of(user3), List.of(admin, user1));
+        persistLesson(court3, addTime(yesterday, 7, 25), addTime(tomorrow, 8, 30),
+                2, Level.ADVANCED, List.of(user8), List.of(user3, user4));
 
         persistTournament(court1, addTime(tomorrow, 16, 0), addTime(tomorrow, 20, 0),
                 "Fun tournament for funny players", 6, 50, List.of(user1, user2));
         persistTournament(court2, addTime(tomorrow, 15, 0), addTime(tomorrow, 21, 0),
                 "Tennis championship", 3, 50_000, List.of(user1, user3, admin));
+
+        Tournament t = persistTournament(court3, addTime(yesterday, 10, 0), addTime(yesterday, 20, 0),
+                "Cat championship", 4, 10_000, List.of(user4, user5, user6, user8));
+        tournamentService.rankPlayer(t, user4, 3);
+        tournamentService.rankPlayer(t, user5, 2);
+        tournamentService.rankPlayer(t, user6, 4);
+        tournamentService.rankPlayer(t, user8, 1);
+
+        persistTournament(court2, addTime(yesterday, 10, 0), addTime(yesterday, 20, 0),
+                "Turnajik", 4, 10_000, List.of(user3, user4, user6, user7));
     }
 
     private User persistUser(String name, String username, String password, String email, Role role) {
@@ -143,12 +176,12 @@ public class SampleDataLoader implements ApplicationRunner {
         lesson.setCapacity(capacity);
         lessonService.create(lesson);
         for (User t : teachers) {
-            lessonService.addTeacher(lesson, t);
+            lesson.addTeacher(t);
         }
         for (User s : students) {
-            lessonService.enrollStudent(lesson, s);
+            lesson.addStudent(s);
         }
-        return lesson;
+        return lessonService.update(lesson);
     }
 
     private Tournament persistTournament(Court court,
@@ -162,9 +195,10 @@ public class SampleDataLoader implements ApplicationRunner {
         tournament.setCourt(court);
         tournamentService.create(tournament);
         for (User p : players) {
-            tournamentService.enrollPlayer(tournament, p);
+            Ranking r = new Ranking(tournament, p);
+            rankingDao.create(r);
         }
-        return tournament;
+        return tournamentService.update(tournament);
     }
 
     private LocalDateTime addTime(LocalDate date, int hour, int minute) {

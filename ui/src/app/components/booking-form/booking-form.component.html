@@ -18,7 +18,7 @@
             type="datetime-local"
             matInput
             [formControlName]="BookingFormKey.Start"
-            [readonly]="readOnly"
+            [readonly]="isReadOnly()"
           />
           <mat-error
                   *ngIf="bookingForm.controls[BookingFormKey.Start].errors?.error as error"
@@ -32,7 +32,7 @@
             matInput
             type="datetime-local"
             [formControlName]="BookingFormKey.End"
-            [readonly]="readOnly"
+            [readonly]="isReadOnly()"
           />
           <mat-error
                   *ngIf="bookingForm.controls[BookingFormKey.End].errors?.error as error"
@@ -42,7 +42,7 @@
         </mat-form-field>
       </div>
 
-      <div class="user-input-container" *ngIf="!readOnly">
+      <div class="user-input-container" *ngIf="!isReadOnly()">
         <mat-form-field appearance="fill" class="user-input">
           <mat-label>User</mat-label>
           <input matInput type="text" [formControlName]="BookingFormKey.User" />
@@ -66,7 +66,7 @@
             <div mat-line>{{ user.username }}</div>
           </mat-list-item>
           <mat-icon
-            *ngIf="!readOnly"
+            *ngIf="!isReadOnly()"
             class="cross-icon"
             (click)="deleteUserItem(user.username)"
             >close</mat-icon
@@ -76,7 +76,7 @@
     </div>
   </div>
 
-  <div class="form-actions" *ngIf="!readOnly">
+  <div class="form-actions" *ngIf="!isReadOnly()">
     <button type="button" mat-flat-button color="warn" (click)="cancel()">
       {{ cancelButtonText }}
     </button>
