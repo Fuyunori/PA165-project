@@ -6,10 +6,14 @@
     [isEnrolledAlready$]="isUserEnrolled$"
     (cancelClick)="deleteTournament(displayedTournament)"
     (addUser)="addPlayer(displayedTournament)"
-    (withdrawUser)="withdrawPlayer(displayedTournament)"
+    (withdrawUser)="withdrawLoggedInPlayer(displayedTournament)"
   ></tc-tournament-form>
-  <tc-tournament-ranking *ngIf="userIsManager$ | async"
+  <tc-tournament-ranking *ngIf="(currentTime > displayedTournament.endTime) || (userIsManager$ | async)"
     [rankings]="displayedTournament.rankings"
-    [endDate]="displayedTournament.endTime">
+    [startDate]="convertToDate(displayedTournament.startTime)"
+    [endDate]="convertToDate(displayedTournament.endTime)"
+    [userIsManager$]="userIsManager$"
+    (withdraw)="withdrawPlayer(displayedTournament, $event)"
+  >
   </tc-tournament-ranking>
 </mat-card>

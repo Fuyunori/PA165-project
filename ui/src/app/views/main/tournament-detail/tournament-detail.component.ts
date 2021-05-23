@@ -23,6 +23,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
   isUserEnrolled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   readonly userIsManager$ = this.auth.userIsManager$;
+  readonly currentTime: Date = new Date();
 
   private readonly unsubscribe$ = new Subject<void>();
 
@@ -83,12 +84,20 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  withdrawPlayer(displayedTournament: Tournament): void {
+  withdrawLoggedInPlayer(displayedTournament: Tournament): void {
     this.currentlyLoggedInUser$.subscribe(user => {
       if(user != null){
         this.tournamentService.withdrawPlayer(displayedTournament.id, user.id);
       }
     });
+  }
+
+  withdrawPlayer(displayedTournament: Tournament, player: User): void {
+    this.tournamentService.withdrawPlayer(displayedTournament.id, player.id);
+  }
+
+  convertToDate(date: Date): Date {
+    return new Date(date);
   }
 
   deleteTournament(displayedTournament: Tournament): void {
