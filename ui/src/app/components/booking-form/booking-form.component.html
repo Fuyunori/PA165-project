@@ -15,11 +15,16 @@
         <mat-form-field appearance="fill" class="date-input date-input-left">
           <mat-label>From</mat-label>
           <input
-            matInput
             type="datetime-local"
+            matInput
             [formControlName]="BookingFormKey.Start"
             [readonly]="readOnly"
           />
+          <mat-error
+                  *ngIf="bookingForm.controls[BookingFormKey.Start].errors?.error as error"
+          >
+            {{ error }}
+          </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill" class="date-input">
           <mat-label>To</mat-label>
@@ -29,6 +34,11 @@
             [formControlName]="BookingFormKey.End"
             [readonly]="readOnly"
           />
+          <mat-error
+                  *ngIf="bookingForm.controls[BookingFormKey.End].errors?.error as error"
+          >
+            {{ error }}
+          </mat-error>
         </mat-form-field>
       </div>
 
