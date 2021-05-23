@@ -2,6 +2,26 @@
 
 Wiki to the project is [here](https://github.com/Fuyunori/PA165-project/wiki).
 
+## Sample user accounts
+
+The only manager account is:
+  * username: admin
+  * password: admin
+
+The user accounts are:
+
+| **Username**   | **Password** | 
+|:---------------|:-------------|
+| Bobby123       | password     |
+| TennisDevil666 | password     |
+| lussy          | passwod      |
+| user1          | 123          |
+| user2          | 123          |
+| user3          | 123          |
+| user4          | 123          |
+| notacat        | 123          |
+
+
 ## System Requirements
 
 - OpenJDK 11
