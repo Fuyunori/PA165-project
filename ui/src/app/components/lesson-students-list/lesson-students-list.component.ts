@@ -56,7 +56,7 @@ export class LessonStudentsComponent implements OnDestroy {
 
   hasStarted(): boolean {
     let startDate: Date = new Date(this.startDate);
-    return this.currentDate < startDate;
+    return this.currentDate >= startDate;
   }
 
   enrollStudent(): void {

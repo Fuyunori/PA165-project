@@ -1,0 +1,21 @@
+<h1>Rank player</h1>
+<mat-form-field appearance="fill" class="field">
+    <mat-label>Capacity</mat-label>
+    <input
+            type="number"
+            matInput
+            [min]="1"
+            [max]="numberOfPlayers"
+            [formControl]="playerPlacement"
+    />
+</mat-form-field>
+<div>
+    <button mat-flat-button color="primary"
+            [disabled]="playerPlacement.pristine || playerPlacement.invalid"
+            (click)="submit()">
+        submit
+    </button>
+    <button mat-flat-button color="warn"  (click)="cancel()">
+        cancel
+    </button>
+</div>

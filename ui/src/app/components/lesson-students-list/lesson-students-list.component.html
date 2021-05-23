@@ -11,7 +11,7 @@
       <div mat-line>{{ student.name }}</div>
       <button
               mat-raised-button
-              *ngIf="hasStarted() && (userIsManager$ | async)"
+              *ngIf="!hasStarted() && (userIsManager$ | async)"
               color="warn"
               (click)="removeStudent(student)"
       >
