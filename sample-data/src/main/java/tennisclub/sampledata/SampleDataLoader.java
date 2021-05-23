@@ -75,6 +75,19 @@ public class SampleDataLoader implements ApplicationRunner {
         persistBooking(court2, addTime(dayAfterTomorrow, 10, 30), addTime(dayAfterTomorrow, 11, 30),
                 user1, List.of(user2, user3));
 
+        persistBooking(court1, addTime(tomorrow.minusDays(2), 10, 30), addTime(tomorrow.minusDays(2), 11, 30),
+                user1, List.of(user2));
+        persistBooking(court1, addTime(tomorrow.minusDays(3), 10, 30), addTime(tomorrow.minusDays(3), 11, 30),
+                user1, List.of(user2));
+        persistBooking(court1, addTime(tomorrow.minusDays(21), 10, 30), addTime(tomorrow.minusDays(21), 11, 30),
+                user1, List.of(user2));
+        persistBooking(court1, addTime(tomorrow.minusDays(24), 10, 30), addTime(tomorrow.minusDays(24), 11, 30),
+                user1, List.of(user2));
+        persistBooking(court1, addTime(tomorrow.minusDays(50), 10, 30), addTime(tomorrow.minusDays(50), 11, 30),
+                user1, List.of(user2));
+        persistBooking(court1, addTime(tomorrow.minusDays(100), 10, 30), addTime(tomorrow.minusDays(100), 11, 30),
+                user1, List.of(user2));
+
         persistLesson(court1, addTime(tomorrow, 12, 0), addTime(tomorrow, 14, 30),
                 4, Level.ADVANCED, List.of(user1), List.of(admin));
         persistLesson(court2, addTime(tomorrow, 8, 0), addTime(tomorrow, 10, 0),

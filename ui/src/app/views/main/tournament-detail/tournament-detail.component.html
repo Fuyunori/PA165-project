@@ -8,7 +8,10 @@
     (addUser)="addPlayer(displayedTournament)"
     (withdrawUser)="withdrawLoggedInPlayer(displayedTournament)"
   ></tc-tournament-form>
-  <tc-tournament-ranking *ngIf="(currentTime > displayedTournament.endTime) || (userIsManager$ | async)"
+  <tc-tournament-ranking
+    *ngIf="
+      currentTime > displayedTournament.endTime || (userIsManager$ | async)
+    "
     [rankings]="displayedTournament.rankings"
     [startDate]="convertToDate(displayedTournament.startTime)"
     [endDate]="convertToDate(displayedTournament.endTime)"

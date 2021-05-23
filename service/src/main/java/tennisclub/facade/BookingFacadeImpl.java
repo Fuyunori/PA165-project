@@ -7,21 +7,16 @@ import org.springframework.transaction.annotation.Transactional;
 import tennisclub.dto.booking.BookingCreateDTO;
 import tennisclub.dto.booking.BookingFullDTO;
 import tennisclub.dto.booking.BookingUpdateDTO;
-import tennisclub.dto.lesson.LessonFullDTO;
 import tennisclub.dto.user.UserDTO;
 import tennisclub.entity.Booking;
-import tennisclub.entity.Court;
 import tennisclub.entity.User;
 import tennisclub.exceptions.FacadeLayerException;
-import tennisclub.exceptions.ServiceLayerException;
 import tennisclub.service.BookingService;
 import tennisclub.service.CourtService;
-import tennisclub.service.TimeService;
 import tennisclub.service.UserService;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -131,5 +126,11 @@ public class BookingFacadeImpl implements BookingFacade {
         }
         bookingService.update(booking);
         return mapper.map(booking, BookingFullDTO.class);
+    }
+
+    @Override
+    public Boolean userIsAuthor(Long bookingId, Long actorId) {
+        Booking booking = bookingService.findById(bookingId);
+        return actorId.equals(booking.getAuthor().getId());
     }
 }

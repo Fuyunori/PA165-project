@@ -65,17 +65,25 @@
     </div>
   </div>
   <div class="form-actions" *ngIf="readOnly">
-    <button *ngIf="!(isStudent$ | async) && !(isTeacher$ | async); else enrolledAlready"
-            mat-flat-button color="primary" (click)="enroll()">
+    <button
+      *ngIf="
+        !(isStudent$ | async) && !(isTeacher$ | async);
+        else enrolledAlready
+      "
+      mat-flat-button
+      color="primary"
+      (click)="enroll()"
+    >
       enroll into the lesson
     </button>
     <ng-template #enrolledAlready>
-      <button *ngIf="(isStudent$ | async) && !(isTeacher$ | async)"
-              type="button"
-              mat-flat-button
-              color="primary"
-              (click)="withdraw()"
-              [disabled]="(isTeacher$ | async)"
+      <button
+        *ngIf="(isStudent$ | async) && !(isTeacher$ | async)"
+        type="button"
+        mat-flat-button
+        color="primary"
+        (click)="withdraw()"
+        [disabled]="isTeacher$ | async"
       >
         withdraw from tournament
       </button>
@@ -85,7 +93,8 @@
     <button type="button" mat-flat-button color="warn" (click)="cancel()">
       {{ cancelButtonText }}
     </button>
-    <button *ngIf="!readOnly"
+    <button
+      *ngIf="!readOnly"
       mat-flat-button
       color="primary"
       [disabled]="lessonForm.invalid || lessonForm.pristine"

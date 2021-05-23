@@ -79,4 +79,13 @@ public interface BookingFacade {
      * @return the updated booking
      */
     BookingFullDTO update(Long bookingId, BookingUpdateDTO dto);
+
+    /**
+     * Verify that the provided user id is the same as the id of the author
+     * of the given booking
+     *
+     * @param bookingId the id of the booking
+     * @param actorId the id of the user
+     */
+    Boolean userIsAuthor(Long bookingId, Long actorId);
 }

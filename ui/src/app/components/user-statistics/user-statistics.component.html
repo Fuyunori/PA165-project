@@ -1,0 +1,18 @@
+<mat-card class="stat-card">
+  <mat-card-header>
+    <mat-card-title>User statistics</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item>
+        Booked hours last week: {{ hoursLastWeek$ | async }}
+      </mat-list-item>
+      <mat-list-item>
+        Booked hours last month: {{ hoursLastMonth$ | async }}
+      </mat-list-item>
+      <mat-list-item>
+        Booked hours last year: {{ hoursLastYear$ | async }}
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

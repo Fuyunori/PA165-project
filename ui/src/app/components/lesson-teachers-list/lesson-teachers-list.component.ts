@@ -13,7 +13,6 @@ import { LessonService } from '../../services/lesson.service';
   templateUrl: './lesson-teachers-list.component.html',
   styleUrls: ['./lesson-teachers-list.component.scss'],
 })
-
 export class LessonTeachersListComponent implements OnDestroy {
   @Input()
   students: User[] = [];
@@ -32,23 +31,25 @@ export class LessonTeachersListComponent implements OnDestroy {
 
   private readonly unsubscribe$ = new Subject<void>();
 
-  constructor(private readonly lessonService: LessonService,
-                private readonly dialog: MatDialog,) { }
-
-
+  constructor(
+    private readonly lessonService: LessonService,
+    private readonly dialog: MatDialog,
+  ) {}
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
-    addTeacher(): void {
-      const dialog = this.dialog.open(AddUserViewComponent, { disableClose: true });
-      dialog.componentInstance.usersToExcludePrimary = this.teachers;
-      dialog.componentInstance.usersToExcludeSecondary = this.students;
-      dialog.componentInstance.actionText = "add";
-      dialog.componentInstance.excludedTextPrimary = "assigned already";
-      dialog.componentInstance.excludedTextSecondary = "enrolled already";
+  addTeacher(): void {
+    const dialog = this.dialog.open(AddUserViewComponent, {
+      disableClose: true,
+    });
+    dialog.componentInstance.usersToExcludePrimary = this.teachers;
+    dialog.componentInstance.usersToExcludeSecondary = this.students;
+    dialog.componentInstance.actionText = 'add';
+    dialog.componentInstance.excludedTextPrimary = 'assigned already';
+    dialog.componentInstance.excludedTextSecondary = 'enrolled already';
 
     dialog.componentInstance.selectedUser
       .pipe(takeUntil(this.unsubscribe$))

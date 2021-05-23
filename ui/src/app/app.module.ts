@@ -41,6 +41,7 @@ import { AddUserViewComponent } from './components/add-user-view/add-user-view.c
 import { SearchUserPipe } from './pipes/search-user.pipe';
 import { LessonTeachersListComponent } from './components/lesson-teachers-list/lesson-teachers-list.component';
 import { TournamentRankingComponent } from './components/tournament-ranking/tournament-ranking.component';
+import { UserStatisticsComponent } from './components/user-statistics/user-statistics.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { TournamentRankingComponent } from './components/tournament-ranking/tour
     SearchUserPipe,
     LessonTeachersListComponent,
     TournamentRankingComponent,
+    UserStatisticsComponent,
   ],
   imports: [
     BrowserModule,
