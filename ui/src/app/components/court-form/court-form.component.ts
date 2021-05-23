@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { CourtType, UnknownCourt } from '../../models/court.model';
+import { Observable } from 'rxjs';
 
 enum CourtFormKey {
   Name = 'Name',
@@ -26,6 +27,13 @@ export class CourtFormComponent {
       [CourtFormKey.Type]: court.type,
       [CourtFormKey.ImageUrl]: court.previewImageUrl,
     });
+  }
+
+  @Input()
+  set nameValidator(
+    validator: (form: AbstractControl) => Observable<{ error: string } | null>,
+  ) {
+    this.courtForm.controls[CourtFormKey.Name].setAsyncValidators([validator]);
   }
 
   @Input() readOnly = false;

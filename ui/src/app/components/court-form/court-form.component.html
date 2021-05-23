@@ -12,6 +12,11 @@
           [formControlName]="CourtFormKey.Name"
           [readonly]="readOnly"
         />
+        <mat-error
+          *ngIf="courtForm.controls[CourtFormKey.Name].errors?.error as error"
+        >
+          {{ error }}
+        </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill" class="field">
         <mat-label>Address</mat-label>
