@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import {filter, map, take, takeUntil} from 'rxjs/operators';
 import { Court, UnknownCourt } from '../../../models/court.model';
 import { AuthService } from '../../../services/auth.service';
 import { CourtService } from '../../../services/court.service';
@@ -9,17 +9,10 @@ import { EventService } from '../../../services/event.service';
 import { Event, EventType } from '../../../models/event.model';
 import { MatDialog } from '@angular/material/dialog';
 import { BookingFormComponent } from '../../../components/booking-form/booking-form.component';
-import { Booking, UnknownBooking } from '../../../models/booking.model';
+import { UnknownBooking } from '../../../models/booking.model';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user.model';
 import { BookingService } from '../../../services/booking.service';
-import { NotificationService } from '../../../services/notification.service';
-
-enum EventTableColumn {
-  Type = 'Type',
-  StartTime = 'StartTime',
-  EndTime = 'EndTime',
-}
 
 @Component({
   selector: 'tc-court-detail',
@@ -28,22 +21,10 @@ enum EventTableColumn {
 })
 export class CourtDetailComponent implements OnInit, OnDestroy {
   displayedCourt$: Observable<Court | null> = of(null);
-  displayedEvents$: Observable<Event[]> = of([]);
+  displayedEventsAll$: Observable<Event[]> = of([]);
+  displayedEventsFuture$: Observable<Event[]> = of([]);
 
   readonly userIsManager$ = this.auth.userIsManager$;
-
-  readonly EventTableColumn = EventTableColumn;
-  readonly eventColumns: EventTableColumn[] = [
-    EventTableColumn.Type,
-    EventTableColumn.StartTime,
-    EventTableColumn.EndTime,
-  ];
-
-  readonly typeNames: Record<EventType, string> = {
-    LESSON: 'Lesson',
-    BOOKING: 'Booking',
-    TOURNAMENT: 'Tournament',
-  };
 
   private readonly unsubscribe$ = new Subject<void>();
 
@@ -63,8 +44,12 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
       this.courtService.getCourtById(id);
       this.displayedCourt$ = this.courtService.singleCourt$(id);
 
+      let today = new Date();
       this.eventService.getCourtEvents(id);
-      this.displayedEvents$ = this.eventService.courtEvents$(id);
+      this.displayedEventsAll$ = this.eventService.courtEvents$(id);
+      this.displayedEventsFuture$ = this.eventService.courtEvents$(id).pipe(
+          map(events => events.filter(event => new Date(event.endTime) >= today))
+      );
     });
   }
 
@@ -82,10 +67,6 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
       this.courtService.deleteCourt(displayedCourt.id);
       this.router.navigateByUrl('/main/dashboard');
     }
-  }
-
-  asEventType(type: any): EventType {
-    return type;
   }
 
   addBooking(court: Court): void {
