@@ -25,9 +25,9 @@ export class BookingService {
     orderedIds: [],
   });
 
-    readonly unorderedBookings$: Observable<Booking[]> = this.state$.pipe(
-        map(({ entities, orderedIds }) => Object.values(entities)),
-    );
+  readonly unorderedBookings$: Observable<Booking[]> = this.state$.pipe(
+    map(({ entities, orderedIds }) => Object.values(entities)),
+  );
 
   readonly singleBooking$ = (id: number): Observable<Booking | null> =>
     this.state$.pipe(map(({ entities }) => entities[id] ?? null));
@@ -38,14 +38,14 @@ export class BookingService {
     private readonly eventService: EventService,
   ) {}
 
-    getBookings(): void {
-        this.http.get<Booking[]>(RESOURCE_URL).subscribe(bookings => {
-            this.state$.next({
-                entities: bookings.reduce((acc, c) => ({ ...acc, [c.id]: c }), {}),
-                orderedIds: bookings.map(({ id }) => id),
-            });
-        });
-    }
+  getBookings(): void {
+    this.http.get<Booking[]>(RESOURCE_URL).subscribe(bookings => {
+      this.state$.next({
+        entities: bookings.reduce((acc, c) => ({ ...acc, [c.id]: c }), {}),
+        orderedIds: bookings.map(({ id }) => id),
+      });
+    });
+  }
 
   getBookingById(id: number): void {
     this.http

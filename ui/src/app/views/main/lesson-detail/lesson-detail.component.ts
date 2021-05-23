@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {async, BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import { async, BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { LessonService } from '../../../services/lesson.service';
@@ -7,7 +7,7 @@ import { filter, finalize, take, takeUntil, takeWhile } from 'rxjs/operators';
 import { Lesson } from '../../../models/lesson.model';
 import { User } from '../../../models/user.model';
 import { UserService } from '../../../services/user.service';
-import {Ranking} from "../../../models/ranking.model";
+import { Ranking } from '../../../models/ranking.model';
 
 @Component({
   selector: 'tc-lesson-detail',
@@ -17,8 +17,12 @@ import {Ranking} from "../../../models/ranking.model";
 export class LessonDetailComponent implements OnInit, OnDestroy {
   displayedLesson$: Observable<Lesson | null> = of(null);
   currentlyLoggedInUser$: Observable<User | null> = of(null);
-  isUserTeacher$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  isUserStudent$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isUserTeacher$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false,
+  );
+  isUserStudent$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false,
+  );
 
   readonly userIsManager$ = this.auth.userIsManager$;
 
@@ -40,23 +44,24 @@ export class LessonDetailComponent implements OnInit, OnDestroy {
     this.auth.userId$.subscribe(loggedInUserId => {
       if (loggedInUserId != null) {
         this.userService.getUserById(loggedInUserId);
-        this.currentlyLoggedInUser$ = this.userService.singleUser$(loggedInUserId);
+        this.currentlyLoggedInUser$ =
+          this.userService.singleUser$(loggedInUserId);
       }
     });
     this.displayedLesson$.subscribe(lesson => {
       this.currentlyLoggedInUser$.subscribe(user => {
-        if(lesson != null && user != null){
+        if (lesson != null && user != null) {
           let teachers = lesson.teachers;
-          if(teachers != null) {
+          if (teachers != null) {
             this.isTeacher(teachers, user);
           }
 
           let students = lesson.students;
-          if(students != null) {
+          if (students != null) {
             this.isStudent(students, user);
           }
         }
-      })
+      });
     });
   }
 
@@ -89,7 +94,7 @@ export class LessonDetailComponent implements OnInit, OnDestroy {
 
   enrollUser(displayedLesson: Lesson): void {
     this.currentlyLoggedInUser$.subscribe(user => {
-      if(user != null){
+      if (user != null) {
         this.lessonService.enrollStudent(displayedLesson.id, user);
       }
     });
@@ -97,7 +102,7 @@ export class LessonDetailComponent implements OnInit, OnDestroy {
 
   withdrawUser(displayedLesson: Lesson): void {
     this.currentlyLoggedInUser$.subscribe(user => {
-      if(user != null){
+      if (user != null) {
         this.lessonService.withdrawStudent(displayedLesson.id, user.id);
       }
     });

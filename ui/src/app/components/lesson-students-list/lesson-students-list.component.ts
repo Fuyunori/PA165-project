@@ -31,9 +31,10 @@ export class LessonStudentsComponent implements OnDestroy {
 
   private readonly unsubscribe$ = new Subject<void>();
 
-
-  constructor(private readonly lessonService: LessonService,
-              private readonly dialog: MatDialog,) { }
+  constructor(
+    private readonly lessonService: LessonService,
+    private readonly dialog: MatDialog,
+  ) {}
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
@@ -46,9 +47,9 @@ export class LessonStudentsComponent implements OnDestroy {
     });
     dialog.componentInstance.usersToExcludePrimary = this.students;
     dialog.componentInstance.usersToExcludeSecondary = this.teachers;
-    dialog.componentInstance.actionText = "enroll";
-    dialog.componentInstance.excludedTextPrimary = "enrolled already";
-    dialog.componentInstance.excludedTextSecondary = "teaches lesson";
+    dialog.componentInstance.actionText = 'enroll';
+    dialog.componentInstance.excludedTextPrimary = 'enrolled already';
+    dialog.componentInstance.excludedTextSecondary = 'teaches lesson';
 
     dialog.componentInstance.selectedUser
       .pipe(takeUntil(this.unsubscribe$))

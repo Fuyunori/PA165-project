@@ -51,7 +51,6 @@ export class UserService {
     });
   }
 
-
   getUserByUsername(username: string): Observable<User | null> {
     let queryParams: HttpParams = new HttpParams().set('username', username);
     return this.http
