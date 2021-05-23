@@ -16,6 +16,7 @@ import {filter, take} from "rxjs/operators";
 import {Court} from "../../models/court.model";
 import {LessonService} from "../../services/lesson.service";
 import {AuthService} from "../../services/auth.service";
+import {BehaviorSubject} from "rxjs";
 
 enum LessonFormKey {
   Start = 'Start',
@@ -34,6 +35,7 @@ export class LessonFormComponent implements OnInit {
   @Output() readonly cancelClick = new EventEmitter<void>();
   @Output() readonly lessonChange = new EventEmitter<UnknownLesson>();
   @Output() readonly enrollUser = new EventEmitter<void>();
+  @Output() readonly withdrawUser = new EventEmitter<void>();
 
   @Input()
   set lesson(lesson: UnknownLesson) {
@@ -47,6 +49,8 @@ export class LessonFormComponent implements OnInit {
   }
 
   @Input() readOnly = false;
+  @Input() isStudent$ = new BehaviorSubject<boolean>(false);
+  @Input() isTeacher$ = new BehaviorSubject<boolean>(false);
   @Input() submitButtonText = 'Submit';
   @Input() cancelButtonText = 'Cancel';
 
@@ -97,6 +101,10 @@ export class LessonFormComponent implements OnInit {
 
   enroll(): void {
     this.enrollUser.emit();
+  }
+
+  withdraw(): void {
+    this.withdrawUser.emit();
   }
 
   cancel(): void {

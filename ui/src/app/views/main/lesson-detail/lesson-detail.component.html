@@ -3,8 +3,11 @@
     cancelButtonText="Delete lesson"
     [readOnly]="!(userIsManager$ | async)"
     [lesson]="displayedLesson"
+    [isStudent$]="isUserStudent$"
+    [isTeacher$]="isUserTeacher$"
     (cancelClick)="deleteLesson(displayedLesson)"
     (enrollUser)="enrollUser(displayedLesson)"
+    (withdrawUser)="withdrawUser(displayedLesson)"
   ></tc-lesson-form>
   <tc-lesson-students-list
     *ngIf="userIsManager$ | async"
