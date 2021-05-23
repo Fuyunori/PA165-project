@@ -84,6 +84,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
     public void verifyUser(String jwt, Long expectedUserId) {
         Long id = getIdOrThrowUnauthorised(jwt);
 
@@ -92,6 +93,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
     public void verifyUserOrManager(String jwt, String expectedUsername) {
         String username = getUsernameOrThrowUnauthorised(jwt);
         Role role = getRoleOrThrowUnauthorised(jwt);
@@ -101,6 +103,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
     public void verifyUserOrManager(String jwt, Long expectedUserId) {
         Role role = getRoleOrThrowUnauthorised(jwt);
         Long id = getIdOrThrowUnauthorised(jwt);
@@ -108,6 +111,11 @@ public class UserServiceImpl implements UserService {
         if ( (!id.equals(expectedUserId)) && role != Role.MANAGER) {
             throw new ForbiddenException();
         }
+    }
+
+    @Override
+    public Long getUserIdFromToken(String jwt) {
+        return getIdOrThrowUnauthorised(jwt);
     }
 
     @Override
