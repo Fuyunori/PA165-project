@@ -13,6 +13,7 @@
     [startDate]="convertToDate(displayedTournament.startTime)"
     [endDate]="convertToDate(displayedTournament.endTime)"
     [userIsManager$]="userIsManager$"
+    [selectedTournament]="displayedTournament"
     (withdraw)="withdrawPlayer(displayedTournament, $event)"
   >
   </tc-tournament-ranking>

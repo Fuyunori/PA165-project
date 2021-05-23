@@ -16,4 +16,6 @@
             <button mat-raised-button *ngIf="(currentDate < startDate) && (userIsManager$ | async) " color="warn" (click)="withdrawPlayer(ranking.player)"> withdraw</button>
         </mat-list-item>
     </mat-list>
+    <button *ngIf="(currentDate < startDate) && (userIsManager$ | async)"
+            mat-raised-button color="primary" class="button" (click)="addParticipant()">Add a participant</button>
 </mat-expansion-panel>
