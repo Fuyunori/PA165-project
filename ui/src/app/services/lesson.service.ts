@@ -111,7 +111,7 @@ export class LessonService {
 
   removeTeacher(lessonId: number, teacherId: number): void {
     this.http
-      .delete<Lesson>(`${RESOURCE_URL}/${lessonId}/teacher/${teacherId}`)
+      .delete<Lesson>(`${RESOURCE_URL}/${lessonId}/teachers/${teacherId}`)
       .subscribe((resLesson: Lesson) => {
         const { entities, orderedIds } = this.state$.value;
         this.state$.next({

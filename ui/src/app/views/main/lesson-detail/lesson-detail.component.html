@@ -23,11 +23,15 @@
   </tc-lesson-students-list>
   <tc-lesson-teachers-list
     *ngIf="userIsManager$ | async"
+    [startDate]="displayedLesson.startTime"
+    [endDate]="displayedLesson.endTime"
+    [userIsManager$]="userIsManager$"
     [canAddTeacher]="userIsManager$ | async"
     [canRemoveTeacher]="userIsManager$ | async"
     [students]="displayedLesson.students"
     [teachers]="displayedLesson.teachers"
     [selectedLesson]="displayedLesson"
+    (withdraw)="withdrawTeacher(displayedLesson, $event)"
   >
   </tc-lesson-teachers-list>
 </mat-card>

@@ -108,6 +108,10 @@ export class LessonDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  withdrawTeacher(displayedLesson: Lesson, teacher: User): void {
+    this.lessonService.removeTeacher(displayedLesson.id, teacher.id);
+  }
+
   rescheduleLesson(lesson: Lesson, rescheduledLesson: UnknownLesson): void {
     this.lessonService.rescheduleLesson(lesson.id, rescheduledLesson);
   }
