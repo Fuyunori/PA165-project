@@ -30,13 +30,14 @@ public class EventController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<EventWithCourtDTO>> getEvents(@RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<List<EventWithCourtDTO>> getEvents(@RequestHeader(value = "Authorization", required = false) String jwt) {
         userService.verifyRole(jwt, Role.USER);
         return ResponseEntity.ok(eventFacade.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EventWithCourtDTO> getEventById(@PathVariable Long id, @RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<EventWithCourtDTO> getEventById(@PathVariable Long id,
+                                                          @RequestHeader(value = "Authorization", required = false) String jwt) {
         userService.verifyRole(jwt, Role.USER);
         return ResponseEntity.ok(eventFacade.findById(id));
     }
@@ -44,7 +45,7 @@ public class EventController {
     @PutMapping("/{id}")
     public ResponseEntity<EventWithCourtDTO> reschedule(@PathVariable Long id,
                                                         @Valid @RequestBody EventRescheduleDTO rescheduleDTO,
-                                                        @RequestHeader("Authorization") String jwt) {
+                                                        @RequestHeader(value = "Authorization", required = false) String jwt) {
         userService.verifyRole(jwt, Role.USER);
         return ResponseEntity.ok(eventFacade.reschedule(id, rescheduleDTO));
     }

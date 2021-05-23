@@ -37,27 +37,27 @@ public class BookingController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<BookingFullDTO>> getBookings(@RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<List<BookingFullDTO>> getBookings(@RequestHeader(value = "Authorization", required = false) String jwt) {
         userService.verifyRole(jwt, Role.USER);
         return ResponseEntity.ok(bookingFacade.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BookingFullDTO> getBookingById(@PathVariable Long id,
-                                                         @RequestHeader("Authorization") String jwt) {
+                                                         @RequestHeader(value = "Authorization", required = false) String jwt) {
         userService.verifyRole(jwt, Role.USER);
         return ResponseEntity.ok(bookingFacade.findById(id));
     }
 
     @PostMapping
     public ResponseEntity<BookingFullDTO> createBooking(@Valid @RequestBody BookingCreateDTO createDTO,
-                                                        @RequestHeader("Authorization") String jwt) {
+                                                        @RequestHeader(value = "Authorization", required = false) String jwt) {
         userService.verifyRole(jwt, Role.USER);
         return ResponseEntity.status(HttpStatus.CREATED).body(bookingFacade.makeBooking(createDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBooking(@PathVariable Long id, @RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<Void> deleteBooking(@PathVariable Long id, @RequestHeader(value = "Authorization", required = false) String jwt) {
         userService.verifyRole(jwt, Role.USER);
         if (!bookingFacade.userIsAuthor(id, userService.getUserIdFromToken(jwt))) {
             throw new UnauthorisedException();
@@ -69,7 +69,7 @@ public class BookingController {
     @PutMapping("/{id}")
     public ResponseEntity<BookingFullDTO> putBooking(@PathVariable Long id,
                                                      @Valid @RequestBody BookingUpdateDTO dto,
-                                                     @RequestHeader("Authorization") String jwt) {
+                                                     @RequestHeader(value = "Authorization", required = false) String jwt) {
         userService.verifyRole(jwt, Role.USER);
         if (!bookingFacade.userIsAuthor(id, userService.getUserIdFromToken(jwt))) {
             throw new UnauthorisedException();
