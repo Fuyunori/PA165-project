@@ -45,6 +45,7 @@ import { UserStatisticsComponent } from './components/user-statistics/user-stati
 import {MatTabsModule} from "@angular/material/tabs";
 import { EventListComponent } from './components/event-list/event-list.component';
 import { SortRankingsPipe } from './pipes/sort-rankings.pipe';
+import { RankPlayerDialogComponent } from './components/rank-player-dialog/rank-player-dialog.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { SortRankingsPipe } from './pipes/sort-rankings.pipe';
     UserStatisticsComponent,
     EventListComponent,
     SortRankingsPipe,
+    RankPlayerDialogComponent,
   ],
   imports: [
     BrowserModule,
