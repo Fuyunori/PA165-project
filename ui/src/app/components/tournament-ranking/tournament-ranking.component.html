@@ -8,9 +8,9 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
   <mat-list role="list">
-    <mat-list-item *ngFor="let ranking of rankings">
-      <mat-icon mat-list-icon>person</mat-icon>
-      <div mat-line>{{ ranking.player.name }}</div>
+    <mat-list-item *ngFor="let ranking of rankings | sortRankings">
+      <div mat-line> {{ ranking.playerPlacement }}</div>
+      <div mat-line> {{ ranking.player.name }}</div>
       <button
         mat-raised-button
         *ngIf="currentDate < startDate && (userIsManager$ | async)"
