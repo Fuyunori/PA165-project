@@ -3,6 +3,7 @@
     submitButtonText="Reschedule tournament"
     cancelButtonText="Delete tournament"
     (tournamentChange)="rescheduleTournament(displayedTournament, $event)"
+    [adding]="false"
     [readOnly]="!(userIsManager$ | async)"
     [reschedule]="!!(userIsManager$ | async)"
     [tournament]="displayedTournament"

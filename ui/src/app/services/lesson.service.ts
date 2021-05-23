@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { NotificationService } from './notification.service';
 import { User } from '../models/user.model';
 import {Event, UnknownEvent} from "../models/event.model";
+import {EventService} from "./event.service";
 
 const RESOURCE_URL = `${environment.apiBaseUrl}/lessons`;
 
@@ -34,6 +35,7 @@ export class LessonService {
   constructor(
     private readonly http: HttpClient,
     private readonly notification: NotificationService,
+    private readonly eventService: EventService,
   ) {}
 
   getLessons(): void {
@@ -70,71 +72,84 @@ export class LessonService {
           entities: { ...entities, [resLesson.id]: resLesson },
           orderedIds: [...orderedIds, resLesson.id],
         });
+          this.eventService.getCourtEvents(resLesson.court.id);
       });
   }
 
   enrollStudent(lessonId: number, user: User): void {
     this.http
       .post<Lesson>(`${RESOURCE_URL}/${lessonId}/students`, user)
+      .pipe(this.notification.onError('Could not enroll student!'))
       .subscribe((resLesson: Lesson) => {
         const { entities, orderedIds } = this.state$.value;
         this.state$.next({
           entities: { ...entities, [resLesson.id]: resLesson },
           orderedIds,
         });
+          this.eventService.getCourtEvents(resLesson.court.id);
       });
   }
 
   addTeacher(lessonId: number, user: User): void {
     this.http
       .post<Lesson>(`${RESOURCE_URL}/${lessonId}/teachers`, user)
+      .pipe(this.notification.onError('Could not assign the teacher!'))
       .subscribe((resLesson: Lesson) => {
         const { entities, orderedIds } = this.state$.value;
         this.state$.next({
           entities: { ...entities, [resLesson.id]: resLesson },
           orderedIds,
         });
+          this.eventService.getCourtEvents(resLesson.court.id);
       });
   }
 
   withdrawStudent(lessonId: number, playerId: number): void {
     this.http
       .delete<Lesson>(`${RESOURCE_URL}/${lessonId}/students/${playerId}`)
-      .subscribe((resLesson: Lesson) => {
+        .pipe(this.notification.onError('Could not withdraw the student!'))
+        .subscribe((resLesson: Lesson) => {
         const { entities, orderedIds } = this.state$.value;
         this.state$.next({
           entities: { ...entities, [resLesson.id]: resLesson },
           orderedIds,
         });
+            this.eventService.getCourtEvents(resLesson.court.id);
       });
   }
 
   removeTeacher(lessonId: number, teacherId: number): void {
     this.http
       .delete<Lesson>(`${RESOURCE_URL}/${lessonId}/teachers/${teacherId}`)
-      .subscribe((resLesson: Lesson) => {
+        .pipe(this.notification.onError('Could not remove the teacher!'))
+        .subscribe((resLesson: Lesson) => {
         const { entities, orderedIds } = this.state$.value;
         this.state$.next({
           entities: { ...entities, [resLesson.id]: resLesson },
           orderedIds,
         });
+            this.eventService.getCourtEvents(resLesson.court.id);
       });
   }
 
   rescheduleLesson(lessonId: number, event: UnknownEvent): void {
       this.http
           .put<Lesson>(`${RESOURCE_URL}/${lessonId}`, event)
+          .pipe(this.notification.onError('Could not reschedule the lesson!'))
           .subscribe((resLesson: Lesson) => {
               const { entities, orderedIds } = this.state$.value;
               this.state$.next({
                   entities: { ...entities, [resLesson.id]: resLesson },
                   orderedIds,
               });
+              this.eventService.getCourtEvents(resLesson.court.id);
           });
   }
 
   deleteLesson(id: number): void {
-    this.http.delete(`${RESOURCE_URL}/${id}`).subscribe(() => {
+    this.http.delete(`${RESOURCE_URL}/${id}`)
+        .pipe(this.notification.onError('Could not delete the lesson!'))
+        .subscribe(() => {
       const { entities, orderedIds } = this.state$.value;
       this.state$.next({
         entities: Object.values(entities)
@@ -147,6 +162,9 @@ export class LessonService {
             {},
           ),
         orderedIds: orderedIds.filter((orderedId: number) => orderedId !== id),
+      });
+      this.singleLesson$(id).subscribe((lesson) => {
+          this.eventService.getCourtEvents(lesson!.court.id);
       });
     });
   }
