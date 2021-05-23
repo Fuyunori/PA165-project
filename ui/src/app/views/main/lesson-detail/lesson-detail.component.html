@@ -14,11 +14,15 @@
   ></tc-lesson-form>
   <tc-lesson-students-list
     *ngIf="(isUserTeacher$ | async) || (userIsManager$ | async)"
+    [startDate]="displayedLesson.startTime"
+    [endDate]="displayedLesson.endTime"
+    [userIsManager$]="userIsManager$"
     [canAddStudent]="userIsManager$ | async"
     [canWithdrawStudent]="userIsManager$ | async"
     [students]="displayedLesson.students"
     [teachers]="displayedLesson.teachers"
     [selectedLesson]="displayedLesson"
+    (withdraw)="withdrawStudent(displayedLesson, $event)"
   >
   </tc-lesson-students-list>
   <tc-lesson-teachers-list
