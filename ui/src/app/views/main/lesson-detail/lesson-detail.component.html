@@ -1,10 +1,13 @@
 <mat-card *ngIf="displayedLesson$ | async as displayedLesson">
   <tc-lesson-form
+    submitButtonText="Reschedule lesson"
     cancelButtonText="Delete lesson"
     [readOnly]="!(userIsManager$ | async)"
+    [reschedule]="!!(userIsManager$ | async)"
     [lesson]="displayedLesson"
     [isStudent$]="isUserStudent$"
     [isTeacher$]="isUserTeacher$"
+    (lessonChange)="rescheduleLesson(displayedLesson, $event)"
     (cancelClick)="deleteLesson(displayedLesson)"
     (enrollUser)="enrollUser(displayedLesson)"
     (withdrawUser)="withdrawUser(displayedLesson)"

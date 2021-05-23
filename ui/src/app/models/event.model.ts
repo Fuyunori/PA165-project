@@ -13,3 +13,5 @@ export type Event = {
   startTime: Date;
   endTime: Date;
 };
+
+export type UnknownEvent = Omit<Event, 'id'>;

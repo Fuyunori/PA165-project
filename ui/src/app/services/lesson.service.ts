@@ -3,9 +3,10 @@ import { environment } from 'src/environments/environment';
 import { Lesson, UnknownLesson } from '../models/lesson.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { NotificationService } from './notification.service';
 import { User } from '../models/user.model';
+import {Event, UnknownEvent} from "../models/event.model";
 
 const RESOURCE_URL = `${environment.apiBaseUrl}/lessons`;
 
@@ -118,6 +119,18 @@ export class LessonService {
           orderedIds,
         });
       });
+  }
+
+  rescheduleLesson(lessonId: number, event: UnknownEvent): void {
+      this.http
+          .put<Lesson>(`${RESOURCE_URL}/${lessonId}`, event)
+          .subscribe((resLesson: Lesson) => {
+              const { entities, orderedIds } = this.state$.value;
+              this.state$.next({
+                  entities: { ...entities, [resLesson.id]: resLesson },
+                  orderedIds,
+              });
+          });
   }
 
   deleteLesson(id: number): void {
