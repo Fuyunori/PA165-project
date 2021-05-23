@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UnknownTournament } from '../../models/tournament.model';
-import { FormBuilder, Validators } from '@angular/forms';
+import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { TournamentService } from '../../services/tournament.service';
 import { CourtService } from '../../services/court.service';
@@ -77,6 +77,37 @@ export class TournamentFormComponent implements OnInit {
         this.tournamentForm.get(TournamentFormKey.Court)?.setValue(court.id);
       }
     });
+    this.tournamentForm.controls[TournamentFormKey.Start].setValidators([this.isLessThanCurrentTimeValidation, this.isGreaterThanEndTimeValidation]);
+    this.tournamentForm.controls[TournamentFormKey.End].setValidators([this.isLessThanCurrentTimeValidation, this.isSmallerThanStartTimeValidation]);
+  }
+
+  isLessThanCurrentTimeValidation = (form: AbstractControl) => {
+    let formDate = new Date(form.value);
+
+    if(formDate < this.currentTime){
+      return { error: "The date must at least in the present time."};
+    }
+    return null;
+  }
+
+  isGreaterThanEndTimeValidation = (form: AbstractControl) => {
+    let formDate = new Date(form.value);
+    let endDate = new Date(this.tournamentForm.controls[TournamentFormKey.End].value);
+
+    if(formDate > endDate){
+      return { error: "Start date must be before the end date."};
+    }
+    return null;
+  }
+
+  isSmallerThanStartTimeValidation = (form: AbstractControl) => {
+    let formDate = new Date(form.value);
+    let startDate = new Date(this.tournamentForm.controls[TournamentFormKey.Start].value);
+
+    if(formDate < startDate){
+      return { error: "End date must be after the start date."};
+    }
+    return null;
   }
 
   submit(): void {
