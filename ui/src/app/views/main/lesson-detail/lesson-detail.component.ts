@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import {async, Observable, of, Subject} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { LessonService } from '../../../services/lesson.service';
-import { takeUntil } from 'rxjs/operators';
+import {filter, finalize, take, takeUntil, takeWhile} from 'rxjs/operators';
 import { Lesson } from '../../../models/lesson.model';
+import {User} from "../../../models/user.model";
+import {UserService} from "../../../services/user.service";
 
 @Component({
   selector: 'tc-lesson-detail',
@@ -17,11 +19,13 @@ export class LessonDetailComponent implements OnInit, OnDestroy {
   readonly userIsManager$ = this.auth.userIsManager$;
 
   private readonly unsubscribe$ = new Subject<void>();
+  private currentlyLoggedInUserId: number | null = null;
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly auth: AuthService,
+    private readonly userService: UserService,
     private readonly lessonService: LessonService,
   ) {}
 
@@ -30,11 +34,27 @@ export class LessonDetailComponent implements OnInit, OnDestroy {
       this.lessonService.getLessonById(id);
       this.displayedLesson$ = this.lessonService.singleLesson$(id);
     });
+    this.auth.userId$.subscribe((loggedInUserId) => {
+      if(loggedInUserId != null) {
+        this.userService.getUserById(loggedInUserId);
+        this.currentlyLoggedInUserId = loggedInUserId;
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  enrollUser(displayedLesson: Lesson): void {
+    if(this.currentlyLoggedInUserId) {
+      this.userService.singleUser$(this.currentlyLoggedInUserId)
+          .pipe(take(1), filter((user): user is User => user != null))
+          .subscribe(user => {
+            this.lessonService.enrollStudent(displayedLesson.id, user);
+          });
+    }
   }
 
   deleteLesson(displayedLesson: Lesson): void {

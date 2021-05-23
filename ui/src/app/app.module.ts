@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { LandingComponent } from './views/landing/landing.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -26,15 +27,20 @@ import { LessonDetailComponent } from './views/main/lesson-detail/lesson-detail.
 import { TournamentFormComponent } from './components/tournament-form/tournament-form.component';
 import { TournamentDetailComponent } from './views/main/tournament-detail/tournament-detail.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { LessonStudentsComponent } from './components/lesson-students-list/lesson-students-list.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { UserDetailComponent } from './views/main/user-detail/user-detail.component';
 import { UsersOverviewComponent } from './views/main/users-overview/users-overview.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
 import { BookingFormComponent } from './components/booking-form/booking-form.component';
 import { BookingDetailComponent } from './views/main/booking-detail/booking-detail.component';
 import { MatListModule } from '@angular/material/list';
+import { AddUserViewComponent } from './components/add-user-view/add-user-view.component';
+import { SearchUserPipe } from './pipes/search-user.pipe';
+import { LessonTeachersListComponent } from './components/lesson-teachers-list/lesson-teachers-list.component';
+import { TournamentRankingComponent } from './components/tournament-ranking/tournament-ranking.component';
 
 @NgModule({
   declarations: [
@@ -51,12 +57,17 @@ import { MatListModule } from '@angular/material/list';
     LessonDetailComponent,
     TournamentFormComponent,
     TournamentDetailComponent,
+    LessonStudentsComponent,
     UserFormComponent,
     UserDetailComponent,
     UsersOverviewComponent,
     UsersTableComponent,
     BookingFormComponent,
     BookingDetailComponent,
+    AddUserViewComponent,
+    SearchUserPipe,
+    LessonTeachersListComponent,
+    TournamentRankingComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,8 +82,9 @@ import { MatListModule } from '@angular/material/list';
     MatButtonModule,
     MatToolbarModule,
     MatDialogModule,
-    MatTableModule,
     MatIconModule,
+    MatExpansionModule,
+    MatTableModule,
     MatListModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',

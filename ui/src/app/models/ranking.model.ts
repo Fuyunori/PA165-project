@@ -1,6 +1,6 @@
 import { User } from './user.model';
 
 export type Ranking = {
-  user: User;
+  player: User;
   playerPlacement: number;
 };
