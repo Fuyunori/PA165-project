@@ -50,7 +50,7 @@ public class LessonController {
 
     @PostMapping
     public ResponseEntity<LessonFullDTO> createLesson(@Valid @RequestBody LessonCreateDTO lessonDTO, @RequestHeader(value = "Authorization", required = false) String jwt){
-        userService.verifyRole(jwt, Role.USER);
+        userService.verifyRole(jwt, Role.MANAGER);
         return ResponseEntity.status(HttpStatus.CREATED).body(lessonFacade.createLesson(lessonDTO));
     }
 
@@ -62,13 +62,13 @@ public class LessonController {
 
     @PostMapping("/{lessonId}/teachers")
     public ResponseEntity<LessonFullDTO> addTeacher(@PathVariable Long lessonId, @RequestBody UserFullDTO teacher, @RequestHeader(value = "Authorization", required = false) String jwt){
-        userService.verifyRole(jwt, Role.USER);
+        userService.verifyRole(jwt, Role.MANAGER);
         return ResponseEntity.ok(lessonFacade.addTeacher(lessonId, teacher.getId()));
     }
 
     @PutMapping("/{lessonId}")
     public ResponseEntity<LessonFullDTO> rescheduleLesson(@PathVariable Long lessonId, @Valid @RequestBody EventRescheduleDTO dto, @RequestHeader(value = "Authorization", required = false) String jwt){
-        userService.verifyRole(jwt, Role.USER);
+        userService.verifyRole(jwt, Role.MANAGER);
         eventFacade.reschedule(lessonId, dto);
         return ResponseEntity.ok(lessonFacade.getLessonWithId(lessonId));
     }
@@ -81,13 +81,13 @@ public class LessonController {
 
     @DeleteMapping("/{lessonId}/teachers/{teacherId}")
     public ResponseEntity<LessonFullDTO> removeTeacher(@PathVariable Long lessonId, @PathVariable Long teacherId, @RequestHeader(value = "Authorization", required = false) String jwt){
-        userService.verifyRole(jwt, Role.USER);
+        userService.verifyRole(jwt, Role.MANAGER);
         return ResponseEntity.ok(lessonFacade.removeTeacher(lessonId, teacherId));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLesson(@PathVariable Long id, @RequestHeader(value = "Authorization", required = false) String jwt){
-        userService.verifyRole(jwt, Role.USER);
+        userService.verifyRole(jwt, Role.MANAGER);
         lessonFacade.deleteLesson(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
