@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tennisclub.dto.booking.BookingCreateDTO;
 import tennisclub.dto.booking.BookingFullDTO;
+import tennisclub.dto.booking.BookingUpdateDTO;
 import tennisclub.dto.lesson.LessonFullDTO;
 import tennisclub.dto.user.UserDTO;
 import tennisclub.entity.Booking;
@@ -62,6 +63,12 @@ public class BookingFacadeImpl implements BookingFacade {
             throw new FacadeLayerException("Maximum number of reserved hours per day exceeded.");
         }
 
+        for (User user : booking.getUsers()) {
+            if (booking.getAuthor().equals(user)) {
+                throw new FacadeLayerException("Can't add author as a new booker.");
+            }
+        }
+
         Booking newBooking = bookingService.create(booking);
 
         return mapper.map(newBooking, BookingFullDTO.class);
@@ -109,5 +116,20 @@ public class BookingFacadeImpl implements BookingFacade {
         return bookings.stream()
                 .map(b -> mapper.map(b, BookingFullDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public BookingFullDTO update(Long bookingId, BookingUpdateDTO dto) {
+        Booking booking = bookingService.findById(bookingId);
+        booking.getUsers().clear();
+        for (UserDTO userDto : dto.getUsers()) {
+            User user = userService.findUserById(userDto.getId());
+            if (booking.getAuthor().equals(user)) {
+                throw new FacadeLayerException("Can't add author as a new booker.");
+            }
+            booking.addUser(user);
+        }
+        bookingService.update(booking);
+        return mapper.map(booking, BookingFullDTO.class);
     }
 }

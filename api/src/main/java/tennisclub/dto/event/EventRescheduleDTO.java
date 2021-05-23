@@ -1,6 +1,7 @@
 package tennisclub.dto.event;
 
 import tennisclub.annotations.IsEndTimeAfterStartTime;
+import tennisclub.enums.EventType;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
@@ -11,35 +12,52 @@ import java.util.Objects;
 /**
  * @author Miroslav Demek
  */
-@IsEndTimeAfterStartTime(start = "start", end = "end", message = "{event.time.isEndAfterStart}")
+@IsEndTimeAfterStartTime(start = "startTime", end = "endTime", message = "{event.time.isEndAfterStart}")
 public class EventRescheduleDTO {
+
+    private EventType type;
+
     @NotNull(message = "{event.time.start.notnull}")
     @FutureOrPresent(message = "{event.time.start.futureOrPresent}")
-    private LocalDateTime start;
+    private LocalDateTime startTime;
 
     @NotNull(message = "{event.time.end.notnull}")
     @Future(message = "{event.time.end.future}")
-    private LocalDateTime end;
+    private LocalDateTime endTime;
 
-    public EventRescheduleDTO(@NotNull @FutureOrPresent LocalDateTime start, @NotNull @Future LocalDateTime end) {
-        this.start = start;
-        this.end = end;
+    public EventRescheduleDTO() { }
+
+    public EventRescheduleDTO(EventType type) {
+        this.type = type;
     }
 
-    public LocalDateTime getStart() {
-        return start;
+    public EventRescheduleDTO(@NotNull @FutureOrPresent LocalDateTime startTime, @NotNull @Future LocalDateTime endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
-    public void setStart(LocalDateTime start) {
-        this.start = start;
+    public EventType getType() {
+        return type;
     }
 
-    public LocalDateTime getEnd() {
-        return end;
+    public void setType(EventType type) {
+        this.type = type;
     }
 
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     @Override
@@ -47,11 +65,11 @@ public class EventRescheduleDTO {
         if (this == o) return true;
         if (!(o instanceof EventRescheduleDTO)) return false;
         EventRescheduleDTO that = (EventRescheduleDTO) o;
-        return Objects.equals(start, that.start) && Objects.equals(end, that.end);
+        return Objects.equals(startTime, that.startTime) && Objects.equals(endTime, that.endTime) && Objects.equals(type, that.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(start, end);
+        return Objects.hash(startTime, endTime, type);
     }
 }

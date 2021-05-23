@@ -1,4 +1,4 @@
-.court-form {
+.tournament-form {
   &,
   & > * {
     width: 100%;
@@ -18,7 +18,15 @@
 }
 
 .form-actions {
-  padding-top: 20px;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
+}
+
+.start-date {
+  color: forestgreen;
+}
+
+.end-date {
+  color: red;
 }

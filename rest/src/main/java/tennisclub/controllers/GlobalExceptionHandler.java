@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
         if (error != null) {
             return new ResponseEntity<>(error.getDefaultMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("An error has occurred when validating a field.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Server error.", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler

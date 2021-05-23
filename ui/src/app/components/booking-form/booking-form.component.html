@@ -1,0 +1,101 @@
+<form class="court-form" [formGroup]="bookingForm" (ngSubmit)="submit()">
+  <div class="form-content">
+    <div class="field-list">
+      <mat-form-field *ngIf="authorUsername" appearance="fill" class="field">
+        <mat-label>Author</mat-label>
+        <input matInput type="text" [value]="authorUsername" readonly />
+      </mat-form-field>
+
+      <mat-form-field *ngIf="courtName" appearance="fill" class="field">
+        <mat-label>Court</mat-label>
+        <input matInput type="text" [value]="courtName" readonly />
+      </mat-form-field>
+
+      <!--<mat-form-field appearance="fill" class="field">
+                <mat-label>Court</mat-label>
+                <mat-select [formControlName]="BookingFormKey.Court">
+                    <mat-option
+                            *ngFor="let court of courts$ | async"
+                            [value]="court.id"
+                            [disabled]="true"
+                    >
+                        {{court.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>-->
+
+      <div class="date-container">
+        <mat-form-field appearance="fill" class="date-input date-input-left">
+          <mat-label>From</mat-label>
+          <input
+            matInput
+            type="datetime-local"
+            [formControlName]="BookingFormKey.Start"
+            [readonly]="readOnly"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="date-input">
+          <mat-label>To</mat-label>
+          <input
+            matInput
+            type="datetime-local"
+            [formControlName]="BookingFormKey.End"
+            [readonly]="readOnly"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="user-input-container" *ngIf="!readOnly">
+        <mat-form-field appearance="fill" class="user-input">
+          <mat-label>User</mat-label>
+          <input matInput type="text" [formControlName]="BookingFormKey.User" />
+          <!--<mat-select [formControlName]="BookingFormKey.User" >
+                        <mat-option
+                                *ngFor="let user of users$ | async"
+                                [value]="user.id"
+                        >
+                            {{user.username}}
+                        </mat-option>
+                    </mat-select>-->
+        </mat-form-field>
+        <button
+          type="button"
+          mat-flat-button
+          color="primary"
+          class="user-add-button"
+          (click)="addUser()"
+        >
+          Add
+        </button>
+      </div>
+
+      <h3 class="unmarginized-heading">Users:</h3>
+      <mat-list>
+        <div *ngFor="let user of selectedUsers" class="user-list-item">
+          <mat-list-item>{{ user.username }}</mat-list-item>
+          <mat-icon
+            *ngIf="!readOnly"
+            class="cross-icon"
+            (click)="deleteUserItem(user.username)"
+            >close</mat-icon
+          >
+        </div>
+      </mat-list>
+    </div>
+  </div>
+
+  <div class="form-actions" *ngIf="!readOnly">
+    <button type="button" mat-flat-button color="warn" (click)="cancel()">
+      {{ cancelButtonText }}
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="
+        bookingForm.invalid || (bookingForm.pristine && !usersChanged)
+      "
+    >
+      {{ submitButtonText }}
+    </button>
+  </div>
+</form>

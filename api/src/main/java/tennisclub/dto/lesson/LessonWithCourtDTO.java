@@ -1,6 +1,7 @@
 package tennisclub.dto.lesson;
 
 import tennisclub.dto.event.EventWithCourtDTO;
+import tennisclub.enums.EventType;
 import tennisclub.enums.Level;
 
 /**
@@ -10,6 +11,10 @@ import tennisclub.enums.Level;
 public class LessonWithCourtDTO extends EventWithCourtDTO {
     private Integer capacity;
     private Level level;
+
+    public LessonWithCourtDTO() {
+        super(EventType.LESSON);
+    }
 
     public Integer getCapacity() {
         return capacity;

@@ -2,6 +2,7 @@ package tennisclub.dto.booking;
 
 import tennisclub.dto.event.EventWithCourtDTO;
 import tennisclub.dto.user.UserDTO;
+import tennisclub.enums.EventType;
 
 import java.util.Set;
 
@@ -15,6 +16,10 @@ public class BookingFullDTO extends EventWithCourtDTO {
 
     private Set<UserDTO> users;
     private UserDTO author;
+
+    public BookingFullDTO() {
+        super(EventType.BOOKING);
+    }
 
     public Set<UserDTO> getUsers() {
         return users;

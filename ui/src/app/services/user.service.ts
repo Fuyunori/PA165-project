@@ -51,16 +51,19 @@ export class UserService {
     });
   }
 
-  getUsersByUsername(username: string) {
+
+  getUserByUsername(username: string): Observable<User | null> {
     let queryParams: HttpParams = new HttpParams().set('username', username);
-    this.http
+    return this.http
       .get<User[]>(`${RESOURCE_URL}/`, { params: queryParams })
-      .subscribe(users => {
-        this.state$.next({
-          entities: users.reduce((acc, c) => ({ ...acc, [c.id]: c }), {}),
-          orderedIds: users.map(({ id }) => id),
-        });
-      });
+      .pipe(
+        map(users => {
+          if (!users) {
+            return null;
+          }
+          return users[0];
+        }),
+      );
   }
 
   postUser(user: UnknownUser): void {

@@ -4,6 +4,7 @@ import tennisclub.dto.court.CourtCreateDto;
 import tennisclub.dto.court.CourtDto;
 import tennisclub.dto.court.CourtUpdateDto;
 import tennisclub.dto.event.EventDTO;
+import tennisclub.dto.event.EventWithCourtDTO;
 import tennisclub.enums.CourtType;
 import java.util.List;
 
@@ -64,5 +65,5 @@ public interface CourtFacade {
      * @param courtId the id of the court in question
      * @return a list of events
      */
-    List<EventDTO> listCourtEvents(Long courtId);
+    List<EventWithCourtDTO> listCourtEvents(Long courtId);
 }

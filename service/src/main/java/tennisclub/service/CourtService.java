@@ -2,6 +2,7 @@ package tennisclub.service;
 
 import org.springframework.stereotype.Service;
 import tennisclub.entity.Court;
+import tennisclub.entity.Event;
 import tennisclub.enums.CourtType;
 
 import java.time.LocalDateTime;
@@ -67,4 +68,14 @@ public interface CourtService {
      * @return a boolean indicating whether the court is free
      */
     boolean isFree(Court court, LocalDateTime from, LocalDateTime to);
+
+    /**
+     * Retrieve all events that conflict with the provided time slot on the given court
+     *
+     * @param court the court to check
+     * @param from the left bound of the date/time interval
+     * @param to the right bound of the date/time interval
+     * @return the list of all conflicting events
+     */
+    public List<Event> getConflictingEvents(Court court, LocalDateTime from, LocalDateTime to);
 }

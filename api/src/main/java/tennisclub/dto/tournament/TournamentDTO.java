@@ -1,6 +1,7 @@
 package tennisclub.dto.tournament;
 
 import tennisclub.dto.event.EventDTO;
+import tennisclub.enums.EventType;
 
 /**
  * @author Xuan Linh Phamová
@@ -9,6 +10,10 @@ public class TournamentDTO extends EventDTO {
     private String name;
     private Integer capacity;
     private Integer prize;
+
+    public TournamentDTO() {
+        super(EventType.TOURNAMENT);
+    }
 
     public String getName() {
         return name;
