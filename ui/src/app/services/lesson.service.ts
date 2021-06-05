@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Lesson, UnknownLesson } from '../models/lesson.model';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { NotificationService } from './notification.service';
 import { User } from '../models/user.model';
 import { Event, UnknownEvent } from '../models/event.model';
 import { EventService } from './event.service';
+import {Tournament} from "../models/tournament.model";
 
 const RESOURCE_URL = `${environment.apiBaseUrl}/lessons`;
 
@@ -147,6 +148,11 @@ export class LessonService {
       .pipe(this.notification.onError('Could not delete the lesson!'))
       .subscribe(() => {
         const { entities, orderedIds } = this.state$.value;
+        const lesson: Lesson | undefined = Object.values(entities)
+            .find((lesson: Lesson) => {
+                return lesson.id == id;
+            });
+
         this.state$.next({
           entities: Object.values(entities)
             .filter((lesson: Lesson) => lesson.id !== id)
@@ -161,9 +167,9 @@ export class LessonService {
             (orderedId: number) => orderedId !== id,
           ),
         });
-        this.singleLesson$(id).subscribe(lesson => {
-          this.eventService.getCourtEvents(lesson!.court.id);
-        });
+        if(lesson){
+            this.eventService.getCourtEvents(lesson.court.id);
+        }
       });
   }
 }
