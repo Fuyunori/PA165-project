@@ -18,14 +18,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("A database error has occurred.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    /*@ExceptionHandler
+    @ExceptionHandler
     ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
         FieldError error = ex.getFieldError();
         if (error != null) {
             return new ResponseEntity<>(error.getDefaultMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Server error. " + ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }*/
+    }
 
     @ExceptionHandler
     ResponseEntity<String> handleServiceLayerException(ServiceLayerException ex) {
