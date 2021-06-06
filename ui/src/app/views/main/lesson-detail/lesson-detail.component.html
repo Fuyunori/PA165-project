@@ -8,10 +8,11 @@
     [lesson]="displayedLesson"
     [isStudent$]="isUserStudent$"
     [isTeacher$]="isUserTeacher$"
+    [currentlyLoggedInUser$]="currentlyLoggedInUser$"
     (lessonReschedule)="rescheduleLesson(displayedLesson, $event)"
     (cancelClick)="deleteLesson(displayedLesson)"
-    (enrollUser)="enrollUser(displayedLesson)"
-    (withdrawUser)="withdrawUser(displayedLesson)"
+    (enrollUser)="enrollCurrentlyLoggedInUser(displayedLesson, $event)"
+    (withdrawUser)="withdrawCurrentlyLoggedInUser(displayedLesson, $event)"
   ></tc-lesson-form>
   <tc-lesson-students-list
     *ngIf="(isUserTeacher$ | async) || (userIsManager$ | async)"
