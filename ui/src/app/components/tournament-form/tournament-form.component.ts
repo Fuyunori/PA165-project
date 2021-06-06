@@ -56,6 +56,8 @@ export class TournamentFormComponent implements OnInit {
 
   readonly TournamentFormKey = TournamentFormKey;
   readonly currentTime = new Date();
+  hasStarted: boolean = false;
+  hasEnded: boolean = false;
 
   readonly tournamentForm = this.fb.group({
     [TournamentFormKey.Start]: ['', Validators.required],
@@ -88,10 +90,11 @@ export class TournamentFormComponent implements OnInit {
       this.isLessThanCurrentTimeValidation,
     ]);
     this.tournamentForm.setValidators(this.dateValidation);
-
+    this.computeHasStarted();
+    this.computeHasEnded();
   }
 
-  hasStarted(): boolean {
+  computeHasStarted(): boolean {
     let currentTime: Date = new Date();
     let startDate: Date = new Date(
       this.tournamentForm.get(TournamentFormKey.Start)?.value,
@@ -99,12 +102,16 @@ export class TournamentFormComponent implements OnInit {
     return currentTime > startDate;
   }
 
-  hasEnded(): boolean {
+  computeHasEnded(): boolean {
     let currentTime: Date = new Date();
     let endDate: Date = new Date(
       this.tournamentForm.get(TournamentFormKey.End)?.value,
     );
     return currentTime > endDate;
+  }
+
+  isReadOnly(): boolean {
+    return this.readOnly || this.hasEnded;
   }
 
   isLessThanCurrentTimeValidation = (form: AbstractControl) => {

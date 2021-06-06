@@ -1,7 +1,7 @@
 <mat-expansion-panel>
   <mat-expansion-panel-header>
     <mat-panel-title>
-      <div *ngIf="hasEnded(); else hasntEndedYet">
+      <div *ngIf="hasEnded; else hasntEndedYet">
         Ranking of the tournament
       </div>
       <ng-template #hasntEndedYet> List of participants </ng-template>
@@ -13,7 +13,7 @@
       <div mat-line>{{ ranking.player.name }}</div>
       <button
         mat-raised-button
-        *ngIf="!hasStarted() && (userIsManager$ | async)"
+        *ngIf="!hasStarted && (userIsManager$ | async)"
         color="warn"
         (click)="withdrawPlayer(ranking.player)"
       >
@@ -21,7 +21,7 @@
       </button>
       <button
         mat-raised-button
-        *ngIf="hasEnded() && (userIsManager$ | async)"
+        *ngIf="hasEnded && (userIsManager$ | async)"
         color="primary"
         (click)="rankPlayer(ranking)"
       >
@@ -30,7 +30,7 @@
     </mat-list-item>
   </mat-list>
   <button
-    *ngIf="hasStarted() && (userIsManager$ | async)"
+    *ngIf="hasStarted && (userIsManager$ | async)"
     mat-raised-button
     color="primary"
     class="button"
