@@ -95,7 +95,6 @@ export class CourtDetailComponent implements OnInit, OnDestroy {
       width: '50%',
     });
     dialog.componentInstance.submitButtonText = 'Make booking';
-    dialog.componentInstance.court = court;
 
     dialog.componentInstance.submitClick
       .pipe(takeUntil(this.unsubscribe$))
