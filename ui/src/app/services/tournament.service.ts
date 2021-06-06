@@ -61,17 +61,25 @@ export class TournamentService {
   }
 
   createTournament(tournament: UnknownTournament): void {
-    this.http
-      .post<Tournament>(RESOURCE_URL, tournament)
-      .pipe(this.notification.onError('Could not create a tournament!'))
-      .subscribe((resTournament: Tournament) => {
+    this.http.post<Tournament>(RESOURCE_URL, tournament).subscribe(
+      (resTournament: Tournament) => {
         const { entities, orderedIds } = this.state$.value;
         this.state$.next({
           entities: { ...entities, [resTournament.id]: resTournament },
           orderedIds: [...orderedIds, resTournament.id],
         });
         this.eventService.getCourtEvents(resTournament.court.id);
-      });
+      },
+      err => {
+        if (err.status !== 0) {
+          if (typeof err.error === 'string') {
+            this.notification.toastError(err.error);
+          } else {
+            this.notification.toastError('Could not create tournament!');
+          }
+        }
+      },
+    );
   }
 
   enrollPlayer(tournamentId: number, user: User): void {
