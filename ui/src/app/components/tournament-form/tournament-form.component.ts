@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UnknownTournament } from '../../models/tournament.model';
-import {AbstractControl, FormBuilder, ValidationErrors, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { TournamentService } from '../../services/tournament.service';
 import { CourtService } from '../../services/court.service';
@@ -83,16 +83,12 @@ export class TournamentFormComponent implements OnInit {
     this.tournamentForm.controls[TournamentFormKey.Start].setValidators([
       this.isLessThanCurrentTimeValidation,
     ]);
-    this.tournamentForm.controls[TournamentFormKey.Start].setAsyncValidators([
-      this.isGreaterThanEndTimeValidation,
-    ]);
 
     this.tournamentForm.controls[TournamentFormKey.End].setValidators([
       this.isLessThanCurrentTimeValidation,
     ]);
-    this.tournamentForm.controls[TournamentFormKey.End].setAsyncValidators([
-      this.isSmallerThanStartTimeValidation,
-    ]);
+    this.tournamentForm.setValidators(this.dateValidation);
+
   }
 
   hasStarted(): boolean {
@@ -120,32 +116,20 @@ export class TournamentFormComponent implements OnInit {
     return null;
   };
 
-  isGreaterThanEndTimeValidation = (form: AbstractControl): Observable<ValidationErrors | null> => {
-    let formDate = new Date(form.value);
-    let endDate = new Date(
-      this.tournamentForm.controls[TournamentFormKey.End].value,
-    );
+  dateValidation: ValidatorFn = (form: AbstractControl): ValidationErrors | null => {
+    let formGroup: FormGroup = form as FormGroup;
+    let startDate = new Date(formGroup.controls[TournamentFormKey.Start].value);
+    let endDate = new Date(formGroup.controls[TournamentFormKey.End].value);
 
-    return of(form.value).pipe(
-        map(res => {
-          return res && formDate > endDate ? { error: 'Start date must be before the end date.' } : null;
-        }),
-        take(1), finalize(() => {})
-    );
-  };
-
-  isSmallerThanStartTimeValidation = (form: AbstractControl): Observable<ValidationErrors | null>=> {
-    let formDate = new Date(form.value);
-    let startDate = new Date(
-      this.tournamentForm.controls[TournamentFormKey.Start].value,
-    );
-
-    return of(form.value).pipe(
-        map(res => {
-          return res && formDate < startDate ? { error: 'End date must be after the start date.' } : null;
-        }),
-        take(1), finalize(() => {})
-    );
+    if (startDate > endDate) {
+      formGroup.controls[TournamentFormKey.Start].setErrors({error: 'Start date must be before the end date.' });
+      formGroup.controls[TournamentFormKey.End].setErrors({error: 'Start date must be before the end date.' });
+      return { error: 'Start date must be before the end date.' };
+    } else {
+      formGroup.controls[TournamentFormKey.Start].setErrors(null);
+      formGroup.controls[TournamentFormKey.End].setErrors(null);
+    }
+    return null;
   };
 
   submit(): void {
