@@ -9,8 +9,8 @@
     [tournament]="displayedTournament"
     [isEnrolledAlready$]="isUserEnrolled$"
     (cancelClick)="deleteTournament(displayedTournament)"
-    (addUser)="addPlayer(displayedTournament)"
-    (withdrawUser)="withdrawLoggedInPlayer(displayedTournament)"
+    (addUser)="addPlayer(displayedTournament, $event)"
+    (withdrawUser)="withdrawLoggedInPlayer(displayedTournament, $event)"
   ></tc-tournament-form>
   <tc-tournament-ranking
     *ngIf="

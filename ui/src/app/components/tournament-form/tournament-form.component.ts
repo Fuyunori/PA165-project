@@ -1,15 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import { UnknownTournament } from '../../models/tournament.model';
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { TournamentService } from '../../services/tournament.service';
 import { CourtService } from '../../services/court.service';
-import {filter, finalize, map, take} from 'rxjs/operators';
+import {combineLatest, filter, finalize, map, mergeMap, take} from 'rxjs/operators';
 import { Court } from '../../models/court.model';
 import { User } from '../../models/user.model';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import { EventType } from '../../models/event.model';
 import {UnknownLesson} from "../../models/lesson.model";
+import {UserService} from "../../services/user.service";
 
 enum TournamentFormKey {
   Start = 'Start',
@@ -29,8 +30,8 @@ export class TournamentFormComponent implements OnInit {
   @Output() readonly cancelClick = new EventEmitter<void>();
   @Output() readonly tournamentReschedule = new EventEmitter<UnknownTournament>();
   @Output() readonly tournamentChange = new EventEmitter<UnknownTournament>();
-  @Output() readonly addUser = new EventEmitter<void>();
-  @Output() readonly withdrawUser = new EventEmitter<void>();
+  @Output() readonly addUser = new EventEmitter<User>();
+  @Output() readonly withdrawUser = new EventEmitter<User>();
 
   @Input()
   set tournament(tournament: UnknownTournament) {
@@ -53,6 +54,7 @@ export class TournamentFormComponent implements OnInit {
   @Input() cancelButtonText = 'Cancel';
 
   readonly courts$ = this.courtService.orderedCourts$;
+  currentlyLoggedInUser$: Observable<User | null> = new Observable<User | null>();
 
   readonly TournamentFormKey = TournamentFormKey;
   readonly currentTime = new Date();
@@ -73,6 +75,7 @@ export class TournamentFormComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly tournamentService: TournamentService,
     private readonly courtService: CourtService,
+    private readonly userService: UserService,
   ) {}
 
   ngOnInit(): void {
@@ -92,6 +95,13 @@ export class TournamentFormComponent implements OnInit {
     this.tournamentForm.setValidators(this.dateValidation);
     this.computeHasStarted();
     this.computeHasEnded();
+
+    this.authService.userId$.subscribe(loggedInUserId => {
+      if (loggedInUserId != null) {
+        this.userService.getUserById(loggedInUserId);
+        this.currentlyLoggedInUser$ = this.userService.singleUser$(loggedInUserId);
+      }
+    });
   }
 
   computeHasStarted(): boolean {
@@ -173,11 +183,19 @@ export class TournamentFormComponent implements OnInit {
   }
 
   addPlayer(): void {
-    this.addUser.emit();
+    this.currentlyLoggedInUser$.subscribe(user => {
+      if(user){
+        this.addUser.emit(user);
+      }
+    });
   }
 
   withdrawPlayer(): void {
-    this.withdrawUser.emit();
+    this.currentlyLoggedInUser$.subscribe(user => {
+      if(user){
+        this.withdrawUser.emit(user);
+      }
+    });
   }
 
   cancel(): void {

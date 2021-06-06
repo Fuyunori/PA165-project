@@ -79,20 +79,12 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  addPlayer(displayedTournament: Tournament): void {
-    this.currentlyLoggedInUser$.subscribe(user => {
-      if (user != null) {
-        this.tournamentService.enrollPlayer(displayedTournament.id, user);
-      }
-    });
+  addPlayer(displayedTournament: Tournament, user: User): void {
+    this.tournamentService.enrollPlayer(displayedTournament.id, user);
   }
 
-  withdrawLoggedInPlayer(displayedTournament: Tournament): void {
-    this.currentlyLoggedInUser$.subscribe(user => {
-      if (user != null) {
-        this.tournamentService.withdrawPlayer(displayedTournament.id, user.id);
-      }
-    });
+  withdrawLoggedInPlayer(displayedTournament: Tournament, user: User): void {
+    this.tournamentService.withdrawPlayer(displayedTournament.id, user.id);
   }
 
   withdrawPlayer(displayedTournament: Tournament, player: User): void {
