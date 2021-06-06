@@ -66,7 +66,6 @@ export class LessonService {
   createLesson(lesson: UnknownLesson): void {
     this.http
       .post<Lesson>(RESOURCE_URL, lesson)
-      .pipe(this.notification.onError('Could not add lesson!'))
       .subscribe((resLesson: Lesson) => {
         const { entities, orderedIds } = this.state$.value;
         this.state$.next({
@@ -74,7 +73,16 @@ export class LessonService {
           orderedIds: [...orderedIds, resLesson.id],
         });
         this.eventService.getCourtEvents(resLesson.court.id);
-      });
+      },
+          err => {
+              if (err.status !== 0) {
+                  if (typeof err.error === 'string') {
+                      this.notification.toastError(err.error);
+                  } else {
+                      this.notification.toastError('Could not create lesson!');
+                  }
+              }
+          },);
   }
 
   enrollStudent(lessonId: number, user: User): void {
