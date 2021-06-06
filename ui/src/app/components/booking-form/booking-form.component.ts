@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Court } from '../../models/court.model';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { CourtService } from '../../services/court.service';
 import { Booking, FormBooking } from '../../models/booking.model';
@@ -10,9 +9,8 @@ import { NotificationService } from '../../services/notification.service';
 import { AuthService } from '../../services/auth.service';
 
 enum BookingFormKey {
-  Court = 'Court',
-  Start = 'Name',
-  End = 'Address',
+  Start = 'Start',
+  End = 'End',
   User = 'User',
 }
 
@@ -30,13 +28,6 @@ export class BookingFormComponent implements OnInit {
   @Input() cancelButtonText = 'Cancel';
 
   private isOver = false;
-
-  @Input()
-  set court(court: Court) {
-    this.bookingForm.patchValue({
-      [BookingFormKey.Court]: court.id,
-    });
-  }
 
   @Input()
   set booking(booking: Booking) {
@@ -57,10 +48,11 @@ export class BookingFormComponent implements OnInit {
   courtName: string = '';
   selectedUsers: User[] = [];
   usersChanged = false;
+  calledFromOtherValidator = false;
 
   readonly bookingForm = this.fb.group({
-    [BookingFormKey.Start]: ['', Validators.required],
-    [BookingFormKey.End]: ['', Validators.required],
+    [BookingFormKey.Start]: '',
+    [BookingFormKey.End]: '',
     [BookingFormKey.User]: '',
   });
 
@@ -76,10 +68,12 @@ export class BookingFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.bookingForm.controls[BookingFormKey.Start].setValidators([
+      Validators.required,
       this.isInFutureValidator,
       this.isBeforeEndValidator,
     ]);
     this.bookingForm.controls[BookingFormKey.End].setValidators([
+      Validators.required,
       this.isInFutureValidator,
       this.isAfterStartValidator,
     ]);
@@ -107,9 +101,16 @@ export class BookingFormComponent implements OnInit {
       this.bookingForm.controls[BookingFormKey.Start].value,
     );
 
+    if (!this.calledFromOtherValidator) {
+      this.calledFromOtherValidator = true;
+      this.bookingForm.controls[BookingFormKey.Start].updateValueAndValidity();
+      this.calledFromOtherValidator = false;
+    }
+
     if (!this.isReadOnly() && formDate < startDate) {
       return { error: 'Bro, the end date must be after the start date.' };
     }
+
     return null;
   };
 
@@ -117,9 +118,16 @@ export class BookingFormComponent implements OnInit {
     let formDate = new Date(form.value);
     let endDate = new Date(this.bookingForm.controls[BookingFormKey.End].value);
 
+    if (!this.calledFromOtherValidator) {
+      this.calledFromOtherValidator = true;
+      this.bookingForm.controls[BookingFormKey.End].updateValueAndValidity();
+      this.calledFromOtherValidator = false;
+    }
+
     if (!this.isReadOnly() && formDate > endDate) {
       return { error: 'Start date must be before the end date.' };
     }
+
     return null;
   };
 
@@ -143,7 +151,7 @@ export class BookingFormComponent implements OnInit {
           [BookingFormKey.User]: '',
         });
       },
-      err => {
+      _ => {
         this.notification.toastError(`Could not find user: ${username}`);
       },
     );
