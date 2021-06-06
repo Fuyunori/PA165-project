@@ -59,8 +59,8 @@ export class BookingFormComponent implements OnInit {
   usersChanged = false;
 
   readonly bookingForm = this.fb.group({
-    [BookingFormKey.Start]: ['', Validators.required],
-    [BookingFormKey.End]: ['', Validators.required],
+    [BookingFormKey.Start]: '',
+    [BookingFormKey.End]: '',
     [BookingFormKey.User]: '',
   });
 
@@ -76,10 +76,12 @@ export class BookingFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.bookingForm.controls[BookingFormKey.Start].setValidators([
+      Validators.required,
       this.isInFutureValidator,
       this.isBeforeEndValidator,
     ]);
     this.bookingForm.controls[BookingFormKey.End].setValidators([
+      Validators.required,
       this.isInFutureValidator,
       this.isAfterStartValidator,
     ]);

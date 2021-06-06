@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Booking, UnknownBooking } from '../models/booking.model';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Lesson } from '../models/lesson.model';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { NotificationService } from './notification.service';
 import { EventService } from './event.service';
-import { Court, UnknownCourt } from '../models/court.model';
 
 const RESOURCE_URL = `${environment.apiBaseUrl}/bookings`;
 
@@ -86,7 +84,11 @@ export class BookingService {
       },
       err => {
         if (err.status !== 0) {
-          this.notification.toastError(err.error);
+          if (typeof err.error === 'string') {
+            this.notification.toastError(err.error);
+          } else {
+            this.notification.toastError('Could not create booking!');
+          }
         }
       },
     );

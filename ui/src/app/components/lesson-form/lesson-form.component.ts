@@ -151,7 +151,7 @@ export class LessonFormComponent implements OnInit {
         };
 
         this.lessonForm.markAsPristine();
-        if(!this.reschedule.valueOf()){
+        if (!this.reschedule.valueOf()) {
           this.lessonChange.emit(lesson);
         } else {
           this.rescheduleLesson(lesson);
