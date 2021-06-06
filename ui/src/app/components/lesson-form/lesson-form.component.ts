@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Level, UnknownLesson } from '../../models/lesson.model';
-import {AbstractControl, FormBuilder, ValidationErrors, Validators} from '@angular/forms';
+import {AbstractControl, Form, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import { EventType } from '../../models/event.model';
 import { CourtService } from '../../services/court.service';
 import {filter, finalize, map, take} from 'rxjs/operators';
@@ -54,6 +54,8 @@ export class LessonFormComponent implements OnInit {
   readonly LessonFormKey = LessonFormKey;
   readonly LessonLevel = Level;
   readonly currentTime = new Date();
+  hasStarted: boolean = false;
+  hasEnded: boolean = false;
 
   readonly lessonForm = this.fb.group({
     [LessonFormKey.Start]: ['', Validators.required],
@@ -80,18 +82,15 @@ export class LessonFormComponent implements OnInit {
     this.lessonForm.controls[LessonFormKey.Start].setValidators([
       this.isLessThanCurrentTimeValidation,
     ]);
-    this.lessonForm.controls[LessonFormKey.Start].setAsyncValidators([
-      this.isGreaterThanEndTimeValidation,
-    ]);
-
     this.lessonForm.controls[LessonFormKey.End].setValidators([
       this.isLessThanCurrentTimeValidation,
     ]);
-    this.lessonForm.controls[LessonFormKey.End].setAsyncValidators([
-      this.isSmallerThanStartTimeValidation,
-    ]);
+    this.lessonForm.setValidators(this.dateValidation);
+    this.computeHasStarted();
+    this.computeHasEnded();
   }
-  hasStarted(): boolean {
+
+  computeHasStarted(): boolean {
     let currentTime: Date = new Date();
     let startDate: Date = new Date(
       this.lessonForm.get(LessonFormKey.Start)?.value,
@@ -99,10 +98,14 @@ export class LessonFormComponent implements OnInit {
     return currentTime > startDate;
   }
 
-  hasEnded(): boolean {
+  computeHasEnded(): boolean {
     let currentTime: Date = new Date();
     let endDate: Date = new Date(this.lessonForm.get(LessonFormKey.End)?.value);
     return currentTime > endDate;
+  }
+
+  isReadOnly(): boolean {
+    return this.readOnly || this.hasEnded;
   }
 
   isLessThanCurrentTimeValidation = (form: AbstractControl) => {
@@ -114,29 +117,20 @@ export class LessonFormComponent implements OnInit {
     return null;
   };
 
-  isGreaterThanEndTimeValidation = (form: AbstractControl): Observable<ValidationErrors | null> => {
-    let formDate = new Date(form.value);
-    let endDate = new Date(this.lessonForm.controls[LessonFormKey.End].value);
-    return of(form.value).pipe(
-        map(res => {
-          return res && formDate > endDate ? { error: 'Start date must be before the end date.' } : null;
-        }),
-        take(1), finalize(() => {})
-    );
-  };
+  dateValidation: ValidatorFn = (form: AbstractControl): ValidationErrors | null => {
+    let formGroup: FormGroup = form as FormGroup;
+    let startDate = new Date(formGroup.controls[LessonFormKey.Start].value);
+    let endDate = new Date(formGroup.controls[LessonFormKey.End].value);
 
-  isSmallerThanStartTimeValidation = (form: AbstractControl): Observable<ValidationErrors | null> => {
-    let formDate = new Date(form.value);
-    let startDate = new Date(
-      this.lessonForm.controls[LessonFormKey.Start].value,
-    );
-
-    return of(form.value).pipe(
-        map(res => {
-          return res && formDate < startDate ? { error: 'End date must be after the start date.' } : null;
-        }),
-        take(1), finalize(() => {})
-    );
+    if (startDate > endDate) {
+      formGroup.controls[LessonFormKey.Start].setErrors({error: 'Start date must be before the end date.' });
+      formGroup.controls[LessonFormKey.End].setErrors({error: 'Start date must be before the end date.' });
+      return { error: 'Start date must be before the end date.' };
+    } else {
+      formGroup.controls[LessonFormKey.Start].setErrors(null);
+      formGroup.controls[LessonFormKey.End].setErrors(null);
+    }
+    return null;
   };
 
   submit(): void {
