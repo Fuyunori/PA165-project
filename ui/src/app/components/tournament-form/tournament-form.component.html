@@ -14,7 +14,7 @@
             [min]="currentTime"
             [max]="TournamentFormKey.End"
             [formControlName]="TournamentFormKey.Start"
-            [readonly]="readOnly"
+            [readonly]="isReadOnly()"
           />
           <mat-error
             *ngIf="
@@ -33,7 +33,7 @@
             matInput
             [min]="TournamentFormKey.Start"
             [formControlName]="TournamentFormKey.End"
-            [readonly]="readOnly"
+            [readonly]="isReadOnly()"
           />
           <mat-error
             *ngIf="
@@ -52,7 +52,7 @@
           <mat-option
             *ngFor="let court of courts$ | async"
             [value]="court.id"
-            [disabled]="(readOnly && court != null) || reschedule || hasEnded()"
+            [disabled]="(isReadOnly() && court != null) || reschedule"
             >{{ court.name }}</mat-option
           >
         </mat-select>
@@ -63,7 +63,7 @@
         <input
           matInput
           [formControlName]="TournamentFormKey.Name"
-          [readonly]="readOnly || reschedule || hasEnded()"
+          [readonly]="isReadOnly() || reschedule"
         />
       </mat-form-field>
       <mat-form-field appearance="fill" class="field">
@@ -72,7 +72,7 @@
           type="number"
           matInput
           [formControlName]="TournamentFormKey.Capacity"
-          [readonly]="readOnly || reschedule || hasEnded()"
+          [readonly]="isReadOnly() || reschedule"
         />
       </mat-form-field>
       <mat-form-field appearance="fill" class="field">
@@ -81,12 +81,12 @@
           type="number"
           matInput
           [formControlName]="TournamentFormKey.Prize"
-          [readonly]="readOnly || reschedule || hasEnded()"
+          [readonly]="isReadOnly() || reschedule"
         />
       </mat-form-field>
     </div>
   </div>
-  <div class="form-actions" *ngIf="!adding && !hasStarted()">
+  <div class="form-actions" *ngIf="!adding && !hasStarted">
     <button
       *ngIf="!(isEnrolledAlready$ | async); else enrolledAlready"
       type="button"

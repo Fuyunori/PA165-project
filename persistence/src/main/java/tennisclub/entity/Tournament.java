@@ -21,7 +21,7 @@ public class Tournament extends Event  {
     @Column(nullable = false)
     private Integer prize;
 
-    @OneToMany(mappedBy = "tournament")
+    @OneToMany(mappedBy = "tournament", cascade = CascadeType.REMOVE)
     private Set<Ranking> rankings = new HashSet<>();
 
     public Tournament(){}

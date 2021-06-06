@@ -10,7 +10,7 @@
             [min]="currentTime"
             [max]="LessonFormKey.End"
             [formControlName]="LessonFormKey.Start"
-            [readonly]="readOnly || hasEnded()"
+            [readonly]="isReadOnly()"
           />
           <mat-icon matSuffix class="start-date">schedule</mat-icon>
           <mat-error
@@ -28,7 +28,7 @@
             matInput
             [min]="LessonFormKey.Start"
             [formControlName]="LessonFormKey.End"
-            [readonly]="readOnly || hasEnded()"
+            [readonly]="isReadOnly()"
           />
           <mat-error
             *ngIf="
@@ -46,7 +46,7 @@
           <mat-option
             *ngFor="let court of courts$ | async"
             [value]="court.id"
-            [disabled]="(readOnly && court != null) || reschedule || hasEnded()"
+            [disabled]="(isReadOnly() && court != null) || reschedule"
             >{{ court.name }}</mat-option
           >
         </mat-select>
@@ -58,7 +58,7 @@
           type="number"
           matInput
           [formControlName]="LessonFormKey.Capacity"
-          [readonly]="readOnly || reschedule"
+          [readonly]="isReadOnly() || reschedule"
         />
         <mat-icon matSuffix>people</mat-icon>
       </mat-form-field>
@@ -67,24 +67,24 @@
         <mat-select [formControlName]="LessonFormKey.Level">
           <mat-option
             [value]="LessonLevel.Beginner"
-            [disabled]="readOnly || reschedule || hasEnded()"
+            [disabled]="isReadOnly() || reschedule"
             >Beginner</mat-option
           >
           <mat-option
             [value]="LessonLevel.Intermediate"
-            [disabled]="readOnly || reschedule || hasEnded()"
+            [disabled]="isReadOnly() || reschedule"
             >Intermediate</mat-option
           >
           <mat-option
             [value]="LessonLevel.Advanced"
-            [disabled]="readOnly || reschedule || hasEnded()"
+            [disabled]="isReadOnly() || reschedule"
             >Advanced</mat-option
           >
         </mat-select>
       </mat-form-field>
     </div>
   </div>
-  <div class="form-actions" *ngIf="!adding && !hasStarted()">
+  <div class="form-actions" *ngIf="!adding && !hasStarted">
     <button
       *ngIf="
         !(isStudent$ | async) && !(isTeacher$ | async);

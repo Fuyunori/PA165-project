@@ -2,13 +2,14 @@ import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Tournament, UnknownTournament } from '../models/tournament.model';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { NotificationService } from './notification.service';
 import { Ranking } from '../models/ranking.model';
 import { User } from '../models/user.model';
 import { UnknownEvent } from '../models/event.model';
 import { EventService } from './event.service';
+import { Lesson } from '../models/lesson.model';
 
 const RESOURCE_URL = `${environment.apiBaseUrl}/tournaments`;
 
@@ -130,6 +131,12 @@ export class TournamentService {
       .pipe(this.notification.onError('Could not delete the tournament!'))
       .subscribe(() => {
         const { entities, orderedIds } = this.state$.value;
+        const tournament: Tournament | undefined = Object.values(entities).find(
+          (tournament: Tournament) => {
+            return tournament.id == id;
+          },
+        );
+
         this.state$.next({
           entities: Object.values(entities)
             .filter((tournament: Tournament) => tournament.id !== id)
@@ -142,9 +149,9 @@ export class TournamentService {
             ),
           orderedIds: orderedIds.filter(orderedId => orderedId !== id),
         });
-        this.singleTournament$(id).subscribe(tournament => {
-          this.eventService.getCourtEvents(tournament!.court.id);
-        });
+        if (tournament) {
+          this.eventService.getCourtEvents(tournament.court.id);
+        }
       });
   }
 }

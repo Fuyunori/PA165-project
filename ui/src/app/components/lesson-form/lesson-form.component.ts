@@ -1,13 +1,23 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Level, UnknownLesson } from '../../models/lesson.model';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  Form,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { EventType } from '../../models/event.model';
 import { CourtService } from '../../services/court.service';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, finalize, map, take } from 'rxjs/operators';
 import { Court } from '../../models/court.model';
 import { LessonService } from '../../services/lesson.service';
 import { AuthService } from '../../services/auth.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user.model';
 
 enum LessonFormKey {
   Start = 'Start',
@@ -26,8 +36,8 @@ export class LessonFormComponent implements OnInit {
   @Output() readonly cancelClick = new EventEmitter<void>();
   @Output() readonly lessonChange = new EventEmitter<UnknownLesson>();
   @Output() readonly lessonReschedule = new EventEmitter<UnknownLesson>();
-  @Output() readonly enrollUser = new EventEmitter<void>();
-  @Output() readonly withdrawUser = new EventEmitter<void>();
+  @Output() readonly enrollUser = new EventEmitter<User>();
+  @Output() readonly withdrawUser = new EventEmitter<User>();
 
   @Input()
   set lesson(lesson: UnknownLesson) {
@@ -48,12 +58,15 @@ export class LessonFormComponent implements OnInit {
   @Input() isTeacher$ = new BehaviorSubject<boolean>(false);
   @Input() submitButtonText = 'Submit';
   @Input() cancelButtonText = 'Cancel';
+  @Input() currentlyLoggedInUser$: Observable<User | null> =
+    new Observable<User | null>();
 
   readonly courts$ = this.courtService.orderedCourts$;
-
   readonly LessonFormKey = LessonFormKey;
   readonly LessonLevel = Level;
   readonly currentTime = new Date();
+  hasStarted: boolean = false;
+  hasEnded: boolean = false;
 
   readonly lessonForm = this.fb.group({
     [LessonFormKey.Start]: ['', Validators.required],
@@ -68,6 +81,7 @@ export class LessonFormComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly lessonService: LessonService,
     private readonly courtService: CourtService,
+    private readonly userService: UserService,
   ) {}
 
   ngOnInit(): void {
@@ -79,14 +93,24 @@ export class LessonFormComponent implements OnInit {
     });
     this.lessonForm.controls[LessonFormKey.Start].setValidators([
       this.isLessThanCurrentTimeValidation,
-      this.isGreaterThanEndTimeValidation,
     ]);
     this.lessonForm.controls[LessonFormKey.End].setValidators([
       this.isLessThanCurrentTimeValidation,
-      this.isSmallerThanStartTimeValidation,
     ]);
+    this.lessonForm.setValidators(this.dateValidation);
+    this.computeHasStarted();
+    this.computeHasEnded();
+
+    this.authService.userId$.subscribe(loggedInUserId => {
+      if (loggedInUserId != null) {
+        this.userService.getUserById(loggedInUserId);
+        this.currentlyLoggedInUser$ =
+          this.userService.singleUser$(loggedInUserId);
+      }
+    });
   }
-  hasStarted(): boolean {
+
+  computeHasStarted(): boolean {
     let currentTime: Date = new Date();
     let startDate: Date = new Date(
       this.lessonForm.get(LessonFormKey.Start)?.value,
@@ -94,10 +118,14 @@ export class LessonFormComponent implements OnInit {
     return currentTime > startDate;
   }
 
-  hasEnded(): boolean {
+  computeHasEnded(): boolean {
     let currentTime: Date = new Date();
     let endDate: Date = new Date(this.lessonForm.get(LessonFormKey.End)?.value);
     return currentTime > endDate;
+  }
+
+  isReadOnly(): boolean {
+    return this.readOnly || this.hasEnded;
   }
 
   isLessThanCurrentTimeValidation = (form: AbstractControl) => {
@@ -109,24 +137,24 @@ export class LessonFormComponent implements OnInit {
     return null;
   };
 
-  isGreaterThanEndTimeValidation = (form: AbstractControl) => {
-    let formDate = new Date(form.value);
-    let endDate = new Date(this.lessonForm.controls[LessonFormKey.End].value);
+  dateValidation: ValidatorFn = (
+    form: AbstractControl,
+  ): ValidationErrors | null => {
+    let formGroup: FormGroup = form as FormGroup;
+    let startDate = new Date(formGroup.controls[LessonFormKey.Start].value);
+    let endDate = new Date(formGroup.controls[LessonFormKey.End].value);
 
-    if (formDate > endDate) {
+    if (startDate > endDate) {
+      formGroup.controls[LessonFormKey.Start].setErrors({
+        error: 'Start date must be before the end date.',
+      });
+      formGroup.controls[LessonFormKey.End].setErrors({
+        error: 'Start date must be before the end date.',
+      });
       return { error: 'Start date must be before the end date.' };
-    }
-    return null;
-  };
-
-  isSmallerThanStartTimeValidation = (form: AbstractControl) => {
-    let formDate = new Date(form.value);
-    let startDate = new Date(
-      this.lessonForm.controls[LessonFormKey.Start].value,
-    );
-
-    if (formDate < startDate) {
-      return { error: 'End date must be after the start date.' };
+    } else {
+      formGroup.controls[LessonFormKey.Start].setErrors(null);
+      formGroup.controls[LessonFormKey.End].setErrors(null);
     }
     return null;
   };
@@ -164,11 +192,19 @@ export class LessonFormComponent implements OnInit {
   }
 
   enroll(): void {
-    this.enrollUser.emit();
+    this.currentlyLoggedInUser$.subscribe(user => {
+      if (user) {
+        this.enrollUser.emit(user);
+      }
+    });
   }
 
   withdraw(): void {
-    this.withdrawUser.emit();
+    this.currentlyLoggedInUser$.subscribe(user => {
+      if (user) {
+        this.withdrawUser.emit(user);
+      }
+    });
   }
 
   cancel(): void {

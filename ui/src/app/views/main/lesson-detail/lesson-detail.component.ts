@@ -92,20 +92,12 @@ export class LessonDetailComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  enrollUser(displayedLesson: Lesson): void {
-    this.currentlyLoggedInUser$.subscribe(user => {
-      if (user != null) {
-        this.lessonService.enrollStudent(displayedLesson.id, user);
-      }
-    });
+  enrollCurrentlyLoggedInUser(displayedLesson: Lesson, user: User): void {
+    this.lessonService.enrollStudent(displayedLesson.id, user);
   }
 
-  withdrawUser(displayedLesson: Lesson): void {
-    this.currentlyLoggedInUser$.subscribe(user => {
-      if (user != null) {
-        this.lessonService.withdrawStudent(displayedLesson.id, user.id);
-      }
-    });
+  withdrawCurrentlyLoggedInUser(displayedLesson: Lesson, user: User): void {
+    this.lessonService.withdrawStudent(displayedLesson.id, user.id);
   }
 
   withdrawStudent(displayedLesson: Lesson, student: User): void {

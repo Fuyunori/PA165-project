@@ -1,15 +1,37 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { UnknownTournament } from '../../models/tournament.model';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { TournamentService } from '../../services/tournament.service';
 import { CourtService } from '../../services/court.service';
-import { filter, take } from 'rxjs/operators';
+import {
+  combineLatest,
+  filter,
+  finalize,
+  map,
+  mergeMap,
+  take,
+} from 'rxjs/operators';
 import { Court } from '../../models/court.model';
 import { User } from '../../models/user.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { EventType } from '../../models/event.model';
 import { UnknownLesson } from '../../models/lesson.model';
+import { UserService } from '../../services/user.service';
 
 enum TournamentFormKey {
   Start = 'Start',
@@ -30,8 +52,8 @@ export class TournamentFormComponent implements OnInit {
   @Output() readonly tournamentReschedule =
     new EventEmitter<UnknownTournament>();
   @Output() readonly tournamentChange = new EventEmitter<UnknownTournament>();
-  @Output() readonly addUser = new EventEmitter<void>();
-  @Output() readonly withdrawUser = new EventEmitter<void>();
+  @Output() readonly addUser = new EventEmitter<User>();
+  @Output() readonly withdrawUser = new EventEmitter<User>();
 
   @Input()
   set tournament(tournament: UnknownTournament) {
@@ -52,11 +74,14 @@ export class TournamentFormComponent implements OnInit {
   @Input() isEnrolledAlready$ = new BehaviorSubject<boolean>(false);
   @Input() submitButtonText = 'Submit';
   @Input() cancelButtonText = 'Cancel';
+  @Input() currentlyLoggedInUser$: Observable<User | null> =
+    new Observable<User | null>();
 
   readonly courts$ = this.courtService.orderedCourts$;
-
   readonly TournamentFormKey = TournamentFormKey;
   readonly currentTime = new Date();
+  hasStarted: boolean = false;
+  hasEnded: boolean = false;
 
   readonly tournamentForm = this.fb.group({
     [TournamentFormKey.Start]: ['', Validators.required],
@@ -83,15 +108,17 @@ export class TournamentFormComponent implements OnInit {
     });
     this.tournamentForm.controls[TournamentFormKey.Start].setValidators([
       this.isLessThanCurrentTimeValidation,
-      this.isGreaterThanEndTimeValidation,
     ]);
+
     this.tournamentForm.controls[TournamentFormKey.End].setValidators([
       this.isLessThanCurrentTimeValidation,
-      this.isSmallerThanStartTimeValidation,
     ]);
+    this.tournamentForm.setValidators(this.dateValidation);
+    this.computeHasStarted();
+    this.computeHasEnded();
   }
 
-  hasStarted(): boolean {
+  computeHasStarted(): boolean {
     let currentTime: Date = new Date();
     let startDate: Date = new Date(
       this.tournamentForm.get(TournamentFormKey.Start)?.value,
@@ -99,12 +126,16 @@ export class TournamentFormComponent implements OnInit {
     return currentTime > startDate;
   }
 
-  hasEnded(): boolean {
+  computeHasEnded(): boolean {
     let currentTime: Date = new Date();
     let endDate: Date = new Date(
       this.tournamentForm.get(TournamentFormKey.End)?.value,
     );
     return currentTime > endDate;
+  }
+
+  isReadOnly(): boolean {
+    return this.readOnly || this.hasEnded;
   }
 
   isLessThanCurrentTimeValidation = (form: AbstractControl) => {
@@ -116,26 +147,24 @@ export class TournamentFormComponent implements OnInit {
     return null;
   };
 
-  isGreaterThanEndTimeValidation = (form: AbstractControl) => {
-    let formDate = new Date(form.value);
-    let endDate = new Date(
-      this.tournamentForm.controls[TournamentFormKey.End].value,
-    );
+  dateValidation: ValidatorFn = (
+    form: AbstractControl,
+  ): ValidationErrors | null => {
+    let formGroup: FormGroup = form as FormGroup;
+    let startDate = new Date(formGroup.controls[TournamentFormKey.Start].value);
+    let endDate = new Date(formGroup.controls[TournamentFormKey.End].value);
 
-    if (formDate > endDate) {
+    if (startDate > endDate) {
+      formGroup.controls[TournamentFormKey.Start].setErrors({
+        error: 'Start date must be before the end date.',
+      });
+      formGroup.controls[TournamentFormKey.End].setErrors({
+        error: 'Start date must be before the end date.',
+      });
       return { error: 'Start date must be before the end date.' };
-    }
-    return null;
-  };
-
-  isSmallerThanStartTimeValidation = (form: AbstractControl) => {
-    let formDate = new Date(form.value);
-    let startDate = new Date(
-      this.tournamentForm.controls[TournamentFormKey.Start].value,
-    );
-
-    if (formDate < startDate) {
-      return { error: 'End date must be after the start date.' };
+    } else {
+      formGroup.controls[TournamentFormKey.Start].setErrors(null);
+      formGroup.controls[TournamentFormKey.End].setErrors(null);
     }
     return null;
   };
@@ -174,11 +203,19 @@ export class TournamentFormComponent implements OnInit {
   }
 
   addPlayer(): void {
-    this.addUser.emit();
+    this.currentlyLoggedInUser$.subscribe(user => {
+      if (user) {
+        this.addUser.emit(user);
+      }
+    });
   }
 
   withdrawPlayer(): void {
-    this.withdrawUser.emit();
+    this.currentlyLoggedInUser$.subscribe(user => {
+      if (user) {
+        this.withdrawUser.emit(user);
+      }
+    });
   }
 
   cancel(): void {

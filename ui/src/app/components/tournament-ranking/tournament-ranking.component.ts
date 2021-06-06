@@ -46,6 +46,9 @@ export class TournamentRankingComponent implements OnDestroy {
   private readonly unsubscribe$ = new Subject<void>();
   readonly currentDate: Date = new Date();
 
+  hasStarted: boolean = false;
+  hasEnded: boolean = false;
+
   constructor(
     private readonly tournamentService: TournamentService,
     private readonly dialog: MatDialog,
@@ -54,14 +57,16 @@ export class TournamentRankingComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    this.computeHasStarted();
+    this.computeHasEnded();
   }
 
-  hasStarted(): boolean {
+  computeHasStarted(): boolean {
     let startDate: Date = new Date(this.startDate);
     return this.currentDate >= startDate;
   }
 
-  hasEnded(): boolean {
+  computeHasEnded(): boolean {
     let endDate: Date = new Date(this.endDate);
     return this.currentDate > endDate;
   }
