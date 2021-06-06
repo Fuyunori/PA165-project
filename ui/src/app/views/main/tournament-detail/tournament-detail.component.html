@@ -8,6 +8,7 @@
     [reschedule]="!!(userIsManager$ | async)"
     [tournament]="displayedTournament"
     [isEnrolledAlready$]="isUserEnrolled$"
+    [currentlyLoggedInUser$]="currentlyLoggedInUser$"
     (cancelClick)="deleteTournament(displayedTournament)"
     (addUser)="addPlayer(displayedTournament, $event)"
     (withdrawUser)="withdrawLoggedInPlayer(displayedTournament, $event)"

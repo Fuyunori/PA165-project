@@ -52,10 +52,9 @@ export class TournamentFormComponent implements OnInit {
   @Input() isEnrolledAlready$ = new BehaviorSubject<boolean>(false);
   @Input() submitButtonText = 'Submit';
   @Input() cancelButtonText = 'Cancel';
+  @Input() currentlyLoggedInUser$: Observable<User | null> = new Observable<User | null>();
 
   readonly courts$ = this.courtService.orderedCourts$;
-  currentlyLoggedInUser$: Observable<User | null> = new Observable<User | null>();
-
   readonly TournamentFormKey = TournamentFormKey;
   readonly currentTime = new Date();
   hasStarted: boolean = false;
@@ -75,7 +74,6 @@ export class TournamentFormComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly tournamentService: TournamentService,
     private readonly courtService: CourtService,
-    private readonly userService: UserService,
   ) {}
 
   ngOnInit(): void {
@@ -95,13 +93,6 @@ export class TournamentFormComponent implements OnInit {
     this.tournamentForm.setValidators(this.dateValidation);
     this.computeHasStarted();
     this.computeHasEnded();
-
-    this.authService.userId$.subscribe(loggedInUserId => {
-      if (loggedInUserId != null) {
-        this.userService.getUserById(loggedInUserId);
-        this.currentlyLoggedInUser$ = this.userService.singleUser$(loggedInUserId);
-      }
-    });
   }
 
   computeHasStarted(): boolean {
