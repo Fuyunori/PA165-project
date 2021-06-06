@@ -1,9 +1,7 @@
 <mat-expansion-panel>
   <mat-expansion-panel-header>
     <mat-panel-title>
-      <div *ngIf="hasEnded; else hasntEndedYet">
-        Ranking of the tournament
-      </div>
+      <div *ngIf="hasEnded; else hasntEndedYet">Ranking of the tournament</div>
       <ng-template #hasntEndedYet> List of participants </ng-template>
     </mat-panel-title>
   </mat-expansion-panel-header>

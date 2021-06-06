@@ -1,16 +1,37 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { UnknownTournament } from '../../models/tournament.model';
-import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { TournamentService } from '../../services/tournament.service';
 import { CourtService } from '../../services/court.service';
-import {combineLatest, filter, finalize, map, mergeMap, take} from 'rxjs/operators';
+import {
+  combineLatest,
+  filter,
+  finalize,
+  map,
+  mergeMap,
+  take,
+} from 'rxjs/operators';
 import { Court } from '../../models/court.model';
 import { User } from '../../models/user.model';
-import {BehaviorSubject, Observable, of} from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { EventType } from '../../models/event.model';
-import {UnknownLesson} from "../../models/lesson.model";
-import {UserService} from "../../services/user.service";
+import { UnknownLesson } from '../../models/lesson.model';
+import { UserService } from '../../services/user.service';
 
 enum TournamentFormKey {
   Start = 'Start',
@@ -28,7 +49,8 @@ enum TournamentFormKey {
 })
 export class TournamentFormComponent implements OnInit {
   @Output() readonly cancelClick = new EventEmitter<void>();
-  @Output() readonly tournamentReschedule = new EventEmitter<UnknownTournament>();
+  @Output() readonly tournamentReschedule =
+    new EventEmitter<UnknownTournament>();
   @Output() readonly tournamentChange = new EventEmitter<UnknownTournament>();
   @Output() readonly addUser = new EventEmitter<User>();
   @Output() readonly withdrawUser = new EventEmitter<User>();
@@ -52,7 +74,8 @@ export class TournamentFormComponent implements OnInit {
   @Input() isEnrolledAlready$ = new BehaviorSubject<boolean>(false);
   @Input() submitButtonText = 'Submit';
   @Input() cancelButtonText = 'Cancel';
-  @Input() currentlyLoggedInUser$: Observable<User | null> = new Observable<User | null>();
+  @Input() currentlyLoggedInUser$: Observable<User | null> =
+    new Observable<User | null>();
 
   readonly courts$ = this.courtService.orderedCourts$;
   readonly TournamentFormKey = TournamentFormKey;
@@ -124,14 +147,20 @@ export class TournamentFormComponent implements OnInit {
     return null;
   };
 
-  dateValidation: ValidatorFn = (form: AbstractControl): ValidationErrors | null => {
+  dateValidation: ValidatorFn = (
+    form: AbstractControl,
+  ): ValidationErrors | null => {
     let formGroup: FormGroup = form as FormGroup;
     let startDate = new Date(formGroup.controls[TournamentFormKey.Start].value);
     let endDate = new Date(formGroup.controls[TournamentFormKey.End].value);
 
     if (startDate > endDate) {
-      formGroup.controls[TournamentFormKey.Start].setErrors({error: 'Start date must be before the end date.' });
-      formGroup.controls[TournamentFormKey.End].setErrors({error: 'Start date must be before the end date.' });
+      formGroup.controls[TournamentFormKey.Start].setErrors({
+        error: 'Start date must be before the end date.',
+      });
+      formGroup.controls[TournamentFormKey.End].setErrors({
+        error: 'Start date must be before the end date.',
+      });
       return { error: 'Start date must be before the end date.' };
     } else {
       formGroup.controls[TournamentFormKey.Start].setErrors(null);
@@ -161,7 +190,7 @@ export class TournamentFormComponent implements OnInit {
         };
 
         this.tournamentForm.markAsPristine();
-        if(!this.reschedule.valueOf()) {
+        if (!this.reschedule.valueOf()) {
           this.tournamentChange.emit(tournament);
         } else {
           this.rescheduleTournament(tournament);
@@ -175,7 +204,7 @@ export class TournamentFormComponent implements OnInit {
 
   addPlayer(): void {
     this.currentlyLoggedInUser$.subscribe(user => {
-      if(user){
+      if (user) {
         this.addUser.emit(user);
       }
     });
@@ -183,7 +212,7 @@ export class TournamentFormComponent implements OnInit {
 
   withdrawPlayer(): void {
     this.currentlyLoggedInUser$.subscribe(user => {
-      if(user){
+      if (user) {
         this.withdrawUser.emit(user);
       }
     });

@@ -1,15 +1,23 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Level, UnknownLesson } from '../../models/lesson.model';
-import {AbstractControl, Form, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  Form,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { EventType } from '../../models/event.model';
 import { CourtService } from '../../services/court.service';
-import {filter, finalize, map, take} from 'rxjs/operators';
+import { filter, finalize, map, take } from 'rxjs/operators';
 import { Court } from '../../models/court.model';
 import { LessonService } from '../../services/lesson.service';
 import { AuthService } from '../../services/auth.service';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {UserService} from "../../services/user.service";
-import {User} from "../../models/user.model";
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user.model';
 
 enum LessonFormKey {
   Start = 'Start',
@@ -50,7 +58,8 @@ export class LessonFormComponent implements OnInit {
   @Input() isTeacher$ = new BehaviorSubject<boolean>(false);
   @Input() submitButtonText = 'Submit';
   @Input() cancelButtonText = 'Cancel';
-  @Input() currentlyLoggedInUser$: Observable<User | null> = new Observable<User | null>();
+  @Input() currentlyLoggedInUser$: Observable<User | null> =
+    new Observable<User | null>();
 
   readonly courts$ = this.courtService.orderedCourts$;
   readonly LessonFormKey = LessonFormKey;
@@ -95,7 +104,8 @@ export class LessonFormComponent implements OnInit {
     this.authService.userId$.subscribe(loggedInUserId => {
       if (loggedInUserId != null) {
         this.userService.getUserById(loggedInUserId);
-        this.currentlyLoggedInUser$ = this.userService.singleUser$(loggedInUserId);
+        this.currentlyLoggedInUser$ =
+          this.userService.singleUser$(loggedInUserId);
       }
     });
   }
@@ -127,14 +137,20 @@ export class LessonFormComponent implements OnInit {
     return null;
   };
 
-  dateValidation: ValidatorFn = (form: AbstractControl): ValidationErrors | null => {
+  dateValidation: ValidatorFn = (
+    form: AbstractControl,
+  ): ValidationErrors | null => {
     let formGroup: FormGroup = form as FormGroup;
     let startDate = new Date(formGroup.controls[LessonFormKey.Start].value);
     let endDate = new Date(formGroup.controls[LessonFormKey.End].value);
 
     if (startDate > endDate) {
-      formGroup.controls[LessonFormKey.Start].setErrors({error: 'Start date must be before the end date.' });
-      formGroup.controls[LessonFormKey.End].setErrors({error: 'Start date must be before the end date.' });
+      formGroup.controls[LessonFormKey.Start].setErrors({
+        error: 'Start date must be before the end date.',
+      });
+      formGroup.controls[LessonFormKey.End].setErrors({
+        error: 'Start date must be before the end date.',
+      });
       return { error: 'Start date must be before the end date.' };
     } else {
       formGroup.controls[LessonFormKey.Start].setErrors(null);
@@ -163,7 +179,7 @@ export class LessonFormComponent implements OnInit {
         };
 
         this.lessonForm.markAsPristine();
-        if(!this.reschedule.valueOf()){
+        if (!this.reschedule.valueOf()) {
           this.lessonChange.emit(lesson);
         } else {
           this.rescheduleLesson(lesson);
@@ -177,7 +193,7 @@ export class LessonFormComponent implements OnInit {
 
   enroll(): void {
     this.currentlyLoggedInUser$.subscribe(user => {
-      if(user){
+      if (user) {
         this.enrollUser.emit(user);
       }
     });
@@ -185,7 +201,7 @@ export class LessonFormComponent implements OnInit {
 
   withdraw(): void {
     this.currentlyLoggedInUser$.subscribe(user => {
-      if(user){
+      if (user) {
         this.withdrawUser.emit(user);
       }
     });

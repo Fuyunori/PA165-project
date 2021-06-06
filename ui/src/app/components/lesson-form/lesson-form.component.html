@@ -13,7 +13,10 @@
             [readonly]="isReadOnly()"
           />
           <mat-icon matSuffix class="start-date">schedule</mat-icon>
-          <mat-error *ngIf="lessonForm.controls[LessonFormKey.Start].errors?.error as error"
+          <mat-error
+            *ngIf="
+              lessonForm.controls[LessonFormKey.Start].errors?.error as error
+            "
           >
             {{ error }}
           </mat-error>
@@ -27,9 +30,12 @@
             [formControlName]="LessonFormKey.End"
             [readonly]="isReadOnly()"
           />
-          <mat-error *ngIf="lessonForm.controls[LessonFormKey.End].errors?.error as error"
+          <mat-error
+            *ngIf="
+              lessonForm.controls[LessonFormKey.End].errors?.error as error
+            "
           >
-              {{ error }}
+            {{ error }}
           </mat-error>
           <mat-icon matSuffix class="end-date">schedule</mat-icon>
         </mat-form-field>
