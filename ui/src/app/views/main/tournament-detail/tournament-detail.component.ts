@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, of, Subject} from 'rxjs';
 import {
   Tournament,
   UnknownTournament,
@@ -11,6 +11,7 @@ import { filter, take, takeUntil } from 'rxjs/operators';
 import { User } from '../../../models/user.model';
 import { UserService } from '../../../services/user.service';
 import { Ranking } from '../../../models/ranking.model';
+import {Lesson} from "../../../models/lesson.model";
 
 @Component({
   selector: 'tc-tournament-detail',
@@ -51,8 +52,8 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.displayedTournament$.subscribe(tournament => {
-      this.currentlyLoggedInUser$.subscribe(user => {
+    combineLatest([this.displayedTournament$, this.currentlyLoggedInUser$])
+      .subscribe(([tournament, user]: [Tournament | null, User | null]) => {
         if (tournament != null && user != null) {
           let rankings = tournament.rankings;
           if (rankings != null) {
@@ -60,7 +61,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
           }
         }
       });
-    });
   }
 
   private isParticipant(rankings: Ranking[], user: User) {

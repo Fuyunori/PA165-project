@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { async, BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, of, Subject} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { LessonService } from '../../../services/lesson.service';
-import { filter, finalize, take, takeUntil, takeWhile } from 'rxjs/operators';
+import { takeUntil} from 'rxjs/operators';
 import { Lesson, UnknownLesson } from '../../../models/lesson.model';
 import { User } from '../../../models/user.model';
 import { UserService } from '../../../services/user.service';
-import { Ranking } from '../../../models/ranking.model';
 
 @Component({
   selector: 'tc-lesson-detail',
@@ -48,8 +47,8 @@ export class LessonDetailComponent implements OnInit, OnDestroy {
           this.userService.singleUser$(loggedInUserId);
       }
     });
-    this.displayedLesson$.subscribe(lesson => {
-      this.currentlyLoggedInUser$.subscribe(user => {
+    combineLatest([this.displayedLesson$, this.currentlyLoggedInUser$])
+      .subscribe(([lesson, user]: [Lesson | null, User | null]) => {
         if (lesson != null && user != null) {
           let teachers = lesson.teachers;
           if (teachers != null) {
@@ -62,7 +61,6 @@ export class LessonDetailComponent implements OnInit, OnDestroy {
           }
         }
       });
-    });
   }
 
   private isTeacher(teachers: User[], user: User) {
